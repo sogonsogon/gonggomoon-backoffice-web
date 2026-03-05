@@ -2,10 +2,8 @@ import type { Recruitment } from '@/features/recruitment/types';
 
 export const mockRecruitments: Recruitment[] = [
   {
-    no: 1,
     recruitmentId: 3001,
     title: '프론트엔드 엔지니어 (커머스)',
-    companyName: '주식회사 커머스코리아',
     companyId: 11,
     jobType: 'FRONTEND',
     industryType: 'COMMERCE',
@@ -16,13 +14,11 @@ export const mockRecruitments: Recruitment[] = [
     createdAt: '2026-03-01T00:00:00.000Z',
   },
   {
-    no: 2,
     recruitmentId: 3002,
     title: '프론트엔드 인턴 (핀테크)',
-    companyName: '주식회사 핀테크코리아',
     companyId: 12,
     jobType: 'FRONTEND',
-    industryType: 'FINTECH',
+    industryType: 'FINTECH_FINANCIAL',
     status: 'OPEN',
     url: 'https://example.com/jobs/3002',
     startDate: '2026-06-01',
@@ -30,10 +26,8 @@ export const mockRecruitments: Recruitment[] = [
     createdAt: '2026-03-02T00:00:00.000Z',
   },
   {
-    no: 3,
     recruitmentId: 3003,
     title: '백엔드 엔지니어 (AI)',
-    companyName: '글로벌테크랩',
     companyId: 13,
     jobType: 'BACKEND',
     industryType: 'AI',

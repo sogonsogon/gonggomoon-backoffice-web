@@ -13,7 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/shared/components/ui/select';
-import { mockIndustries} from '../../../../../gonggomoon-backoffice/src/mock/industry.mock';
+import { mockIndustries } from '@/mock/industry.mock';
 import type { Company } from '@/features/company/types';
 
 const COMPANY_TYPES = ['대기업', '중견기업', '중소기업', '스타트업', '공공기관'];

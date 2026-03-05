@@ -4,27 +4,20 @@ export type JobType =
   | 'FRONTEND'
   | 'BACKEND'
   | 'DEVOPS'
-  | 'DATA'
+  | 'DATA_ANALYSIS'
   | 'AI'
-  | 'SECURITY'
+  | 'INFORMATION_SECURITY'
   | 'DESIGN'
-  | 'PM/PO'
+  | 'PM_PO'
   | 'QA';
 
-export type RecruitmentStatus =
-  | 'OPEN'
-  | 'CLOSED'
-  | 'DRAFT'
-  | 'REVIEW'
-  | 'ANALYZING'
-  | 'PUBLISH_WAITING'
-  | 'REJECTED';
+export type PlatformType = 'SARAMIN' | 'WANTED' | 'JABKOREA' | 'JASOSEOL';
+
+export type RecruitmentStatus = 'OPEN' | 'CLOSED';
 
 export type Recruitment = {
-  no?: number;
   recruitmentId: number;
   title: string;
-  companyName: string;
   companyId: number;
   jobType: JobType;
   industryType?: IndustryType;
@@ -34,6 +27,9 @@ export type Recruitment = {
   dueDate?: string | null;
   createdAt: string;
 };
+
+export type RequestStatus = 'PENDING' | 'APPROVED' | 'REJECTED';
+
 
 export type RecruitmentRequest = {
   requestId: number;
