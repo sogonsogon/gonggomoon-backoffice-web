@@ -36,6 +36,6 @@ export type RecruitmentRequest = {
   requestUserId?: number;
   platformType: string;
   requestUrl: string;
-  status: 'requested' | 'approved' | 'rejected';
+  status: RequestStatus;
   createdAt?: string;
 };
