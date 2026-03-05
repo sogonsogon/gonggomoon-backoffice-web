@@ -12,3 +12,21 @@ export type Industry = {
   industryId: number;
   name: string;
 };
+
+export type IndustryVersion = {
+  versionId: number;
+  industryId: number;
+  analyzedYear: number;
+  keyword: string[];
+  marketSize: string;
+  industryTrends: string[];
+  risk: string[];
+  rival: string[];
+  hiringTrends: string[];
+  investmentStrategy: string[];
+  status?: IndustryVersionStatus;
+  createdAt?: string;
+  editedAt?: string;
+};
+
+export type IndustryVersionStatus = 'SAVED' | 'PUBLISHED';
