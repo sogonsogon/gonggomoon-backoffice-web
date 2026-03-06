@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Info } from 'lucide-react';
 import { TopBar } from '@/shared/components/layout/TopBar';
-import { ContentHeader } from '@/shared/components/layout/contentHeader';
+import { ContentHeader } from '@/shared/components/layout/ContentHeader';
 import { Button } from '@/shared/components/ui/button';
 import { Input } from '@/shared/components/ui/input';
 import { Label } from '@/shared/components/ui/label';
@@ -143,8 +143,14 @@ export default async function CompanyEditPage({
           <div className="w-80 shrink-0 flex flex-col gap-4">
             {/* Action Card */}
             <div className="bg-white rounded-[10px] border border-ds-grey-200 p-6 flex flex-col gap-4">
-              <Button className="h-10 w-full bg-ds-grey-900 text-white hover:bg-ds-grey-800">저장</Button>
-              <Button asChild variant="secondary" className="h-10 w-full bg-ds-grey-100 text-ds-grey-600 hover:bg-ds-grey-200">
+              <Button className="h-10 w-full bg-ds-grey-900 text-white hover:bg-ds-grey-800">
+                저장
+              </Button>
+              <Button
+                asChild
+                variant="secondary"
+                className="h-10 w-full bg-ds-grey-100 text-ds-grey-600 hover:bg-ds-grey-200"
+              >
                 <Link href="/company">취소</Link>
               </Button>
             </div>

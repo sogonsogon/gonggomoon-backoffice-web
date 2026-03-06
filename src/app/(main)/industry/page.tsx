@@ -11,7 +11,7 @@ import {
   Grid2X2,
 } from 'lucide-react';
 import { TopBar } from '@/shared/components/layout/TopBar';
-import { ContentHeader } from '@/shared/components/layout/contentHeader';
+import { ContentHeader } from '@/shared/components/layout/ContentHeader';
 import { mockIndustries, mockIndustriesVersion } from '@/mocks';
 import { IndustryAddButton } from '@/features/industry/components/IndustryAddButton';
 import type { ElementType } from 'react';

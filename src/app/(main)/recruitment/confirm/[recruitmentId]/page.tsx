@@ -11,7 +11,7 @@ import {
   AlignLeft,
 } from 'lucide-react';
 import { TopBar } from '@/shared/components/layout/TopBar';
-import { ContentHeader } from '@/shared/components/layout/contentHeader';
+import { ContentHeader } from '@/shared/components/layout/ContentHeader';
 import { Button } from '@/shared/components/ui/button';
 import { mockRecruitments } from '@/mocks/recruitment.mock';
 import { mockCompanies } from '@/mocks/company.mock';
@@ -85,7 +85,7 @@ export default async function RecruitmentReviewPage({
                 <div className="flex flex-col gap-1.5 w-35">
                   <span className="text-xs font-medium text-ds-grey-500">경력</span>
                   <span className="text-sm font-semibold text-ds-grey-900">
-                    {item?.experience != null ? `${item.experience}년 이상` : '-'}
+                    {item?.career != null ? `${item.career}년 이상` : '-'}
                   </span>
                 </div>
               </div>

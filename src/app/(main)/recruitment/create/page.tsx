@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import { Info, AlertTriangle } from 'lucide-react';
 import { TopBar } from '@/shared/components/layout/TopBar';
-import { ContentHeader } from '@/shared/components/layout/contentHeader';
+import { ContentHeader } from '@/shared/components/layout/ContentHeader';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/shared/components/ui/button';
 import { Input } from '@/shared/components/ui/input';
@@ -156,7 +156,9 @@ export default function RecruitmentCreatePage() {
             <div className="bg-ds-badge-yellow-bg rounded-lg border border-ds-badge-yellow-bg p-4 flex flex-col gap-2">
               <div className="flex items-center gap-1.5">
                 <AlertTriangle size={16} className="text-ds-badge-yellow-text shrink-0" />
-                <span className="text-[13px] font-semibold text-ds-badge-yellow-text">주의 사항</span>
+                <span className="text-[13px] font-semibold text-ds-badge-yellow-text">
+                  주의 사항
+                </span>
               </div>
               <p className="text-xs text-ds-grey-600 leading-relaxed">
                 모든 필수 항목(*)을 입력해야 다음 단계로 진행할 수 있습니다.

@@ -6,7 +6,7 @@ import { Info } from 'lucide-react';
 import { Input } from '@/shared/components/ui/input';
 import { Button } from '@/shared/components/ui/button';
 import { Label } from '@/shared/components/ui/label';
-import { ContentHeader } from '@/shared/components/layout/contentHeader';
+import { ContentHeader } from '@/shared/components/layout/ContentHeader';
 import {
   Select,
   SelectContent,
