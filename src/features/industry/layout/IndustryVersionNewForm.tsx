@@ -1,15 +1,15 @@
 'use client';
 
 import { useState, useTransition, type KeyboardEvent } from 'react';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { X } from 'lucide-react';
 import { Button } from '@/shared/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card';
+import { Card, CardContent, CardTitle } from '@/shared/components/ui/card';
 import { Input } from '@/shared/components/ui/input';
 import { Label } from '@/shared/components/ui/label';
 import { Separator } from '@/shared/components/ui/separator';
 import ContentHeader from '@/shared/components/layout/ContentHeader';
+import CardActionForm from '@/shared/components/ui/CardActionForm';
 
 type TagFieldProps = {
   title: string;
@@ -84,7 +84,6 @@ function TagField({
 export default function IndustryVersionNewForm({ industryId }: { industryId: string }) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
-  const [submitError, setSubmitError] = useState('');
 
   const [analyzedYear, setAnalyzedYear] = useState('');
   const [marketSize, setMarketSize] = useState('');
@@ -127,58 +126,37 @@ export default function IndustryVersionNewForm({ industryId }: { industryId: str
     setTags((prev) => prev.filter((tag) => tag !== target));
   };
 
+  const rivalList = rival
+    .split(',')
+    .map((v) => v.trim())
+    .filter(Boolean);
+
+  const isPrimaryEnabled =
+    Number.isFinite(Number(analyzedYear)) &&
+    Number(analyzedYear) > 0 &&
+    marketSize.trim().length > 0 &&
+    (keywordTags.length > 0 || keywordInput.trim().length > 0) &&
+    (trendTags.length > 0 || trendInput.trim().length > 0) &&
+    (riskTags.length > 0 || riskInput.trim().length > 0) &&
+    rivalList.length > 0 &&
+    (hiringTags.length > 0 || hiringInput.trim().length > 0) &&
+    (investmentTags.length > 0 || investmentInput.trim().length > 0);
+
   const handleSubmit = () => {
-    setSubmitError('');
+    if (keywordInput.trim()) addTag(keywordInput, setKeywordInput, setKeywordTags);
+    if (trendInput.trim()) addTag(trendInput, setTrendInput, setTrendTags);
+    if (riskInput.trim()) addTag(riskInput, setRiskInput, setRiskTags);
+    if (hiringInput.trim()) addTag(hiringInput, setHiringInput, setHiringTags);
+    if (investmentInput.trim()) addTag(investmentInput, setInvestmentInput, setInvestmentTags);
 
-    const yearNumber = Number(analyzedYear);
-    const rivalTags = rival
-      .split(',')
-      .map((value) => value.trim())
-      .filter(Boolean);
-
-    if (!Number.isFinite(yearNumber) || yearNumber <= 0) {
-      setSubmitError('분석 연도를 입력해 주세요.');
-      return;
-    }
-
-    if (!marketSize.trim()) {
-      setSubmitError('산업 규모를 입력해 주세요.');
-      return;
-    }
-
-    if (keywordTags.length === 0) {
-      setSubmitError('핵심 산업 키워드를 1개 이상 추가해 주세요.');
-      return;
-    }
-
-    if (trendTags.length === 0) {
-      setSubmitError('산업 트렌드 요약을 1개 이상 추가해 주세요.');
-      return;
-    }
-
-    if (riskTags.length === 0) {
-      setSubmitError('규제 리스크를 1개 이상 추가해 주세요.');
-      return;
-    }
-
-    if (rivalTags.length === 0) {
-      setSubmitError('경쟁 구도를 1개 이상 입력해 주세요.');
-      return;
-    }
-
-    if (hiringTags.length === 0) {
-      setSubmitError('채용 트렌드를 1개 이상 추가해 주세요.');
-      return;
-    }
-
-    if (investmentTags.length === 0) {
-      setSubmitError('투자 방향을 1개 이상 추가해 주세요.');
-      return;
-    }
+    startTransition(async () => {
+      // TODO: server action 연결
+      router.push(`/industry/${industryId}`);
+    });
   };
 
   return (
-    <main className="flex flex-1 flex-col gap-5 overflow-auto bg-ds-grey-100 p-6">
+    <main className="flex flex-1 flex-col gap-6 overflow-auto bg-ds-grey-100 p-8">
       <ContentHeader
         title="버전 추가"
         description="분석 항목을 입력하거나 AI로 자동 생성할 수 있습니다"
@@ -186,7 +164,7 @@ export default function IndustryVersionNewForm({ industryId }: { industryId: str
         backHref={`/industry/${industryId}`}
       />
 
-      <div className="flex items-start gap-5">
+      <div className="flex gap-6">
         <div className="flex-1">
           <Card className="gap-4 border-ds-grey-200 bg-white py-4">
             <CardContent className="space-y-4 px-4">
@@ -224,7 +202,7 @@ export default function IndustryVersionNewForm({ industryId }: { industryId: str
                     onChange={(event) => setMarketSize(event.target.value)}
                     placeholder="산업 규모를 입력합니다."
                     rows={2}
-                    className="w-full resize-none rounded-md border border-primary bg-white px-3 py-2 text-[13px] text-ds-grey-700 outline-none"
+                    className="w-full resize-none rounded-md border border-ds-grey-200 bg-white px-3 py-2 text-[13px] text-ds-grey-700 outline-none"
                   />
                 </div>
 
@@ -255,7 +233,7 @@ export default function IndustryVersionNewForm({ industryId }: { industryId: str
                     onChange={(event) => setRival(event.target.value)}
                     placeholder="주요 경쟁 구도를 쉼표로 구분해 입력합니다."
                     rows={2}
-                    className="w-full resize-none rounded-md border border-primary bg-white px-3 py-2 text-[13px] text-ds-grey-700 outline-none"
+                    className="w-full resize-none rounded-md border border-ds-grey-200 bg-white px-3 py-2 text-[13px] text-ds-grey-700 outline-none"
                   />
                 </div>
 
@@ -278,10 +256,6 @@ export default function IndustryVersionNewForm({ industryId }: { industryId: str
                   onRemove={(value) => removeTag(value, setInvestmentTags)}
                   placeholder="투자 방향 문장 입력 후 Enter 또는 + 추가"
                 />
-
-                {submitError ? (
-                  <p className="text-xs font-medium text-ds-badge-red-text">{submitError}</p>
-                ) : null}
               </div>
             </CardContent>
           </Card>
@@ -289,24 +263,14 @@ export default function IndustryVersionNewForm({ industryId }: { industryId: str
 
         {/* 사이드 영역 */}
         <div className="w-80 flex flex-col gap-4 shrink-0">
-          {/* 액션 카드 */}
-          <div className="rounded-[10px] bg-white border border-ds-grey-200 p-6 flex flex-col gap-4">
-            <Button
-              type="button"
-              onClick={handleSubmit}
-              disabled={isPending}
-              className="h-9 w-full bg-ds-grey-900 text-white hover:bg-ds-grey-800"
-            >
-              {isPending ? '저장 중...' : '저장'}
-            </Button>
-            <Button
-              asChild
-              variant="ghost"
-              className="h-8 w-full bg-ds-grey-100 text-xs text-ds-grey-600 hover:bg-ds-grey-100"
-            >
-              <Link href={`/industry/${industryId}`}>취소</Link>
-            </Button>
-          </div>
+          <CardActionForm
+            primaryLabel={isPending ? '저장 중...' : '저장'}
+            primaryButtonClassName="bg-ds-grey-900 text-white hover:bg-ds-grey-800"
+            primaryEnabled={isPrimaryEnabled}
+            onPrimaryClick={handleSubmit} //TODO: 산업 분석 버전 생성 API 연결
+            secondaryLabel="취소"
+            secondaryHref={`/industry/${industryId}`}
+          />
         </div>
       </div>
     </main>

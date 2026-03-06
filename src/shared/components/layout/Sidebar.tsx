@@ -18,7 +18,7 @@ const navItems = [
   { label: '대시보드', icon: LayoutDashboard, href: '/' },
   { label: '산업군 관리', icon: Building2, href: '/industry' },
   { label: '기업 관리', icon: Briefcase, href: '/company' },
-  { label: '공고 관리', icon: FileText, href: '/recruitment' },
+  { label: '공고 관리', icon: FileText, href: '/recruitment?tab=public' },
 ];
 
 export default function Sidebar() {
@@ -42,7 +42,8 @@ export default function Sidebar() {
 
         {navItems.map((item) => {
           const Icon = item.icon;
-          const isActive = item.href === '/' ? pathname === '/' : pathname.startsWith(item.href);
+          const hrefPath = item.href.split('?')[0];
+          const isActive = hrefPath === '/' ? pathname === '/' : pathname.startsWith(hrefPath);
 
           return (
             <Button
