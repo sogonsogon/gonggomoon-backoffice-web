@@ -4,7 +4,7 @@ export const mockRecruitments: Recruitment[] = [
   {
     recruitmentId: 3001,
     title: '프론트엔드 엔지니어 (커머스)',
-    experience: 2,
+    career: 2,
     companyId: 11,
     jobType: 'FRONTEND',
     industryType: 'COMMERCE',
@@ -47,7 +47,7 @@ export const mockRecruitments: Recruitment[] = [
   {
     recruitmentId: 3002,
     title: '프론트엔드 인턴 (핀테크)',
-    experience: 0,
+    career: 0,
     companyId: 12,
     jobType: 'FRONTEND',
     industryType: 'FINTECH_FINANCIAL',
@@ -81,7 +81,7 @@ export const mockRecruitments: Recruitment[] = [
   {
     recruitmentId: 3003,
     title: '백엔드 엔지니어 (AI)',
-    experience: 3,
+    career: 3,
     companyId: 13,
     jobType: 'BACKEND',
     industryType: 'AI',
