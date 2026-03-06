@@ -28,7 +28,7 @@ export type RecruitmentAnalysis = {
 export type Recruitment = {
   recruitmentId: number;
   title: string;
-  experience?: number; // 경력 (년 단위)
+  career: number; // 경력 (년 단위)
   companyId: number;
   jobType: JobType;
   industryType?: IndustryType;
