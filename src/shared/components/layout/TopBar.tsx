@@ -15,7 +15,7 @@ export function TopBar({ title, breadcrumb }: TopBarProps) {
         <span className="text-xs text-ds-grey-500">{breadcrumb}</span>
       </div>
       <div className="flex items-center gap-3">
-        <Button variant="ghost" size="icon-sm" className="text-ds-grey-600">
+        <Button variant="ghost" size="icon-sm" className="text-ds-grey-600" aria-label="알림">
           <Bell size={20} />
         </Button>
         <div className="flex items-center gap-2">

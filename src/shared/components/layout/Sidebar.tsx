@@ -2,13 +2,20 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, Building2, Briefcase, FileText, ChevronRight, LogOut } from 'lucide-react';
+import {
+  LayoutDashboard,
+  Building2,
+  Briefcase,
+  FileText,
+  ChevronRight,
+  LogOut,
+} from 'lucide-react';
 import { Button } from '@/shared/components/ui/button';
 import { Separator } from '@/shared/components/ui/separator';
 import { cn } from '@/shared/lib/cn';
 
 const navItems = [
-  { label: '대시보드', icon: LayoutDashboard, href: '/' },
+  { label: '대시보드', icon: LayoutDashboard, href: '/industry' },
   { label: '산업군 관리', icon: Building2, href: '/industry' },
   { label: '기업 관리', icon: Briefcase, href: '/company' },
   { label: '공고 관리', icon: FileText, href: '/recruitment' },
@@ -35,8 +42,7 @@ export function Sidebar() {
 
         {navItems.map((item) => {
           const Icon = item.icon;
-          const isActive =
-            item.href === '/' ? pathname === '/' : pathname.startsWith(item.href);
+          const isActive = item.href === '/' ? pathname === '/' : pathname.startsWith(item.href);
 
           return (
             <Button
@@ -62,22 +68,23 @@ export function Sidebar() {
       <div className="rounded-md bg-white p-2">
         <Separator className="mb-2 bg-ds-grey-200" />
         <div className="flex items-center justify-between gap-2">
-        <div className="flex items-center gap-2 min-w-0">
-          <div className="w-8 h-8 rounded-full bg-ds-grey-900 flex items-center justify-center shrink-0">
-            <span className="text-white text-xs font-semibold">관</span>
+          <div className="flex items-center gap-2 min-w-0">
+            <div className="w-8 h-8 rounded-full bg-ds-grey-900 flex items-center justify-center shrink-0">
+              <span className="text-white text-xs font-semibold">관</span>
+            </div>
+            <div className="flex flex-col min-w-0">
+              <span className="text-xs font-medium text-ds-grey-900 truncate">관리자</span>
+              <span className="text-[11px] text-ds-grey-500 truncate">admin@gonggomoon.com</span>
+            </div>
           </div>
-          <div className="flex flex-col min-w-0">
-            <span className="text-xs font-medium text-ds-grey-900 truncate">관리자</span>
-            <span className="text-[11px] text-ds-grey-500 truncate">admin@gonggomoon.com</span>
-          </div>
-        </div>
-        <Button
-          variant="ghost"
-          size="icon-sm"
-          className="shrink-0 text-ds-grey-400 hover:text-ds-grey-600"
-        >
-          <LogOut size={14} />
-        </Button>
+          <Button
+            variant="ghost"
+            size="icon-sm"
+            className="shrink-0 text-ds-grey-400 hover:text-ds-grey-600"
+            aria-label="로그아웃"
+          >
+            <LogOut size={14} />
+          </Button>
         </div>
       </div>
     </aside>
