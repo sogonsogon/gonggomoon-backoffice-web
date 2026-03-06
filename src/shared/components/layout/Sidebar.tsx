@@ -21,7 +21,7 @@ const navItems = [
   { label: '공고 관리', icon: FileText, href: '/recruitment' },
 ];
 
-export function Sidebar() {
+export default function Sidebar() {
   const pathname = usePathname();
 
   return (

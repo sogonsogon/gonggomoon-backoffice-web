@@ -10,8 +10,8 @@ import {
   Rocket,
   AlignLeft,
 } from 'lucide-react';
-import { TopBar } from '@/shared/components/layout/TopBar';
-import { ContentHeader } from '@/shared/components/layout/ContentHeader';
+import TopBar from '@/shared/components/layout/TopBar';
+import ContentHeader from '@/shared/components/layout/ContentHeader';
 import { Button } from '@/shared/components/ui/button';
 import { mockRecruitments } from '@/mocks/recruitment.mock';
 import { mockCompanies } from '@/mocks/company.mock';

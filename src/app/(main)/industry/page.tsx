@@ -10,10 +10,10 @@ import {
   Factory,
   Grid2X2,
 } from 'lucide-react';
-import { TopBar } from '@/shared/components/layout/TopBar';
-import { ContentHeader } from '@/shared/components/layout/ContentHeader';
+import TopBar from '@/shared/components/layout/TopBar';
+import ContentHeader from '@/shared/components/layout/ContentHeader';
 import { mockIndustries, mockIndustriesVersion } from '@/mocks';
-import { IndustryAddButton } from '@/features/industry/components/IndustryAddButton';
+import IndustryAddButton from '@/features/industry/components/IndustryAddButton';
 import type { ElementType } from 'react';
 
 type IndustryIconConfig = {

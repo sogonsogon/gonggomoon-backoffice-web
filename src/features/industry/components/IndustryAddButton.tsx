@@ -16,7 +16,7 @@ import { Input } from '@/shared/components/ui/input';
 import { Label } from '@/shared/components/ui/label';
 import { Separator } from '@/shared/components/ui/separator';
 
-export function IndustryAddButton() {
+export default function IndustryAddButton() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (

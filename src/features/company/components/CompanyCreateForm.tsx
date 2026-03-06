@@ -6,7 +6,7 @@ import { Info } from 'lucide-react';
 import { Input } from '@/shared/components/ui/input';
 import { Button } from '@/shared/components/ui/button';
 import { Label } from '@/shared/components/ui/label';
-import { ContentHeader } from '@/shared/components/layout/ContentHeader';
+import ContentHeader from '@/shared/components/layout/ContentHeader';
 import {
   Select,
   SelectContent,
@@ -35,7 +35,7 @@ const INITIAL_FORM: Company = {
   address: '',
 };
 
-export function CompanyCreateForm() {
+export default function CompanyCreateForm() {
   const router = useRouter();
   const [form, setForm] = useState<Company>(INITIAL_FORM);
 

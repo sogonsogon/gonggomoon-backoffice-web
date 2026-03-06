@@ -1,8 +1,8 @@
 'use client';
 import Link from 'next/link';
 import { Info, AlertTriangle } from 'lucide-react';
-import { TopBar } from '@/shared/components/layout/TopBar';
-import { ContentHeader } from '@/shared/components/layout/ContentHeader';
+import TopBar from '@/shared/components/layout/TopBar';
+import ContentHeader from '@/shared/components/layout/ContentHeader';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/shared/components/ui/button';
 import { Input } from '@/shared/components/ui/input';

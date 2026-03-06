@@ -1,5 +1,5 @@
-import { TopBar } from '@/shared/components/layout/TopBar';
-import { ContentHeader } from '@/shared/components/layout/ContentHeader';
+import TopBar from '@/shared/components/layout/TopBar';
+import ContentHeader from '@/shared/components/layout/ContentHeader';
 import { mockIndustries, mockIndustriesVersion } from '@/mocks';
 import type { IndustryVersionStatus } from '@/features/industry/types';
 import { Button } from '@/shared/components/ui/button';

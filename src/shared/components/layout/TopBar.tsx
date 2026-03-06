@@ -7,7 +7,7 @@ interface TopBarProps {
   breadcrumb: string;
 }
 
-export function TopBar({ title, breadcrumb }: TopBarProps) {
+export default function TopBar({ title, breadcrumb }: TopBarProps) {
   return (
     <header className="h-14 shrink-0 bg-white border-b border-ds-grey-200 flex items-center justify-between px-6">
       <div className="flex flex-col gap-0.5">

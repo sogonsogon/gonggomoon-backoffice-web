@@ -1,5 +1,5 @@
-import { TopBar } from '@/shared/components/layout/TopBar';
-import { CompanyCreateForm } from '@/features/company/components/CompanyCreateForm';
+import TopBar from '@/shared/components/layout/TopBar';
+import CompanyCreateForm from '@/features/company/components/CompanyCreateForm';
 
 export default function CompanyCreatePage() {
   return (

@@ -16,7 +16,7 @@ interface ContentHeaderProps {
   actionsAlign?: 'start' | 'center' | 'end';
 }
 
-export function ContentHeader({
+export default function ContentHeader({
   title,
   description,
   actions,
@@ -29,12 +29,7 @@ export function ContentHeader({
   actionsAlign = 'center',
 }: ContentHeaderProps) {
   const actionsAlignClass =
-    actionsAlign === 'start'
-      ? 'self-start'
-      : actionsAlign === 'end'
-        ? 'self-end'
-        : 'self-center';
-
+    actionsAlign === 'start' ? 'self-start' : actionsAlign === 'end' ? 'self-end' : 'self-center';
 
   return (
     <div className={cn('flex items-center justify-between py-1 gap-4', className)}>
@@ -54,7 +49,9 @@ export function ContentHeader({
       </div>
 
       {actions ? (
-        <div className={cn('shrink-0 flex items-center gap-2', actionsAlignClass, actionsClassName)}>
+        <div
+          className={cn('shrink-0 flex items-center gap-2', actionsAlignClass, actionsClassName)}
+        >
           {actions}
         </div>
       ) : null}

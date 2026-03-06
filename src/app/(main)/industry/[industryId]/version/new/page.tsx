@@ -1,4 +1,4 @@
-import { TopBar } from '@/shared/components/layout/TopBar';
+import TopBar from '@/shared/components/layout/TopBar';
 import { mockIndustries } from '@/mocks';
 import { IndustryVersionNewForm } from '@/features/industry/components/IndustryVersionNewForm';
 

@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Info } from 'lucide-react';
-import { TopBar } from '@/shared/components/layout/TopBar';
-import { ContentHeader } from '@/shared/components/layout/ContentHeader';
+import TopBar from '@/shared/components/layout/TopBar';
+import ContentHeader from '@/shared/components/layout/ContentHeader';
 import { Button } from '@/shared/components/ui/button';
 import { Input } from '@/shared/components/ui/input';
 import { Label } from '@/shared/components/ui/label';

@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import { Search } from 'lucide-react';
-import { TopBar } from '@/shared/components/layout/TopBar';
-import { ContentHeader } from '@/shared/components/layout/ContentHeader';
+import TopBar from '@/shared/components/layout/TopBar';
 import { Button } from '@/shared/components/ui/button';
 import { Input } from '@/shared/components/ui/input';
 import {
@@ -13,6 +12,7 @@ import {
 } from '@/shared/components/ui/select';
 import { mockCompanies, mockIndustries } from '@/mocks';
 import type { Company, CompanyType } from '@/features/company/types';
+import ContentHeader from '@/shared/components/layout/ContentHeader';
 
 const COMPANY_TYPE_LABELS: Record<CompanyType, string> = {
   LARGE_ENTERPRISE: '대기업',
