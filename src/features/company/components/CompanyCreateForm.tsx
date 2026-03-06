@@ -43,7 +43,7 @@ export function CompanyCreateForm() {
     if (key === 'foundedYear' || key === 'employeeCount') {
       setForm((prev) => ({ ...prev, [key]: Number(value) }));
     } else {
-      setForm((prev) => ({ ...prev, [key]: value }));
+      setForm((prev) => ({ ...prev, [key]: Number(value) }));
     }
   };
 
