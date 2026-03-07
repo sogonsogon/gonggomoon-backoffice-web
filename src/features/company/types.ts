@@ -1,5 +1,3 @@
-export type CompanyFormMode = 'create' | 'edit';
-
 export type CompanyType =
   | 'LARGE_ENTERPRISE'
   | 'MID_SIZED_ENTERPRISE'

@@ -14,10 +14,11 @@ import {
   SelectValue,
 } from '@/shared/components/ui/select';
 import { mockIndustries } from '@/mocks';
-import type { Company, CompanyFormMode } from '@/features/company/types';
+import type { Company } from '@/features/company/types';
 import CardActionForm from '@/shared/components/ui/CardActionForm';
 import { COMPANY_TYPE_OPTIONS, INITIAL_FORM } from '@/features/company/constants';
 
+type CompanyFormMode = 'create' | 'edit';
 interface CompanyFormProps {
   mode?: CompanyFormMode;
   initialForm?: Partial<Company>;

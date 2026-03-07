@@ -9,7 +9,7 @@ import { Separator } from '@/shared/components/ui/separator';
 import ContentHeader from '@/shared/components/layout/ContentHeader';
 import CardActionForm from '@/shared/components/ui/CardActionForm';
 import TagField from '../ui/TagField';
-import { useTagField } from '@/shared/hooks/useTagField';
+import { useTagField } from '@/features/industry/ui/useTagField';
 
 interface IndustryVersionNewFormProps {
   industryId: string;
