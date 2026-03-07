@@ -1,17 +1,7 @@
 import { mockCompanies, mockRecruitments } from '@/mocks';
-import { PostStatus } from '../types';
 import Link from 'next/link';
 import { Button } from '@/shared/components/ui/button';
-
-const PUBLIC_STATUS_LABELS: Partial<Record<PostStatus, string>> = {
-  POSTED: '채용 진행 중',
-  ANALYSIS_DONE: '채용 마감',
-};
-
-const PUBLIC_STATUS_BADGE: Partial<Record<PostStatus, string>> = {
-  POSTED: 'bg-ds-badge-green-bg text-ds-badge-green-text',
-  ANALYSIS_DONE: 'bg-ds-badge-grey-bg text-ds-badge-grey-text',
-};
+import { PUBLIC_STATUS_BADGE, PUBLIC_STATUS_LABELS } from '../constants';
 
 export default function RecruitmentList() {
   const rows = mockRecruitments.filter(

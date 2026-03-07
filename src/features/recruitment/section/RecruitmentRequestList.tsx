@@ -1,11 +1,6 @@
 import { mockRecruitmentRequests } from '@/mocks';
 import { Button } from '@/shared/components/ui/button';
-
-const REQUEST_STATUS_LABELS: Record<string, string> = {
-  PENDING: '요청됨',
-  APPROVED: '승인됨',
-  REJECTED: '거절됨',
-};
+import { REQUEST_STATUS_LABELS } from '../constants';
 
 export default function RecruitmentRequestList() {
   return (

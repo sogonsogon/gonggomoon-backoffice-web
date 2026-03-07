@@ -1,5 +1,5 @@
 import { FileText } from 'lucide-react';
-import type { Recruitment, RecruitmentAnalysis } from '@/features/recruitment/types';
+import type { Recruitment } from '@/features/recruitment/types';
 import { JOB_TYPE_LABELS } from '@/features/recruitment/constants';
 
 interface RecruitmentBasicInfoProps {

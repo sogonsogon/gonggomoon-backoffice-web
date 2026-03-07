@@ -1,7 +1,9 @@
 import Link from 'next/link';
 import { Plus } from 'lucide-react';
 import { Button } from '@/shared/components/ui/button';
-import { VERSION_STATUS_LABELS, formatDate } from '@/features/industry/constants';
+import { VERSION_STATUS_LABELS } from '@/features/industry/constants';
+import { formatDate } from '@/shared/lib/formatDate';
+
 import type { IndustryVersion } from '@/features/industry/types';
 
 interface IndustryVersionTableProps {
@@ -26,9 +28,15 @@ export default function IndustryVersionTable({ industryId, versions }: IndustryV
       <div className="rounded-md border border-ds-grey-200 overflow-hidden">
         {/* Header Row */}
         <div className="flex items-center h-11 bg-ds-grey-50 border-b border-ds-grey-200">
-          <div className="w-25 px-3 text-[13px] font-medium text-ds-grey-600 shrink-0">분석 연도</div>
-          <div className="w-37.5 px-3 text-[13px] font-medium text-ds-grey-600 shrink-0">등록일</div>
-          <div className="w-37.5 px-3 text-[13px] font-medium text-ds-grey-600 shrink-0">수정일</div>
+          <div className="w-25 px-3 text-[13px] font-medium text-ds-grey-600 shrink-0">
+            분석 연도
+          </div>
+          <div className="w-37.5 px-3 text-[13px] font-medium text-ds-grey-600 shrink-0">
+            등록일
+          </div>
+          <div className="w-37.5 px-3 text-[13px] font-medium text-ds-grey-600 shrink-0">
+            수정일
+          </div>
           <div className="w-27.5 px-3 text-[13px] font-medium text-ds-grey-600 shrink-0">상태</div>
           <div className="w-48 px-3 text-[13px] font-medium text-ds-grey-600 shrink-0">액션</div>
         </div>

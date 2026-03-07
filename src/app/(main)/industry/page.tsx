@@ -2,7 +2,7 @@ import TopBar from '@/shared/components/layout/TopBar';
 import ContentHeader from '@/shared/components/layout/ContentHeader';
 import { mockIndustries } from '@/mocks';
 import IndustryAddButton from '@/features/industry/ui/IndustryAddButton';
-import IndustryList from '@/features/industry/layout/IndustryList';
+import IndustryList from '@/features/industry/section/IndustryList';
 
 export default function IndustryPage() {
   return (

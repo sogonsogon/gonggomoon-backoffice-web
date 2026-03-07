@@ -3,9 +3,9 @@ import ContentHeader from '@/shared/components/layout/ContentHeader';
 import { mockIndustries, mockIndustriesVersion } from '@/mocks';
 import { Button } from '@/shared/components/ui/button';
 import { Card, CardContent } from '@/shared/components/ui/card';
-import { formatDate } from '@/features/industry/constants';
-import VersionAnalysisCard from '@/features/industry/ui/VersionAnalysisCard';
-import VersionStatusCard from '@/features/industry/ui/VersionStatusCard';
+import { formatDate } from '@/shared/lib/formatDate';
+import VersionAnalysisCard from '@/features/industry/section/VersionAnalysisCard';
+import VersionStatusCard from '@/features/industry/section/VersionStatusCard';
 
 export default async function VersionDetailPage({
   params,

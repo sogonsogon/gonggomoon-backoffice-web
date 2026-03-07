@@ -2,8 +2,9 @@ import Link from 'next/link';
 import TopBar from '@/shared/components/layout/TopBar';
 import { Button } from '@/shared/components/ui/button';
 import ContentHeader from '@/shared/components/layout/ContentHeader';
-import CompanyFilterToolbar from '@/features/company/layout/CompanyFilterToolbar';
-import CompanyTable from '@/features/company/layout/CompanyTable';
+import CompanyFilterToolbar from '@/features/company/section/CompanyFilterToolbar';
+import CompanyTable from '@/features/company/section/CompanyTable';
+import { Plus } from 'lucide-react';
 
 export default function CompanyPage() {
   return (
@@ -16,7 +17,10 @@ export default function CompanyPage() {
           description="등록된 기업 정보를 관리합니다"
           actions={
             <Button asChild>
-              <Link href="/company/create">+ 기업 등록</Link>
+              <Link href="/company/create">
+                <Plus />
+                기업 등록
+              </Link>
             </Button>
           }
         />

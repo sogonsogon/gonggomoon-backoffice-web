@@ -2,8 +2,8 @@ import TopBar from '@/shared/components/layout/TopBar';
 import ContentHeader from '@/shared/components/layout/ContentHeader';
 import { mockRecruitments } from '@/mocks/recruitment.mock';
 import { mockCompanies } from '@/mocks/company.mock';
-import RecruitmentAnalysisInfo from '@/features/recruitment/ui/RecruitmentAnalysisInfo';
-import RecruitmentBasicInfo from '@/features/recruitment/ui/RecruitmentBasicInfo';
+import RecruitmentAnalysisInfo from '@/features/recruitment/section/RecruitmentAnalysisInfo';
+import RecruitmentBasicInfo from '@/features/recruitment/section/RecruitmentBasicInfo';
 import CardActionForm from '@/shared/components/ui/CardActionForm';
 
 export default async function RecruitmentReviewPage({

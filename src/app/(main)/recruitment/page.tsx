@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Search } from 'lucide-react';
+import { Plus, Search } from 'lucide-react';
 import TopBar from '@/shared/components/layout/TopBar';
 import { Button } from '@/shared/components/ui/button';
 import { Input } from '@/shared/components/ui/input';
@@ -10,9 +10,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/shared/components/ui/select';
-import RecruitmentAnalysisList from '@/features/recruitment/layout/RecruitmentAnalysisList';
-import RecruitmentList from '@/features/recruitment/layout/RecruitmentList';
-import RecruitmentRequestList from '@/features/recruitment/layout/RecruitmentRequestList';
+import RecruitmentAnalysisList from '@/features/recruitment/section/RecruitmentAnalysisList';
+import RecruitmentList from '@/features/recruitment/section/RecruitmentList';
+import RecruitmentRequestList from '@/features/recruitment/section/RecruitmentRequestList';
 
 const VALID_TABS = ['public', 'analysis', 'requests'] as const;
 type Tab = (typeof VALID_TABS)[number];
@@ -79,7 +79,10 @@ export default async function RecruitmentPage({
             </Select>
           </div>
           <Button asChild>
-            <Link href="/recruitment/create">+ 공고 등록</Link>
+            <Link href="/recruitment/create">
+              <Plus size={16} />
+              공고 등록
+            </Link>
           </Button>
         </div>
 

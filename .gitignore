@@ -44,3 +44,6 @@ next-env.d.ts
 *.local
 
 *.pen
+
+# 개인 kpi 정리 노트
+kpi-note/

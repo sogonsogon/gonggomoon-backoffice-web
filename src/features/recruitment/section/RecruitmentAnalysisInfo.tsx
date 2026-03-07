@@ -1,19 +1,12 @@
 import { AlignLeft, Building2, Key, ListChecks, Rocket, Sparkles, Star, Zap } from 'lucide-react';
 import type { RecruitmentAnalysis } from '@/features/recruitment/types';
+import { joinOrDash } from '@/shared/lib/joinOrDash';
 
 interface RecruitmentAnalysisInfoProps {
   analysis?: RecruitmentAnalysis;
 }
 
 export default function RecruitmentAnalysisInfo({ analysis }: RecruitmentAnalysisInfoProps) {
-  const joinOrDash = (values?: string[]) => {
-    if (!values || values.length === 0) {
-      return '-';
-    }
-
-    return values.join(', ');
-  };
-
   return (
     <div className="flex-1 flex flex-col gap-3">
       <div className="flex items-center justify-between">
