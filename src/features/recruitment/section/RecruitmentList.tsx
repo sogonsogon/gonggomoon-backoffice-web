@@ -1,7 +1,5 @@
 import { mockCompanies, mockRecruitments } from '@/mocks';
-import Link from 'next/link';
-import { Button, buttonVariants } from '@/shared/components/ui/button';
-import { cn } from '@/shared/lib/cn';
+import { Button } from '@/shared/components/ui/button';
 import { PUBLIC_STATUS_BADGE, PUBLIC_STATUS_LABELS } from '../constants';
 
 export default function RecruitmentList() {
@@ -37,23 +35,20 @@ export default function RecruitmentList() {
             </div>
             <div className="w-28 px-3 shrink-0">
               <span
-                className={`inline-flex px-2 py-0.5 rounded-md text-sm font-medium ${PUBLIC_STATUS_BADGE[item.status] ?? 'bg-ds-grey-100 text-ds-grey-600'}`}
+                className={`inline-flex px-2 py-0.5 rounded-md text-xs font-medium ${PUBLIC_STATUS_BADGE[item.status] ?? 'bg-ds-grey-100 text-ds-grey-600'}`}
               >
                 {PUBLIC_STATUS_LABELS[item.status] ?? item.status}
               </span>
             </div>
             <div className="w-48 px-3 flex items-center gap-1.5 shrink-0">
-              <Link
+              <a
                 href={`https://gonggomoon.com/recruitment/${item.recruitmentId}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={cn(
-                  buttonVariants({ size: 'sm', variant: 'outline' }),
-                  'text-ds-grey-700',
-                )}
+                className="inline-flex h-8 items-center justify-center rounded-md border border-ds-grey-200 bg-white px-3 text-sm font-medium text-ds-grey-700 no-underline visited:text-ds-grey-700 hover:bg-ds-grey-50"
               >
                 상세보기
-              </Link>
+              </a>
               <Button size="sm" variant="outline" className="text-ds-badge-red-text">
                 삭제
               </Button>
