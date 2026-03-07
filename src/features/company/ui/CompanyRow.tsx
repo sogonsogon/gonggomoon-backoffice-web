@@ -19,7 +19,7 @@ export default function CompanyRow({ no, company, industryName, last = false }: 
       <div className="flex-1 px-3 text-sm font-medium text-ds-grey-900">{company.companyName}</div>
       <div className="w-36 px-3 text-sm text-ds-grey-900">{industryName ?? '-'}</div>
       <div className="w-28 px-3">
-        <span className="inline-flex px-2 py-0.5 rounded-md text-xs font-medium bg-ds-badge-blue-bg text-ds-badge-blue-text">
+        <span className="inline-flex px-2 py-1 rounded-md text-xs font-medium bg-ds-badge-blue-bg text-ds-badge-blue-text">
           {companyTypeLabel}
         </span>
       </div>
