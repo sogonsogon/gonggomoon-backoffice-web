@@ -45,7 +45,7 @@ export default function TagField({
               type="button"
               onClick={() => onRemove(tag)}
               variant="secondary"
-              size="xs"
+              size="sm"
               className="h-6 bg-ds-grey-100 px-2 text-[11px] text-ds-grey-600"
             >
               {tag}
@@ -65,7 +65,7 @@ export default function TagField({
         <Button
           type="button"
           variant="outline"
-          size="xs"
+          size="sm"
           className="text-ds-grey-600"
           onClick={onAdd}
         >

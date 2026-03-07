@@ -14,16 +14,13 @@ import { COMPANY_TYPE_OPTIONS } from '@/features/company/constants';
 
 export default function CompanyFilterToolbar() {
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex items-center gap-3 pb-1">
       <div className="relative">
-        <Search
-          size={16}
-          className="absolute left-3 top-1/2 -translate-y-1/2 text-ds-grey-400"
-        />
+        <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-ds-grey-400" />
         <Input
           type="text"
           placeholder="기업명을 검색..."
-          className="h-10 w-70 border-ds-grey-200 bg-white pl-9 placeholder:text-ds-grey-400"
+          className="w-70 border-ds-grey-200 bg-white pl-9 placeholder:text-ds-grey-400 "
         />
       </div>
       <Select defaultValue="all-industries">

@@ -30,31 +30,31 @@ export default async function RecruitmentPage({
     <>
       <TopBar title="공고 관리" breadcrumb="공고 관리 > 공고 목록" />
 
-      <main className="flex-1 overflow-auto bg-ds-grey-100 p-6 flex flex-col gap-4">
+      <main className="flex-1 overflow-auto bg-ds-grey-100 p-8 flex flex-col gap-6">
         {/* Tab Bar */}
-        <div className="flex items-end h-11 border-b border-ds-grey-200">
+        <div className="flex items-end h-14 border-b border-ds-grey-200 gap-4">
           <Link
             href="/recruitment?tab=public"
-            className={`h-11 px-4 flex items-center text-sm ${tab === 'public' ? 'font-semibold text-primary border-b-2 border-primary' : 'text-ds-grey-500'}`}
+            className={`h-14 px-4 pl-2 flex items-center text-lg ${tab === 'public' ? 'font-semibold text-primary border-b-2 border-primary' : 'text-ds-grey-500'}`}
           >
             공개 공고 목록
           </Link>
           <Link
             href="/recruitment?tab=analysis"
-            className={`h-11 px-4 flex items-center text-sm ${tab === 'analysis' ? 'font-semibold text-primary border-b-2 border-primary' : 'text-ds-grey-500'}`}
+            className={`h-14 px-4 flex items-center text-lg ${tab === 'analysis' ? 'font-semibold text-primary border-b-2 border-primary' : 'text-ds-grey-500'}`}
           >
             공고 분석 진행 확인
           </Link>
           <Link
             href="/recruitment?tab=requests"
-            className={`h-11 px-4 flex items-center text-sm ${tab === 'requests' ? 'font-semibold text-primary border-b-2 border-primary' : 'text-ds-grey-500'}`}
+            className={`h-14 px-4 flex items-center text-lg ${tab === 'requests' ? 'font-semibold text-primary border-b-2 border-primary' : 'text-ds-grey-500'}`}
           >
             등록 요청 공고
           </Link>
         </div>
 
         {/* Filter Row */}
-        <div className="flex items-center justify-between gap-3 pb-4 border-b border-ds-grey-200">
+        <div className="flex items-center justify-between gap-3">
           <div className="flex items-center gap-3">
             {tab !== 'requests' && (
               <div className="relative">
@@ -65,7 +65,7 @@ export default async function RecruitmentPage({
                 <Input
                   type="text"
                   placeholder="공고 제목 검색..."
-                  className="h-10 w-70 border-ds-grey-200 bg-white pl-9 placeholder:text-ds-grey-400"
+                  className="w-70 border-ds-grey-200 bg-white pl-9 placeholder:text-ds-grey-400"
                 />
               </div>
             )}

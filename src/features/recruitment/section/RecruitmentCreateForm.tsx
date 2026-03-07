@@ -37,7 +37,7 @@ export default function RecruitmentCreateForm() {
               <div className="flex-1 flex flex-col gap-1.5">
                 <div className="flex items-center justify-between">
                   <Label className="text-ds-grey-900">기업명 *</Label>
-                  <Button variant="link" size="xs" className="h-auto p-0 text-primary">
+                  <Button variant="link" size="sm" className="h-auto p-0 text-primary">
                     기업 검색
                   </Button>
                 </div>

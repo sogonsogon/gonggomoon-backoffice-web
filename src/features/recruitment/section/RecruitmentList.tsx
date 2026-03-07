@@ -1,6 +1,7 @@
 import { mockCompanies, mockRecruitments } from '@/mocks';
 import Link from 'next/link';
-import { Button } from '@/shared/components/ui/button';
+import { Button, buttonVariants } from '@/shared/components/ui/button';
+import { cn } from '@/shared/lib/cn';
 import { PUBLIC_STATUS_BADGE, PUBLIC_STATUS_LABELS } from '../constants';
 
 export default function RecruitmentList() {
@@ -36,22 +37,24 @@ export default function RecruitmentList() {
             </div>
             <div className="w-28 px-3 shrink-0">
               <span
-                className={`inline-flex px-2 py-0.5 rounded-md text-xs font-medium ${PUBLIC_STATUS_BADGE[item.status] ?? 'bg-ds-grey-100 text-ds-grey-600'}`}
+                className={`inline-flex px-2 py-0.5 rounded-md text-sm font-medium ${PUBLIC_STATUS_BADGE[item.status] ?? 'bg-ds-grey-100 text-ds-grey-600'}`}
               >
                 {PUBLIC_STATUS_LABELS[item.status] ?? item.status}
               </span>
             </div>
             <div className="w-48 px-3 flex items-center gap-1.5 shrink-0">
-              <Button asChild size="xs" variant="outline" className="text-ds-grey-700">
-                <Link
-                  href={`https://gonggomoon.com/recruitment/${item.recruitmentId}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  상세보기
-                </Link>
-              </Button>
-              <Button size="xs" variant="outline" className="text-ds-badge-red-text">
+              <Link
+                href={`https://gonggomoon.com/recruitment/${item.recruitmentId}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={cn(
+                  buttonVariants({ size: 'sm', variant: 'outline' }),
+                  'text-ds-grey-700',
+                )}
+              >
+                상세보기
+              </Link>
+              <Button size="sm" variant="outline" className="text-ds-badge-red-text">
                 삭제
               </Button>
             </div>

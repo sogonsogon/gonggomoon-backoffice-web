@@ -72,19 +72,19 @@ export default function IndustryVersionTable({ industryId, versions }: IndustryV
                 </span>
               </div>
               <div className="flex-1 px-3 flex items-center gap-1.5">
-                <Button asChild size="xs" variant="outline" className="text-ds-grey-700">
+                <Button asChild size="sm" variant="outline" className="text-ds-grey-700">
                   <Link href={`/industry/${industryId}/version/${version.versionId}`}>
                     상세보기
                   </Link>
                 </Button>
                 <Button
-                  size="xs"
+                  size="sm"
                   disabled={isPublished}
                   className={isPublished ? 'bg-ds-grey-300 hover:bg-ds-grey-300' : 'bg-ds-grey-900'}
                 >
                   발행
                 </Button>
-                <Button size="xs" variant="outline" className="text-ds-badge-red-text">
+                <Button size="sm" variant="outline" className="text-ds-badge-red-text">
                   삭제
                 </Button>
               </div>

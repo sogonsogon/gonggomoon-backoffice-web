@@ -28,10 +28,10 @@ export default function CompanyRow({ no, company, industryName, last = false }: 
       </div>
       <div className="w-24 px-3 text-[13px] text-ds-grey-700">{company.foundedYear ?? '-'}</div>
       <div className="w-48 px-3 flex items-center gap-1.5">
-        <Button size="xs" variant="outline" className="text-ds-grey-700">
+        <Button size="sm" variant="outline" className="text-ds-grey-700">
           상세보기
         </Button>
-        <Button asChild size="xs" variant="outline" className="text-ds-grey-700">
+        <Button asChild size="sm" variant="outline" className="text-ds-grey-700">
           <Link href={`/company/edit/${company.companyId}`}>수정</Link>
         </Button>
       </div>
