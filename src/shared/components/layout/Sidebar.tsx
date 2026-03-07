@@ -42,8 +42,7 @@ export default function Sidebar() {
 
         {navItems.map((item) => {
           const Icon = item.icon;
-          const hrefPath = item.href.split('?')[0];
-          const isActive = hrefPath === '/' ? pathname === '/' : pathname.startsWith(hrefPath);
+          const isActive = item.href === '/' ? pathname === '/' : pathname.startsWith(item.href);
 
           return (
             <Button

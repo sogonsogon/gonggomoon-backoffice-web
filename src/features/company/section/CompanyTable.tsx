@@ -8,10 +8,10 @@ export default function CompanyTable() {
       <div className="flex items-center h-11 bg-ds-grey-50 border-b border-ds-grey-200">
         <div className="w-14 px-3 text-[13px] font-medium text-ds-grey-600 shrink-0">번호</div>
         <div className="flex-1 px-3 text-[13px] font-medium text-ds-grey-600">기업명</div>
-        <div className="w-36 px-3 text-[13px] font-medium text-ds-grey-600">사업 분야</div>
-        <div className="w-28 px-3 text-[13px] font-medium text-ds-grey-600">기업 유형</div>
-        <div className="w-28 px-3 text-[13px] font-medium text-ds-grey-600">임직원 수</div>
-        <div className="w-24 px-3 text-[13px] font-medium text-ds-grey-600">설립연도</div>
+        <div className="w-56 px-3 text-[13px] font-medium text-ds-grey-600">사업 분야</div>
+        <div className="w-56 px-3 text-[13px] font-medium text-ds-grey-600">기업 유형</div>
+        <div className="w-48 px-3 text-[13px] font-medium text-ds-grey-600">임직원 수</div>
+        <div className="w-28 px-3 text-[13px] font-medium text-ds-grey-600">설립연도</div>
         <div className="w-48 px-3 text-[13px] font-medium text-ds-grey-600">액션</div>
       </div>
 
