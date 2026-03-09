@@ -6,8 +6,10 @@ export default function RecruitmentList() {
   const rows = mockRecruitments.filter(
     (item) => item.status === 'POSTED' || item.status === 'ANALYSIS_DONE',
   );
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
+  const now = new Date();
+  const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(
+    now.getDate(),
+  ).padStart(2, '0')}`;
 
   return (
     <div className="bg-white rounded-lg border border-ds-grey-200 overflow-hidden">
@@ -24,9 +26,10 @@ export default function RecruitmentList() {
       {rows.map((item, i) => {
         const companyName =
           mockCompanies.find((c) => c.companyId === item.companyId)?.companyName ?? '-';
-        const dueDate = item.dueDate ? new Date(item.dueDate) : null;
-        const isAlwaysOpen = item.status === 'POSTED' && dueDate === null;
-        const isRecruitingOpen = item.status === 'POSTED' && Boolean(dueDate && dueDate > today);
+        const dueDateStr = item.dueDate?.slice(0, 10) ?? null;
+        const isAlwaysOpen = item.status === 'POSTED' && dueDateStr === null;
+        const isRecruitingOpen =
+          item.status === 'POSTED' && Boolean(dueDateStr && dueDateStr >= todayStr);
 
         const publicStatusLabel = isAlwaysOpen
           ? '상시'
@@ -35,10 +38,10 @@ export default function RecruitmentList() {
             : '채용 마감';
 
         const publicStatusBadge = isAlwaysOpen
-          ? 'bg-ds-badge-grey-bg text-ds-badge-grey-text'
+          ? 'bg-ds-grey-100 text-ds-grey-600'
           : isRecruitingOpen
             ? 'bg-ds-badge-green-bg text-ds-badge-green-text'
-            : 'bg-ds-badge-grey-bg text-ds-badge-red-text';
+            : 'bg-ds-badge-red-bg text-ds-badge-red-text';
 
         return (
           <div
