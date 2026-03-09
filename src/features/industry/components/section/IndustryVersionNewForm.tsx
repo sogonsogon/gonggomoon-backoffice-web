@@ -101,7 +101,7 @@ export default function IndustryVersionNewForm({ industryId }: IndustryVersionNe
                     onChange={(event) => setMarketSize(event.target.value)}
                     placeholder="산업 규모를 입력합니다."
                     rows={2}
-                    className="w-full resize-none rounded-md border border-ds-grey-200 bg-white px-3 py-2 text-[13px] text-ds-grey-700 outline-none"
+                    className="w-full resize-none rounded-md border border-ds-grey-200 bg-white px-4 py-2 text-[13px] text-ds-grey-700 outline-none"
                   />
                 </div>
 
@@ -124,7 +124,7 @@ export default function IndustryVersionNewForm({ industryId }: IndustryVersionNe
                     onChange={(event) => setRival(event.target.value)}
                     placeholder="주요 경쟁 구도를 쉼표로 구분해 입력합니다."
                     rows={2}
-                    className="w-full resize-none rounded-md border border-ds-grey-200 bg-white px-3 py-2 text-[13px] text-ds-grey-700 outline-none"
+                    className="w-full resize-none rounded-md border border-ds-grey-200 bg-white px-4 py-2 text-[13px] text-ds-grey-700 outline-none"
                   />
                 </div>
 

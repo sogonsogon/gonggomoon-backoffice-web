@@ -33,7 +33,7 @@ export default function VersionAnalysisCard({ version }: VersionAnalysisCardProp
           </div>
           <div className="space-y-2">
             <p className="text-[15px] font-semibold text-ds-grey-900">산업 규모</p>
-            <div className="h-10 rounded-md border border-ds-grey-200 bg-ds-grey-50 px-3 text-sm leading-10 text-ds-grey-900">
+            <div className="h-10 rounded-md border border-ds-grey-200 bg-ds-grey-50 px-4 text-sm leading-10 text-ds-grey-900">
               {version.marketSize}
             </div>
           </div>
@@ -51,7 +51,7 @@ export default function VersionAnalysisCard({ version }: VersionAnalysisCardProp
           </div>
           <div className="space-y-2">
             <p className="text-[15px] font-semibold text-ds-grey-900">경쟁 구도</p>
-            <div className="rounded-md border border-ds-grey-200 bg-ds-grey-50 px-3 py-2 text-sm text-ds-grey-900">
+            <div className="rounded-md border border-ds-grey-200 bg-ds-grey-50 px-4 py-2 text-sm text-ds-grey-900">
               {version.rival.join(', ')}
             </div>
           </div>

@@ -12,12 +12,12 @@ export default function RecruitmentAnalysisList() {
     <div className="bg-white rounded-lg border border-ds-grey-200 overflow-hidden">
       {/* Header Row */}
       <div className="flex items-center h-11 bg-ds-grey-50 border-b border-ds-grey-200">
-        <div className="w-14 px-3 text-[13px] font-medium text-ds-grey-600 shrink-0">No.</div>
-        <div className="w-44 px-3 text-[13px] font-medium text-ds-grey-600 shrink-0">기업명</div>
-        <div className="flex-1 px-3 text-[13px] font-medium text-ds-grey-600">공고 제목</div>
-        <div className="w-48 px-3 text-[13px] font-medium text-ds-grey-600 shrink-0">요청 상태</div>
-        <div className="w-28 px-3 text-[13px] font-medium text-ds-grey-600 shrink-0">등록일</div>
-        <div className="w-48 px-3 text-[13px] font-medium text-ds-grey-600 shrink-0">액션</div>
+        <div className="w-14 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">No.</div>
+        <div className="w-44 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">기업명</div>
+        <div className="flex-1 px-4 text-[13px] font-medium text-ds-grey-600">공고 제목</div>
+        <div className="w-48 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">요청 상태</div>
+        <div className="w-28 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">등록일</div>
+        <div className="w-48 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">액션</div>
       </div>
 
       {rows.length === 0 ? (
@@ -35,20 +35,20 @@ export default function RecruitmentAnalysisList() {
               key={item.recruitmentId}
               className={`flex items-center h-14 ${i < rows.length - 1 ? 'border-b border-ds-grey-200' : ''}`}
             >
-              <div className="w-14 px-3 text-[13px] text-ds-grey-600 shrink-0">{i + 1}</div>
-              <div className="w-44 px-3 text-sm text-ds-grey-900 shrink-0">{companyName}</div>
-              <div className="flex-1 px-3 text-sm text-ds-grey-900 truncate">{item.title}</div>
-              <div className="w-48 px-3 shrink-0">
+              <div className="w-14 px-4 text-[13px] text-ds-grey-600 shrink-0">{i + 1}</div>
+              <div className="w-44 px-4 text-sm text-ds-grey-900 shrink-0">{companyName}</div>
+              <div className="flex-1 px-4 text-sm text-ds-grey-900 truncate">{item.title}</div>
+              <div className="w-48 px-4 shrink-0">
                 <span
                   className={`inline-flex px-2 py-0.5 rounded-md text-xs font-medium ${ANALYSIS_STATUS_BADGE[statusStr] ?? 'bg-ds-grey-100 text-ds-grey-600'}`}
                 >
                   {ANALYSIS_STATUS_LABELS[statusStr] ?? statusStr}
                 </span>
               </div>
-              <div className="w-28 px-3 text-[13px] text-ds-grey-700 shrink-0">
+              <div className="w-28 px-4 text-[13px] text-ds-grey-700 shrink-0">
                 {item.createdAt.split('T')[0].replace(/-/g, '.')}
               </div>
-              <div className="w-48 px-3 flex items-center gap-1.5 shrink-0">
+              <div className="w-48 px-4 flex items-center gap-1.5 shrink-0">
                 {isAnalyzing ? (
                   <Button disabled size="sm" variant="outline" className="text-ds-grey-500">
                     분석중

@@ -1,4 +1,4 @@
-import type { JobType, PostStatus } from '@/features/recruitment/types';
+import type { JobType, PlatformType, PostStatus } from '@/features/recruitment/types';
 
 export const JOB_TYPE_LABELS: Record<JobType, string> = {
   FRONTEND: '프론트엔드',
@@ -38,4 +38,11 @@ export const REQUEST_STATUS_LABELS: Record<string, string> = {
   PENDING: '요청됨',
   APPROVED: '승인됨',
   REJECTED: '거절됨',
+};
+
+export const PLATFORM_TYPE_LABELS: Record<PlatformType, string> = {
+  SARAMIN: '사람인',
+  WANTED: '원티드',
+  JABKOREA: '잡코리아',
+  JASOSEOL: '자소설닷컴',
 };
