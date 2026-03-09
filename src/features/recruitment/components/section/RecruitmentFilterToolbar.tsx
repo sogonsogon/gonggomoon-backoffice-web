@@ -1,8 +1,5 @@
 import SearchForm, { FilterConfig } from '@/shared/components/ui/SearchForm';
-import {
-  ANALYSIS_STATUS_LABELS,
-  REQUEST_STATUS_LABELS,
-} from '@/features/recruitment/constants';
+import { ANALYSIS_STATUS_LABELS, REQUEST_STATUS_LABELS } from '@/features/recruitment/constants';
 
 type Tab = 'public' | 'analysis' | 'requests';
 
@@ -10,7 +7,7 @@ const ALL_OPTION = { value: 'all', label: '상태 전체' };
 
 const STATUS_FILTERS: Partial<Record<Tab, FilterConfig>> = {
   analysis: {
-    paramKey: 'status',
+    paramKey: 'search',
     placeholder: '상태 전체',
     allValue: 'all',
     width: 'w-32',

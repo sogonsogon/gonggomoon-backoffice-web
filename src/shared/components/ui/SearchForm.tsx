@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, KeyboardEvent } from 'react';
+import { useState, useEffect } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Search, X } from 'lucide-react';
 import { Input } from '@/shared/components/ui/input';
@@ -28,6 +28,8 @@ interface SearchFormProps {
   filters?: FilterConfig[];
 }
 
+const SEARCH_DEBOUNCE_MS = 800;
+
 export default function SearchForm({
   searchable = true,
   searchParamKey = 'query',
@@ -43,6 +45,25 @@ export default function SearchForm({
   useEffect(() => {
     setInputValue(searchParams.get(searchParamKey) ?? '');
   }, [searchParams, searchParamKey]);
+
+  useEffect(() => {
+    if (!searchable) {
+      return;
+    }
+
+    const query = inputValue.trim();
+    const currentQuery = searchParams.get(searchParamKey) ?? '';
+
+    if (query === currentQuery) {
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      replaceWithParams(buildParams(searchParamKey, query || null));
+    }, SEARCH_DEBOUNCE_MS);
+
+    return () => clearTimeout(timer);
+  }, [inputValue, searchable, searchParamKey, searchParams]);
 
   // 기존 파라미터를 모두 보존하고 변경된 키만 덮어씀
   const buildParams = (key: string, value: string | null) => {
@@ -65,10 +86,6 @@ export default function SearchForm({
     replaceWithParams(buildParams(searchParamKey, query || null));
   };
 
-  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') handleSearch();
-  };
-
   const handleFilterChange = (paramKey: string, value: string, allValue: string) => {
     replaceWithParams(buildParams(paramKey, value === allValue ? null : value));
   };
@@ -86,27 +103,12 @@ export default function SearchForm({
             <Search size={16} aria-hidden="true" />
           </button>
           <Input
-            type="text"
+            type="search"
             value={inputValue}
             placeholder={searchPlaceholder}
             onChange={(e) => setInputValue(e.target.value)}
-            onKeyDown={handleKeyDown}
             className="w-70 border-ds-grey-200 bg-white pl-9 placeholder:text-ds-grey-400"
           />
-          {inputValue && (
-            <Button
-              type="button"
-              variant="ghost"
-              size="sm"
-              className="absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7 p-0"
-              onClick={() => {
-                setInputValue('');
-                replaceWithParams(buildParams(searchParamKey, null));
-              }}
-            >
-              <X className="h-4 w-4" />
-            </Button>
-          )}
         </div>
       )}
 
