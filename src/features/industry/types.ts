@@ -1,3 +1,5 @@
+import { ElementType } from 'react';
+
 export type IndustryType =
   | 'MEDIA_CONTENT'
   | 'COMMERCE'
@@ -11,6 +13,12 @@ export type IndustryType =
 export type Industry = {
   industryId: number;
   name: string;
+};
+
+export type IndustryIconConfig = {
+  icon: ElementType;
+  iconColor: string;
+  bgColor: string;
 };
 
 export type IndustryVersion = {

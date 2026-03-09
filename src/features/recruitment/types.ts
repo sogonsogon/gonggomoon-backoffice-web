@@ -37,6 +37,7 @@ export type Recruitment = {
   startDate?: string | null;
   dueDate?: string | null;
   createdAt: string;
+  content: string;
   analysis?: RecruitmentAnalysis;
 };
 
@@ -45,7 +46,7 @@ export type RequestStatus = 'PENDING' | 'APPROVED' | 'REJECTED'; // 공고 요�
 export type RecruitmentRequest = {
   requestId: number;
   requestUserId?: number;
-  platformType: string;
+  platformType: PlatformType;
   requestUrl: string;
   status: RequestStatus;
   createdAt?: string;
