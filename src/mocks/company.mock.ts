@@ -36,7 +36,7 @@ export const mockCompanies: Company[] = [
     companyId: 13,
     companyName: '글로벌테크랩',
     companyType: 'SMALL_MEDIUM_ENTERPRISE',
-    industryId: 5,
+    industryId: 7,
     industryType: 'MANUFACTURING_INDUSTRY',
     websiteUrl: 'https://example.com',
     foundedYear: 2006,

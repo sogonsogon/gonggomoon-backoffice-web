@@ -72,11 +72,14 @@ export default function SearchForm({
     <div className="flex items-center gap-3">
       {searchable && (
         <div className="relative">
-          <Search
-            size={16}
-            className="absolute left-3 top-1/2 -translate-y-1/2 text-ds-grey-400 cursor-pointer"
+          <button
+            type="button"
+            aria-label="검색"
             onClick={handleSearch}
-          />
+            className="absolute left-3 top-1/2 -translate-y-1/2 text-ds-grey-400 cursor-pointer"
+          >
+            <Search size={16} aria-hidden="true" />
+          </button>
           <Input
             type="text"
             value={inputValue}
