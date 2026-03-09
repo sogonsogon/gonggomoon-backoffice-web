@@ -36,8 +36,28 @@ export default async function RecruitmentReviewPage({
             <CardActionForm
               primaryLabel="발행"
               //TODO: API 연결 (AI 분석 요청 후 공개 공고 목록페이지로 이동)
+              onPrimaryClick={() => {
+                // TODO: 발행 API 연동 및 공개 공고 목록 페이지로 라우팅
+                if (typeof window !== 'undefined') {
+                  // 임시 동작: 사용자에게 발행 예정임을 알림
+                  window.alert('발행 기능은 아직 준비 중입니다.');
+                }
+              }}
               secondaryLabel="삭제"
               secondaryButtonClassName="text-ds-badge-red-text"
+              onSecondaryClick={() => {
+                // TODO: 삭제 API 연동 및 적절한 페이지로 라우팅
+                if (typeof window !== 'undefined') {
+                  const confirmed = window.confirm(
+                    '현재 공고를 삭제하시겠습니까? (기능은 아직 준비 중입니다)',
+                  );
+                  if (confirmed) {
+                    // 실제 삭제 로직 연동 예정
+                    // eslint-disable-next-line no-console
+                    console.log('삭제 기능은 아직 준비 중입니다.');
+                  }
+                }
+              }}
             />
           </div>
         </div>

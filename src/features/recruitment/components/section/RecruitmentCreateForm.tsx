@@ -113,6 +113,7 @@ export default function RecruitmentCreateForm() {
           <CardActionForm
             primaryLabel="AI 분석 시작"
             //TODO: onPrimaryClick 에 API 연결 (AI 분석 요청 후 공개 공고 목록페이지로 이동)
+            primaryEnabled={false}
             secondaryLabel="취소"
             secondaryHref="/recruitment?tab=public"
           />

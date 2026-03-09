@@ -1,4 +1,9 @@
-import type { JobType, PlatformType, PostStatus } from '@/features/recruitment/types';
+import type {
+  JobType,
+  PlatformType,
+  PostStatus,
+  RequestStatus,
+} from '@/features/recruitment/types';
 
 export const JOB_TYPE_LABELS: Record<JobType, string> = {
   FRONTEND: '프론트엔드',
@@ -12,13 +17,13 @@ export const JOB_TYPE_LABELS: Record<JobType, string> = {
   QA: 'QA',
 };
 
-export const ANALYSIS_STATUS_LABELS: Record<string, string> = {
+export const ANALYSIS_STATUS_LABELS: Record<PostStatus, string> = {
   ANALYSIS_DONE: '검토 대기',
   ANALYZING: '분석 중',
   POSTED: '발행 대기',
 };
 
-export const ANALYSIS_STATUS_BADGE: Record<string, string> = {
+export const ANALYSIS_STATUS_BADGE: Record<PostStatus, string> = {
   ANALYSIS_DONE: 'bg-ds-badge-green-bg text-ds-badge-green-text',
   ANALYZING: 'bg-ds-badge-yellow-bg text-ds-badge-yellow-text',
   POSTED: 'bg-ds-grey-100 text-ds-grey-600',
@@ -34,7 +39,7 @@ export const PUBLIC_STATUS_BADGE: Partial<Record<PostStatus, string>> = {
   ANALYSIS_DONE: 'bg-ds-badge-grey-bg text-ds-badge-grey-text',
 };
 
-export const REQUEST_STATUS_LABELS: Record<string, string> = {
+export const REQUEST_STATUS_LABELS: Record<RequestStatus, string> = {
   PENDING: '요청됨',
   APPROVED: '승인됨',
   REJECTED: '거절됨',

@@ -1,4 +1,4 @@
-import type { Company, CompanyType } from '@/features/company/types';
+import type { CompanyType } from '@/features/company/types';
 
 export const COMPANY_TYPE_OPTIONS: { value: CompanyType; label: string }[] = [
   { value: 'LARGE_ENTERPRISE', label: '대기업' },
