@@ -1,6 +1,6 @@
 import { mockRecruitmentRequests } from '@/mocks';
 import { Button } from '@/shared/components/ui/button';
-import { REQUEST_STATUS_LABELS } from '../constants';
+import { REQUEST_STATUS_LABELS } from '@/features/recruitment/constants';
 
 export default function RecruitmentRequestList() {
   return (

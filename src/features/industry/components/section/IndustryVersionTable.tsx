@@ -72,11 +72,12 @@ export default function IndustryVersionTable({ industryId, versions }: IndustryV
                 </span>
               </div>
               <div className="flex-1 px-3 flex items-center gap-1.5">
-                <Button asChild size="sm" variant="outline" className="text-ds-grey-700">
-                  <Link href={`/industry/${industryId}/version/${version.versionId}`}>
-                    상세보기
-                  </Link>
-                </Button>
+                <Link
+                  href={`/industry/${industryId}/version/${version.versionId}`}
+                  className="inline-flex h-8 items-center justify-center rounded-md border border-ds-grey-200 bg-white px-3 text-sm font-medium text-ds-grey-700 no-underline visited:text-ds-grey-700 hover:bg-ds-grey-50"
+                >
+                  상세보기
+                </Link>
                 <Button
                   size="sm"
                   disabled={isPublished}

@@ -20,6 +20,7 @@ export type IndustryIconConfig = {
   iconColor: string;
   bgColor: string;
 };
+
 export type IndustryVersion = {
   versionId: number;
   industryId: number;

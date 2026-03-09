@@ -1,6 +1,6 @@
 import TopBar from '@/shared/components/layout/TopBar';
 import { mockIndustries } from '@/mocks';
-import IndustryVersionNewForm from '@/features/industry/section/IndustryVersionNewForm';
+import IndustryVersionNewForm from '@/features/industry/components/section/IndustryVersionNewForm';
 
 export default async function VersionNewPage({
   params,

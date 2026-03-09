@@ -1,6 +1,6 @@
 import TopBar from '@/shared/components/layout/TopBar';
 import { mockCompanies } from '@/mocks';
-import CompanyForm from '@/features/company/section/CompanyForm';
+import CompanyForm from '@/features/company/components/section/CompanyForm';
 
 export default async function CompanyEditPage({
   params,

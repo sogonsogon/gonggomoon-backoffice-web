@@ -2,8 +2,8 @@ import Link from 'next/link';
 import TopBar from '@/shared/components/layout/TopBar';
 import { Button } from '@/shared/components/ui/button';
 import ContentHeader from '@/shared/components/layout/ContentHeader';
-import CompanyFilterToolbar from '@/features/company/section/CompanyFilterToolbar';
-import CompanyTable from '@/features/company/section/CompanyTable';
+import CompanyFilterToolbar from '@/features/company/components/section/CompanyFilterToolbar';
+import CompanyTable from '@/features/company/components/section/CompanyTable';
 import { Plus } from 'lucide-react';
 
 export default function CompanyPage() {

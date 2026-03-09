@@ -1,6 +1,6 @@
 import TopBar from '@/shared/components/layout/TopBar';
 import ContentHeader from '@/shared/components/layout/ContentHeader';
-import RecruitmentCreateForm from '@/features/recruitment/section/RecruitmentCreateForm';
+import RecruitmentCreateForm from '@/features/recruitment/components/section/RecruitmentCreateForm';
 
 export default function RecruitmentCreatePage() {
   return (

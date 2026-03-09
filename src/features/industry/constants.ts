@@ -25,13 +25,3 @@ export const INDUSTRY_ICON_MAP: Record<string, IndustryIconConfig> = {
   제조: { icon: Factory, iconColor: '#6b7684', bgColor: '#f2f4f6' },
   기타: { icon: Grid2X2, iconColor: '#8b95a1', bgColor: '#f2f4f6' },
 };
-
-export const DEFAULT_ICON_CONFIG: IndustryIconConfig = {
-  icon: Grid2X2,
-  iconColor: '#8b95a1',
-  bgColor: '#f2f4f6',
-};
-
-export function getIndustryIconConfig(name: string): IndustryIconConfig {
-  return INDUSTRY_ICON_MAP[name] ?? DEFAULT_ICON_CONFIG;
-}

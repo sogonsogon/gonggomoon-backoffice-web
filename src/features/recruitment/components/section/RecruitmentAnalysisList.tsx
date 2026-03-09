@@ -1,7 +1,7 @@
 import { mockCompanies, mockRecruitments } from '@/mocks';
 import { Button } from '@/shared/components/ui/button';
 import Link from 'next/link';
-import { ANALYSIS_STATUS_BADGE, ANALYSIS_STATUS_LABELS } from '../constants';
+import { ANALYSIS_STATUS_BADGE, ANALYSIS_STATUS_LABELS } from '@/features/recruitment/constants';
 
 export default function RecruitmentAnalysisList() {
   const rows = mockRecruitments.filter((item) =>

@@ -8,8 +8,8 @@ import { Label } from '@/shared/components/ui/label';
 import { Separator } from '@/shared/components/ui/separator';
 import ContentHeader from '@/shared/components/layout/ContentHeader';
 import CardActionForm from '@/shared/components/ui/CardActionForm';
-import TagField from '../ui/TagField';
-import { useTagField } from '@/features/industry/ui/useTagField';
+import TagField from '@/features/industry/components/ui/TagField';
+import { useTagField } from '@/features/industry/hooks/useTagField';
 
 interface IndustryVersionNewFormProps {
   industryId: string;

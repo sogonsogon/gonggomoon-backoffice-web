@@ -16,7 +16,7 @@ import {
 import { mockIndustries } from '@/mocks';
 import type { Company } from '@/features/company/types';
 import CardActionForm from '@/shared/components/ui/CardActionForm';
-import { COMPANY_TYPE_OPTIONS, INITIAL_FORM } from '@/features/company/constants';
+import { COMPANY_TYPE_OPTIONS } from '@/features/company/constants';
 
 type CompanyFormMode = 'create' | 'edit';
 interface CompanyFormProps {
@@ -24,6 +24,17 @@ interface CompanyFormProps {
   initialForm?: Partial<Company>;
   onSubmit?: (form: Company) => void | Promise<void>;
 }
+
+const INITIAL_FORM: Company = {
+  companyName: '',
+  companyId: 0,
+  foundedYear: 0,
+  industryId: 0,
+  companyType: 'LARGE_ENTERPRISE',
+  employeeCount: 0,
+  websiteUrl: '',
+  address: '',
+};
 
 export default function CompanyForm({ mode = 'create', initialForm, onSubmit }: CompanyFormProps) {
   const router = useRouter();

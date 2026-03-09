@@ -1,6 +1,7 @@
 import { mockCompanies, mockRecruitments } from '@/mocks';
 import { Button } from '@/shared/components/ui/button';
-import { PUBLIC_STATUS_BADGE, PUBLIC_STATUS_LABELS } from '../constants';
+import { PUBLIC_STATUS_BADGE, PUBLIC_STATUS_LABELS } from '@/features/recruitment/constants';
+import Link from 'next/link';
 
 export default function RecruitmentList() {
   const rows = mockRecruitments.filter(
@@ -41,14 +42,14 @@ export default function RecruitmentList() {
               </span>
             </div>
             <div className="w-48 px-3 flex items-center gap-1.5 shrink-0">
-              <a
+              <Link
                 href={`https://gonggomoon.com/recruitment/${item.recruitmentId}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex h-8 items-center justify-center rounded-md border border-ds-grey-200 bg-white px-3 text-sm font-medium text-ds-grey-700 no-underline visited:text-ds-grey-700 hover:bg-ds-grey-50"
               >
                 상세보기
-              </a>
+              </Link>
               <Button size="sm" variant="outline" className="text-ds-badge-red-text">
                 삭제
               </Button>

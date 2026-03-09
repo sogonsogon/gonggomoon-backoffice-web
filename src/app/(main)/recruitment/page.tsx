@@ -10,9 +10,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/shared/components/ui/select';
-import RecruitmentAnalysisList from '@/features/recruitment/section/RecruitmentAnalysisList';
-import RecruitmentList from '@/features/recruitment/section/RecruitmentList';
-import RecruitmentRequestList from '@/features/recruitment/section/RecruitmentRequestList';
+import RecruitmentAnalysisList from '@/features/recruitment/components/section/RecruitmentAnalysisList';
+import RecruitmentList from '@/features/recruitment/components/section/RecruitmentList';
+import RecruitmentRequestList from '@/features/recruitment/components/section/RecruitmentRequestList';
 
 const VALID_TABS = ['public', 'analysis', 'requests'] as const;
 type Tab = (typeof VALID_TABS)[number];
@@ -35,19 +35,19 @@ export default async function RecruitmentPage({
         <div className="flex items-end h-14 border-b border-ds-grey-200 gap-4">
           <Link
             href="/recruitment?tab=public"
-            className={`h-14 px-4 pl-2 flex items-center text-lg ${tab === 'public' ? 'font-semibold text-primary border-b-2 border-primary' : 'text-ds-grey-500'}`}
+            className={`h-14 px-4 pl-2 flex items-center text-base ${tab === 'public' ? 'font-semibold text-primary border-b-2 border-primary' : 'text-ds-grey-500'}`}
           >
             공개 공고 목록
           </Link>
           <Link
             href="/recruitment?tab=analysis"
-            className={`h-14 px-4 flex items-center text-lg ${tab === 'analysis' ? 'font-semibold text-primary border-b-2 border-primary' : 'text-ds-grey-500'}`}
+            className={`h-14 px-4 flex items-center text-base ${tab === 'analysis' ? 'font-semibold text-primary border-b-2 border-primary' : 'text-ds-grey-500'}`}
           >
             공고 분석 진행 확인
           </Link>
           <Link
             href="/recruitment?tab=requests"
-            className={`h-14 px-4 flex items-center text-lg ${tab === 'requests' ? 'font-semibold text-primary border-b-2 border-primary' : 'text-ds-grey-500'}`}
+            className={`h-14 px-4 flex items-center text-base ${tab === 'requests' ? 'font-semibold text-primary border-b-2 border-primary' : 'text-ds-grey-500'}`}
           >
             등록 요청 공고
           </Link>

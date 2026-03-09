@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Button } from '@/shared/components/ui/button';
 import type { Company } from '@/features/company/types';
-import { COMPANY_TYPE_LABELS } from '@/features/company/constants';
+import { COMPANY_TYPE_OPTIONS } from '@/features/company/constants';
 
 interface CompanyRowProps {
   no: number;
@@ -11,7 +11,9 @@ interface CompanyRowProps {
 }
 
 export default function CompanyRow({ no, company, industryName, last = false }: CompanyRowProps) {
-  const companyTypeLabel = company.companyType ? COMPANY_TYPE_LABELS[company.companyType] : '-';
+  const companyTypeLabel = company.companyType
+    ? COMPANY_TYPE_OPTIONS.find((option) => option.value === company.companyType)?.label
+    : '-';
 
   return (
     <div className={`flex items-center h-14 ${!last ? 'border-b border-ds-grey-200' : ''}`}>
@@ -28,9 +30,14 @@ export default function CompanyRow({ no, company, industryName, last = false }: 
       </div>
       <div className="w-28 px-3 text-[13px] text-ds-grey-700">{company.foundedYear ?? '-'}</div>
       <div className="w-48 px-3 flex items-center gap-1.5">
-        <Button size="sm" variant="outline" className="text-ds-grey-700">
+        <Link
+          href={`https://gonggomoon.com/company/${company.companyId}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex h-8 items-center justify-center rounded-md border border-ds-grey-200 bg-white px-3 text-sm font-medium text-ds-grey-700 no-underline visited:text-ds-grey-700 hover:bg-ds-grey-50"
+        >
           상세보기
-        </Button>
+        </Link>
         <Button asChild size="sm" variant="outline" className="text-ds-grey-700">
           <Link href={`/company/edit/${company.companyId}`}>수정</Link>
         </Button>

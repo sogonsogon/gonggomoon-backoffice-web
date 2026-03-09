@@ -2,7 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui
 import { Badge } from '@/shared/components/ui/badge';
 import { Separator } from '@/shared/components/ui/separator';
 import type { IndustryVersion } from '@/features/industry/types';
-import { LineRows } from '../ui/LineRows';
+import { LineRows } from '@/features/industry/components/ui/LineRows';
 
 interface VersionAnalysisCardProps {
   version: IndustryVersion;

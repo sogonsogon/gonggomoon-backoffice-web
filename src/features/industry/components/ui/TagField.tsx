@@ -26,6 +26,11 @@ export default function TagField({
   onRemove,
 }: TagFieldProps) {
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+    // Ignore Enter while IME composition is active to avoid duplicate tag additions.
+    if (event.nativeEvent.isComposing || event.keyCode === 229) {
+      return;
+    }
+
     if (event.key !== 'Enter') {
       return;
     }

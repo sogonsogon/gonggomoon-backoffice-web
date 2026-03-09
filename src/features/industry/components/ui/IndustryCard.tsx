@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { ChevronRight } from 'lucide-react';
-import { getIndustryIconConfig } from '../constants';
+import getIndustryIconConfig from '@/features/industry/utils/getIndustryIconConfig';
 
 interface IndustryCardProps {
   id: number;

@@ -1,5 +1,5 @@
 import { mockIndustries, mockIndustriesVersion } from '@/mocks';
-import IndustryCard from '@/features/industry/ui/IndustryCard';
+import IndustryCard from '@/features/industry/components/ui/IndustryCard';
 
 export default function IndustryList() {
   return (

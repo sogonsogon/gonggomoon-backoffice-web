@@ -2,9 +2,9 @@ import TopBar from '@/shared/components/layout/TopBar';
 import ContentHeader from '@/shared/components/layout/ContentHeader';
 import { mockIndustries, mockIndustriesVersion } from '@/mocks';
 import { Button } from '@/shared/components/ui/button';
-import IndustryBasicInfoCard from '@/features/industry/section/IndustryBasicInfoCard';
-import IndustryVersionTable from '@/features/industry/section/IndustryVersionTable';
-import IndustryInfoSideCard from '@/features/industry/ui/IndustryInfoSideCard';
+import IndustryBasicInfoCard from '@/features/industry/components/ui/IndustryBasicInfoCard';
+import IndustryVersionTable from '@/features/industry/components/section/IndustryVersionTable';
+import IndustryInfoSideCard from '@/features/industry/components/ui/IndustryInfoSideCard';
 
 export default async function IndustryDetailPage({
   params,

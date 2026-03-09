@@ -1,5 +1,5 @@
 import { mockCompanies, mockIndustries } from '@/mocks';
-import CompanyRow from '@/features/company/ui/CompanyRow';
+import CompanyRow from '@/features/company/components/ui/CompanyRow';
 
 export default function CompanyTable() {
   return (

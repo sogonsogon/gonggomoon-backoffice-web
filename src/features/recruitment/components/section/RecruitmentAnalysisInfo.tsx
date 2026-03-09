@@ -1,6 +1,6 @@
 import { AlignLeft, Building2, Key, ListChecks, Rocket, Sparkles, Star, Zap } from 'lucide-react';
 import type { RecruitmentAnalysis } from '@/features/recruitment/types';
-import { joinOrDash } from '@/shared/lib/joinOrDash';
+import { joinOrDash } from '@/features/recruitment/utils/joinOrDash';
 
 interface RecruitmentAnalysisInfoProps {
   analysis?: RecruitmentAnalysis;
