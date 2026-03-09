@@ -48,15 +48,15 @@ export type IndustryAnalysisListItem = {
   editedAt: string;
 };
 
-export type IndustyAnalysisList = IndustryAnalysisListItem[];
+export type IndustryAnalysisList = IndustryAnalysisListItem[];
 
-export type IndustyCategory = {
+export type IndustryCategory = {
   industryCategoryId: number;
   industryCategoryName: string;
   analysisCount: number;
 };
 
-export type IndustryCategoryList = IndustyCategory[];
+export type IndustryCategoryList = IndustryCategory[];
 
 export type IndustryCategoryCreateRequest = {
   industryCategoryName: string;
