@@ -15,6 +15,7 @@ export const mockIndustriesVersion: IndustryVersion[] = [
   {
     versionId: 1,
     industryId: 1,
+    industryType: 'COMMERCE',
     analyzedYear: 2024,
     createdAt: '2024-01-01T00:00:00Z',
     editedAt: '2024-03-01T00:00:00Z',
@@ -50,6 +51,7 @@ export const mockIndustriesVersion: IndustryVersion[] = [
   {
     versionId: 2,
     industryId: 1,
+    industryType: 'AI',
     analyzedYear: 2025,
     createdAt: '2025-01-01T00:00:00Z',
     editedAt: '2025-12-01T00:00:00Z',
@@ -84,6 +86,7 @@ export const mockIndustriesVersion: IndustryVersion[] = [
   {
     versionId: 3,
     industryId: 1,
+    industryType: 'AI',
     analyzedYear: 2026,
     createdAt: '2026-01-01T00:00:00Z',
     editedAt: '2026-03-01T00:00:00Z',
