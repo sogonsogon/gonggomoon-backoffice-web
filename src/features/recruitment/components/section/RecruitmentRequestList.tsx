@@ -16,7 +16,7 @@ export default function RecruitmentRequestList() {
       </div>
 
       {mockRecruitmentRequests.map((item, i) => {
-        const statusStr = item.status as string;
+        const status = item.status;
         return (
           <div
             key={item.requestId}
@@ -34,14 +34,14 @@ export default function RecruitmentRequestList() {
             <div className="w-48 px-4 shrink-0">
               <span
                 className={`inline-flex px-2 py-0.5 rounded-md text-xs font-medium ${
-                  statusStr === 'approved' || statusStr === 'APPROVED'
+                  status === 'APPROVED'
                     ? 'bg-ds-badge-green-bg text-ds-badge-green-text'
-                    : statusStr === 'rejected' || statusStr === 'REJECTED'
+                    : status === 'REJECTED'
                       ? 'bg-ds-badge-grey-bg text-ds-badge-grey-text'
                       : 'bg-ds-badge-blue-bg text-ds-badge-blue-text'
                 }`}
               >
-                {REQUEST_STATUS_LABELS[statusStr] ?? statusStr}
+                {REQUEST_STATUS_LABELS[status]}
               </span>
             </div>
             <div className="w-28 px-4 text-[13px] text-ds-grey-700 shrink-0">

@@ -17,10 +17,9 @@ export const JOB_TYPE_LABELS: Record<JobType, string> = {
   QA: 'QA',
 };
 
-export const ANALYSIS_STATUS_LABELS: Record<PostStatus, string> = {
+export const ANALYSIS_STATUS_LABELS: Record<Exclude<PostStatus, 'POSTED'>, string> = {
   ANALYSIS_DONE: '검토 대기',
   ANALYZING: '분석 중',
-  POSTED: '발행 대기',
 };
 
 export const ANALYSIS_STATUS_BADGE: Record<PostStatus, string> = {
@@ -29,20 +28,16 @@ export const ANALYSIS_STATUS_BADGE: Record<PostStatus, string> = {
   POSTED: 'bg-ds-grey-100 text-ds-grey-600',
 };
 
-export const PUBLIC_STATUS_LABELS: Partial<Record<PostStatus, string>> = {
-  POSTED: '채용 진행 중',
-  ANALYSIS_DONE: '채용 마감',
-};
-
-export const PUBLIC_STATUS_BADGE: Partial<Record<PostStatus, string>> = {
-  POSTED: 'bg-ds-badge-green-bg text-ds-badge-green-text',
-  ANALYSIS_DONE: 'bg-ds-badge-grey-bg text-ds-badge-grey-text',
-};
-
 export const REQUEST_STATUS_LABELS: Record<RequestStatus, string> = {
   PENDING: '요청됨',
   APPROVED: '승인됨',
   REJECTED: '거절됨',
+};
+
+export const REQUEST_STATUS_BADGE: Record<RequestStatus, string> = {
+  PENDING: 'bg-ds-badge-blue-bg text-ds-badge-blue-text',
+  APPROVED: 'bg-ds-badge-green-bg text-ds-badge-green-text',
+  REJECTED: 'bg-ds-badge-grey-bg text-ds-badge-grey-text',
 };
 
 export const PLATFORM_TYPE_LABELS: Record<PlatformType, string> = {

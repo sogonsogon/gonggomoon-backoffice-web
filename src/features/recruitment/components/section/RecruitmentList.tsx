@@ -1,12 +1,13 @@
 import { mockCompanies, mockRecruitments } from '@/mocks';
 import { Button } from '@/shared/components/ui/button';
-import { PUBLIC_STATUS_BADGE, PUBLIC_STATUS_LABELS } from '@/features/recruitment/constants';
 import Link from 'next/link';
 
 export default function RecruitmentList() {
   const rows = mockRecruitments.filter(
     (item) => item.status === 'POSTED' || item.status === 'ANALYSIS_DONE',
   );
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
 
   return (
     <div className="bg-white rounded-lg border border-ds-grey-200 overflow-hidden">
@@ -23,6 +24,22 @@ export default function RecruitmentList() {
       {rows.map((item, i) => {
         const companyName =
           mockCompanies.find((c) => c.companyId === item.companyId)?.companyName ?? '-';
+        const dueDate = item.dueDate ? new Date(item.dueDate) : null;
+        const isAlwaysOpen = item.status === 'POSTED' && dueDate === null;
+        const isRecruitingOpen = item.status === 'POSTED' && Boolean(dueDate && dueDate > today);
+
+        const publicStatusLabel = isAlwaysOpen
+          ? '상시'
+          : isRecruitingOpen
+            ? '채용 진행 중'
+            : '채용 마감';
+
+        const publicStatusBadge = isAlwaysOpen
+          ? 'bg-ds-badge-grey-bg text-ds-badge-grey-text'
+          : isRecruitingOpen
+            ? 'bg-ds-badge-green-bg text-ds-badge-green-text'
+            : 'bg-ds-badge-grey-bg text-ds-badge-red-text';
+
         return (
           <div
             key={item.recruitmentId}
@@ -36,9 +53,9 @@ export default function RecruitmentList() {
             </div>
             <div className="w-28 px-4 shrink-0">
               <span
-                className={`inline-flex px-2 py-0.5 rounded-md text-xs font-medium ${PUBLIC_STATUS_BADGE[item.status] ?? 'bg-ds-grey-100 text-ds-grey-600'}`}
+                className={`inline-flex px-2 py-0.5 rounded-md text-xs font-medium ${publicStatusBadge}`}
               >
-                {PUBLIC_STATUS_LABELS[item.status] ?? item.status}
+                {publicStatusLabel}
               </span>
             </div>
             <div className="w-48 px-4 flex items-center gap-1.5 shrink-0">
