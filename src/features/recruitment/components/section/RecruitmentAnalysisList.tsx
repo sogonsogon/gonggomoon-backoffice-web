@@ -4,8 +4,9 @@ import Link from 'next/link';
 import { ANALYSIS_STATUS_BADGE, ANALYSIS_STATUS_LABELS } from '@/features/recruitment/constants';
 
 export default function RecruitmentAnalysisList() {
-  const rows = mockRecruitments.filter((item) =>
-    ['ANALYZING', 'ANALYSIS_DONE', 'POSTED'].includes(item.status as string),
+  const rows = mockRecruitments.filter(
+    (item) =>
+      item.status === 'ANALYZING' || item.status === 'ANALYSIS_DONE' || item.status === 'POSTED',
   );
 
   return (
@@ -28,8 +29,10 @@ export default function RecruitmentAnalysisList() {
         rows.map((item, i) => {
           const companyName =
             mockCompanies.find((c) => c.companyId === item.companyId)?.companyName ?? '-';
-          const statusStr = item.status as string;
-          const isAnalyzing = statusStr === 'ANALYZING';
+          const status = item.status;
+          const isAnalyzing = status === 'ANALYZING';
+          const statusLabel = status === 'POSTED' ? '발행 대기' : ANALYSIS_STATUS_LABELS[status];
+
           return (
             <div
               key={item.recruitmentId}
@@ -40,9 +43,9 @@ export default function RecruitmentAnalysisList() {
               <div className="flex-1 px-4 text-sm text-ds-grey-900 truncate">{item.title}</div>
               <div className="w-48 px-4 shrink-0">
                 <span
-                  className={`inline-flex px-2 py-0.5 rounded-md text-xs font-medium ${ANALYSIS_STATUS_BADGE[statusStr] ?? 'bg-ds-grey-100 text-ds-grey-600'}`}
+                  className={`inline-flex px-2 py-0.5 rounded-md text-xs font-medium ${ANALYSIS_STATUS_BADGE[status]}`}
                 >
-                  {ANALYSIS_STATUS_LABELS[statusStr] ?? statusStr}
+                  {statusLabel}
                 </span>
               </div>
               <div className="w-28 px-4 text-[13px] text-ds-grey-700 shrink-0">
