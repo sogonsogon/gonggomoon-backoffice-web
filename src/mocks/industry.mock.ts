@@ -1,20 +1,21 @@
 import { Industry, IndustryVersion } from '@/features/industry/types';
 
 export const mockIndustries: Industry[] = [
-  { industryId: 1, name: '커머스' },
-  { industryId: 2, name: '핀테크' },
-  { industryId: 3, name: '미디어/콘텐츠' },
-  { industryId: 4, name: '모빌리티' },
-  { industryId: 5, name: 'AI' },
-  { industryId: 6, name: '헬스케어/바이오' },
-  { industryId: 7, name: '제조' },
-  { industryId: 999, name: '기타' },
+  { industryId: 1, name: '커머스', industryType: 'COMMERCE' },
+  { industryId: 2, name: '핀테크/금융', industryType: 'FINTECH_FINANCIAL' },
+  { industryId: 3, name: '미디어/콘텐츠', industryType: 'MEDIA_CONTENT' },
+  { industryId: 4, name: '모빌리티/물류', industryType: 'MOBILITY_LOGISTICS' },
+  { industryId: 5, name: 'AI', industryType: 'AI' },
+  { industryId: 6, name: '헬스케어/바이오', industryType: 'HEALTHCARE_BIO' },
+  { industryId: 7, name: '제조업', industryType: 'MANUFACTURING_INDUSTRY' },
+  { industryId: 999, name: '기타', industryType: 'OTHER' },
 ];
 
 export const mockIndustriesVersion: IndustryVersion[] = [
   {
     versionId: 1,
     industryId: 1,
+    industryType: 'COMMERCE',
     analyzedYear: 2024,
     createdAt: '2024-01-01T00:00:00Z',
     editedAt: '2024-03-01T00:00:00Z',
@@ -49,7 +50,8 @@ export const mockIndustriesVersion: IndustryVersion[] = [
 
   {
     versionId: 2,
-    industryId: 1,
+    industryId: 5,
+    industryType: 'AI',
     analyzedYear: 2025,
     createdAt: '2025-01-01T00:00:00Z',
     editedAt: '2025-12-01T00:00:00Z',
@@ -83,7 +85,8 @@ export const mockIndustriesVersion: IndustryVersion[] = [
 
   {
     versionId: 3,
-    industryId: 1,
+    industryId: 5,
+    industryType: 'AI',
     analyzedYear: 2026,
     createdAt: '2026-01-01T00:00:00Z',
     editedAt: '2026-03-01T00:00:00Z',

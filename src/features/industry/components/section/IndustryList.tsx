@@ -14,6 +14,7 @@ export default function IndustryList() {
             key={item.industryId}
             id={item.industryId}
             label={item.name}
+            industryType={item.industryType ?? 'OTHER'}
             versionCount={versionCount}
           />
         );

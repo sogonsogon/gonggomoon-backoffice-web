@@ -13,6 +13,7 @@ export type IndustryType =
 export type Industry = {
   industryId: number;
   name: string;
+  industryType?: IndustryType;
 };
 
 export type IndustryIconConfig = {
@@ -24,6 +25,7 @@ export type IndustryIconConfig = {
 export type IndustryVersion = {
   versionId: number;
   industryId: number;
+  industryType: IndustryType;
   analyzedYear: number;
   keyword: string[];
   marketSize: string;

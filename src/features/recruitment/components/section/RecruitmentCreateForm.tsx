@@ -45,7 +45,7 @@ export default function RecruitmentCreateForm() {
                   <SelectTrigger className="h-10 border-ds-grey-200 w-full bg-white text-ds-grey-500">
                     <SelectValue placeholder="기업을 선택하세요" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent position="popper">
                     <SelectItem value="none">기업을 선택하세요</SelectItem>
                     {companyNames.map((name, index) => (
                       <SelectItem key={index} value={name}>

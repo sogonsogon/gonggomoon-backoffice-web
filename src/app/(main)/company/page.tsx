@@ -24,7 +24,10 @@ export default function CompanyPage() {
             </Button>
           }
         />
-        <CompanyFilterToolbar />
+        <div className="pb-1">
+          <CompanyFilterToolbar />
+        </div>
+
         <CompanyTable />
       </main>
     </>

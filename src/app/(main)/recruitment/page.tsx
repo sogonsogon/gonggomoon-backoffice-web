@@ -1,18 +1,11 @@
 import Link from 'next/link';
-import { Plus, Search } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import TopBar from '@/shared/components/layout/TopBar';
 import { Button } from '@/shared/components/ui/button';
-import { Input } from '@/shared/components/ui/input';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/shared/components/ui/select';
 import RecruitmentAnalysisList from '@/features/recruitment/components/section/RecruitmentAnalysisList';
 import RecruitmentList from '@/features/recruitment/components/section/RecruitmentList';
 import RecruitmentRequestList from '@/features/recruitment/components/section/RecruitmentRequestList';
+import RecruitmentFilterToolbar from '@/features/recruitment/components/section/RecruitmentFilterToolbar';
 
 const VALID_TABS = ['public', 'analysis', 'requests'] as const;
 type Tab = (typeof VALID_TABS)[number];
@@ -55,29 +48,7 @@ export default async function RecruitmentPage({
 
         {/* Filter Row */}
         <div className="flex items-center justify-between gap-3">
-          <div className="flex items-center gap-3">
-            {tab !== 'requests' && (
-              <div className="relative">
-                <Search
-                  size={16}
-                  className="absolute left-3 top-1/2 -translate-y-1/2 text-ds-grey-400"
-                />
-                <Input
-                  type="text"
-                  placeholder="공고 제목 검색..."
-                  className="w-70 border-ds-grey-200 bg-white pl-9 placeholder:text-ds-grey-400"
-                />
-              </div>
-            )}
-            <Select defaultValue="all-status">
-              <SelectTrigger className="h-10 w-32 border-ds-grey-200 bg-white text-ds-grey-600">
-                <SelectValue placeholder="상태 전체" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all-status">상태 전체</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
+          <RecruitmentFilterToolbar tab={tab} />
           <Button asChild>
             <Link href="/recruitment/create">
               <Plus size={16} />
