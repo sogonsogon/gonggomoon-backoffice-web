@@ -3,32 +3,6 @@ import { ANALYSIS_STATUS_LABELS, REQUEST_STATUS_LABELS } from '@/features/recrui
 
 type Tab = 'public' | 'analysis' | 'requests';
 
-const ALL_OPTION = { value: 'all', label: '상태 전체' };
-
-const STATUS_FILTERS: Partial<Record<Tab, FilterConfig>> = {
-  analysis: {
-    paramKey: 'search',
-    placeholder: '상태 전체',
-    allValue: 'all',
-    width: 'w-32',
-    options: [
-      ALL_OPTION,
-      ...Object.entries(ANALYSIS_STATUS_LABELS).map(([value, label]) => ({ value, label })),
-      { value: 'POSTED', label: '발행 대기' },
-    ],
-  },
-  requests: {
-    paramKey: 'status',
-    placeholder: '상태 전체',
-    allValue: 'all',
-    width: 'w-32',
-    options: [
-      ALL_OPTION,
-      ...Object.entries(REQUEST_STATUS_LABELS).map(([value, label]) => ({ value, label })),
-    ],
-  },
-};
-
 interface RecruitmentFilterToolbarProps {
   tab: Tab;
 }
@@ -45,3 +19,29 @@ export default function RecruitmentFilterToolbar({ tab }: RecruitmentFilterToolb
     />
   );
 }
+
+const ALL_OPTION = { value: 'all', label: '상태 전체' };
+
+const STATUS_FILTERS: Partial<Record<Tab, FilterConfig>> = {
+  analysis: {
+    paramKey: 'analysisStatus',
+    placeholder: '상태 전체',
+    allValue: 'all',
+    width: 'w-32',
+    options: [
+      ALL_OPTION,
+      ...Object.entries(ANALYSIS_STATUS_LABELS).map(([value, label]) => ({ value, label })),
+      { value: 'POSTED', label: '발행 대기' },
+    ],
+  },
+  requests: {
+    paramKey: 'requestStatus',
+    placeholder: '상태 전체',
+    allValue: 'all',
+    width: 'w-32',
+    options: [
+      ALL_OPTION,
+      ...Object.entries(REQUEST_STATUS_LABELS).map(([value, label]) => ({ value, label })),
+    ],
+  },
+};

@@ -56,6 +56,16 @@ export default function CompanyForm() {
     Boolean(form.companyType) &&
     (form.employeeCount ?? 0) > 0;
 
+  const parseNumericInput = (value: string): number | undefined => {
+    const digitsOnly = value.replace(/[^0-9]/g, '');
+
+    if (!digitsOnly) {
+      return undefined;
+    }
+
+    return Number(digitsOnly);
+  };
+
   const handleChange = (key: keyof Company, value: string) => {
     if (key === 'industryId') {
       const nextIndustryId = Number(value);
@@ -72,7 +82,7 @@ export default function CompanyForm() {
     }
 
     if (key === 'foundedYear' || key === 'employeeCount') {
-      setForm((prev) => ({ ...prev, [key]: Number(value) }));
+      setForm((prev) => ({ ...prev, [key]: parseNumericInput(value) }));
       return;
     }
 
@@ -80,7 +90,7 @@ export default function CompanyForm() {
   };
 
   const handleSubmit = async () => {
-    if (isEditMode) {
+    if (isEditMode && company !== undefined) {
       // TODO: updateCompany server action 연결
       // updateCompany 호출 시 companyId를 포함한 payload 전달
       await router.push('/company/edit/' + companyId);
