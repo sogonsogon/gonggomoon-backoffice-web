@@ -1,5 +1,5 @@
-import { INDUSTRY_ICON_MAP } from '@/features/industry/constants';
-import { IndustryIconConfig } from '@/features/industry/types';
+import { INDUSTRY_CONFIG } from '@/features/industry/constants';
+import type { IndustryIconConfig, IndustryType } from '@/features/industry/types';
 import { Grid2X2 } from 'lucide-react';
 
 const DEFAULT_ICON_CONFIG: IndustryIconConfig = {
@@ -8,6 +8,6 @@ const DEFAULT_ICON_CONFIG: IndustryIconConfig = {
   bgColor: '#f2f4f6',
 };
 
-export default function getIndustryIconConfig(name: string): IndustryIconConfig {
-  return INDUSTRY_ICON_MAP[name] ?? DEFAULT_ICON_CONFIG;
+export default function getIndustryIconConfig(industryType: IndustryType): IndustryIconConfig {
+  return INDUSTRY_CONFIG[industryType] ?? DEFAULT_ICON_CONFIG;
 }

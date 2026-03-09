@@ -1,15 +1,17 @@
 import Link from 'next/link';
 import { ChevronRight } from 'lucide-react';
 import getIndustryIconConfig from '@/features/industry/utils/getIndustryIconConfig';
+import type { IndustryType } from '@/features/industry/types';
 
 interface IndustryCardProps {
   id: number;
   label: string;
+  industryType: IndustryType;
   versionCount: number;
 }
 
-export default function IndustryCard({ id, label, versionCount }: IndustryCardProps) {
-  const config = getIndustryIconConfig(label);
+export default function IndustryCard({ id, label, industryType, versionCount }: IndustryCardProps) {
+  const config = getIndustryIconConfig(industryType);
   const Icon = config.icon;
 
   return (

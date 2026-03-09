@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams, usePathname } from 'next/navigation';
 import { Info } from 'lucide-react';
 import { Input } from '@/shared/components/ui/input';
 import { Label } from '@/shared/components/ui/label';
@@ -13,38 +13,37 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/shared/components/ui/select';
-import { mockIndustries } from '@/mocks';
+import { mockIndustries, mockCompanies } from '@/mocks';
 import type { Company } from '@/features/company/types';
 import CardActionForm from '@/shared/components/ui/CardActionForm';
 import { COMPANY_TYPE_OPTIONS } from '@/features/company/constants';
 
-type CompanyFormMode = 'create' | 'edit';
-interface CompanyFormProps {
-  mode?: CompanyFormMode;
-  initialForm?: Partial<Company>;
-  onSubmit?: (form: Company) => void | Promise<void>;
-}
-
-const INITIAL_FORM: Company = {
+const INITIAL_FORM: Omit<Company, 'companyId'> = {
   companyName: '',
-  companyId: 0,
-  foundedYear: 0,
-  industryId: 0,
   companyType: 'LARGE_ENTERPRISE',
-  employeeCount: 0,
+  industryType: 'COMMERCE',
   websiteUrl: '',
+  foundedYear: undefined,
   address: '',
+  employeeCount: undefined,
+  description: '',
 };
 
-export default function CompanyForm({ mode = 'create', initialForm, onSubmit }: CompanyFormProps) {
+export default function CompanyForm() {
   const router = useRouter();
+  const params = useParams();
+  const pathname = usePathname();
+
+  const companyId = params.companyId ? Number(params.companyId) : undefined;
+  const isEditMode = pathname.startsWith('/company/edit/') && companyId !== undefined;
+
+  const company = isEditMode ? mockCompanies.find((c) => c.companyId === companyId) : undefined;
+
   const [form, setForm] = useState<Company>({
     ...INITIAL_FORM,
-    ...initialForm,
-    companyType: initialForm?.companyType ?? INITIAL_FORM.companyType,
+    ...company,
+    companyType: company?.companyType ?? INITIAL_FORM.companyType,
   });
-
-  const isEditMode = mode === 'edit';
 
   const isPrimaryEnabled =
     form.companyName.trim().length > 0 &&
@@ -63,13 +62,16 @@ export default function CompanyForm({ mode = 'create', initialForm, onSubmit }: 
   };
 
   const handleSubmit = async () => {
-    if (onSubmit) {
-      await onSubmit(form);
+    if (isEditMode) {
+      // TODO: updateCompany server action 연결
+      // updateCompany 호출 시 companyId를 포함한 payload 전달
+      await router.push('/company/edit/' + companyId);
       return;
     }
 
-    // TODO: create/update company server action 연결
-    router.push('/company');
+    // TODO: createCompany server action 연결
+    // createCompany 호출 시 companyId를 제외한 payload 전달
+    await router.push('/company/create');
   };
 
   return (
@@ -115,7 +117,7 @@ export default function CompanyForm({ mode = 'create', initialForm, onSubmit }: 
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder="산업군 선택" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent position="popper">
                     {mockIndustries.map((item) => (
                       <SelectItem key={item.industryId} value={item.industryId.toString()}>
                         {item.name}
@@ -133,7 +135,7 @@ export default function CompanyForm({ mode = 'create', initialForm, onSubmit }: 
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder="기업 유형 선택" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent position="popper">
                     {COMPANY_TYPE_OPTIONS.map(({ value, label }) => (
                       <SelectItem key={value} value={value}>
                         {label}
