@@ -1,6 +1,10 @@
 import { mockRecruitmentRequests } from '@/mocks';
 import { Button } from '@/shared/components/ui/button';
-import { PLATFORM_TYPE_LABELS, REQUEST_STATUS_LABELS } from '@/features/recruitment/constants';
+import {
+  PLATFORM_TYPE_LABELS,
+  REQUEST_STATUS_BADGE,
+  REQUEST_STATUS_LABELS,
+} from '@/features/recruitment/constants';
 
 export default function RecruitmentRequestList() {
   return (
@@ -33,13 +37,7 @@ export default function RecruitmentRequestList() {
             </div>
             <div className="w-48 px-4 shrink-0">
               <span
-                className={`inline-flex px-2 py-0.5 rounded-md text-xs font-medium ${
-                  status === 'APPROVED'
-                    ? 'bg-ds-badge-green-bg text-ds-badge-green-text'
-                    : status === 'REJECTED'
-                      ? 'bg-ds-badge-grey-bg text-ds-badge-grey-text'
-                      : 'bg-ds-badge-blue-bg text-ds-badge-blue-text'
-                }`}
+                className={`inline-flex px-2 py-0.5 rounded-md text-xs font-medium ${REQUEST_STATUS_BADGE[status]}`}
               >
                 {REQUEST_STATUS_LABELS[status]}
               </span>
