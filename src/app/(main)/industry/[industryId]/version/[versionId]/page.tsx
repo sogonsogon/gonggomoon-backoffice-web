@@ -15,6 +15,7 @@ export default async function VersionDetailPage({
   const { industryId, versionId } = await params;
   const industry = mockIndustries.find((item) => item.industryId === Number(industryId));
   const label = industry?.name ?? '산업군';
+  // TODO : 산업 분석 단건 조회 API 호출 위치 (/api/v1/admin/industries/reports/{id})
   const version = mockIndustriesVersion.find((v) => v.versionId === Number(versionId));
   const yearLabel = version?.analyzedYear ?? versionId;
 
@@ -32,6 +33,7 @@ export default async function VersionDetailPage({
           actionsAlign="start"
           actions={
             <>
+              {/* TODO: 산업 분석 수정 API 조회 위치 (/api/v1/admin/industries/reports/{id}) */}
               <Button variant="outline" className="text-ds-badge-red-text">
                 삭제
               </Button>

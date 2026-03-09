@@ -14,6 +14,8 @@ export default async function IndustryDetailPage({
   const { industryId } = await params;
   const industry = mockIndustries.find((item) => item.industryId === Number(industryId));
   const label = industry?.name ?? '산업군';
+  // TODO: 산업 분석 목록 조회 API 호출 위치 (/api/v1/admin/industries/{id}/reports)
+  // TODO: 산업 분석 수정 API 조회 위치 (/api/v1/admin/industries/reports/{id})
   const versions = mockIndustriesVersion.filter((v) => v.industryId === Number(industryId));
   const publishedVersion = versions.find((v) => v.status === 'PUBLISHED');
 

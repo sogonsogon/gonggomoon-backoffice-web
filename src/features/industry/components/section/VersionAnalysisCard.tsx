@@ -41,18 +41,18 @@ export default function VersionAnalysisCard({ version }: VersionAnalysisCardProp
 
         <div className="space-y-2">
           <p className="text-[15px] font-semibold text-ds-grey-900">산업 트렌드 요약</p>
-          <LineRows items={version.industryTrends} />
+          <LineRows items={version.trends} />
         </div>
 
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
             <p className="text-[15px] font-semibold text-ds-grey-900">규제 리스크</p>
-            <LineRows items={version.risk} />
+            <LineRows items={version.regulation} />
           </div>
           <div className="space-y-2">
             <p className="text-[15px] font-semibold text-ds-grey-900">경쟁 구도</p>
             <div className="rounded-md border border-ds-grey-200 bg-ds-grey-50 px-4 py-2 text-sm text-ds-grey-900">
-              {version.rival.join(', ')}
+              {version.competition.join(', ')}
             </div>
           </div>
         </div>
@@ -60,11 +60,11 @@ export default function VersionAnalysisCard({ version }: VersionAnalysisCardProp
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
             <p className="text-[15px] font-semibold text-ds-grey-900">채용 트렌드</p>
-            <LineRows items={version.hiringTrends} />
+            <LineRows items={version.hiring} />
           </div>
           <div className="space-y-2">
             <p className="text-[15px] font-semibold text-ds-grey-900">투자 방향</p>
-            <LineRows items={version.investmentStrategy} />
+            <LineRows items={version.investment} />
           </div>
         </div>
       </CardContent>

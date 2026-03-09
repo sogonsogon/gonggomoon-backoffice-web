@@ -24,19 +24,45 @@ export type IndustryIconConfig = {
 
 export type IndustryVersion = {
   versionId: number;
-  industryId: number;
-  industryType: IndustryType;
+  industryId?: number;
   analyzedYear: number;
   keyword: string[];
   marketSize: string;
-  industryTrends: string[];
-  risk: string[];
-  rival: string[];
-  hiringTrends: string[];
-  investmentStrategy: string[];
+  trends: string[];
+  regulation: string[];
+  competition: string[];
+  hiring: string[];
+  investment: string[];
   status?: IndustryVersionStatus;
   createdAt?: string;
   editedAt?: string;
 };
 
 export type IndustryVersionStatus = 'SAVED' | 'PUBLISHED';
+
+export type IndustryAnalysisListItem = {
+  analysisId: number;
+  analysisYear: number;
+  analysisStatus: IndustryVersionStatus;
+  createdAt: string;
+  editedAt: string;
+};
+
+export type IndustyAnalysisList = IndustryAnalysisListItem[];
+
+export type IndustyCategory = {
+  industryCategoryId: number;
+  industryCategoryName: string;
+  analysisCount: number;
+};
+
+export type IndustryCategoryList = IndustyCategory[];
+
+export type IndustryCategoryCreateRequest = {
+  industryCategoryName: string;
+};
+
+export type IndustryCategoryUpdateRequest = {
+  industryCategoryId: number;
+  industryCategoryName: string;
+};

@@ -53,6 +53,7 @@ export default function IndustryVersionNewForm({ industryId }: IndustryVersionNe
     if (investment.inputValue.trim()) investment.onAdd();
 
     startTransition(async () => {
+      // TODO: 산업 분석 생성 API 조회 위치(/api/v1/admin/industries/{id}/reports)
       // TODO: server action 연결
       router.push(`/industry/${industryId}`);
     });
