@@ -23,18 +23,22 @@ const INITIAL_FORM: Omit<Company, 'companyId'> = {
   companyType: 'LARGE_ENTERPRISE',
   industryType: 'COMMERCE',
   websiteUrl: '',
-  foundedYear: undefined,
+  foundedYear: 0,
   address: '',
-  employeeCount: undefined,
+  employeeCount: 0,
   description: '',
 };
 
 export default function CompanyForm() {
   const router = useRouter();
-  const params = useParams();
+  const params = useParams<{ companyId?: string | string[] }>();
   const pathname = usePathname();
 
-  const companyId = params.companyId ? Number(params.companyId) : undefined;
+  const rawCompanyId = params.companyId;
+  const companyIdParam = Array.isArray(rawCompanyId) ? rawCompanyId[0] : rawCompanyId;
+  const parsedCompanyId = companyIdParam ? Number(companyIdParam) : undefined;
+  const companyId =
+    parsedCompanyId !== undefined && !Number.isNaN(parsedCompanyId) ? parsedCompanyId : undefined;
   const isEditMode = pathname.startsWith('/company/edit/') && companyId !== undefined;
 
   const company = isEditMode ? mockCompanies.find((c) => c.companyId === companyId) : undefined;
@@ -53,7 +57,21 @@ export default function CompanyForm() {
     (form.employeeCount ?? 0) > 0;
 
   const handleChange = (key: keyof Company, value: string) => {
-    if (key === 'foundedYear' || key === 'employeeCount' || key === 'industryId') {
+    if (key === 'industryId') {
+      const nextIndustryId = Number(value);
+      const nextIndustry = mockIndustries.find(
+        (industry) => industry.industryId === nextIndustryId,
+      );
+
+      setForm((prev) => ({
+        ...prev,
+        industryId: nextIndustryId,
+        industryType: nextIndustry?.industryType ?? prev.industryType,
+      }));
+      return;
+    }
+
+    if (key === 'foundedYear' || key === 'employeeCount') {
       setForm((prev) => ({ ...prev, [key]: Number(value) }));
       return;
     }

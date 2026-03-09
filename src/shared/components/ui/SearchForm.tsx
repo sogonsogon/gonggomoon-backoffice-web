@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, KeyboardEvent } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Search, X } from 'lucide-react';
 import { Input } from '@/shared/components/ui/input';
 import {
@@ -11,7 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/shared/components/ui/select';
-import { Button } from './button';
+import { Button } from '@/shared/components/ui/button';
 
 export interface FilterConfig {
   paramKey: string;
@@ -34,6 +34,7 @@ export default function SearchForm({
   searchPlaceholder = '검색...',
   filters = [],
 }: SearchFormProps) {
+  const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -55,9 +56,13 @@ export default function SearchForm({
     return params.toString();
   };
 
+  const replaceWithParams = (paramsString: string) => {
+    router.replace(paramsString ? `${pathname}?${paramsString}` : pathname);
+  };
+
   const handleSearch = () => {
     const query = inputValue.trim();
-    router.replace(`?${buildParams(searchParamKey, query || null)}`);
+    replaceWithParams(buildParams(searchParamKey, query || null));
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -65,7 +70,7 @@ export default function SearchForm({
   };
 
   const handleFilterChange = (paramKey: string, value: string, allValue: string) => {
-    router.replace(`?${buildParams(paramKey, value === allValue ? null : value)}`);
+    replaceWithParams(buildParams(paramKey, value === allValue ? null : value));
   };
 
   return (
@@ -96,7 +101,7 @@ export default function SearchForm({
               className="absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7 p-0"
               onClick={() => {
                 setInputValue('');
-                router.replace(`?${buildParams(searchParamKey, null)}`);
+                replaceWithParams(buildParams(searchParamKey, null));
               }}
             >
               <X className="h-4 w-4" />

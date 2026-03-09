@@ -50,7 +50,7 @@ export const mockIndustriesVersion: IndustryVersion[] = [
 
   {
     versionId: 2,
-    industryId: 1,
+    industryId: 5,
     industryType: 'AI',
     analyzedYear: 2025,
     createdAt: '2025-01-01T00:00:00Z',
@@ -85,7 +85,7 @@ export const mockIndustriesVersion: IndustryVersion[] = [
 
   {
     versionId: 3,
-    industryId: 1,
+    industryId: 5,
     industryType: 'AI',
     analyzedYear: 2026,
     createdAt: '2026-01-01T00:00:00Z',
