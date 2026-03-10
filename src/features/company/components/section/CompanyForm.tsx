@@ -214,7 +214,8 @@ export default function CompanyForm() {
             primaryEnabled={isPrimaryEnabled}
             primaryButtonClassName="bg-black text-white"
             secondaryLabel="취소"
-            secondaryUseBack
+            onSecondaryClick={() => router.back()}
+            secondaryButtonClassName="bg-ds-grey-200 text-ds-grey-500"
           />
 
           {/* 안내 카드 */}

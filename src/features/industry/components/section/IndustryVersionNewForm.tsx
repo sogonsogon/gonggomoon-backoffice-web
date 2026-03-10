@@ -153,7 +153,9 @@ export default function IndustryVersionNewForm({ industryId }: IndustryVersionNe
             primaryEnabled={isPrimaryEnabled}
             onPrimaryClick={handleSubmit} //TODO: 산업 분석 버전 생성 API 연결
             secondaryLabel="취소"
-            secondaryHref={`/industry/${industryId}`}
+            onSecondaryClick={() => router.push(`/industry/${industryId}`)}
+            onSecondaryClick={() => router.push(`/industry/${industryId}`)}
+            secondaryUseBack
           />
         </div>
       </div>

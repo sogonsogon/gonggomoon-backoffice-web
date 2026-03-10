@@ -1,5 +1,3 @@
-import { IndustryType } from '@/features/industry/types';
-
 export type JobType =
   | 'FRONTEND'
   | 'BACKEND'
@@ -10,8 +8,6 @@ export type JobType =
   | 'DESIGN'
   | 'PM_PO'
   | 'QA';
-
-export type PlatformType = 'SARAMIN' | 'WANTED' | 'JABKOREA' | 'JASOSEOL';
 
 export type PostStatus = 'ANALYZING' | 'ANALYSIS_DONE' | 'POSTED'; // 공고 분석 상태
 
@@ -27,17 +23,19 @@ export type RecruitmentAnalysis = {
 
 export type Recruitment = {
   recruitmentId: number;
-  title: string;
-  career: number; // 경력 (년 단위)
+  companyName: string;
+  postTitle: string;
+  experienceLevel: number;
   companyId: number;
   jobType: JobType;
-  industryType?: IndustryType;
+  industryId?: number;
+  industryName?: string;
   status: PostStatus;
-  url?: string;
+  recruitmentUrl?: string;
   startDate?: string | null;
   dueDate?: string | null;
   createdAt: string;
-  content: string;
+  postDescription: string;
   analysis?: RecruitmentAnalysis;
 };
 
@@ -46,8 +44,20 @@ export type RequestStatus = 'PENDING' | 'APPROVED' | 'REJECTED'; // 공고 요�
 export type RecruitmentRequest = {
   requestId: number;
   requestUserId?: number;
-  platformType: PlatformType;
+  platformId: number;
+  platformName: string;
   requestUrl: string;
   status: RequestStatus;
   createdAt?: string;
+};
+
+export type CreateRecruitment = {
+  companyName: string;
+  postTitle: string;
+  startDate?: string | null;
+  dueDate?: string | null;
+  experienceLevel: number;
+  jobType: JobType;
+  postDescription: string;
+  recruitmentUrl?: string;
 };

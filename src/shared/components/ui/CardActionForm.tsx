@@ -1,10 +1,10 @@
 'use client';
 
 import type { ComponentProps } from 'react';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/shared/components/ui/button';
 import { cn } from '@/shared/lib/cn';
+import Link from 'next/link';
 
 interface CardActionFormProps {
   primaryLabel: string;
@@ -45,7 +45,6 @@ export default function CardActionForm({
       router.back();
       return;
     }
-
     onPrimaryClick?.();
   };
 

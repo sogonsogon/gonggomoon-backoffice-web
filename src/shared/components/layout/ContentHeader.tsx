@@ -1,7 +1,7 @@
 import Link from 'next/link';
-import { ChevronLeft } from 'lucide-react';
 import type { ReactNode } from 'react';
 import { cn } from '@/shared/lib/cn';
+import { ChevronLeft } from 'lucide-react';
 
 interface ContentHeaderProps {
   title: ReactNode;

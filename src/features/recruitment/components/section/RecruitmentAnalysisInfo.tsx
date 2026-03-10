@@ -12,7 +12,7 @@ export default function RecruitmentAnalysisInfo({ analysis }: RecruitmentAnalysi
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Sparkles size={16} className="text-primary shrink-0" />
-          <span className="text-sm font-semibold text-ds-grey-900">AI 분석 결과</span>
+          <span className="text-base font-semibold text-ds-grey-900">AI 분석 결과</span>
         </div>
         <span className="inline-flex items-center gap-1 px-2.5 py-0.5 bg-ds-btn-primary-weak text-primary rounded-full text-[11px] font-semibold">
           <Sparkles size={10} />
