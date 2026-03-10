@@ -51,17 +51,13 @@ export default function RecruitmentBasicInfo({ item }: RecruitmentBasicInfoProps
 
         <div className="h-px bg-ds-grey-100" />
 
-        {/* Row 3: 채용 기간 + 플랫폼 */}
+        {/* Row 3: 채용 기간  */}
         <div className="flex gap-10">
           <div className="flex flex-col gap-1.5 flex-1">
             <span className="text-xs font-medium text-ds-grey-500">채용기간</span>
             <span className="text-sm font-semibold text-ds-grey-900">
               {item?.startDate ?? '-'} ~ {item?.dueDate ?? '상시'}
             </span>
-          </div>
-          <div className="flex flex-col gap-1.5 flex-1">
-            <span className="text-xs font-medium text-ds-grey-500">플랫폼</span>
-            <span className="text-sm font-semibold text-ds-grey-900">사람인</span>
           </div>
         </div>
 

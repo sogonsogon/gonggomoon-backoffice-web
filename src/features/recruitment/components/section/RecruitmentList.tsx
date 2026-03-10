@@ -1,4 +1,4 @@
-import { mockCompanies, mockRecruitments } from '@/mocks';
+import { mockRecruitments } from '@/mocks';
 import { Button } from '@/shared/components/ui/button';
 import Link from 'next/link';
 
@@ -25,8 +25,7 @@ export default function RecruitmentList() {
       </div>
 
       {rows.map((item, i) => {
-        const companyName =
-          mockCompanies.find((c) => c.companyId === item.companyId)?.companyName ?? '-';
+        const companyName = item.companyName;
         const dueDateStr = item.dueDate?.slice(0, 10) ?? null;
         const isAlwaysOpen = item.status === 'POSTED' && dueDateStr === null;
         const isRecruitingOpen =

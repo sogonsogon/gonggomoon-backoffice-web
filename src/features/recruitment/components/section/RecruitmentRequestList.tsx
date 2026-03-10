@@ -51,15 +51,13 @@ export default function RecruitmentRequestList() {
             </div>
             <div className="w-48 px-4 flex items-center gap-1.5 shrink-0">
               {isPending ? (
+                // TODO: 등록 클릭 시 approveRecruitmentRequest(item.requestId) 호출 후 페이지 이동으로 교체
                 <Button
                   asChild
                   size="sm"
                   className="bg-ds-grey-900 text-white hover:bg-ds-grey-800"
                 >
-                  <Link
-                    href={`/recruitment/create?requestUrl=${encodeURIComponent(item.requestUrl)}`}
-                    // TODO: approveRecruitmentRequest(item.requestId) 호출로 교체
-                  >
+                  <Link href={`/recruitment/create?requestUrl=${encodeURIComponent(item.requestUrl)}`}>
                     등록
                   </Link>
                 </Button>

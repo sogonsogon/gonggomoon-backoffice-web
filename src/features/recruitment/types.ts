@@ -59,5 +59,5 @@ export type CreateRecruitment = {
   experienceLevel: number;
   jobType: JobType;
   postDescription: string;
-  recruitmentUrl: string;
+  recruitmentUrl?: string;
 };

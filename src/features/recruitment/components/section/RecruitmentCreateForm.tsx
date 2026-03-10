@@ -83,8 +83,8 @@ export default function RecruitmentCreateForm({ defaultUrl }: RecruitmentCreateF
                   </Button>
                 </div>
                 <Select
-                  value={companyName || 'none'}
-                  onValueChange={(val) => setCompanyName(val === 'none' ? '' : val)}
+                  value={companyName || '__none__'}
+                  onValueChange={(val) => setCompanyName(val === '__none__' ? '' : val)}
                 >
                   <SelectTrigger
                     className={`h-10 border-ds-grey-200 w-full bg-white ${companyName ? 'text-ds-grey-900' : 'text-ds-grey-500'}`}
@@ -92,7 +92,7 @@ export default function RecruitmentCreateForm({ defaultUrl }: RecruitmentCreateF
                     <SelectValue placeholder="기업을 선택하세요" />
                   </SelectTrigger>
                   <SelectContent position="popper">
-                    <SelectItem value="none">기업을 선택하세요</SelectItem>
+                    <SelectItem value="__none__">기업을 선택하세요</SelectItem>
                     {companyNames.map((name, index) => (
                       <SelectItem key={index} value={name}>
                         {name}
@@ -202,7 +202,7 @@ export default function RecruitmentCreateForm({ defaultUrl }: RecruitmentCreateF
                 value={postDescription}
                 onChange={(e) => setPostDescription(e.target.value)}
                 placeholder="공고 원문 전체를 붙여넣기 하세요. AI가 자동으로 요약 및 분석을 생성합니다."
-                className="h-50 w-full resize-none rounded-md border border-ds-grey-200 bg-white p-3 text-[13px] text-ds-grey-900 leading-relaxed placeholder:text-ds-grey-300 focus:outline-none focus:ring-1 focus:ring-primary"
+                className="h-48 w-full resize-none rounded-md border border-ds-grey-200 bg-white p-3 text-[13px] text-ds-grey-900 leading-relaxed placeholder:text-ds-grey-300 focus:outline-none focus:ring-1 focus:ring-primary"
               />
             </div>
           </div>

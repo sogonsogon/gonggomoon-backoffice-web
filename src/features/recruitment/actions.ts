@@ -1,6 +1,6 @@
 'use server';
 
-export async function approveRecruitmentRequest(__requestId: number) {
+export async function approveRecruitmentRequest(_requestId: number) {
   // TODO: POST /api/v1/admin/posts/requests/{id}/approves 공고 게시 요청 승인/AI 분석 대기 요청 위치
 }
 
