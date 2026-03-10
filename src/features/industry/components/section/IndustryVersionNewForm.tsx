@@ -65,7 +65,7 @@ export default function IndustryVersionNewForm({ industryId }: IndustryVersionNe
         title="버전 추가"
         description="분석 항목을 입력하거나 AI로 자동 생성할 수 있습니다"
         descriptionClassName="pl-6"
-        showBack
+        backHref={`/industry/${industryId}`}
       />
 
       <div className="flex gap-6">
