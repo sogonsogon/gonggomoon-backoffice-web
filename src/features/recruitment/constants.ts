@@ -35,7 +35,8 @@ export const REQUEST_STATUS_BADGE: Record<RequestStatus, string> = {
   REJECTED: 'bg-ds-badge-grey-bg text-ds-badge-grey-text',
 };
 
-export const PLATFORM_TYPE_LABELS: Record<string, string> = {
+type PlatformName = 'SARAMIN' | 'WANTED' | 'JABKOREA' | 'JASOSEOL';
+export const PLATFORM_TYPE_LABELS: Record<PlatformName, string> = {
   SARAMIN: '사람인',
   WANTED: '원티드',
   JABKOREA: '잡코리아',

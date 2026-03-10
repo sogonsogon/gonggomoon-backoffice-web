@@ -41,20 +41,20 @@ export default function CardActionForm({
   const isPrimaryDisabled = primaryEnabled !== undefined ? !primaryEnabled : false;
 
   const handlePrimaryClick = () => {
+    if (primaryUseBack) {
+      router.back();
+      return;
+    }
+    onPrimaryClick?.();
+  };
+
+  const handleSecondaryClick = () => {
     if (secondaryUseBack) {
       router.back();
       return;
     }
+
     onSecondaryClick?.();
-  };
-
-  const handleSecondaryClick = () => {
-    if (onSecondaryClick) {
-      onSecondaryClick();
-      return;
-    }
-
-    router.back();
   };
 
   return (

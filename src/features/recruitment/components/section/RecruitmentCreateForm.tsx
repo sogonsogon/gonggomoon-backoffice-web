@@ -152,6 +152,7 @@ export default function RecruitmentCreateForm({ defaultUrl }: RecruitmentCreateF
                     key={key}
                     type="button"
                     onClick={() => setSelectedJobType(key)}
+                    aria-pressed={selectedJobType === key}
                     className={`px-3 py-1.5 rounded-md text-sm font-medium border transition-colors ${
                       selectedJobType === key
                         ? 'bg-primary text-white border-primary'
