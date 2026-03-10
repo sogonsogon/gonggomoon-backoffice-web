@@ -31,13 +31,6 @@ interface RecruitmentCreateFormProps {
   defaultUrl?: string;
 }
 
-function formatDateInput(value: string): string {
-  const digits = value.replace(/\D/g, '').slice(0, 8);
-  if (digits.length <= 4) return digits;
-  if (digits.length <= 6) return `${digits.slice(0, 4)}.${digits.slice(4)}`;
-  return `${digits.slice(0, 4)}.${digits.slice(4, 6)}.${digits.slice(6)}`;
-}
-
 export default function RecruitmentCreateForm({ defaultUrl }: RecruitmentCreateFormProps) {
   const [companyName, setCompanyName] = useState('');
   const [postTitle, setPostTitle] = useState('');
@@ -60,7 +53,7 @@ export default function RecruitmentCreateForm({ defaultUrl }: RecruitmentCreateF
   return (
     <div>
       {/* Body Row */}
-      <div className="flex gap-6 flex-1">
+      <div className="flex gap-4 flex-1">
         {/* Form Col */}
         <div className="flex-1 flex flex-col gap-4 min-w-0">
           {/* 기본 정보 Card */}
@@ -218,7 +211,6 @@ export default function RecruitmentCreateForm({ defaultUrl }: RecruitmentCreateF
               // TODO: approveRecruitmentRequest(requestId) 호출
             }}
             secondaryLabel="취소"
-            secondaryHref="/recruitment?tab=requests"
           />
 
           {/* Guide Card */}
@@ -258,4 +250,11 @@ export default function RecruitmentCreateForm({ defaultUrl }: RecruitmentCreateF
       </div>
     </div>
   );
+}
+
+function formatDateInput(value: string): string {
+  const digits = value.replace(/\D/g, '').slice(0, 8);
+  if (digits.length <= 4) return digits;
+  if (digits.length <= 6) return `${digits.slice(0, 4)}.${digits.slice(4)}`;
+  return `${digits.slice(0, 4)}.${digits.slice(4, 6)}.${digits.slice(6)}`;
 }

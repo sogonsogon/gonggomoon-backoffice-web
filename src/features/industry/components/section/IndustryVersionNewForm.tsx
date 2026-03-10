@@ -65,7 +65,7 @@ export default function IndustryVersionNewForm({ industryId }: IndustryVersionNe
         title="버전 추가"
         description="분석 항목을 입력하거나 AI로 자동 생성할 수 있습니다"
         descriptionClassName="pl-6"
-        backHref={`/industry/${industryId}`}
+        showBack
       />
 
       <div className="flex gap-6">
@@ -153,7 +153,6 @@ export default function IndustryVersionNewForm({ industryId }: IndustryVersionNe
             primaryEnabled={isPrimaryEnabled}
             onPrimaryClick={handleSubmit} //TODO: 산업 분석 버전 생성 API 연결
             secondaryLabel="취소"
-            secondaryHref={`/industry/${industryId}`}
           />
         </div>
       </div>

@@ -3,7 +3,7 @@ import ContentHeader from '@/shared/components/layout/ContentHeader';
 import { mockRecruitments } from '@/mocks/recruitment.mock';
 import RecruitmentAnalysisInfo from '@/features/recruitment/components/section/RecruitmentAnalysisInfo';
 import RecruitmentBasicInfo from '@/features/recruitment/components/section/RecruitmentBasicInfo';
-import RecruitmentConfirmActions from '@/features/recruitment/components/section/RecruitmentConfirmActions';
+import RecruitmentConfirmControls from '@/features/recruitment/components/section/RecruitmentConfirmControls';
 
 export default async function RecruitmentReviewPage({
   params,
@@ -23,14 +23,14 @@ export default async function RecruitmentReviewPage({
         <ContentHeader
           title="AI 분석 검토"
           description="AI가 생성한 분석 결과를 검토하고 공고를 발행합니다"
-          backHref="/recruitment?tab=public"
+          showBack
         />
 
         <div className="flex gap-5 items-start">
           <RecruitmentBasicInfo item={item} />
           <div className="flex-1 flex flex-col gap-3">
             <RecruitmentAnalysisInfo analysis={analysis} />
-            <RecruitmentConfirmActions recruitmentId={Number(recruitmentId)} />
+            <RecruitmentConfirmControls recruitmentId={Number(recruitmentId)} />
           </div>
         </div>
       </main>

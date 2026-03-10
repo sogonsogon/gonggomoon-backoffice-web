@@ -1,10 +1,10 @@
 'use client';
 
 import type { ComponentProps } from 'react';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/shared/components/ui/button';
 import { cn } from '@/shared/lib/cn';
+import Link from 'next/link';
 
 interface CardActionFormProps {
   primaryLabel: string;
@@ -14,9 +14,7 @@ interface CardActionFormProps {
   primaryUseBack?: boolean;
   primaryHref?: string;
   secondaryLabel: string;
-  secondaryHref?: string;
   onSecondaryClick?: () => void;
-  secondaryUseBack?: boolean;
   primaryButtonClassName?: string;
   secondaryButtonClassName?: string;
   className?: string;
@@ -30,9 +28,7 @@ export default function CardActionForm({
   primaryUseBack,
   primaryHref,
   secondaryLabel,
-  secondaryHref,
   onSecondaryClick,
-  secondaryUseBack,
   primaryButtonClassName,
   secondaryButtonClassName,
   className,
@@ -50,12 +46,12 @@ export default function CardActionForm({
   };
 
   const handleSecondaryClick = () => {
-    if (secondaryUseBack) {
-      router.back();
+    if (onSecondaryClick) {
+      onSecondaryClick();
       return;
     }
 
-    onSecondaryClick?.();
+    router.back();
   };
 
   return (
@@ -94,29 +90,16 @@ export default function CardActionForm({
         </Button>
       )}
 
-      {secondaryHref ? (
-        <Button
-          asChild
-          variant="secondary"
-          className={cn(
-            'h-10 w-full bg-ds-grey-100 text-ds-grey-600 hover:bg-ds-grey-200',
-            secondaryButtonClassName,
-          )}
-        >
-          <Link href={secondaryHref}>{secondaryLabel}</Link>
-        </Button>
-      ) : (
-        <Button
-          variant="secondary"
-          onClick={handleSecondaryClick}
-          className={cn(
-            'h-10 w-full bg-ds-grey-100 text-ds-grey-600 hover:bg-ds-grey-200',
-            secondaryButtonClassName,
-          )}
-        >
-          {secondaryLabel}
-        </Button>
-      )}
+      <Button
+        variant="secondary"
+        onClick={handleSecondaryClick}
+        className={cn(
+          'h-10 w-full bg-ds-grey-100 text-ds-grey-600 hover:bg-ds-grey-200',
+          secondaryButtonClassName,
+        )}
+      >
+        {secondaryLabel}
+      </Button>
     </div>
   );
 }

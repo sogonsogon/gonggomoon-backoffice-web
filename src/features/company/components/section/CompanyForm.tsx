@@ -107,7 +107,7 @@ export default function CompanyForm() {
       <ContentHeader
         title={isEditMode ? '기업 정보 수정' : '기업 정보 등록'}
         description={isEditMode ? '기업 정보를 수정합니다' : '새로운 기업 정보를 등록합니다'}
-        backHref="/company"
+        showBack
       />
 
       {/* 바디 */}

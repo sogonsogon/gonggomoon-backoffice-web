@@ -17,7 +17,7 @@ export default async function RecruitmentCreatePage({
         <ContentHeader
           title="공고 등록"
           description="기본 정보를 입력하고 AI 분석을 시작합니다"
-          backHref="/recruitment?tab=requests"
+          showBack
         />
 
         <RecruitmentCreateForm defaultUrl={requestUrl} />

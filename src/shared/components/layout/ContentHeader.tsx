@@ -1,4 +1,6 @@
-import Link from 'next/link';
+'use client';
+
+import { useRouter } from 'next/navigation';
 import { ChevronLeft } from 'lucide-react';
 import type { ReactNode } from 'react';
 import { cn } from '@/shared/lib/cn';
@@ -7,7 +9,7 @@ interface ContentHeaderProps {
   title: ReactNode;
   description?: ReactNode;
   actions?: ReactNode;
-  backHref?: string;
+  showBack?: boolean;
   backAriaLabel?: string;
   className?: string;
   titleClassName?: string;
@@ -20,7 +22,7 @@ export default function ContentHeader({
   title,
   description,
   actions,
-  backHref,
+  showBack,
   backAriaLabel = '뒤로가기',
   className,
   titleClassName,
@@ -28,6 +30,7 @@ export default function ContentHeader({
   actionsClassName,
   actionsAlign = 'center',
 }: ContentHeaderProps) {
+  const router = useRouter();
   const actionsAlignClass =
     actionsAlign === 'start' ? 'self-start' : actionsAlign === 'end' ? 'self-end' : 'self-center';
 
@@ -35,10 +38,10 @@ export default function ContentHeader({
     <div className={cn('flex items-center justify-between py-1 gap-4', className)}>
       <div className="flex flex-col gap-1 min-w-0">
         <div className="flex items-center gap-1.5">
-          {backHref ? (
-            <Link href={backHref} aria-label={backAriaLabel}>
+          {showBack ? (
+            <button onClick={() => router.back()} aria-label={backAriaLabel}>
               <ChevronLeft size={20} className="text-ds-grey-900" />
-            </Link>
+            </button>
           ) : null}
           <h1 className={cn('text-xl font-bold text-ds-grey-900', titleClassName)}>{title}</h1>
         </div>

@@ -1,14 +1,13 @@
 'use client';
-
 import CardActionForm from '@/shared/components/ui/CardActionForm';
 
-interface RecruitmentConfirmActionsProps {
+interface RecruitmentConfirmControlsProps {
   recruitmentId: number;
 }
 
-export default function RecruitmentConfirmActions({
+export default function RecruitmentConfirmControls({
   recruitmentId,
-}: RecruitmentConfirmActionsProps) {
+}: RecruitmentConfirmControlsProps) {
   return (
     <CardActionForm
       primaryLabel="발행"
