@@ -17,7 +17,7 @@ export default function IndustryVersionTable({ industryId, versions }: IndustryV
       <div className="flex items-center justify-between">
         <span className="text-[15px] font-semibold text-ds-grey-900">분석 버전 관리</span>
         <Button asChild className="h-10">
-          <Link href={`/industry/${industryId}/analysis/new`}>
+          <Link href={`/industry/${industryId}/version/new`}>
             <Plus size={16} />
             버전 추가
           </Link>
@@ -73,7 +73,7 @@ export default function IndustryVersionTable({ industryId, versions }: IndustryV
               </div>
               <div className="flex-1 px-4 flex items-center gap-1.5">
                 <Link
-                  href={`/industry/${industryId}/analysis/${version.analysisId}`}
+                  href={`/industry/${industryId}/version/${version.analysisId}`}
                   className="inline-flex h-8 items-center justify-center rounded-md border border-ds-grey-200 bg-white px-4 text-sm font-medium text-ds-grey-700 no-underline visited:text-ds-grey-700 hover:bg-ds-grey-50"
                 >
                   상세보기

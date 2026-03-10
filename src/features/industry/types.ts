@@ -64,6 +64,6 @@ export type CreateIndustryCategoryRequest = {
   industryName: string;
 };
 export type UpdateIndustryCategoryRequest = {
-  // TODO: industry`Id: number; 명세서 변경 확인 후 추가
+  // TODO: industryId: number; 명세서 변경 확인 후 추가
   industryName: string;
 };
