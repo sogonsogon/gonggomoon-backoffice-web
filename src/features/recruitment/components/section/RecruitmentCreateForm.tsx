@@ -17,16 +17,6 @@ import { AlertTriangle, Info } from 'lucide-react';
 import { JOB_TYPE_LABELS } from '@/features/recruitment/constants';
 import type { JobType } from '@/features/recruitment/types';
 
-const EXPERIENCE_OPTIONS = [
-  { value: 0, label: '신입' },
-  { value: 1, label: '1년 이상' },
-  { value: 2, label: '2년 이상' },
-  { value: 3, label: '3년 이상' },
-  { value: 5, label: '5년 이상' },
-  { value: 7, label: '7년 이상' },
-  { value: 10, label: '10년 이상' },
-];
-
 interface RecruitmentCreateFormProps {
   defaultUrl?: string;
 }
@@ -212,6 +202,7 @@ export default function RecruitmentCreateForm({ defaultUrl }: RecruitmentCreateF
               // TODO: approveRecruitmentRequest(requestId) 호출
             }}
             secondaryLabel="취소"
+            secondaryUseBack
           />
 
           {/* Guide Card */}
@@ -259,3 +250,13 @@ function formatDateInput(value: string): string {
   if (digits.length <= 6) return `${digits.slice(0, 4)}.${digits.slice(4)}`;
   return `${digits.slice(0, 4)}.${digits.slice(4, 6)}.${digits.slice(6)}`;
 }
+
+const EXPERIENCE_OPTIONS = [
+  { value: 0, label: '신입' },
+  { value: 1, label: '1년 이상' },
+  { value: 2, label: '2년 이상' },
+  { value: 3, label: '3년 이상' },
+  { value: 5, label: '5년 이상' },
+  { value: 7, label: '7년 이상' },
+  { value: 10, label: '10년 이상' },
+];
