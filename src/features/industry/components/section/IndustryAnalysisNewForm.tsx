@@ -11,11 +11,11 @@ import CardActionForm from '@/shared/components/ui/CardActionForm';
 import TagField from '@/features/industry/components/ui/TagField';
 import { useTagField } from '@/features/industry/hooks/useTagField';
 
-interface IndustryVersionNewFormProps {
+interface IndustryAnalysisNewFormProps {
   industryId: string;
 }
 
-export default function IndustryVersionNewForm({ industryId }: IndustryVersionNewFormProps) {
+export default function IndustryAnalysisNewForm({ industryId }: IndustryAnalysisNewFormProps) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
@@ -153,7 +153,6 @@ export default function IndustryVersionNewForm({ industryId }: IndustryVersionNe
             primaryEnabled={isPrimaryEnabled}
             onPrimaryClick={handleSubmit} //TODO: 산업 분석 버전 생성 API 연결
             secondaryLabel="취소"
-            onSecondaryClick={() => router.push(`/industry/${industryId}`)}
             onSecondaryClick={() => router.push(`/industry/${industryId}`)}
             secondaryUseBack
           />

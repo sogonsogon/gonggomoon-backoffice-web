@@ -3,12 +3,12 @@ import { Separator } from '@/shared/components/ui/separator';
 import { VERSION_STATUS_LABELS } from '@/features/industry/constants';
 import type { IndustryAnalysisStatus } from '@/features/industry/types';
 
-interface VersionStatusCardProps {
+interface IndustryStatusCardProps {
   status?: IndustryAnalysisStatus;
   analyzedYear: number;
 }
 
-export default function VersionStatusCard({ status, analyzedYear }: VersionStatusCardProps) {
+export default function IndustryStatusCard({ status, analyzedYear }: IndustryStatusCardProps) {
   const statusLabel = status ? VERSION_STATUS_LABELS[status] : '저장됨';
 
   return (
