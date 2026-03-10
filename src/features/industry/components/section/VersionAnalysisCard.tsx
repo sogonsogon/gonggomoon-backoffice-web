@@ -41,7 +41,7 @@ export default function VersionAnalysisCard({ version }: VersionAnalysisCardProp
 
         <div className="space-y-2">
           <p className="text-[15px] font-semibold text-ds-grey-900">산업 트렌드 요약</p>
-          <LineRows items={version.trends} />
+          <LineRows items={version.trend} />
         </div>
 
         <div className="grid grid-cols-2 gap-4">

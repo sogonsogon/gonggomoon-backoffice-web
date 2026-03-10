@@ -28,7 +28,7 @@ export type IndustryVersion = {
   analyzedYear: number;
   keyword: string[];
   marketSize: string;
-  trends: string[];
+  trend: string[];
   regulation: string[];
   competition: string[];
   hiring: string[];
@@ -58,11 +58,13 @@ export type IndustryCategory = {
 
 export type IndustryCategoryList = IndustryCategory[];
 
+export type GetIndustryCategoryListResponse = IndustryCategoryList;
+
 export type IndustryCategoryCreateRequest = {
   industryCategoryName: string;
 };
 
 export type IndustryCategoryUpdateRequest = {
-  industryCategoryId: number;
+  //industryCategoryId: number; 명세서 변경 확인 후 추가
   industryCategoryName: string;
 };

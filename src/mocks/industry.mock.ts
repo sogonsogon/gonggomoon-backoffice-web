@@ -24,7 +24,7 @@ export const mockIndustriesVersion: IndustryVersion[] = [
 
     marketSize: '450억 규모',
 
-    trends: [
+    trend: [
       '클라우드 네이티브 전환 가속',
       '데이터 기반 의사결정 시스템 확산',
       'DevOps 기반 개발 문화 확대',
@@ -54,7 +54,7 @@ export const mockIndustriesVersion: IndustryVersion[] = [
 
     marketSize: '520억 규모',
 
-    trends: [
+    trend: [
       '생성형 AI 기반 서비스 확대',
       'MLOps 도입으로 AI 운영 자동화 증가',
       'AI 기반 개발 생산성 도구 확산',
@@ -80,7 +80,7 @@ export const mockIndustriesVersion: IndustryVersion[] = [
 
     marketSize: '600억 규모',
 
-    trends: [
+    trend: [
       '생성형 AI 도입 가속으로 개발 생산성 혁신',
       '멀티클라우드 전략 확산',
       'AI 인프라 및 데이터 플랫폼 경쟁 심화',
