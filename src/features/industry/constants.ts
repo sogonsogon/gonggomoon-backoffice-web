@@ -50,24 +50,18 @@ export const INDUSTRY_CONFIG: Record<IndustryType, { label: string } & IndustryI
   OTHER: { label: '기타', icon: Grid2X2, iconColor: '#8b95a1', bgColor: '#f2f4f6' },
 };
 
-const INDUSTRY_CATEGORY_TYPE_MAP: Record<number, IndustryType> = {
-  1: 'COMMERCE',
-  2: 'FINTECH_FINANCIAL',
-  3: 'MEDIA_CONTENT',
-  4: 'MOBILITY_LOGISTICS',
-  5: 'AI',
-  6: 'HEALTHCARE_BIO',
-  7: 'MANUFACTURING_INDUSTRY',
-  999: 'OTHER',
-};
+export const INDUSTRY_CATEGORY_ICON_CONFIG: Record<string, IndustryIconConfig> = Object.values(
+  INDUSTRY_CONFIG,
+).reduce<Record<string, IndustryIconConfig>>((acc, config) => {
+  const { label, ...iconConfig } = config;
+  acc[label] = iconConfig;
 
-export const INDUSTRY_CATEGORY_ICON_CONFIG: Record<number, IndustryIconConfig> = Object.fromEntries(
-  Object.entries(INDUSTRY_CATEGORY_TYPE_MAP).map(([categoryId, industryType]) => {
-    const { label: _label, ...iconConfig } = INDUSTRY_CONFIG[industryType];
+  return acc;
+}, {});
 
-    return [Number(categoryId), iconConfig];
-  }),
-);
+const { label: _otherLabel, ...defaultIndustryIconConfig } = INDUSTRY_CONFIG.OTHER;
+
+export const DEFAULT_INDUSTRY_ICON_CONFIG: IndustryIconConfig = defaultIndustryIconConfig;
 
 export const INDUSTRY_TYPE_OPTIONS = Object.entries(INDUSTRY_CONFIG).map(([value, { label }]) => ({
   value: value as IndustryType,

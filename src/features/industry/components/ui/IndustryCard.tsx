@@ -9,7 +9,7 @@ interface IndustryCardProps {
 }
 
 export default function IndustryCard({ industryId, label, versionCount }: IndustryCardProps) {
-  const config = getIndustryIconConfig(industryId);
+  const config = getIndustryIconConfig(label);
   const Icon = config.icon;
 
   return (
