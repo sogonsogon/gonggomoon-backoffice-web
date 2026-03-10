@@ -6,12 +6,15 @@ import { formatDate } from '@/shared/lib/formatDate';
 
 import type { IndustryAnalysis } from '@/features/industry/types';
 
-interface IndustryVersionTableProps {
+interface IndustryAnalysisTableProps {
   industryId: string;
   versions: IndustryAnalysis[];
 }
 
-export default function IndustryVersionTable({ industryId, versions }: IndustryVersionTableProps) {
+export default function IndustryAnalysisTable({
+  industryId,
+  versions,
+}: IndustryAnalysisTableProps) {
   return (
     <div className="bg-white rounded-lg border border-ds-grey-200 p-5 flex flex-col gap-4">
       <div className="flex items-center justify-between">

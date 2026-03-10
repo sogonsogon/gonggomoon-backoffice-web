@@ -4,8 +4,8 @@ import { mockIndustries, mockIndustriesAnalysis } from '@/mocks';
 import { Button } from '@/shared/components/ui/button';
 import { Card, CardContent } from '@/shared/components/ui/card';
 import { formatDate } from '@/shared/lib/formatDate';
-import VersionAnalysisCard from '@/features/industry/components/section/VersionAnalysisCard';
-import VersionStatusCard from '@/features/industry/components/section/VersionStatusCard';
+import IndustryAnalysisCard from '@/features/industry/components/section/IndustryAnalysisCard';
+import IndustryStatusCard from '@/features/industry/components/section/IndutryStatusCard';
 
 export default async function VersionDetailPage({
   params,
@@ -44,8 +44,8 @@ export default async function VersionDetailPage({
 
         {version ? (
           <div className="flex items-start gap-4">
-            <VersionAnalysisCard version={version} />
-            <VersionStatusCard status={version.status} analyzedYear={version.analysisYear} />
+            <IndustryAnalysisCard version={version} />
+            <IndustryStatusCard status={version.status} analyzedYear={version.analysisYear} />
           </div>
         ) : (
           <Card className="border-ds-grey-200 bg-white py-10">

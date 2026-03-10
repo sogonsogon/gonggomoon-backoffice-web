@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Search } from 'lucide-react';
 import { Input } from '@/shared/components/ui/input';
@@ -11,7 +11,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/shared/components/ui/select';
-import { Button } from '@/shared/components/ui/button';
 
 export interface FilterConfig {
   paramKey: string;
@@ -42,9 +41,27 @@ export default function SearchForm({
 
   const [inputValue, setInputValue] = useState(searchParams.get(searchParamKey) ?? '');
 
-  useEffect(() => {
-    setInputValue(searchParams.get(searchParamKey) ?? '');
-  }, [searchParams, searchParamKey]);
+  // 기존 파라미터를 모두 보존하고 변경된 키만 덮어씀
+  const buildParams = useCallback(
+    (key: string, value: string | null) => {
+      const params = new URLSearchParams(searchParams.toString());
+      if (value !== null) {
+        params.set(key, value);
+      } else {
+        params.delete(key);
+      }
+      params.delete('page'); // 페이지네이션 초기화를 위해 page 파라미터 제거
+      return params.toString();
+    },
+    [searchParams],
+  );
+
+  const replaceWithParams = useCallback(
+    (paramsString: string) => {
+      router.replace(paramsString ? `${pathname}?${paramsString}` : pathname);
+    },
+    [pathname, router],
+  );
 
   useEffect(() => {
     if (!searchable) {
@@ -63,23 +80,7 @@ export default function SearchForm({
     }, SEARCH_DEBOUNCE_MS);
 
     return () => clearTimeout(timer);
-  }, [inputValue, searchable, searchParamKey, searchParams]);
-
-  // 기존 파라미터를 모두 보존하고 변경된 키만 덮어씀
-  const buildParams = (key: string, value: string | null) => {
-    const params = new URLSearchParams(searchParams.toString());
-    if (value !== null) {
-      params.set(key, value);
-    } else {
-      params.delete(key);
-    }
-    params.delete('page'); // 페이지네이션 초기화를 위해 page 파라미터 제거
-    return params.toString();
-  };
-
-  const replaceWithParams = (paramsString: string) => {
-    router.replace(paramsString ? `${pathname}?${paramsString}` : pathname);
-  };
+  }, [buildParams, inputValue, replaceWithParams, searchable, searchParamKey, searchParams]);
 
   const handleSearch = () => {
     const query = inputValue.trim();

@@ -4,11 +4,11 @@ import { Separator } from '@/shared/components/ui/separator';
 import type { IndustryAnalysis } from '@/features/industry/types';
 import { LineRows } from '@/features/industry/components/ui/LineRows';
 
-interface VersionAnalysisCardProps {
+interface IndustryAnalysisCardProps {
   version: IndustryAnalysis;
 }
 
-export default function VersionAnalysisCard({ version }: VersionAnalysisCardProps) {
+export default function IndustryAnalysisCard({ version }: IndustryAnalysisCardProps) {
   return (
     <Card className="flex-1 gap-4 border-ds-grey-200 bg-white py-4">
       <CardHeader className="px-4">
