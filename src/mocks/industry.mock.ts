@@ -1,4 +1,4 @@
-import { Industry, IndustryVersion } from '@/features/industry/types';
+import { Industry, IndustryAnalysis } from '@/features/industry/types';
 
 export const mockIndustries: Industry[] = [
   { industryId: 1, name: '커머스', industryType: 'COMMERCE' },
@@ -11,11 +11,11 @@ export const mockIndustries: Industry[] = [
   { industryId: 999, name: '기타', industryType: 'OTHER' },
 ];
 
-export const mockIndustriesVersion: IndustryVersion[] = [
+export const mockIndustriesAnalysis: IndustryAnalysis[] = [
   {
-    versionId: 1,
+    analysisId: 1,
     industryId: 1,
-    analyzedYear: 2024,
+    analysisYear: 2024,
     createdAt: '2024-01-01T00:00:00Z',
     editedAt: '2024-03-01T00:00:00Z',
     status: 'PUBLISHED',
@@ -44,9 +44,9 @@ export const mockIndustriesVersion: IndustryVersion[] = [
   },
 
   {
-    versionId: 2,
+    analysisId: 2,
     industryId: 5,
-    analyzedYear: 2025,
+    analysisYear: 2025,
     createdAt: '2025-01-01T00:00:00Z',
     editedAt: '2025-12-01T00:00:00Z',
     status: 'SAVED',
@@ -70,9 +70,9 @@ export const mockIndustriesVersion: IndustryVersion[] = [
   },
 
   {
-    versionId: 3,
+    analysisId: 3,
     industryId: 5,
-    analyzedYear: 2026,
+    analysisYear: 2026,
     createdAt: '2026-01-01T00:00:00Z',
     editedAt: '2026-03-01T00:00:00Z',
     status: 'PUBLISHED',

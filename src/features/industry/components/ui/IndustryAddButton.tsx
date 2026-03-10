@@ -67,7 +67,7 @@ export default function IndustryAddButton() {
               취소
             </Button>
           </DialogClose>
-          {/* TODO: 산업 카테고리 생성 API 생성 위치 (/api/v1/admin/industries) */}
+          {/* TODO: 산업 카테고리 생성 API 호출 위치 (/api/v1/admin/industries) */}
           <Button>등록</Button>
         </DialogFooter>
       </DialogContent>

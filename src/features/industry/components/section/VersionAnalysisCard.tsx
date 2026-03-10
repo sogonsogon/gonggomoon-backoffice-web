@@ -1,11 +1,11 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card';
 import { Badge } from '@/shared/components/ui/badge';
 import { Separator } from '@/shared/components/ui/separator';
-import type { IndustryVersion } from '@/features/industry/types';
+import type { IndustryAnalysis } from '@/features/industry/types';
 import { LineRows } from '@/features/industry/components/ui/LineRows';
 
 interface VersionAnalysisCardProps {
-  version: IndustryVersion;
+  version: IndustryAnalysis;
 }
 
 export default function VersionAnalysisCard({ version }: VersionAnalysisCardProps) {
