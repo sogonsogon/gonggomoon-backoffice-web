@@ -21,6 +21,7 @@ export default function RecruitmentConfirmControls({
         // TODO: deleteRecruitment(recruitmentId) 호출
         void recruitmentId;
       }}
+      secondaryUseBack
     />
   );
 }

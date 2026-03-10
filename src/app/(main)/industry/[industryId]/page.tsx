@@ -26,7 +26,7 @@ export default async function IndustryDetailPage({
       <main className="flex-1 overflow-auto bg-ds-grey-100 p-6 flex flex-col gap-5">
         <ContentHeader
           title={label}
-          showBack
+          backHref="/industry"
           actions={
             <Button variant="outline" className="text-ds-badge-red-text">
               산업 삭제

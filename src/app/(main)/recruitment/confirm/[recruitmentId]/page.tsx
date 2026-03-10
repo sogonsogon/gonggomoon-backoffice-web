@@ -23,7 +23,7 @@ export default async function RecruitmentReviewPage({
         <ContentHeader
           title="AI 분석 검토"
           description="AI가 생성한 분석 결과를 검토하고 공고를 발행합니다"
-          showBack
+          backHref="/recruitment"
         />
 
         <div className="flex gap-5 items-start">

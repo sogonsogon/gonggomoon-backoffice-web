@@ -14,7 +14,9 @@ interface CardActionFormProps {
   primaryUseBack?: boolean;
   primaryHref?: string;
   secondaryLabel: string;
+  secondaryHref?: string;
   onSecondaryClick?: () => void;
+  secondaryUseBack?: boolean;
   primaryButtonClassName?: string;
   secondaryButtonClassName?: string;
   className?: string;
@@ -28,7 +30,9 @@ export default function CardActionForm({
   primaryUseBack,
   primaryHref,
   secondaryLabel,
+  secondaryHref,
   onSecondaryClick,
+  secondaryUseBack,
   primaryButtonClassName,
   secondaryButtonClassName,
   className,
@@ -37,12 +41,11 @@ export default function CardActionForm({
   const isPrimaryDisabled = primaryEnabled !== undefined ? !primaryEnabled : false;
 
   const handlePrimaryClick = () => {
-    if (primaryUseBack) {
+    if (secondaryUseBack) {
       router.back();
       return;
     }
-
-    onPrimaryClick?.();
+    onSecondaryClick?.();
   };
 
   const handleSecondaryClick = () => {
@@ -90,16 +93,29 @@ export default function CardActionForm({
         </Button>
       )}
 
-      <Button
-        variant="secondary"
-        onClick={handleSecondaryClick}
-        className={cn(
-          'h-10 w-full bg-ds-grey-100 text-ds-grey-600 hover:bg-ds-grey-200',
-          secondaryButtonClassName,
-        )}
-      >
-        {secondaryLabel}
-      </Button>
+      {secondaryHref ? (
+        <Button
+          asChild
+          variant="secondary"
+          className={cn(
+            'h-10 w-full bg-ds-grey-100 text-ds-grey-600 hover:bg-ds-grey-200',
+            secondaryButtonClassName,
+          )}
+        >
+          <Link href={secondaryHref}>{secondaryLabel}</Link>
+        </Button>
+      ) : (
+        <Button
+          variant="secondary"
+          onClick={handleSecondaryClick}
+          className={cn(
+            'h-10 w-full bg-ds-grey-100 text-ds-grey-600 hover:bg-ds-grey-200',
+            secondaryButtonClassName,
+          )}
+        >
+          {secondaryLabel}
+        </Button>
+      )}
     </div>
   );
 }

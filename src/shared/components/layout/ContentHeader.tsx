@@ -9,7 +9,7 @@ interface ContentHeaderProps {
   title: ReactNode;
   description?: ReactNode;
   actions?: ReactNode;
-  showBack?: boolean;
+  backHref?: string;
   backAriaLabel?: string;
   className?: string;
   titleClassName?: string;
@@ -22,7 +22,7 @@ export default function ContentHeader({
   title,
   description,
   actions,
-  showBack,
+  backHref,
   backAriaLabel = '뒤로가기',
   className,
   titleClassName,
@@ -38,7 +38,7 @@ export default function ContentHeader({
     <div className={cn('flex items-center justify-between py-1 gap-4', className)}>
       <div className="flex flex-col gap-1 min-w-0">
         <div className="flex items-center gap-1.5">
-          {showBack ? (
+          {backHref ? (
             <button onClick={() => router.back()} aria-label={backAriaLabel}>
               <ChevronLeft size={20} className="text-ds-grey-900" />
             </button>

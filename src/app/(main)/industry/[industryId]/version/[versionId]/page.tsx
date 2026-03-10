@@ -29,7 +29,7 @@ export default async function VersionDetailPage({
           titleClassName="text-[30px]"
           description={`수정일: ${formatDate(version?.editedAt)}`}
           descriptionClassName="pl-7"
-          showBack
+          backHref="/industry"
           actionsAlign="start"
           actions={
             <>
