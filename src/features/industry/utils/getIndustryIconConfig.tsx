@@ -1,7 +1,7 @@
 import {
   DEFAULT_INDUSTRY_ICON_CONFIG,
   INDUSTRY_CATEGORY_ICON_CONFIG,
-} from '@/features/industry/constants';
+} from '@/features/industry/utils/industryIconMap';
 import type { IndustryIconConfig } from '@/features/industry/types';
 
 export default function getIndustryIconConfig(industryName: string): IndustryIconConfig {
