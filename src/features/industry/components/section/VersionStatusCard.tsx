@@ -1,10 +1,10 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card';
 import { Separator } from '@/shared/components/ui/separator';
 import { VERSION_STATUS_LABELS } from '@/features/industry/constants';
-import type { IndustryVersionStatus } from '@/features/industry/types';
+import type { IndustryAnalysisStatus } from '@/features/industry/types';
 
 interface VersionStatusCardProps {
-  status?: IndustryVersionStatus;
+  status?: IndustryAnalysisStatus;
   analyzedYear: number;
 }
 

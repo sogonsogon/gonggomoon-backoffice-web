@@ -22,21 +22,48 @@ export type IndustryIconConfig = {
   bgColor: string;
 };
 
-export type IndustryVersion = {
-  versionId: number;
-  industryId: number;
-  industryType: IndustryType;
-  analyzedYear: number;
+export type IndustryAnalysis = {
+  analysisId: number;
+  industryId?: number;
+  analysisYear: number;
   keyword: string[];
   marketSize: string;
-  industryTrends: string[];
-  risk: string[];
-  rival: string[];
-  hiringTrends: string[];
-  investmentStrategy: string[];
-  status?: IndustryVersionStatus;
+  trend: string[];
+  regulation: string[];
+  competition: string[];
+  hiring: string[];
+  investment: string[];
+  status?: IndustryAnalysisStatus;
   createdAt?: string;
   editedAt?: string;
 };
 
-export type IndustryVersionStatus = 'SAVED' | 'PUBLISHED';
+export type IndustryAnalysisStatus = 'SAVED' | 'PUBLISHED';
+
+export type IndustryAnalysisListItem = {
+  analysisId: number;
+  analysisYear: number;
+  analysisStatus: IndustryAnalysisStatus;
+  createdAt: string;
+  editedAt: string;
+};
+
+export type IndustryAnalysisList = IndustryAnalysisListItem[];
+
+export type IndustryCategory = {
+  industryId: number;
+  industryName: string;
+  analysisCount: number;
+};
+
+export type IndustryCategoryList = IndustryCategory[];
+
+export type GetIndustryCategoryListResponse = IndustryCategoryList;
+
+export type CreateIndustryCategoryRequest = {
+  industryName: string;
+};
+export type UpdateIndustryCategoryRequest = {
+  // TODO: industryId: number; 명세서 변경 확인 후 추가
+  industryName: string;
+};

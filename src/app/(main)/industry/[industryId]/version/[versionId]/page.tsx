@@ -1,6 +1,6 @@
 import TopBar from '@/shared/components/layout/TopBar';
 import ContentHeader from '@/shared/components/layout/ContentHeader';
-import { mockIndustries, mockIndustriesVersion } from '@/mocks';
+import { mockIndustries, mockIndustriesAnalysis } from '@/mocks';
 import { Button } from '@/shared/components/ui/button';
 import { Card, CardContent } from '@/shared/components/ui/card';
 import { formatDate } from '@/shared/lib/formatDate';
@@ -15,8 +15,9 @@ export default async function VersionDetailPage({
   const { industryId, versionId } = await params;
   const industry = mockIndustries.find((item) => item.industryId === Number(industryId));
   const label = industry?.name ?? '산업군';
-  const version = mockIndustriesVersion.find((v) => v.versionId === Number(versionId));
-  const yearLabel = version?.analyzedYear ?? versionId;
+  // TODO : 산업 분석 단건 조회 API 호출 위치 (/api/v1/admin/industries/reports/{id})
+  const version = mockIndustriesAnalysis.find((v) => v.analysisId === Number(versionId));
+  const yearLabel = version?.analysisYear ?? versionId;
 
   return (
     <>
@@ -32,6 +33,7 @@ export default async function VersionDetailPage({
           actionsAlign="start"
           actions={
             <>
+              {/* TODO: 산업 분석 수정 API 조회 위치 (/api/v1/admin/industries/reports/{id}) */}
               <Button variant="outline" className="text-ds-badge-red-text">
                 삭제
               </Button>
@@ -43,7 +45,7 @@ export default async function VersionDetailPage({
         {version ? (
           <div className="flex items-start gap-4">
             <VersionAnalysisCard version={version} />
-            <VersionStatusCard status={version.status} analyzedYear={version.analyzedYear} />
+            <VersionStatusCard status={version.status} analyzedYear={version.analysisYear} />
           </div>
         ) : (
           <Card className="border-ds-grey-200 bg-white py-10">
