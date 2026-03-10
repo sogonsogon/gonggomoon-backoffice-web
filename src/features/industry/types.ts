@@ -51,8 +51,8 @@ export type IndustryAnalysisListItem = {
 export type IndustryAnalysisList = IndustryAnalysisListItem[];
 
 export type IndustryCategory = {
-  industryCategoryId: number;
-  industryCategoryName: string;
+  industryId: number;
+  industryName: string;
   analysisCount: number;
 };
 
@@ -61,9 +61,9 @@ export type IndustryCategoryList = IndustryCategory[];
 export type GetIndustryCategoryListResponse = IndustryCategoryList;
 
 export type CreateIndustryCategoryRequest = {
-  industryCategoryName: string;
+  industryName: string;
 };
 export type UpdateIndustryCategoryRequest = {
-  // TODO: industryCategoryId: number; 명세서 변경 확인 후 추가
-  industryCategoryName: string;
+  // TODO: industry`Id: number; 명세서 변경 확인 후 추가
+  industryName: string;
 };

@@ -8,6 +8,6 @@ const DEFAULT_ICON_CONFIG: IndustryIconConfig = {
   bgColor: '#f2f4f6',
 };
 
-export default function getIndustryIconConfig(industryCategoryId: number): IndustryIconConfig {
-  return INDUSTRY_CATEGORY_ICON_CONFIG[industryCategoryId] ?? DEFAULT_ICON_CONFIG;
+export default function getIndustryIconConfig(industryId: number): IndustryIconConfig {
+  return INDUSTRY_CATEGORY_ICON_CONFIG[industryId] ?? DEFAULT_ICON_CONFIG;
 }

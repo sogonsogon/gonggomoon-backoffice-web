@@ -13,7 +13,7 @@ export default function IndustryList() {
         return (
           <IndustryCard
             key={item.industryId}
-            industryCategoryId={item.industryId}
+            industryId={item.industryId}
             label={item.name}
             versionCount={versionCount}
           />

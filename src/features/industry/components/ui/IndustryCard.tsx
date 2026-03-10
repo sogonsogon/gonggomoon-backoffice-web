@@ -3,22 +3,18 @@ import { ChevronRight } from 'lucide-react';
 import getIndustryIconConfig from '@/features/industry/utils/getIndustryIconConfig';
 
 interface IndustryCardProps {
-  industryCategoryId: number;
+  industryId: number;
   label: string;
   versionCount: number;
 }
 
-export default function IndustryCard({
-  industryCategoryId,
-  label,
-  versionCount,
-}: IndustryCardProps) {
-  const config = getIndustryIconConfig(industryCategoryId);
+export default function IndustryCard({ industryId, label, versionCount }: IndustryCardProps) {
+  const config = getIndustryIconConfig(industryId);
   const Icon = config.icon;
 
   return (
     <Link
-      href={`/industry/${industryCategoryId}`}
+      href={`/industry/${industryId}`}
       className="bg-white rounded-[10px] p-5 flex flex-col justify-between border border-ds-grey-200 shadow-[0_1px_3px_0_rgba(0,29,58,0.08)] h-35"
     >
       <div

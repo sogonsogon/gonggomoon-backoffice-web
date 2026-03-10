@@ -11,7 +11,7 @@ export type Company = {
   companyName: string;
   companyType: CompanyType;
   industryId?: number;
-  industryType: IndustryType;
+  industryType: IndustryType; // 추후 제거 예정?
   websiteUrl?: string;
   foundedYear?: number;
   address?: string;
