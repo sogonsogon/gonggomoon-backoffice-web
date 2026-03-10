@@ -1,9 +1,4 @@
-import type {
-  JobType,
-  PlatformType,
-  PostStatus,
-  RequestStatus,
-} from '@/features/recruitment/types';
+import type { JobType, PostStatus, RequestStatus } from '@/features/recruitment/types';
 
 export const JOB_TYPE_LABELS: Record<JobType, string> = {
   FRONTEND: '프론트엔드',
@@ -40,7 +35,7 @@ export const REQUEST_STATUS_BADGE: Record<RequestStatus, string> = {
   REJECTED: 'bg-ds-badge-grey-bg text-ds-badge-grey-text',
 };
 
-export const PLATFORM_TYPE_LABELS: Record<PlatformType, string> = {
+export const PLATFORM_TYPE_LABELS: Record<string, string> = {
   SARAMIN: '사람인',
   WANTED: '원티드',
   JABKOREA: '잡코리아',

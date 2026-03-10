@@ -3,6 +3,7 @@ import { Button } from '@/shared/components/ui/button';
 import Link from 'next/link';
 
 export default function RecruitmentList() {
+  // TODO: mockRecruitments → getRecruitments() 로 교체
   const rows = mockRecruitments.filter(
     (item) => item.status === 'POSTED' || item.status === 'ANALYSIS_DONE',
   );
@@ -50,7 +51,7 @@ export default function RecruitmentList() {
           >
             <div className="w-14 px-4 text-[13px] text-ds-grey-600 shrink-0">{i + 1}</div>
             <div className="w-44 px-4 text-sm text-ds-grey-900 shrink-0">{companyName}</div>
-            <div className="flex-1 px-4 text-sm text-ds-grey-900 truncate">{item.title}</div>
+            <div className="flex-1 px-4 text-sm text-ds-grey-900 truncate">{item.postTitle}</div>
             <div className="w-48 px-4 text-[13px] text-ds-grey-700 shrink-0">
               {item.startDate ?? '-'} ~ {item.dueDate ?? '상시'}
             </div>
@@ -70,7 +71,12 @@ export default function RecruitmentList() {
               >
                 상세보기
               </Link>
-              <Button size="sm" variant="outline" className="text-ds-badge-red-text">
+              <Button
+                size="sm"
+                variant="outline"
+                className="text-ds-badge-red-text"
+                // TODO: onClick={() => deleteRecruitment(item.recruitmentId)}
+              >
                 삭제
               </Button>
             </div>

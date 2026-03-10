@@ -2,7 +2,13 @@ import TopBar from '@/shared/components/layout/TopBar';
 import ContentHeader from '@/shared/components/layout/ContentHeader';
 import RecruitmentCreateForm from '@/features/recruitment/components/section/RecruitmentCreateForm';
 
-export default function RecruitmentCreatePage() {
+export default async function RecruitmentCreatePage({
+  searchParams,
+}: {
+  searchParams: Promise<{ requestUrl?: string }>;
+}) {
+  const { requestUrl } = await searchParams;
+
   return (
     <>
       <TopBar title="공고 등록" breadcrumb="공고 관리 > 공고 등록 > 기본 정보 입력" />
@@ -11,10 +17,10 @@ export default function RecruitmentCreatePage() {
         <ContentHeader
           title="공고 등록"
           description="기본 정보를 입력하고 AI 분석을 시작합니다"
-          backHref="/recruitment"
+          backHref="/recruitment?tab=requests"
         />
 
-        <RecruitmentCreateForm />
+        <RecruitmentCreateForm defaultUrl={requestUrl} />
       </main>
     </>
   );

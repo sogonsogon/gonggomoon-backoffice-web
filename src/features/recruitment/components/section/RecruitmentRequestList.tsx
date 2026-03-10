@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { mockRecruitmentRequests } from '@/mocks';
 import { Button } from '@/shared/components/ui/button';
 import {
@@ -7,6 +8,7 @@ import {
 } from '@/features/recruitment/constants';
 
 export default function RecruitmentRequestList() {
+  // TODO: mockRecruitmentRequests → getRecruitmentRequests() 로 교체
   return (
     <div className="bg-white rounded-lg border border-ds-grey-200 overflow-hidden">
       {/* Header Row */}
@@ -21,6 +23,8 @@ export default function RecruitmentRequestList() {
 
       {mockRecruitmentRequests.map((item, i) => {
         const status = item.status;
+        const isPending = status === 'PENDING';
+
         return (
           <div
             key={item.requestId}
@@ -28,7 +32,7 @@ export default function RecruitmentRequestList() {
           >
             <div className="w-14 px-4 text-[13px] text-ds-grey-600 shrink-0">{i + 1}</div>
             <div className="w-44 px-4 text-sm text-ds-grey-900 shrink-0">
-              {PLATFORM_TYPE_LABELS[item.platformType] ?? item.platformType}
+              {PLATFORM_TYPE_LABELS[item.platformName] ?? item.platformName}
             </div>
             <div className="flex-1 px-4 text-[13px] text-primary truncate">
               <a href={item.requestUrl} target="_blank" rel="noopener noreferrer">
@@ -46,10 +50,31 @@ export default function RecruitmentRequestList() {
               {item.createdAt ? item.createdAt.split('T')[0].replace(/-/g, '.') : '-'}
             </div>
             <div className="w-48 px-4 flex items-center gap-1.5 shrink-0">
-              <Button size="sm" className="bg-ds-grey-900 text-white hover:bg-ds-grey-800">
-                등록
-              </Button>
-              <Button size="sm" variant="outline" className="text-ds-badge-red-text">
+              {isPending ? (
+                <Button
+                  asChild
+                  size="sm"
+                  className="bg-ds-grey-900 text-white hover:bg-ds-grey-800"
+                >
+                  <Link
+                    href={`/recruitment/create?requestUrl=${encodeURIComponent(item.requestUrl)}`}
+                    // TODO: approveRecruitmentRequest(item.requestId) 호출로 교체
+                  >
+                    등록
+                  </Link>
+                </Button>
+              ) : (
+                <Button disabled size="sm" className="bg-ds-grey-200 text-ds-grey-500">
+                  등록
+                </Button>
+              )}
+              <Button
+                size="sm"
+                variant="outline"
+                className={isPending ? 'text-ds-badge-red-text' : 'text-ds-grey-400'}
+                disabled={!isPending}
+                // TODO: onClick={() => rejectRecruitmentRequest(item.requestId)}
+              >
                 거절
               </Button>
             </div>

@@ -1,9 +1,10 @@
-import { mockCompanies, mockRecruitments } from '@/mocks';
+import { mockRecruitments } from '@/mocks';
 import { Button } from '@/shared/components/ui/button';
 import Link from 'next/link';
 import { ANALYSIS_STATUS_BADGE, ANALYSIS_STATUS_LABELS } from '@/features/recruitment/constants';
 
 export default function RecruitmentAnalysisList() {
+  // TODO: mockRecruitments → getRecruitments() 로 교체 (ANALYZING / ANALYSIS_DONE 상태 필터)
   const rows = mockRecruitments.filter(
     (item) =>
       item.status === 'ANALYZING' || item.status === 'ANALYSIS_DONE' || item.status === 'POSTED',
@@ -27,10 +28,9 @@ export default function RecruitmentAnalysisList() {
         </div>
       ) : (
         rows.map((item, i) => {
-          const companyName =
-            mockCompanies.find((c) => c.companyId === item.companyId)?.companyName ?? '-';
           const status = item.status;
           const isAnalyzing = status === 'ANALYZING';
+          const isReviewable = status === 'ANALYSIS_DONE';
           const statusLabel = status === 'POSTED' ? '발행 대기' : ANALYSIS_STATUS_LABELS[status];
 
           return (
@@ -39,8 +39,8 @@ export default function RecruitmentAnalysisList() {
               className={`flex items-center h-14 ${i < rows.length - 1 ? 'border-b border-ds-grey-200' : ''}`}
             >
               <div className="w-14 px-4 text-[13px] text-ds-grey-600 shrink-0">{i + 1}</div>
-              <div className="w-44 px-4 text-sm text-ds-grey-900 shrink-0">{companyName}</div>
-              <div className="flex-1 px-4 text-sm text-ds-grey-900 truncate">{item.title}</div>
+              <div className="w-44 px-4 text-sm text-ds-grey-900 shrink-0">{item.companyName}</div>
+              <div className="flex-1 px-4 text-sm text-ds-grey-900 truncate">{item.postTitle}</div>
               <div className="w-48 px-4 shrink-0">
                 <span
                   className={`inline-flex px-2 py-0.5 rounded-md text-xs font-medium ${ANALYSIS_STATUS_BADGE[status]}`}
@@ -58,10 +58,21 @@ export default function RecruitmentAnalysisList() {
                   </Button>
                 ) : (
                   <>
-                    <Button asChild size="sm">
-                      <Link href={`/recruitment/confirm/${item.recruitmentId}`}>검토</Link>
-                    </Button>
-                    <Button size="sm" variant="outline" className="text-ds-badge-red-text">
+                    {isReviewable ? (
+                      <Button asChild size="sm">
+                        <Link href={`/recruitment/confirm/${item.recruitmentId}`}>검토</Link>
+                      </Button>
+                    ) : (
+                      <Button disabled size="sm" variant="outline" className="text-ds-grey-400">
+                        검토
+                      </Button>
+                    )}
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="text-ds-badge-red-text"
+                      // TODO: onClick={() => deleteRecruitment(item.recruitmentId)}
+                    >
                       삭제
                     </Button>
                   </>
