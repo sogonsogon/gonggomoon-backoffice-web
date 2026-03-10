@@ -30,7 +30,7 @@ export default function RecruitmentAnalysisList() {
         rows.map((item, i) => {
           const status = item.status;
           const isAnalyzing = status === 'ANALYZING';
-          const isReviewable = status === 'ANALYSIS_DONE';
+          const isAnalysisDone = status === 'ANALYSIS_DONE';
           const statusLabel = status === 'POSTED' ? '발행 대기' : ANALYSIS_STATUS_LABELS[status];
 
           return (
@@ -58,7 +58,7 @@ export default function RecruitmentAnalysisList() {
                   </Button>
                 ) : (
                   <>
-                    {isReviewable ? (
+                    {isAnalysisDone ? (
                       <Button asChild size="sm">
                         <Link href={`/recruitment/confirm/${item.recruitmentId}`}>검토</Link>
                       </Button>
