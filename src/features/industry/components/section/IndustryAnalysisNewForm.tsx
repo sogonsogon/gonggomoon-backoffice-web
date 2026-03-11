@@ -78,8 +78,11 @@ export default function IndustryAnalysisNewForm({ industryId }: IndustryAnalysis
           <Card className="gap-4 border-ds-grey-200 bg-white py-4">
             <CardContent className="space-y-4 px-4">
               <div className="w-50 space-y-1.5">
-                <Label className="text-sm font-semibold text-ds-grey-900">분석 연도</Label>
+                <Label htmlFor="analysis-year" className="text-sm font-semibold text-ds-grey-900">
+                  분석 연도
+                </Label>
                 <Input
+                  id="analysis-year"
                   value={analyzedYear}
                   onChange={(event) => handleAnalyzedYearChange(event.target.value)}
                   inputMode="numeric"

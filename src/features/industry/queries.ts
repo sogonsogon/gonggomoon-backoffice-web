@@ -1,3 +1,5 @@
+'use client';
+
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
   getIndustryCategoryList,
@@ -15,6 +17,12 @@ import type {
   CreateIndustryAnalysisRequest,
 } from '@/features/industry/types';
 
+function toQueryError(result: { code: string; message: string }) {
+  const error = new Error(result.message || '요청 처리에 실패했습니다.');
+  error.name = result.code || 'API_ERROR';
+  return error;
+}
+
 export const industryQueryKeys = {
   categoryList: ['industry', 'categories'] as const,
   analysisList: (industryId: number) => ['industry', industryId, 'analyses'] as const,
@@ -26,7 +34,7 @@ export const industryCategoryListQueryOptions = {
   queryKey: industryQueryKeys.categoryList,
   queryFn: async () => {
     const result = await getIndustryCategoryList();
-    if (!result.success) return Promise.reject(result);
+    if (!result.success) throw toQueryError(result);
     return result.data;
   },
 };
@@ -36,7 +44,7 @@ export const industryAnalysisListQueryOptions = (industryId: number) => ({
   queryKey: industryQueryKeys.analysisList(industryId),
   queryFn: async () => {
     const result = await getIndustryAnalysisList(industryId);
-    if (!result.success) return Promise.reject(result);
+    if (!result.success) throw toQueryError(result);
     return result.data;
   },
 });
@@ -46,7 +54,7 @@ export const industryAnalysisQueryOptions = (analysisId: number) => ({
   queryKey: industryQueryKeys.analysis(analysisId),
   queryFn: async () => {
     const result = await getIndustryAnalysis(analysisId);
-    if (!result.success) return Promise.reject(result);
+    if (!result.success) throw toQueryError(result);
     return result.data;
   },
 });
@@ -79,7 +87,7 @@ export function useCreateIndustryCategory() {
   return useMutation({
     mutationFn: async (data: CreateIndustryCategoryRequest) => {
       const result = await createIndustryCategory(data);
-      if (!result.success) return Promise.reject(result);
+      if (!result.success) throw toQueryError(result);
       return result.data;
     },
     onSuccess: () => {
@@ -95,7 +103,7 @@ export function useUpdateIndustryCategory(industryId: number) {
   return useMutation({
     mutationFn: async (data: UpdateIndustryCategoryRequest) => {
       const result = await updateIndustryCategory(industryId, data);
-      if (!result.success) return Promise.reject(result);
+      if (!result.success) throw toQueryError(result);
       return result.data;
     },
     onSuccess: () => {
@@ -111,12 +119,15 @@ export function useCreateIndustryAnalysis(industryId: number) {
   return useMutation({
     mutationFn: async (data: CreateIndustryAnalysisRequest) => {
       const result = await createIndustryAnalysis(industryId, data);
-      if (!result.success) return Promise.reject(result);
+      if (!result.success) throw toQueryError(result);
       return result.data;
     },
-    onSuccess: () => {
+    onSuccess: (createdAnalysis) => {
       queryClient.invalidateQueries({ queryKey: industryQueryKeys.analysisList(industryId) });
       queryClient.invalidateQueries({ queryKey: industryQueryKeys.categoryList });
+      queryClient.removeQueries({
+        queryKey: industryQueryKeys.analysis(createdAnalysis.analysisId),
+      });
     },
   });
 }
@@ -128,7 +139,7 @@ export function usePublishIndustryAnalysis(industryId: number) {
   return useMutation({
     mutationFn: async (analysisId: number) => {
       const result = await publishIndustryAnalysis(analysisId);
-      if (!result.success) return Promise.reject(result);
+      if (!result.success) throw toQueryError(result);
       return result.data;
     },
     onSuccess: (_, analysisId) => {
@@ -145,12 +156,13 @@ export function useDeleteIndustryAnalysis(industryId: number) {
   return useMutation({
     mutationFn: async (analysisId: number) => {
       const result = await deleteIndustryAnalysis(analysisId);
-      if (!result.success) return Promise.reject(result);
+      if (!result.success) throw toQueryError(result);
       return result.data;
     },
-    onSuccess: () => {
+    onSuccess: (_, analysisId) => {
       queryClient.invalidateQueries({ queryKey: industryQueryKeys.analysisList(industryId) });
       queryClient.invalidateQueries({ queryKey: industryQueryKeys.categoryList });
+      queryClient.removeQueries({ queryKey: industryQueryKeys.analysis(analysisId) });
     },
   });
 }
