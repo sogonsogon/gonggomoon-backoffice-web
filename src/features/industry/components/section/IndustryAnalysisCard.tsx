@@ -52,7 +52,7 @@ export default function IndustryAnalysisCard({ analysis }: IndustryAnalysisCardP
           <div className="space-y-2">
             <p className="text-[15px] font-semibold text-ds-grey-900">경쟁 구도</p>
             <div className="rounded-md border border-ds-grey-200 bg-ds-grey-50 px-4 py-2 text-sm text-ds-grey-900">
-              {analysis.competition.join(', ')}
+              {analysis.competition}
             </div>
           </div>
         </div>

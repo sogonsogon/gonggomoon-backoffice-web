@@ -27,7 +27,7 @@ export default async function AnalysisDetailPage({
         <ContentHeader
           title={`${label} - ${yearLabel} 분석`}
           titleClassName="text-[30px]"
-          description={`수정일: ${formatDate(analysis?.editedAt)}`}
+          description={`수정일: ${formatDate(analysis?.updatedAt)}`}
           descriptionClassName="pl-7"
           backHref="/industry"
           actionsAlign="start"
