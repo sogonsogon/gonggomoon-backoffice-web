@@ -59,6 +59,11 @@ export default function IndustryAnalysisNewForm({ industryId }: IndustryAnalysis
     });
   };
 
+  const handleAnalyzedYearChange = (value: string) => {
+    const digitsOnly = value.replace(/\D/g, '');
+    setAnalyzedYear(digitsOnly);
+  };
+
   return (
     <main className="flex flex-1 flex-col gap-6 overflow-auto bg-ds-grey-100 p-8">
       <ContentHeader
@@ -73,10 +78,15 @@ export default function IndustryAnalysisNewForm({ industryId }: IndustryAnalysis
           <Card className="gap-4 border-ds-grey-200 bg-white py-4">
             <CardContent className="space-y-4 px-4">
               <div className="w-50 space-y-1.5">
-                <Label className="text-sm font-semibold text-ds-grey-900">분석 연도</Label>
+                <Label htmlFor="analysis-year" className="text-sm font-semibold text-ds-grey-900">
+                  분석 연도
+                </Label>
                 <Input
+                  id="analysis-year"
                   value={analyzedYear}
-                  onChange={(event) => setAnalyzedYear(event.target.value)}
+                  onChange={(event) => handleAnalyzedYearChange(event.target.value)}
+                  inputMode="numeric"
+                  pattern="[0-9]*"
                   placeholder="예: 2025"
                   className="h-8 text-sm"
                 />
