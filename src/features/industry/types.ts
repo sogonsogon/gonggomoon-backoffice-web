@@ -51,7 +51,7 @@ export type IndustryAnalysis = {
   competition: string;
   hiring: string[];
   investment: string[];
-  analysisstatus: IndustryAnalysisStatus;
+  analysisStatus: IndustryAnalysisStatus;
   createdAt: string;
   updatedAt: string;
 };
