@@ -15,9 +15,10 @@ export const mockIndustriesAnalysis: IndustryAnalysis[] = [
   {
     analysisId: 1,
     industryId: 1,
+    industryName: '커머스',
     analysisYear: 2024,
     createdAt: '2024-01-01T00:00:00Z',
-    editedAt: '2024-03-01T00:00:00Z',
+    updatedAt: '2024-03-01T00:00:00Z',
     status: 'PUBLISHED',
 
     keyword: ['클라우드', '데이터 플랫폼'],
@@ -32,7 +33,7 @@ export const mockIndustriesAnalysis: IndustryAnalysis[] = [
 
     regulation: ['클라우드 벤더 종속성 문제', '데이터 보안 규제 강화'],
 
-    competition: ['AWS', 'Microsoft Azure', 'Google Cloud', '네이버클라우드'],
+    competition: 'AWS, Microsoft Azure, Google Cloud, 네이버클라우드',
 
     hiring: [
       '백엔드 개발자 채용 확대',
@@ -46,9 +47,10 @@ export const mockIndustriesAnalysis: IndustryAnalysis[] = [
   {
     analysisId: 2,
     industryId: 5,
+    industryName: 'AI',
     analysisYear: 2025,
     createdAt: '2025-01-01T00:00:00Z',
-    editedAt: '2025-12-01T00:00:00Z',
+    updatedAt: '2025-12-01T00:00:00Z',
     status: 'SAVED',
     keyword: ['생성형 AI', 'MLOps', 'AI 플랫폼'],
 
@@ -62,7 +64,7 @@ export const mockIndustriesAnalysis: IndustryAnalysis[] = [
 
     regulation: ['AI 윤리 규제 확대', 'AI 모델 데이터 저작권 문제'],
 
-    competition: ['OpenAI', 'Anthropic', 'AWS', 'Microsoft Azure', '네이버클라우드'],
+    competition: 'OpenAI, Anthropic, AWS, Microsoft Azure, 네이버클라우드',
 
     hiring: ['AI 엔지니어 채용 증가', 'MLOps 엔지니어 수요 확대', '데이터 사이언티스트 채용 증가'],
 
@@ -72,9 +74,10 @@ export const mockIndustriesAnalysis: IndustryAnalysis[] = [
   {
     analysisId: 3,
     industryId: 5,
+    industryName: 'AI',
     analysisYear: 2026,
     createdAt: '2026-01-01T00:00:00Z',
-    editedAt: '2026-03-01T00:00:00Z',
+    updatedAt: '2026-03-01T00:00:00Z',
     status: 'PUBLISHED',
     keyword: ['AI 인프라', '엣지컴퓨팅', '데이터 플랫폼'],
 
@@ -88,7 +91,7 @@ export const mockIndustriesAnalysis: IndustryAnalysis[] = [
 
     regulation: ['EU AI Act 규제 확대', '개인정보보호법 강화', 'AI 모델 책임성 규제 증가'],
 
-    competition: ['네이버클라우드', '카카오엔터프라이즈', 'AWS', 'Microsoft Azure'],
+    competition: '네이버클라우드, 카카오엔터프라이즈, AWS, Microsoft Azure',
 
     hiring: ['AI 엔지니어 수요 급증', 'MLOps 엔지니어 채용 확대', 'AI 인프라 엔지니어 채용 증가'],
 

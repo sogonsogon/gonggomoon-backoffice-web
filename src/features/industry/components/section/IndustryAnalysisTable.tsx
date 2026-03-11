@@ -63,7 +63,7 @@ export default function IndustryAnalysisTable({
                 {formatDate(analysisItem.createdAt)}
               </div>
               <div className="w-37.5 px-4 text-[13px] text-ds-grey-700 shrink-0">
-                {formatDate(analysisItem.editedAt)}
+                {formatDate(analysisItem.updatedAt)}
               </div>
               <div className="w-27.5 px-4 shrink-0">
                 <span

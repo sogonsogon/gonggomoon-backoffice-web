@@ -22,34 +22,43 @@ export type IndustryIconConfig = {
   bgColor: string;
 };
 
+// AnalysisStatus
+export type IndustryAnalysisStatus = 'SAVED' | 'PUBLISHED';
+
+// GET /api/v1/admin/industries/{id}/reports — 목록 아이템
+export type IndustryAnalysisListItem = {
+  analysisId: number;
+  analysisYear: string;
+  analysisStatus: IndustryAnalysisStatus;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type IndustryAnalysisList = IndustryAnalysisListItem[];
+
+export type GetIndustryAnalysisListResponse = IndustryAnalysisList;
+
+// GET /api/v1/admin/industries/reports/{id} — 단건
 export type IndustryAnalysis = {
   analysisId: number;
-  industryId?: number;
+  industryId: number;
+  industryName: string;
   analysisYear: number;
   keyword: string[];
   marketSize: string;
   trend: string[];
   regulation: string[];
-  competition: string[];
+  competition: string;
   hiring: string[];
   investment: string[];
-  status?: IndustryAnalysisStatus;
-  createdAt?: string;
-  editedAt?: string;
-};
-
-export type IndustryAnalysisStatus = 'SAVED' | 'PUBLISHED';
-
-export type IndustryAnalysisListItem = {
-  analysisId: number;
-  analysisYear: number;
-  analysisStatus: IndustryAnalysisStatus;
+  status: IndustryAnalysisStatus;
   createdAt: string;
-  editedAt: string;
+  updatedAt: string;
 };
 
-export type IndustryAnalysisList = IndustryAnalysisListItem[];
+export type GetIndustryAnalysisResponse = IndustryAnalysis;
 
+// GET /api/v1/admin/industries — 카테고리 목록 아이템
 export type IndustryCategory = {
   industryId: number;
   industryName: string;
@@ -60,10 +69,12 @@ export type IndustryCategoryList = IndustryCategory[];
 
 export type GetIndustryCategoryListResponse = IndustryCategoryList;
 
+// POST /api/v1/admin/industries — 카테고리 생성
 export type CreateIndustryCategoryRequest = {
   industryName: string;
 };
+
+// PATCH /api/v1/admin/industries/{id} — 카테고리 수정
 export type UpdateIndustryCategoryRequest = {
-  // TODO: industryId: number; 명세서 변경 확인 후 추가
   industryName: string;
 };
