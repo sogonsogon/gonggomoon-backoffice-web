@@ -22,7 +22,7 @@ export type RecruitmentAnalysis = {
 };
 
 export type Recruitment = {
-  recruitmentId: number;
+  postId: number;
   companyName: string;
   postTitle: string;
   experienceLevel: number;
@@ -35,7 +35,7 @@ export type Recruitment = {
   startDate?: string | null;
   dueDate?: string | null;
   createdAt: string;
-  postDescription: string;
+  description: string;
   analysis?: RecruitmentAnalysis;
 };
 
@@ -46,7 +46,7 @@ export type RecruitmentRequest = {
   requestUserId?: number;
   platformId: number;
   platformName: string;
-  requestUrl: string;
+  url: string;
   status: RequestStatus;
   createdAt?: string;
 };
@@ -58,6 +58,6 @@ export type CreateRecruitment = {
   dueDate?: string | null;
   experienceLevel: number;
   jobType: JobType;
-  postDescription: string;
+  description: string;
   recruitmentUrl?: string;
 };

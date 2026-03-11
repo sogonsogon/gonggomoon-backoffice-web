@@ -35,7 +35,7 @@ export default function RecruitmentAnalysisList() {
 
           return (
             <div
-              key={item.recruitmentId}
+              key={item.postId}
               className={`flex items-center h-14 ${i < rows.length - 1 ? 'border-b border-ds-grey-200' : ''}`}
             >
               <div className="w-14 px-4 text-[13px] text-ds-grey-600 shrink-0">{i + 1}</div>
@@ -60,7 +60,7 @@ export default function RecruitmentAnalysisList() {
                   <>
                     {isAnalysisDone ? (
                       <Button asChild size="sm">
-                        <Link href={`/recruitment/confirm/${item.recruitmentId}`}>검토</Link>
+                        <Link href={`/recruitment/confirm/${item.postId}`}>검토</Link>
                       </Button>
                     ) : (
                       <Button disabled size="sm" variant="outline" className="text-ds-grey-400">
@@ -71,7 +71,7 @@ export default function RecruitmentAnalysisList() {
                       size="sm"
                       variant="outline"
                       className="text-ds-badge-red-text"
-                      // TODO: onClick={() => deleteRecruitment(item.recruitmentId)}
+                      // TODO: onClick={() => deleteRecruitment(item.postId)}
                     >
                       삭제
                     </Button>

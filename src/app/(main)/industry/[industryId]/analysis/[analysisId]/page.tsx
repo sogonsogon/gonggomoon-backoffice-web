@@ -7,17 +7,17 @@ import { formatDate } from '@/shared/lib/formatDate';
 import IndustryAnalysisCard from '@/features/industry/components/section/IndustryAnalysisCard';
 import IndustryStatusCard from '@/features/industry/components/section/IndutryStatusCard';
 
-export default async function VersionDetailPage({
+export default async function AnalysisDetailPage({
   params,
 }: {
-  params: Promise<{ industryId: string; versionId: string }>;
+  params: Promise<{ industryId: string; analysisId: string }>;
 }) {
-  const { industryId, versionId } = await params;
+  const { industryId, analysisId } = await params;
   const industry = mockIndustries.find((item) => item.industryId === Number(industryId));
   const label = industry?.name ?? '산업군';
   // TODO : 산업 분석 단건 조회 API 호출 위치 (/api/v1/admin/industries/reports/{id})
-  const version = mockIndustriesAnalysis.find((v) => v.analysisId === Number(versionId));
-  const yearLabel = version?.analysisYear ?? versionId;
+  const analysis = mockIndustriesAnalysis.find((v) => v.analysisId === Number(analysisId));
+  const yearLabel = analysis?.analysisYear ?? analysisId;
 
   return (
     <>
@@ -27,7 +27,7 @@ export default async function VersionDetailPage({
         <ContentHeader
           title={`${label} - ${yearLabel} 분석`}
           titleClassName="text-[30px]"
-          description={`수정일: ${formatDate(version?.editedAt)}`}
+          description={`수정일: ${formatDate(analysis?.editedAt)}`}
           descriptionClassName="pl-7"
           backHref="/industry"
           actionsAlign="start"
@@ -42,10 +42,10 @@ export default async function VersionDetailPage({
           }
         />
 
-        {version ? (
+        {analysis ? (
           <div className="flex items-start gap-4">
-            <IndustryAnalysisCard version={version} />
-            <IndustryStatusCard status={version.status} analyzedYear={version.analysisYear} />
+            <IndustryAnalysisCard analysis={analysis} />
+            <IndustryStatusCard status={analysis.status} analyzedYear={analysis.analysisYear} />
           </div>
         ) : (
           <Card className="border-ds-grey-200 bg-white py-10">

@@ -5,10 +5,10 @@ import getIndustryIconConfig from '@/features/industry/utils/getIndustryIconConf
 interface IndustryCardProps {
   industryId: number;
   label: string;
-  versionCount: number;
+  analysisCount: number;
 }
 
-export default function IndustryCard({ industryId, label, versionCount }: IndustryCardProps) {
+export default function IndustryCard({ industryId, label, analysisCount }: IndustryCardProps) {
   const config = getIndustryIconConfig(label);
   const Icon = config.icon;
 
@@ -27,7 +27,7 @@ export default function IndustryCard({ industryId, label, versionCount }: Indust
         <span className="text-sm font-semibold text-ds-grey-900">{label}</span>
         <ChevronRight size={14} className="text-ds-grey-500 shrink-0" />
       </div>
-      <span className="text-xs text-ds-grey-500">분석 버전 {versionCount}건</span>
+      <span className="text-xs text-ds-grey-500">분석 버전 {analysisCount}건</span>
     </Link>
   );
 }

@@ -36,8 +36,8 @@ export default function RecruitmentRequestList() {
                 item.platformName}
             </div>
             <div className="flex-1 px-4 text-[13px] text-primary truncate">
-              <a href={item.requestUrl} target="_blank" rel="noopener noreferrer">
-                {item.requestUrl}
+              <a href={item.url} target="_blank" rel="noopener noreferrer">
+                {item.url}
               </a>
             </div>
             <div className="w-48 px-4 shrink-0">
@@ -58,11 +58,7 @@ export default function RecruitmentRequestList() {
                   size="sm"
                   className="bg-ds-grey-900 text-white hover:bg-ds-grey-800"
                 >
-                  <Link
-                    href={`/recruitment/create?requestUrl=${encodeURIComponent(item.requestUrl)}`}
-                  >
-                    등록
-                  </Link>
+                  <Link href={`/recruitment/create?url=${encodeURIComponent(item.url)}`}>등록</Link>
                 </Button>
               ) : (
                 <Button disabled size="sm" className="bg-ds-grey-200 text-ds-grey-500">

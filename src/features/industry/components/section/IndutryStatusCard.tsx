@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card';
 import { Separator } from '@/shared/components/ui/separator';
-import { VERSION_STATUS_LABELS } from '@/features/industry/constants';
+import { ANALYSIS_STATUS_LABELS } from '@/features/industry/constants';
 import type { IndustryAnalysisStatus } from '@/features/industry/types';
 
 interface IndustryStatusCardProps {
@@ -9,7 +9,7 @@ interface IndustryStatusCardProps {
 }
 
 export default function IndustryStatusCard({ status, analyzedYear }: IndustryStatusCardProps) {
-  const statusLabel = status ? VERSION_STATUS_LABELS[status] : '저장됨';
+  const statusLabel = status ? ANALYSIS_STATUS_LABELS[status] : '저장됨';
 
   return (
     <Card className="w-70 shrink-0 border-ds-grey-200 bg-white py-4">

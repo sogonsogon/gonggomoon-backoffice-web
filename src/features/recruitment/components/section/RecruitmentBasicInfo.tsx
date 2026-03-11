@@ -1,7 +1,6 @@
 import { FileText } from 'lucide-react';
 import type { Recruitment } from '@/features/recruitment/types';
 import { JOB_TYPE_LABELS } from '@/features/recruitment/constants';
-
 interface RecruitmentBasicInfoProps {
   item?: Recruitment;
 }
@@ -74,9 +73,7 @@ export default function RecruitmentBasicInfo({ item }: RecruitmentBasicInfoProps
         {/* Row 5: 공고 원문 */}
         <div className="flex flex-col gap-1.5">
           <span className="text-xs font-medium text-ds-grey-500">공고 원문</span>
-          <p className="text-[13px] text-ds-grey-700 leading-relaxed">
-            {item?.postDescription ?? '-'}
-          </p>
+          <p className="text-[13px] text-ds-grey-700 leading-relaxed">{item?.description ?? '-'}</p>
         </div>
       </div>
     </div>

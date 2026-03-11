@@ -1,26 +1,26 @@
 import Link from 'next/link';
 import { Plus } from 'lucide-react';
 import { Button } from '@/shared/components/ui/button';
-import { VERSION_STATUS_LABELS } from '@/features/industry/constants';
+import { ANALYSIS_STATUS_LABELS } from '@/features/industry/constants';
 import { formatDate } from '@/shared/lib/formatDate';
 
 import type { IndustryAnalysis } from '@/features/industry/types';
 
 interface IndustryAnalysisTableProps {
   industryId: string;
-  versions: IndustryAnalysis[];
+  analysis: IndustryAnalysis[];
 }
 
 export default function IndustryAnalysisTable({
   industryId,
-  versions,
+  analysis,
 }: IndustryAnalysisTableProps) {
   return (
     <div className="bg-white rounded-lg border border-ds-grey-200 p-5 flex flex-col gap-4">
       <div className="flex items-center justify-between">
         <span className="text-[15px] font-semibold text-ds-grey-900">분석 버전 관리</span>
         <Button asChild className="h-10">
-          <Link href={`/industry/${industryId}/version/new`}>
+          <Link href={`/industry/${industryId}/analysis/new`}>
             <Plus size={16} />
             버전 추가
           </Link>
@@ -44,24 +44,26 @@ export default function IndustryAnalysisTable({
           <div className="w-48 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">액션</div>
         </div>
 
-        {/* Version Rows */}
-        {versions.map((version, i) => {
-          const isPublished = version.status === 'PUBLISHED';
-          const statusLabel = version.status ? VERSION_STATUS_LABELS[version.status] : '저장됨';
+        {/* analysis Rows */}
+        {analysis.map((analysisItem, i) => {
+          const isPublished = analysisItem.status === 'PUBLISHED';
+          const statusLabel = analysisItem.status
+            ? ANALYSIS_STATUS_LABELS[analysisItem.status]
+            : '저장됨';
 
           return (
             <div
-              key={version.analysisId}
-              className={`flex items-center h-14 ${i < versions.length - 1 ? 'border-b border-ds-grey-200' : ''}`}
+              key={analysisItem.analysisId}
+              className={`flex items-center h-14 ${i < analysis.length - 1 ? 'border-b border-ds-grey-200' : ''}`}
             >
               <div className="w-25 px-4 text-sm font-semibold text-ds-grey-900 shrink-0">
-                {version.analysisYear}
+                {analysisItem.analysisYear}
               </div>
               <div className="w-37.5 px-4 text-[13px] text-ds-grey-700 shrink-0">
-                {formatDate(version.createdAt)}
+                {formatDate(analysisItem.createdAt)}
               </div>
               <div className="w-37.5 px-4 text-[13px] text-ds-grey-700 shrink-0">
-                {formatDate(version.editedAt)}
+                {formatDate(analysisItem.editedAt)}
               </div>
               <div className="w-27.5 px-4 shrink-0">
                 <span
@@ -76,7 +78,7 @@ export default function IndustryAnalysisTable({
               </div>
               <div className="flex-1 px-4 flex items-center gap-1.5">
                 <Link
-                  href={`/industry/${industryId}/version/${version.analysisId}`}
+                  href={`/industry/${industryId}/analysis/${analysisItem.analysisId}`}
                   className="inline-flex h-8 items-center justify-center rounded-md border border-ds-grey-200 bg-white px-4 text-sm font-medium text-ds-grey-700 no-underline visited:text-ds-grey-700 hover:bg-ds-grey-50"
                 >
                   상세보기

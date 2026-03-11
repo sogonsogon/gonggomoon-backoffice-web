@@ -8,11 +8,11 @@ import RecruitmentConfirmControls from '@/features/recruitment/components/sectio
 export default async function RecruitmentReviewPage({
   params,
 }: {
-  params: Promise<{ recruitmentId: string }>;
+  params: Promise<{ postId: string }>;
 }) {
-  const { recruitmentId } = await params;
-  // TODO: mockRecruitments.find → getRecruitment(recruitmentId) 로 교체
-  const item = mockRecruitments.find((r) => r.recruitmentId === Number(recruitmentId));
+  const { postId } = await params;
+  // TODO: mockRecruitments.find → getRecruitment(postId) 로 교체
+  const item = mockRecruitments.find((r) => r.postId === Number(postId));
   const analysis = item?.analysis;
 
   return (
@@ -30,7 +30,7 @@ export default async function RecruitmentReviewPage({
           <RecruitmentBasicInfo item={item} />
           <div className="flex-1 flex flex-col gap-3">
             <RecruitmentAnalysisInfo analysis={analysis} />
-            <RecruitmentConfirmControls recruitmentId={Number(recruitmentId)} />
+            <RecruitmentConfirmControls postId={Number(postId)} />
           </div>
         </div>
       </main>
