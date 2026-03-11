@@ -78,3 +78,15 @@ export type CreateIndustryCategoryRequest = {
 export type UpdateIndustryCategoryRequest = {
   industryName: string;
 };
+
+// POST /api/v1/admin/industries/{id}/reports — 산업 분석 생성
+export type CreateIndustryAnalysisRequest = {
+  analysisYear: number;
+  keyword: string[];
+  marketSize: string;
+  trend: string[];
+  regulation: string[];
+  competition: string;
+  hiring: string[];
+  investment: string[];
+};
