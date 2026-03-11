@@ -45,7 +45,7 @@ export default function RecruitmentList() {
 
         return (
           <div
-            key={item.recruitmentId}
+            key={item.postId}
             className={`flex items-center h-14 ${i < rows.length - 1 ? 'border-b border-ds-grey-200' : ''}`}
           >
             <div className="w-14 px-4 text-[13px] text-ds-grey-600 shrink-0">{i + 1}</div>
@@ -63,7 +63,7 @@ export default function RecruitmentList() {
             </div>
             <div className="w-48 px-4 flex items-center gap-1.5 shrink-0">
               <Link
-                href={`https://gonggomoon.com/recruitment/${item.recruitmentId}`}
+                href={`https://gonggomoon.com/recruitment/${item.postId}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex h-8 items-center justify-center rounded-md border border-ds-grey-200 bg-white px-4 text-sm font-medium text-ds-grey-700 no-underline visited:text-ds-grey-700 hover:bg-ds-grey-50"
@@ -74,7 +74,7 @@ export default function RecruitmentList() {
                 size="sm"
                 variant="outline"
                 className="text-ds-badge-red-text"
-                // TODO: onClick={() => deleteRecruitment(item.recruitmentId)}
+                // TODO: onClick={() => deleteRecruitment(item.postId)}
               >
                 삭제
               </Button>

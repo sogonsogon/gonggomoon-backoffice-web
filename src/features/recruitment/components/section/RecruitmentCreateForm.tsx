@@ -14,8 +14,8 @@ import {
   SelectValue,
 } from '@/shared/components/ui/select';
 import { AlertTriangle, Info } from 'lucide-react';
-import { JOB_TYPE_LABELS } from '@/features/recruitment/constants';
 import type { JobType } from '@/features/recruitment/types';
+import { JOB_TYPE_LABELS } from '@/features/recruitment/constants';
 
 interface RecruitmentCreateFormProps {
   defaultUrl?: string;
@@ -29,14 +29,14 @@ export default function RecruitmentCreateForm({ defaultUrl }: RecruitmentCreateF
   const [startDate, setStartDate] = useState('');
   const [dueDate, setDueDate] = useState('');
   const [recruitmentUrl, setRecruitmentUrl] = useState(defaultUrl ?? '');
-  const [postDescription, setPostDescription] = useState('');
+  const [description, setDescription] = useState('');
 
   const isFormValid =
     companyName !== '' &&
     postTitle.trim() !== '' &&
     experienceLevel !== null &&
     selectedJobType !== null &&
-    postDescription.trim() !== '';
+    description.trim() !== '';
 
   const companyNames = mockCompanies.map((company) => company.companyName);
 
@@ -183,8 +183,8 @@ export default function RecruitmentCreateForm({ defaultUrl }: RecruitmentCreateF
             <div className="flex flex-col gap-1.5">
               <Label className="text-ds-grey-900">공고 원문 *</Label>
               <textarea
-                value={postDescription}
-                onChange={(e) => setPostDescription(e.target.value)}
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
                 placeholder="공고 원문 전체를 붙여넣기 하세요. AI가 자동으로 요약 및 분석을 생성합니다."
                 className="h-48 w-full resize-none rounded-md border border-ds-grey-200 bg-white p-3 text-[13px] text-ds-grey-900 leading-relaxed placeholder:text-ds-grey-300 focus:outline-none focus:ring-1 focus:ring-primary"
               />

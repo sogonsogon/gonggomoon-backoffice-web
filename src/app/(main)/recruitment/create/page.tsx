@@ -5,9 +5,9 @@ import RecruitmentCreateForm from '@/features/recruitment/components/section/Rec
 export default async function RecruitmentCreatePage({
   searchParams,
 }: {
-  searchParams: Promise<{ requestUrl?: string }>;
+  searchParams: Promise<{ url?: string }>;
 }) {
-  const { requestUrl } = await searchParams;
+  const { url } = await searchParams;
 
   return (
     <>
@@ -20,7 +20,7 @@ export default async function RecruitmentCreatePage({
           backHref="/recruitment"
         />
 
-        <RecruitmentCreateForm defaultUrl={requestUrl} />
+        <RecruitmentCreateForm defaultUrl={url} />
       </main>
     </>
   );

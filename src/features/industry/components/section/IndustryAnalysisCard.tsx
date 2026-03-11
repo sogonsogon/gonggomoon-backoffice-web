@@ -5,10 +5,10 @@ import type { IndustryAnalysis } from '@/features/industry/types';
 import { LineRows } from '@/features/industry/components/ui/LineRows';
 
 interface IndustryAnalysisCardProps {
-  version: IndustryAnalysis;
+  analysis: IndustryAnalysis;
 }
 
-export default function IndustryAnalysisCard({ version }: IndustryAnalysisCardProps) {
+export default function IndustryAnalysisCard({ analysis }: IndustryAnalysisCardProps) {
   return (
     <Card className="flex-1 gap-4 border-ds-grey-200 bg-white py-4">
       <CardHeader className="px-4">
@@ -20,7 +20,7 @@ export default function IndustryAnalysisCard({ version }: IndustryAnalysisCardPr
           <div className="space-y-2">
             <p className="text-[15px] font-semibold text-ds-grey-900">핵심 산업 키워드</p>
             <div className="flex min-h-10 flex-wrap items-center gap-1 rounded-md border border-ds-grey-200 bg-ds-grey-50 px-2 py-1">
-              {version.keyword.map((item) => (
+              {analysis.keyword.map((item) => (
                 <Badge
                   key={item}
                   variant="outline"
@@ -34,25 +34,25 @@ export default function IndustryAnalysisCard({ version }: IndustryAnalysisCardPr
           <div className="space-y-2">
             <p className="text-[15px] font-semibold text-ds-grey-900">산업 규모</p>
             <div className="h-10 rounded-md border border-ds-grey-200 bg-ds-grey-50 px-4 text-sm leading-10 text-ds-grey-900">
-              {version.marketSize}
+              {analysis.marketSize}
             </div>
           </div>
         </div>
 
         <div className="space-y-2">
           <p className="text-[15px] font-semibold text-ds-grey-900">산업 트렌드 요약</p>
-          <LineRows items={version.trend} />
+          <LineRows items={analysis.trend} />
         </div>
 
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
             <p className="text-[15px] font-semibold text-ds-grey-900">규제 리스크</p>
-            <LineRows items={version.regulation} />
+            <LineRows items={analysis.regulation} />
           </div>
           <div className="space-y-2">
             <p className="text-[15px] font-semibold text-ds-grey-900">경쟁 구도</p>
             <div className="rounded-md border border-ds-grey-200 bg-ds-grey-50 px-4 py-2 text-sm text-ds-grey-900">
-              {version.competition.join(', ')}
+              {analysis.competition.join(', ')}
             </div>
           </div>
         </div>
@@ -60,11 +60,11 @@ export default function IndustryAnalysisCard({ version }: IndustryAnalysisCardPr
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
             <p className="text-[15px] font-semibold text-ds-grey-900">채용 트렌드</p>
-            <LineRows items={version.hiring} />
+            <LineRows items={analysis.hiring} />
           </div>
           <div className="space-y-2">
             <p className="text-[15px] font-semibold text-ds-grey-900">투자 방향</p>
-            <LineRows items={version.investment} />
+            <LineRows items={analysis.investment} />
           </div>
         </div>
       </CardContent>
