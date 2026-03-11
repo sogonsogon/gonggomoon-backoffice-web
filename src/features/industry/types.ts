@@ -28,7 +28,7 @@ export type IndustryAnalysisStatus = 'SAVED' | 'PUBLISHED';
 // GET /api/v1/admin/industries/{id}/reports — 목록 아이템
 export type IndustryAnalysisListItem = {
   analysisId: number;
-  analysisYear: string;
+  analysisYear: number;
   analysisStatus: IndustryAnalysisStatus;
   createdAt: string;
   updatedAt: string;
