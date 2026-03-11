@@ -45,7 +45,7 @@ export default async function AnalysisDetailPage({
         {analysis ? (
           <div className="flex items-start gap-4">
             <IndustryAnalysisCard analysis={analysis} />
-            <IndustryStatusCard status={analysis.status} analyzedYear={analysis.analysisYear} />
+            <IndustryStatusCard status={analysis.analysisStatus} analyzedYear={analysis.analysisYear} />
           </div>
         ) : (
           <Card className="border-ds-grey-200 bg-white py-10">

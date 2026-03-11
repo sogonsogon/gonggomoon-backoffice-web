@@ -46,9 +46,9 @@ export default function IndustryAnalysisTable({
 
         {/* analysis Rows */}
         {analysis.map((analysisItem, i) => {
-          const isPublished = analysisItem.status === 'PUBLISHED';
-          const statusLabel = analysisItem.status
-            ? ANALYSIS_STATUS_LABELS[analysisItem.status]
+          const isPublished = analysisItem.analysisStatus === 'PUBLISHED';
+          const statusLabel = analysisItem.analysisStatus
+            ? ANALYSIS_STATUS_LABELS[analysisItem.analysisStatus]
             : '저장됨';
 
           return (
