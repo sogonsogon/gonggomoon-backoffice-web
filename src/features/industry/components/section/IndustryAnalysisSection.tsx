@@ -21,7 +21,7 @@ export default function IndustryAnalysisSection({
   const { data: analysis } = useIndustryAnalysis(analysisId);
   const label =
     categoryList?.find((category) => category.industryId === industryId)?.industryName || '산업군';
-  const yearLabel = analysis?.analysisYear;
+  const yearLabel = analysis?.analysisYear ?? '-';
 
   const isValidIndustryId = Number.isFinite(industryId) && industryId > 0;
   const isValidAnalysisId = Number.isFinite(analysisId) && analysisId > 0;

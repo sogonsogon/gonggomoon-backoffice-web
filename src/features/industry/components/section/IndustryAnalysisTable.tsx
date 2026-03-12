@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { Plus } from 'lucide-react';
 import { Button } from '@/shared/components/ui/button';
 import { ANALYSIS_STATUS_LABELS } from '@/features/industry/constants';
@@ -20,7 +19,6 @@ export default function IndustryAnalysisTable({
   industryId,
   analysis,
 }: IndustryAnalysisTableProps) {
-  const router = useRouter();
   const { mutate: publish, isPending: isPublishing } = usePublishIndustryAnalysis(
     Number(industryId),
   );
@@ -30,7 +28,6 @@ export default function IndustryAnalysisTable({
 
   const handlePublish = (analysisId: number) => {
     publish(analysisId, {
-      onSuccess: () => router.refresh(),
       onError: (error: ApiErrorResponse) => {
         toast.error(error.message || '산업 분석 발행에 실패했습니다.');
       },
@@ -39,7 +36,6 @@ export default function IndustryAnalysisTable({
 
   const handleDelete = (analysisId: number) => {
     deleteAnalysis(analysisId, {
-      onSuccess: () => router.refresh(),
       onError: (error: ApiErrorResponse) => {
         toast.error(error.message || '산업 분석 삭제에 실패했습니다.');
       },

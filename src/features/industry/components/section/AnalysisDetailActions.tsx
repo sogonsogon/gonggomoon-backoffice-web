@@ -20,7 +20,7 @@ export default function AnalysisDetailActions({
   const { mutate: deleteAnalysis, isPending: isDeleting } = useDeleteIndustryAnalysis(industryId);
 
   const handlePublish = () => {
-    publish(analysisId, { onSuccess: () => router.refresh() });
+    publish(analysisId);
   };
 
   const handleDelete = () => {
