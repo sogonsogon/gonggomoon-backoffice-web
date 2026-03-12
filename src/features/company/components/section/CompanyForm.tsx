@@ -18,7 +18,7 @@ import type { CreateCompanyRequest } from '@/features/company/types';
 import CardActionForm from '@/shared/components/ui/CardActionForm';
 import { COMPANY_TYPE_OPTIONS } from '@/features/company/constants';
 
-type CompanyFormState = CreateCompanyRequest & { revenue?: number };
+type CompanyFormState = CreateCompanyRequest;
 
 const INITIAL_FORM: CompanyFormState = {
   companyName: '',

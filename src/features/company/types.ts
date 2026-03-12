@@ -39,7 +39,6 @@ export type CompanyDetail = {
   address: string;
   employeeCount: number;
   description: string;
-  revenue: number;
   createdBy: number;
   updatedBy: number;
   createdAt: string;
@@ -65,7 +64,6 @@ export type UpdateCompanyRequest = {
   companyType: CompanyType;
   employeeCount: number;
   address: string;
-  revenue: number;
   foundedYear: number;
   websiteUrl: string;
   description: string;
