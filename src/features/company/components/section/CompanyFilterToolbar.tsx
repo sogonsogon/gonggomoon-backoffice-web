@@ -20,7 +20,7 @@ export default function CompanyFilterToolbar() {
 
   const companyFilters = [
     {
-      paramKey: 'industryTypeId',
+      paramKey: 'industryId',
       placeholder: '산업군 전체',
       allValue: 'all',
       width: 'w-40',

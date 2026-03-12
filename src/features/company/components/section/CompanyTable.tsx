@@ -1,38 +1,42 @@
 'use client';
 
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { useCompanyList } from '@/features/company/queries';
 import CompanyRow from '@/features/company/components/ui/CompanyRow';
-import { COMPANY_TYPE_OPTIONS } from '@/features/company/constants';
-import { INDUSTRY_CONFIG } from '@/features/industry/constants';
-import type { GetCompanyListParams, CompanyType } from '@/features/company/types';
-
-const validCompanyTypes = new Set<CompanyType>(COMPANY_TYPE_OPTIONS.map((option) => option.value));
+import type { GetCompanyListParams } from '@/features/company/types';
 
 export default function CompanyTable() {
   const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
 
-  const rawIndustryTypeId = searchParams.get('industryTypeId');
-  const rawCompanyType = searchParams.get('companyType');
-  const parsed = Number(rawIndustryTypeId);
-  const industryTypeId =
-    rawIndustryTypeId && rawIndustryTypeId !== 'all' && Number.isFinite(parsed) && parsed > 0
-      ? parsed
+  const rawIndustryId = searchParams.get('industryId');
+  const parsedIndustryId = Number(rawIndustryId);
+  const rawPage = searchParams.get('page');
+  const parsedPage = Number(rawPage);
+
+  const industryId =
+    rawIndustryId &&
+    rawIndustryId !== 'all' &&
+    Number.isFinite(parsedIndustryId) &&
+    parsedIndustryId > 0
+      ? parsedIndustryId
       : undefined;
-  const companyType =
-    rawCompanyType &&
-    rawCompanyType !== 'all' &&
-    validCompanyTypes.has(rawCompanyType as CompanyType)
-      ? (rawCompanyType as CompanyType)
-      : undefined;
+  const page = Number.isFinite(parsedPage) && parsedPage >= 0 ? parsedPage : 0;
 
   const params: GetCompanyListParams = {
     name: searchParams.get('search') ?? undefined,
-    industryTypeId,
-    companyType,
+    industryId,
+    page: page > 0 ? page : undefined,
   };
 
-  const { data: companies, isLoading, isError, error } = useCompanyList(params);
+  const { data, isLoading, isError, error } = useCompanyList(params);
+
+  const handlePageChange = (nextPage: number) => {
+    const next = new URLSearchParams(searchParams.toString());
+    next.set('page', String(nextPage));
+    router.push(`${pathname}?${next.toString()}`);
+  };
 
   if (isLoading) {
     return (
@@ -45,34 +49,41 @@ export default function CompanyTable() {
     );
   }
 
-  if (isError || !companies) {
+  if (isError || !data) {
     return (
       <p className="text-sm text-ds-grey-500">기업 목록을 불러오지 못했습니다. {error?.message}</p>
     );
   }
 
+  const { contents: companies, totalPages, size } = data;
+
   return (
     <div className="bg-white rounded-[10px] border border-ds-grey-200 overflow-hidden">
       {headerRow}
 
-      {companies.map((company, i) => {
-        const industryName = INDUSTRY_CONFIG[company.industryType]?.label;
-        return (
-          <CompanyRow
-            key={company.companyId}
-            no={i + 1}
-            company={company}
-            industryName={industryName}
-            last={i === companies.length - 1}
-          />
-        );
-      })}
+      {companies.map((company, i) => (
+        <CompanyRow
+          key={company.companyId}
+          no={page * size + i + 1}
+          company={company}
+          industryName={company.industryName}
+          last={i === companies.length - 1}
+        />
+      ))}
 
       {/* Pagination Footer */}
       <div className="h-13 border-t border-ds-grey-200 flex items-center justify-center gap-1 px-4">
-        <span className="w-8 h-8 flex items-center justify-center rounded-md bg-ds-grey-900 text-white text-sm font-medium">
-          1
-        </span>
+        {Array.from({ length: totalPages }).map((_, i) => (
+          <button
+            key={i}
+            onClick={() => handlePageChange(i)}
+            className={`w-8 h-8 flex items-center justify-center rounded-md text-sm font-medium ${
+              i === page ? 'bg-ds-grey-900 text-white' : 'text-ds-grey-600 hover:bg-ds-grey-100'
+            }`}
+          >
+            {i + 1}
+          </button>
+        ))}
       </div>
     </div>
   );

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { mockCompanies } from '@/mocks';
+import { useCompanyList } from '@/features/company/queries';
 import CardActionForm from '@/shared/components/ui/CardActionForm';
 import { Button } from '@/shared/components/ui/button';
 import { Input } from '@/shared/components/ui/input';
@@ -38,7 +38,8 @@ export default function RecruitmentCreateForm({ defaultUrl }: RecruitmentCreateF
     selectedJobType !== null &&
     description.trim() !== '';
 
-  const companyNames = mockCompanies.map((company) => company.companyName);
+  const { data: companyData } = useCompanyList();
+  const companyNames = (companyData?.contents ?? []).map((company) => company.companyName);
 
   return (
     <div>

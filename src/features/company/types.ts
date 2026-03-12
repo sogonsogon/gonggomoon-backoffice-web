@@ -1,5 +1,3 @@
-import { IndustryType } from '@/features/industry/types';
-
 export type CompanyType =
   | 'LARGE_ENTERPRISE'
   | 'MID_SIZED_ENTERPRISE'
@@ -8,8 +6,7 @@ export type CompanyType =
 
 export type GetCompanyListParams = {
   name?: string;
-  industryTypeId?: number;
-  companyType?: CompanyType;
+  industryId?: number;
   page?: number;
   size?: number;
 };
@@ -18,22 +15,28 @@ export type CompanyListItem = {
   companyId: number;
   companyName: string;
   companyType: CompanyType;
-  industryType: IndustryType;
   industryId: number;
+  industryName: string;
   employeeCount: number;
   foundedYear: number;
 };
 
 export type CompanyList = CompanyListItem[];
 
-export type GetCompanyListResponse = CompanyList;
+export type GetCompanyListResponse = {
+  contents: CompanyList;
+  page: number;
+  size: number;
+  totalElements: number;
+  totalPages: number;
+};
 
 export type CompanyDetail = {
   companyId: number;
   companyName: string;
   companyType: CompanyType;
   industryId: number;
-  industryType: IndustryType;
+  industryName: string;
   websiteUrl: string;
   foundedYear: number;
   address: string;
@@ -67,4 +70,8 @@ export type UpdateCompanyRequest = {
   foundedYear: number;
   websiteUrl: string;
   description: string;
+};
+
+export type UpdateCompanyResponse = {
+  companyId: number;
 };
