@@ -61,21 +61,21 @@ export type GetIndustryAnalysisResponse = IndustryAnalysis;
 export type IndustryCategory = {
   industryId: number;
   industryName: string;
-  analysisCount: number;
+  analysisCount?: number;
 };
 
-export type IndustryCategoryList = IndustryCategory[];
-
-export type GetIndustryCategoryListResponse = IndustryCategoryList;
+export type GetIndustryCategoryListResponse = {
+  contents: IndustryCategory[];
+};
 
 // POST /api/v1/admin/industries — 카테고리 생성
 export type CreateIndustryCategoryRequest = {
-  industryName: string;
+  name: string;
 };
 
 // PATCH /api/v1/admin/industries/{id} — 카테고리 수정
 export type UpdateIndustryCategoryRequest = {
-  industryName: string;
+  name: string;
 };
 
 // POST /api/v1/admin/industries/{id}/reports — 산업 분석 생성
