@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter, useParams, usePathname } from 'next/navigation';
 import { Info } from 'lucide-react';
 import { Input } from '@/shared/components/ui/input';
@@ -52,9 +52,22 @@ export default function CompanyForm() {
     isError: isCompanyDetailError,
     error: companyDetailError,
   } = useCompanyDetail(companyId ?? 0);
-  const { data: industries, isLoading: isIndustriesLoading } = useIndustryCategoryList();
+  const {
+    data: industries,
+    isLoading: isIndustriesLoading,
+    isError: isIndustriesError,
+    error: industriesError,
+  } = useIndustryCategoryList();
   const { mutate: createCompanyMutation, isPending: isCreating } = useCreateCompany();
   const { mutate: updateCompanyMutation, isPending: isUpdating } = useUpdateCompany(companyId ?? 0);
+
+  useEffect(() => {
+    if (!isIndustriesError) {
+      return;
+    }
+
+    toast.error(industriesError?.message || '산업군 목록을 불러오지 못했습니다.');
+  }, [isIndustriesError, industriesError]);
 
   const [formOverrides, setFormOverrides] = useState<Partial<CompanyFormState>>({});
 
@@ -194,7 +207,7 @@ export default function CompanyForm() {
                 <Select
                   value={form.industryId ? form.industryId.toString() : ''}
                   onValueChange={(v) => handleChange('industryId', v)}
-                  disabled={isIndustriesLoading}
+                  disabled={isIndustriesLoading || isIndustriesError}
                 >
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder="산업군 선택" />
@@ -207,6 +220,11 @@ export default function CompanyForm() {
                     ))}
                   </SelectContent>
                 </Select>
+                {isIndustriesError && (
+                  <p className="text-xs text-ds-red-500">
+                    산업군 목록을 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.
+                  </p>
+                )}
               </div>
               <div className="flex-1 flex flex-col gap-1.5">
                 <Label>기업 유형</Label>

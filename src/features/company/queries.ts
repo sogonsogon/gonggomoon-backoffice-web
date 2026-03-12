@@ -11,7 +11,7 @@ import { ApiErrorResponse } from '@/shared/types/api';
 
 export const companyQueryKeys = {
   all: ['companyList'] as const,
-  list: (params?: GetCompanyListParams) => ['companyList', params] as const,
+  list: (params?: GetCompanyListParams) => [...companyQueryKeys.all, params] as const,
   detail: (companyId: number) => ['companyDetail', companyId] as const,
 };
 
