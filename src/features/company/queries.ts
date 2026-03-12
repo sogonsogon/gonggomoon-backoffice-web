@@ -1,2 +1,107 @@
-// TanStack Query 훅은 여기에 정의합니다.
-// 예: export default function  useCompanies() { ... }
+import { queryOptions, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import {
+  createCompany,
+  deleteCompany,
+  getCompanyDetail,
+  getCompanyList,
+  updateCompany,
+} from './actions';
+import { CreateCompanyRequest, GetCompanyListParams, UpdateCompanyRequest } from './types';
+import { ApiErrorResponse } from '@/shared/types/api';
+
+export const companyQueryKeys = {
+  list: (params?: GetCompanyListParams) => ['companyList', params] as const,
+  detail: (companyId: number) => ['companyDetail', companyId] as const,
+};
+
+// 기업 목록 조회 query options
+export const companyListQueryOptions = (params?: GetCompanyListParams) =>
+  queryOptions({
+    queryKey: companyQueryKeys.list(params),
+    queryFn: async () => {
+      const result = await getCompanyList(params);
+      if (!result.success) return Promise.reject(result);
+      return result.data;
+    },
+  });
+
+// 기업 상세 조회 query options
+export const companyDetailQueryOptions = (companyId: number) =>
+  queryOptions({
+    queryKey: companyQueryKeys.detail(companyId),
+    queryFn: async () => {
+      const result = await getCompanyDetail(companyId);
+      if (!result.success) return Promise.reject(result);
+      return result.data;
+    },
+  });
+
+// 기업 목록 조회 useQuery
+export function useCompanyList(params?: GetCompanyListParams) {
+  return useQuery(companyListQueryOptions(params));
+}
+
+// 기업 상세 조회 useQuery
+export function useCompanyDetail(companyId: number) {
+  return useQuery({
+    ...companyDetailQueryOptions(companyId),
+    enabled: Number.isFinite(companyId) && companyId > 0,
+  });
+}
+
+// 기업 등록 useMutation
+export function useCreateCompany() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (data: CreateCompanyRequest) => {
+      const result = await createCompany(data);
+      if (!result.success) return Promise.reject(result);
+      return result.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: companyQueryKeys.list() });
+    },
+    onError: (error: ApiErrorResponse) => {
+      console.error('기업 등록 실패:', error);
+    },
+  });
+}
+
+// 기업 수정 useMutation
+export function useUpdateCompany(companyId: number) {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (data: UpdateCompanyRequest) => {
+      const result = await updateCompany(companyId, data);
+      if (!result.success) return Promise.reject(result);
+      return result.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: companyQueryKeys.detail(companyId) });
+      queryClient.invalidateQueries({ queryKey: companyQueryKeys.list() });
+    },
+    onError: (error: ApiErrorResponse) => {
+      console.error('기업 수정 실패:', error);
+    },
+  });
+}
+
+// 기업 삭제 useMutation
+export function useDeleteCompany() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (companyId: number) => {
+      const result = await deleteCompany(companyId);
+      if (!result.success) return Promise.reject(result);
+      return result.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: companyQueryKeys.list() });
+    },
+    onError: (error: ApiErrorResponse) => {
+      console.error('기업 삭제 실패:', error);
+    },
+  });
+}
