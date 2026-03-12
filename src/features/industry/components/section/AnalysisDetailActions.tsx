@@ -20,7 +20,7 @@ export default function AnalysisDetailActions({
   const { mutate: deleteAnalysis, isPending: isDeleting } = useDeleteIndustryAnalysis(industryId);
 
   const handlePublish = () => {
-    publish(analysisId);
+    publish(analysisId, { onSuccess: () => router.refresh() });
   };
 
   const handleDelete = () => {
@@ -32,7 +32,7 @@ export default function AnalysisDetailActions({
       <Button
         variant="outline"
         className="text-ds-badge-red-text"
-        disabled={isDeleting}
+        disabled={isDeleting || isPublishing}
         onClick={handleDelete}
       >
         삭제

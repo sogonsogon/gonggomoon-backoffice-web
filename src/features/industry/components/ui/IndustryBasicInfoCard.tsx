@@ -6,6 +6,7 @@ import { Input } from '@/shared/components/ui/input';
 import { Label } from '@/shared/components/ui/label';
 import { useUpdateIndustryCategory } from '@/features/industry/queries';
 import { toast } from 'sonner';
+import { ApiErrorResponse } from '@/shared/types/api';
 
 interface IndustryBasicInfoCardProps {
   industryId: number;
@@ -23,8 +24,8 @@ export default function IndustryBasicInfoCard({ industryId, label }: IndustryBas
         onSuccess: () => {
           toast.success('산업군 정보가 업데이트되었습니다.');
         },
-        onError: () => {
-          toast.error('산업군 정보 업데이트에 실패했습니다.');
+        onError: (error: ApiErrorResponse) => {
+          toast.error(error.message || '산업군 정보 업데이트에 실패했습니다.');
         },
       },
     );

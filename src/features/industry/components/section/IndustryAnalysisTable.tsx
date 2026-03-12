@@ -19,12 +19,8 @@ export default function IndustryAnalysisTable({
   industryId,
   analysis,
 }: IndustryAnalysisTableProps) {
-  const { mutate: publish, isPending: isPublishing } = usePublishIndustryAnalysis(
-    Number(industryId),
-  );
-  const { mutate: deleteAnalysis, isPending: isDeleting } = useDeleteIndustryAnalysis(
-    Number(industryId),
-  );
+  const { mutate: publish, isPending: isPublishing } = usePublishIndustryAnalysis(industryId);
+  const { mutate: deleteAnalysis, isPending: isDeleting } = useDeleteIndustryAnalysis(industryId);
 
   const handlePublish = (analysisId: number) => {
     publish(analysisId, {

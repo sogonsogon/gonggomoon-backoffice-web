@@ -3,7 +3,6 @@
 import TopBar from '@/shared/components/layout/TopBar';
 import { useIndustryAnalysisList, useIndustryCategoryList } from '../../queries';
 import ContentHeader from '@/shared/components/layout/ContentHeader';
-import { Button } from '@/shared/components/ui/button';
 import IndustryBasicInfoCard from '../ui/IndustryBasicInfoCard';
 import IndustryAnalysisTable from './IndustryAnalysisTable';
 import IndustryInfoSideCard from '../ui/IndustryInfoSideCard';
@@ -25,15 +24,7 @@ export default function IndustryDetailSection({ industryId }: IndustryDetailSect
       <TopBar title="산업군 관리" breadcrumb={`산업군 관리 > ${label}`} />
 
       <main className="flex-1 overflow-auto bg-ds-grey-100 p-6 flex flex-col gap-5">
-        <ContentHeader
-          title={label}
-          backHref="/industry"
-          actions={
-            <Button variant="outline" className="text-ds-badge-red-text">
-              산업 삭제
-            </Button>
-          }
-        />
+        <ContentHeader title={label} backHref="/industry" />
 
         <div className="flex gap-5 items-start">
           <div className="flex-1 flex flex-col gap-4">

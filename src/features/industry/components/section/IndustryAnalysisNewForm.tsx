@@ -77,9 +77,12 @@ export default function IndustryAnalysisNewForm({ industryId }: IndustryAnalysis
         investment: finalInvestment,
       },
       {
-        onSuccess: () => router.push(`/industry/${industryId}`),
+        onSuccess: () => {
+          router.push(`/industry/${industryId}`);
+          toast.success('산업 분석이 생성되었습니다!');
+        },
         onError: (error: ApiErrorResponse) => {
-          toast.error('산업 분석 생성 실패:' + error.message);
+          toast.error(error.message || '산업 분석 생성 실패');
         },
       },
     );
