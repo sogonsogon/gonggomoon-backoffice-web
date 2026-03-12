@@ -1,33 +1,58 @@
-import { mockCompanies, mockIndustries } from '@/mocks';
+'use client';
+
+import { useSearchParams } from 'next/navigation';
+import { useCompanyList } from '@/features/company/queries';
 import CompanyRow from '@/features/company/components/ui/CompanyRow';
+import { INDUSTRY_CONFIG } from '@/features/industry/constants';
+import type { GetCompanyListParams, CompanyType } from '@/features/company/types';
+import type { IndustryType } from '@/features/industry/types';
 
 export default function CompanyTable() {
+  const searchParams = useSearchParams();
+
+  const rawIndustryType = searchParams.get('industryType');
+  const rawCompanyType = searchParams.get('companyType');
+
+  const params: GetCompanyListParams = {
+    name: searchParams.get('search') ?? undefined,
+    industryType:
+      rawIndustryType && rawIndustryType !== 'all' ? (rawIndustryType as IndustryType) : undefined,
+    companyType:
+      rawCompanyType && rawCompanyType !== 'all' ? (rawCompanyType as CompanyType) : undefined,
+  };
+
+  const { data: companies, isLoading, isError, error } = useCompanyList(params);
+
+  if (isLoading) {
+    return (
+      <div className="bg-white rounded-[10px] border border-ds-grey-200 overflow-hidden">
+        {headerRow}
+        {Array.from({ length: 5 }).map((_, i) => (
+          <div key={i} className="h-14 border-b border-ds-grey-200 animate-pulse bg-ds-grey-100" />
+        ))}
+      </div>
+    );
+  }
+
+  if (isError || !companies) {
+    return (
+      <p className="text-sm text-ds-grey-500">기업 목록을 불러오지 못했습니다. {error?.message}</p>
+    );
+  }
+
   return (
     <div className="bg-white rounded-[10px] border border-ds-grey-200 overflow-hidden">
-      {/* Header Row */}
-      <div className="flex items-center h-11 bg-ds-grey-50 border-b border-ds-grey-200">
-        <div className="w-14 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">No.</div>
-        <div className="flex-1 px-4 text-[13px] font-medium text-ds-grey-600">기업명</div>
-        <div className="w-56 px-4 text-[13px] font-medium text-ds-grey-600">사업 분야</div>
-        <div className="w-56 px-4 text-[13px] font-medium text-ds-grey-600">기업 유형</div>
-        <div className="w-48 px-4 text-[13px] font-medium text-ds-grey-600">임직원 수</div>
-        <div className="w-28 px-4 text-[13px] font-medium text-ds-grey-600">설립연도</div>
-        <div className="w-48 px-4 text-[13px] font-medium text-ds-grey-600">액션</div>
-      </div>
+      {headerRow}
 
-      {/* Data Rows */}
-      {mockCompanies.map((company, i) => {
-        const industryName = mockIndustries.find(
-          (ind) => ind.industryId === company.industryId,
-        )?.name;
-
+      {companies.map((company, i) => {
+        const industryName = INDUSTRY_CONFIG[company.industryType]?.label;
         return (
           <CompanyRow
             key={company.companyId}
             no={i + 1}
             company={company}
             industryName={industryName}
-            last={i === mockCompanies.length - 1}
+            last={i === companies.length - 1}
           />
         );
       })}
@@ -41,3 +66,15 @@ export default function CompanyTable() {
     </div>
   );
 }
+
+const headerRow = (
+  <div className="flex items-center h-11 bg-ds-grey-50 border-b border-ds-grey-200">
+    <div className="w-14 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">No.</div>
+    <div className="flex-1 px-4 text-[13px] font-medium text-ds-grey-600">기업명</div>
+    <div className="w-56 px-4 text-[13px] font-medium text-ds-grey-600">사업 분야</div>
+    <div className="w-56 px-4 text-[13px] font-medium text-ds-grey-600">기업 유형</div>
+    <div className="w-48 px-4 text-[13px] font-medium text-ds-grey-600">임직원 수</div>
+    <div className="w-28 px-4 text-[13px] font-medium text-ds-grey-600">설립연도</div>
+    <div className="w-48 px-4 text-[13px] font-medium text-ds-grey-600">액션</div>
+  </div>
+);

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter, useParams, usePathname } from 'next/navigation';
 import { Info } from 'lucide-react';
 import { Input } from '@/shared/components/ui/input';
@@ -13,10 +13,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/shared/components/ui/select';
-import { mockIndustries, mockCompanies } from '@/mocks';
 import type { CreateCompanyRequest } from '@/features/company/types';
 import CardActionForm from '@/shared/components/ui/CardActionForm';
 import { COMPANY_TYPE_OPTIONS } from '@/features/company/constants';
+import { useCompanyDetail, useCreateCompany, useUpdateCompany } from '@/features/company/queries';
+import { useIndustryCategoryList } from '@/features/industry/queries';
+import { toast } from 'sonner';
+import type { ApiErrorResponse } from '@/shared/types/api';
 
 type CompanyFormState = CreateCompanyRequest;
 
@@ -43,13 +46,27 @@ export default function CompanyForm() {
     parsedCompanyId !== undefined && !Number.isNaN(parsedCompanyId) ? parsedCompanyId : undefined;
   const isEditMode = pathname.startsWith('/company/edit/') && companyId !== undefined;
 
-  const company = isEditMode ? mockCompanies.find((c) => c.companyId === companyId) : undefined;
+  const { data: companyDetail } = useCompanyDetail(companyId ?? 0);
+  const { data: industries, isLoading: isIndustriesLoading } = useIndustryCategoryList();
+  const { mutate: createCompanyMutation, isPending: isCreating } = useCreateCompany();
+  const { mutate: updateCompanyMutation, isPending: isUpdating } = useUpdateCompany(companyId ?? 0);
 
-  const [form, setForm] = useState<CompanyFormState>({
-    ...INITIAL_FORM,
-    ...company,
-    companyType: company?.companyType ?? INITIAL_FORM.companyType,
-  });
+  const [form, setForm] = useState<CompanyFormState>(INITIAL_FORM);
+
+  useEffect(() => {
+    if (isEditMode && companyDetail) {
+      setForm({
+        companyName: companyDetail.companyName,
+        companyType: companyDetail.companyType,
+        industryId: companyDetail.industryId,
+        websiteUrl: companyDetail.websiteUrl,
+        foundedYear: companyDetail.foundedYear,
+        address: companyDetail.address,
+        employeeCount: companyDetail.employeeCount,
+        description: companyDetail.description,
+      });
+    }
+  }, [isEditMode, companyDetail]);
 
   const isPrimaryEnabled =
     form.companyName.trim().length > 0 &&
@@ -82,17 +99,29 @@ export default function CompanyForm() {
     setForm((prev) => ({ ...prev, [key]: value }));
   };
 
-  const handleSubmit = async () => {
-    if (isEditMode && company !== undefined) {
-      // TODO: updateCompany server action 연결
-      // updateCompany 호출 시 companyId를 포함한 payload 전달
-      await router.push('/company/edit/' + companyId);
+  const handleSubmit = () => {
+    if (isEditMode && companyId !== undefined) {
+      updateCompanyMutation(form, {
+        onSuccess: () => {
+          toast.success('기업 정보가 수정되었습니다.');
+          router.push('/company');
+        },
+        onError: (error: ApiErrorResponse) => {
+          toast.error(error.message || '기업 수정에 실패했습니다.');
+        },
+      });
       return;
     }
 
-    // TODO: createCompany server action 연결
-    // createCompany 호출 시 companyId를 제외한 payload 전달
-    await router.push('/company/create');
+    createCompanyMutation(form, {
+      onSuccess: () => {
+        toast.success('기업이 등록되었습니다.');
+        router.push('/company');
+      },
+      onError: (error: ApiErrorResponse) => {
+        toast.error(error.message || '기업 등록에 실패했습니다.');
+      },
+    });
   };
 
   return (
@@ -134,14 +163,15 @@ export default function CompanyForm() {
                 <Select
                   value={form.industryId ? form.industryId.toString() : ''}
                   onValueChange={(v) => handleChange('industryId', v)}
+                  disabled={isIndustriesLoading}
                 >
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder="산업군 선택" />
                   </SelectTrigger>
                   <SelectContent position="popper">
-                    {mockIndustries.map((item) => (
+                    {(industries ?? []).map((item) => (
                       <SelectItem key={item.industryId} value={item.industryId.toString()}>
-                        {item.name}
+                        {item.industryName}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -203,8 +233,8 @@ export default function CompanyForm() {
           {/* Action Card */}
           <CardActionForm
             primaryLabel={isEditMode ? '수정' : '저장'}
-            onPrimaryClick={handleSubmit} //TODO : Create/Update API 연결
-            primaryEnabled={isPrimaryEnabled}
+            onPrimaryClick={handleSubmit}
+            primaryEnabled={isPrimaryEnabled && !isCreating && !isUpdating}
             primaryButtonClassName="bg-black text-white"
             secondaryLabel="취소"
             onSecondaryClick={() => router.back()}
