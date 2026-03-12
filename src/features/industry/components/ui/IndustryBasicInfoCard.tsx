@@ -16,10 +16,17 @@ interface IndustryBasicInfoCardProps {
 export default function IndustryBasicInfoCard({ industryId, label }: IndustryBasicInfoCardProps) {
   const [industryName, setIndustryName] = useState(label);
   const { mutate: updateCategory, isPending } = useUpdateIndustryCategory(industryId);
+  const trimmedIndustryName = industryName.trim();
 
   const handleSave = () => {
+    if (trimmedIndustryName.length === 0) {
+      toast.error('산업명은 공백일 수 없습니다.');
+
+      return;
+    }
+
     updateCategory(
-      { industryName },
+      { industryName: trimmedIndustryName },
       {
         onSuccess: () => {
           toast.success('산업군 정보가 업데이트되었습니다.');
@@ -37,7 +44,9 @@ export default function IndustryBasicInfoCard({ industryId, label }: IndustryBas
         <span className="text-[15px] font-semibold text-ds-grey-900">기본 정보</span>
         <Button
           className="bg-ds-grey-900 text-white hover:bg-ds-grey-800"
-          disabled={isPending || industryName.trim() === label}
+          disabled={
+            isPending || trimmedIndustryName.length === 0 || trimmedIndustryName === label.trim()
+          }
           onClick={handleSave}
         >
           {isPending ? '저장 중...' : '저장'}

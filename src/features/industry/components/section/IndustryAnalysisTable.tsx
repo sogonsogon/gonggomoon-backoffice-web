@@ -24,6 +24,9 @@ export default function IndustryAnalysisTable({
 
   const handlePublish = (analysisId: number) => {
     publish(analysisId, {
+      onSuccess: () => {
+        toast.success('산업 분석이 발행되었습니다.');
+      },
       onError: (error: ApiErrorResponse) => {
         toast.error(error.message || '산업 분석 발행에 실패했습니다.');
       },
@@ -32,6 +35,9 @@ export default function IndustryAnalysisTable({
 
   const handleDelete = (analysisId: number) => {
     deleteAnalysis(analysisId, {
+      onSuccess: () => {
+        toast.success('산업 분석이 삭제되었습니다.');
+      },
       onError: (error: ApiErrorResponse) => {
         toast.error(error.message || '산업 분석 삭제에 실패했습니다.');
       },

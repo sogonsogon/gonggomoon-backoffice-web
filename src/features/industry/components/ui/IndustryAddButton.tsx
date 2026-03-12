@@ -17,6 +17,7 @@ import { Label } from '@/shared/components/ui/label';
 import { Separator } from '@/shared/components/ui/separator';
 import { toast } from 'sonner';
 import { useCreateIndustryCategory } from '@/features/industry/queries';
+import { ApiErrorResponse } from '@/shared/types/api';
 
 export default function IndustryAddButton() {
   const [isOpen, setIsOpen] = useState(false);
@@ -33,7 +34,7 @@ export default function IndustryAddButton() {
           setIsOpen(false);
           setIndustryName('');
         },
-        onError: (error) => {
+        onError: (error: ApiErrorResponse) => {
           toast.error(error.message || '산업군 등록에 실패했습니다.');
         },
       },

@@ -3,6 +3,9 @@
 import { useRouter } from 'next/navigation';
 import { Button } from '@/shared/components/ui/button';
 import { usePublishIndustryAnalysis, useDeleteIndustryAnalysis } from '@/features/industry/queries';
+import { on } from 'events';
+import { toast } from 'sonner';
+import { ApiErrorResponse } from '@/shared/types/api';
 
 interface AnalysisDetailActionsProps {
   industryId: number;
@@ -20,11 +23,25 @@ export default function AnalysisDetailActions({
   const { mutate: deleteAnalysis, isPending: isDeleting } = useDeleteIndustryAnalysis(industryId);
 
   const handlePublish = () => {
-    publish(analysisId, { onSuccess: () => router.refresh() });
+    publish(analysisId, {
+      onSuccess: () => {
+        toast.success('산업 분석이 발행되었습니다.');
+      },
+      onError: (error: ApiErrorResponse) => {
+        toast.error(error.message || '산업 분석 발행에 실패했습니다.');
+      },
+    });
   };
 
   const handleDelete = () => {
-    deleteAnalysis(analysisId, { onSuccess: () => router.push(`/industry/${industryId}`) });
+    deleteAnalysis(analysisId, {
+      onSuccess: () => {
+        toast.success('산업 분석이 삭제되었습니다.');
+      },
+      onError: (error: ApiErrorResponse) => {
+        toast.error(error.message || '산업 분석 삭제에 실패했습니다.');
+      },
+    });
   };
 
   return (
