@@ -14,7 +14,7 @@ import type {
 export async function getCompanyList(params?: GetCompanyListParams) {
   const searchParams = new URLSearchParams();
   if (params?.name) searchParams.set('name', params.name);
-  if (params?.industryType) searchParams.set('industryType', params.industryType);
+  if (params?.industryTypeId !== undefined) searchParams.set('industryTypeId', String(params.industryTypeId));
   if (params?.companyType) searchParams.set('companyType', params.companyType);
   if (params?.page !== undefined) searchParams.set('page', String(params.page));
   if (params?.size !== undefined) searchParams.set('size', String(params.size));

@@ -8,7 +8,7 @@ export type CompanyType =
 
 export type GetCompanyListParams = {
   name?: string;
-  industryType?: IndustryType;
+  industryTypeId?: number;
   companyType?: CompanyType;
   page?: number;
   size?: number;

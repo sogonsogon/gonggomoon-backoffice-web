@@ -6,21 +6,17 @@ import CompanyRow from '@/features/company/components/ui/CompanyRow';
 import { COMPANY_TYPE_OPTIONS } from '@/features/company/constants';
 import { INDUSTRY_CONFIG } from '@/features/industry/constants';
 import type { GetCompanyListParams, CompanyType } from '@/features/company/types';
-import type { IndustryType } from '@/features/industry/types';
 
-const validIndustryTypes = new Set<IndustryType>(Object.keys(INDUSTRY_CONFIG) as IndustryType[]);
 const validCompanyTypes = new Set<CompanyType>(COMPANY_TYPE_OPTIONS.map((option) => option.value));
 
 export default function CompanyTable() {
   const searchParams = useSearchParams();
 
-  const rawIndustryType = searchParams.get('industryType');
+  const rawIndustryTypeId = searchParams.get('industryTypeId');
   const rawCompanyType = searchParams.get('companyType');
-  const industryType =
-    rawIndustryType &&
-    rawIndustryType !== 'all' &&
-    validIndustryTypes.has(rawIndustryType as IndustryType)
-      ? (rawIndustryType as IndustryType)
+  const industryTypeId =
+    rawIndustryTypeId && rawIndustryTypeId !== 'all'
+      ? Number(rawIndustryTypeId)
       : undefined;
   const companyType =
     rawCompanyType &&
@@ -31,7 +27,7 @@ export default function CompanyTable() {
 
   const params: GetCompanyListParams = {
     name: searchParams.get('search') ?? undefined,
-    industryType,
+    industryTypeId,
     companyType,
   };
 

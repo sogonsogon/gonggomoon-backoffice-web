@@ -13,7 +13,7 @@ export type IndustryType =
 export type Industry = {
   industryId: number;
   name: string;
-  industryType?: IndustryType;
+  industryTypeId?: IndustryType;
 };
 
 export type IndustryIconConfig = {
