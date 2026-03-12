@@ -10,6 +10,7 @@ import { CreateCompanyRequest, GetCompanyListParams, UpdateCompanyRequest } from
 import { ApiErrorResponse } from '@/shared/types/api';
 
 export const companyQueryKeys = {
+  all: ['companyList'] as const,
   list: (params?: GetCompanyListParams) => ['companyList', params] as const,
   detail: (companyId: number) => ['companyDetail', companyId] as const,
 };
@@ -60,7 +61,7 @@ export function useCreateCompany() {
       return result.data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['companyList'] });
+      queryClient.invalidateQueries({ queryKey: companyQueryKeys.all });
     },
     onError: (error: ApiErrorResponse) => {
       console.error('기업 등록 실패:', error);
@@ -80,7 +81,7 @@ export function useUpdateCompany(companyId: number) {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: companyQueryKeys.detail(companyId) });
-      queryClient.invalidateQueries({ queryKey: ['companyList'] });
+      queryClient.invalidateQueries({ queryKey: companyQueryKeys.all });
     },
     onError: (error: ApiErrorResponse) => {
       console.error('기업 수정 실패:', error);
@@ -98,7 +99,7 @@ export function useDeleteCompany() {
       return result.data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['companyList'] });
+      queryClient.invalidateQueries({ queryKey: companyQueryKeys.all });
     },
     onError: (error: ApiErrorResponse) => {
       console.error('기업 삭제 실패:', error);

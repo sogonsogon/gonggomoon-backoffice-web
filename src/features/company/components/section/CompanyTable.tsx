@@ -14,9 +14,10 @@ export default function CompanyTable() {
 
   const rawIndustryTypeId = searchParams.get('industryTypeId');
   const rawCompanyType = searchParams.get('companyType');
+  const parsed = Number(rawIndustryTypeId);
   const industryTypeId =
-    rawIndustryTypeId && rawIndustryTypeId !== 'all'
-      ? Number(rawIndustryTypeId)
+    rawIndustryTypeId && rawIndustryTypeId !== 'all' && Number.isFinite(parsed) && parsed > 0
+      ? parsed
       : undefined;
   const companyType =
     rawCompanyType &&
