@@ -8,8 +8,6 @@ import { ANALYSIS_STATUS_LABELS } from '@/features/industry/constants';
 import { formatDate } from '@/shared/lib/formatDate';
 import { usePublishIndustryAnalysis, useDeleteIndustryAnalysis } from '@/features/industry/queries';
 import type { IndustryAnalysisListItem } from '@/features/industry/types';
-import { error } from 'console';
-import { ApiError } from 'next/dist/server/api-utils';
 import { ApiErrorResponse } from '@/shared/types/api';
 import { toast } from 'sonner';
 

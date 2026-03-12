@@ -1,5 +1,3 @@
-import type { IndustryAnalysisListItem } from '@/features/industry/types';
-
 interface IndustryInfoSideCardProps {
   analysisCount: number;
   publishedAnalysisYear?: number;

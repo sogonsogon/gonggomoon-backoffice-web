@@ -23,7 +23,7 @@ export default function IndustryBasicInfoCard({ industryId, label }: IndustryBas
         onSuccess: () => {
           toast.success('산업군 정보가 업데이트되었습니다.');
         },
-        onError: (error) => {
+        onError: () => {
           toast.error('산업군 정보 업데이트에 실패했습니다.');
         },
       },
