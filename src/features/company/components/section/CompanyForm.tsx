@@ -46,7 +46,12 @@ export default function CompanyForm() {
     parsedCompanyId !== undefined && !Number.isNaN(parsedCompanyId) ? parsedCompanyId : undefined;
   const isEditMode = pathname.startsWith('/company/edit/') && companyId !== undefined;
 
-  const { data: companyDetail } = useCompanyDetail(companyId ?? 0);
+  const {
+    data: companyDetail,
+    isLoading: isCompanyDetailLoading,
+    isError: isCompanyDetailError,
+    error: companyDetailError,
+  } = useCompanyDetail(companyId ?? 0);
   const { data: industries, isLoading: isIndustriesLoading } = useIndustryCategoryList();
   const { mutate: createCompanyMutation, isPending: isCreating } = useCreateCompany();
   const { mutate: updateCompanyMutation, isPending: isUpdating } = useUpdateCompany(companyId ?? 0);
@@ -120,6 +125,36 @@ export default function CompanyForm() {
     });
   };
 
+  if (isEditMode && isCompanyDetailLoading) {
+    return (
+      <div className="flex-1 overflow-auto bg-ds-grey-100 p-8 flex flex-col gap-6">
+        <ContentHeader
+          title="기업 정보 수정"
+          description="기업 정보를 불러오는 중입니다"
+          backHref="/company"
+        />
+        <div className="rounded-[10px] bg-white border border-ds-grey-200 p-6 text-sm text-ds-grey-500">
+          기업 정보를 불러오는 중입니다.
+        </div>
+      </div>
+    );
+  }
+
+  if (isEditMode && isCompanyDetailError) {
+    return (
+      <div className="flex-1 overflow-auto bg-ds-grey-100 p-8 flex flex-col gap-6">
+        <ContentHeader
+          title="기업 정보 수정"
+          description="기업 정보를 불러오지 못했습니다"
+          backHref="/company"
+        />
+        <div className="rounded-[10px] bg-white border border-ds-grey-200 p-6 text-sm text-ds-grey-500">
+          기업 정보를 불러오지 못했습니다. {companyDetailError?.message}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="flex-1 overflow-auto bg-ds-grey-100 p-8 flex flex-col gap-6">
       <ContentHeader
@@ -148,7 +183,7 @@ export default function CompanyForm() {
                 <Label>설립 연도</Label>
                 <Input
                   placeholder="예: 2010"
-                  value={form.foundedYear}
+                  value={String(form.foundedYear)}
                   onChange={(e) => handleChange('foundedYear', e.target.value)}
                 />
               </div>
@@ -196,7 +231,7 @@ export default function CompanyForm() {
               <Label>임직원 수</Label>
               <Input
                 placeholder="예: 1,200"
-                value={form.employeeCount}
+                value={String(form.employeeCount)}
                 onChange={(e) => handleChange('employeeCount', e.target.value)}
               />
             </div>

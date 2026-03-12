@@ -3,22 +3,36 @@
 import { useSearchParams } from 'next/navigation';
 import { useCompanyList } from '@/features/company/queries';
 import CompanyRow from '@/features/company/components/ui/CompanyRow';
+import { COMPANY_TYPE_OPTIONS } from '@/features/company/constants';
 import { INDUSTRY_CONFIG } from '@/features/industry/constants';
 import type { GetCompanyListParams, CompanyType } from '@/features/company/types';
 import type { IndustryType } from '@/features/industry/types';
+
+const validIndustryTypes = new Set<IndustryType>(Object.keys(INDUSTRY_CONFIG) as IndustryType[]);
+const validCompanyTypes = new Set<CompanyType>(COMPANY_TYPE_OPTIONS.map((option) => option.value));
 
 export default function CompanyTable() {
   const searchParams = useSearchParams();
 
   const rawIndustryType = searchParams.get('industryType');
   const rawCompanyType = searchParams.get('companyType');
+  const industryType =
+    rawIndustryType &&
+    rawIndustryType !== 'all' &&
+    validIndustryTypes.has(rawIndustryType as IndustryType)
+      ? (rawIndustryType as IndustryType)
+      : undefined;
+  const companyType =
+    rawCompanyType &&
+    rawCompanyType !== 'all' &&
+    validCompanyTypes.has(rawCompanyType as CompanyType)
+      ? (rawCompanyType as CompanyType)
+      : undefined;
 
   const params: GetCompanyListParams = {
     name: searchParams.get('search') ?? undefined,
-    industryType:
-      rawIndustryType && rawIndustryType !== 'all' ? (rawIndustryType as IndustryType) : undefined,
-    companyType:
-      rawCompanyType && rawCompanyType !== 'all' ? (rawCompanyType as CompanyType) : undefined,
+    industryType,
+    companyType,
   };
 
   const { data: companies, isLoading, isError, error } = useCompanyList(params);
