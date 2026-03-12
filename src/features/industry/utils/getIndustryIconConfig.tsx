@@ -21,6 +21,10 @@ export const INDUSTRY_CATEGORY_ICON_CONFIG: Record<string, IndustryIconConfig> =
   return acc;
 }, {});
 
-const { label: _otherLabel, ...defaultIndustryIconConfig } = INDUSTRY_CONFIG.OTHER;
+const defaultIndustryIconConfig: IndustryIconConfig = {
+  icon: INDUSTRY_CONFIG.OTHER.icon,
+  iconColor: INDUSTRY_CONFIG.OTHER.iconColor,
+  bgColor: INDUSTRY_CONFIG.OTHER.bgColor,
+};
 
 export const DEFAULT_INDUSTRY_ICON_CONFIG: IndustryIconConfig = defaultIndustryIconConfig;

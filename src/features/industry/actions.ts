@@ -26,7 +26,10 @@ export async function createIndustryCategory(data: CreateIndustryCategoryRequest
 }
 
 // 산업 카테고리 수정 — PATCH /api/v1/admin/industries/{id}
-export async function updateIndustryCategory(industryId: number, data: UpdateIndustryCategoryRequest) {
+export async function updateIndustryCategory(
+  industryId: number,
+  data: UpdateIndustryCategoryRequest,
+) {
   return privateFetch<IndustryCategory>(`/api/v1/admin/industries/${industryId}`, {
     method: 'PATCH',
     body: JSON.stringify(data),
@@ -48,7 +51,10 @@ export async function getIndustryAnalysis(analysisId: number) {
 }
 
 // 산업 분석 생성 — POST /api/v1/admin/industries/{id}/reports
-export async function createIndustryAnalysis(industryId: number, data: CreateIndustryAnalysisRequest) {
+export async function createIndustryAnalysis(
+  industryId: number,
+  data: CreateIndustryAnalysisRequest,
+) {
   return privateFetch<IndustryAnalysis>(`/api/v1/admin/industries/${industryId}/reports`, {
     method: 'POST',
     body: JSON.stringify(data),

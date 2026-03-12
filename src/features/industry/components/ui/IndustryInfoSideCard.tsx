@@ -1,13 +1,11 @@
-import type { IndustryAnalysis } from '@/features/industry/types';
-
 interface IndustryInfoSideCardProps {
   analysisCount: number;
-  publishedAnalysis?: IndustryAnalysis;
+  publishedAnalysisYear?: number;
 }
 
 export default function IndustryInfoSideCard({
   analysisCount,
-  publishedAnalysis,
+  publishedAnalysisYear,
 }: IndustryInfoSideCardProps) {
   return (
     <div className="w-70 flex flex-col gap-3">
@@ -20,9 +18,9 @@ export default function IndustryInfoSideCard({
         </div>
         <div className="flex justify-between items-center text-[13px]">
           <span className="text-ds-grey-600">최신 발행 버전</span>
-          {publishedAnalysis ? (
+          {publishedAnalysisYear ? (
             <span className="inline-flex px-2 py-0.5 rounded-md text-xs font-medium bg-ds-badge-green-bg text-ds-badge-green-text">
-              {publishedAnalysis.analysisYear}
+              {publishedAnalysisYear}
             </span>
           ) : (
             <span className="text-ds-grey-500">-</span>
