@@ -1,11 +1,11 @@
 import Link from 'next/link';
 import { Button } from '@/shared/components/ui/button';
-import type { Company } from '@/features/company/types';
+import type { CompanyListItem } from '@/features/company/types';
 import { COMPANY_TYPE_OPTIONS } from '@/features/company/constants';
 
 interface CompanyRowProps {
   no: number;
-  company: Company;
+  company: CompanyListItem;
   industryName?: string;
   last?: boolean;
 }

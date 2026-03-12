@@ -1,7 +1,6 @@
-import type { Company } from '@/features/company/types';
+import type { CompanyDetail } from '@/features/company/types';
 
-// 변경 요청 내용
-export const mockCompanies: Company[] = [
+export const mockCompanies: CompanyDetail[] = [
   {
     companyId: 11,
     companyName: '네오커머스',
@@ -12,6 +11,8 @@ export const mockCompanies: Company[] = [
     foundedYear: 2012,
     address: 'Seoul, KR',
     employeeCount: 3500,
+    description: '',
+    revenue: 0,
     createdBy: 1,
     updatedBy: 1,
     createdAt: '2024-01-01T00:00:00Z',
@@ -27,6 +28,8 @@ export const mockCompanies: Company[] = [
     foundedYear: 2018,
     address: 'Seoul, KR',
     employeeCount: 420,
+    description: '',
+    revenue: 0,
     createdBy: 1,
     updatedBy: 1,
     createdAt: '2024-01-01T00:00:00Z',
@@ -42,6 +45,8 @@ export const mockCompanies: Company[] = [
     foundedYear: 2006,
     address: 'San Francisco, US',
     employeeCount: 12000,
+    description: '',
+    revenue: 0,
     createdBy: 1,
     updatedBy: 1,
     createdAt: '2024-01-01T00:00:00Z',
@@ -57,6 +62,8 @@ export const mockCompanies: Company[] = [
     foundedYear: 2021,
     address: 'Seoul, KR',
     employeeCount: 18,
+    description: '',
+    revenue: 0,
     createdBy: 1,
     updatedBy: 1,
     createdAt: '2024-01-01T00:00:00Z',

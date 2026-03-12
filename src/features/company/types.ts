@@ -1,4 +1,4 @@
-import { IndustryType } from '../industry/types';
+import { IndustryType } from '@/features/industry/types';
 
 export type CompanyType =
   | 'LARGE_ENTERPRISE'
@@ -6,19 +6,67 @@ export type CompanyType =
   | 'SMALL_MEDIUM_ENTERPRISE'
   | 'STARTUP';
 
-export type Company = {
-  companyId?: number;
+export type GetCompanyListParams = {
+  name?: string;
+  industryType?: IndustryType;
+  companyType?: CompanyType;
+  page?: number;
+  size?: number;
+};
+
+export type CompanyListItem = {
+  companyId: number;
   companyName: string;
   companyType: CompanyType;
-  industryId?: number;
-  industryType: IndustryType; // 추후 제거 예정?
-  websiteUrl?: string;
-  foundedYear?: number;
-  address?: string;
-  employeeCount?: number;
-  description?: string;
-  createdBy?: number;
-  updatedBy?: number;
-  createdAt?: string;
-  updatedAt?: string;
+  industryType: IndustryType;
+  industryId: number;
+  employeeCount: number;
+  foundedYear: number;
+};
+
+export type CompanyList = CompanyListItem[];
+
+export type GetCompanyListResponse = CompanyList;
+
+export type CompanyDetail = {
+  companyId: number;
+  companyName: string;
+  companyType: CompanyType;
+  industryId: number;
+  industryType: IndustryType;
+  websiteUrl: string;
+  foundedYear: number;
+  address: string;
+  employeeCount: number;
+  description: string;
+  revenue: number;
+  createdBy: number;
+  updatedBy: number;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type GetCompanyDetailResponse = CompanyDetail;
+
+export type CreateCompanyRequest = {
+  companyName: string;
+  industryId: number;
+  companyType: CompanyType;
+  employeeCount: number;
+  address: string;
+  foundedYear: number;
+  websiteUrl: string;
+  description: string;
+};
+
+export type UpdateCompanyRequest = {
+  companyName: string;
+  industryId: number;
+  companyType: CompanyType;
+  employeeCount: number;
+  address: string;
+  revenue: number;
+  foundedYear: number;
+  websiteUrl: string;
+  description: string;
 };
