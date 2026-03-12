@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter, useParams, usePathname } from 'next/navigation';
 import { Info } from 'lucide-react';
 import { Input } from '@/shared/components/ui/input';
@@ -51,52 +51,48 @@ export default function CompanyForm() {
   const { mutate: createCompanyMutation, isPending: isCreating } = useCreateCompany();
   const { mutate: updateCompanyMutation, isPending: isUpdating } = useUpdateCompany(companyId ?? 0);
 
-  const [form, setForm] = useState<CompanyFormState>(INITIAL_FORM);
+  const [formOverrides, setFormOverrides] = useState<Partial<CompanyFormState>>({});
 
-  useEffect(() => {
-    if (isEditMode && companyDetail) {
-      setForm({
-        companyName: companyDetail.companyName,
-        companyType: companyDetail.companyType,
-        industryId: companyDetail.industryId,
-        websiteUrl: companyDetail.websiteUrl,
-        foundedYear: companyDetail.foundedYear,
-        address: companyDetail.address,
-        employeeCount: companyDetail.employeeCount,
-        description: companyDetail.description,
-      });
-    }
-  }, [isEditMode, companyDetail]);
+  const baseForm: CompanyFormState =
+    isEditMode && companyDetail
+      ? {
+          companyName: companyDetail.companyName,
+          companyType: companyDetail.companyType,
+          industryId: companyDetail.industryId,
+          websiteUrl: companyDetail.websiteUrl,
+          foundedYear: companyDetail.foundedYear,
+          address: companyDetail.address,
+          employeeCount: companyDetail.employeeCount,
+          description: companyDetail.description,
+        }
+      : INITIAL_FORM;
+
+  const form: CompanyFormState = { ...baseForm, ...formOverrides };
 
   const isPrimaryEnabled =
     form.companyName.trim().length > 0 &&
-    (form.foundedYear ?? 0) > 0 &&
-    (form.industryId ?? 0) > 0 &&
+    form.foundedYear > 0 &&
+    form.industryId > 0 &&
     Boolean(form.companyType) &&
-    (form.employeeCount ?? 0) > 0;
+    form.employeeCount > 0;
 
-  const parseNumericInput = (value: string): number | undefined => {
+  const parseNumericInput = (value: string): number => {
     const digitsOnly = value.replace(/[^0-9]/g, '');
-
-    if (!digitsOnly) {
-      return undefined;
-    }
-
-    return Number(digitsOnly);
+    return digitsOnly ? Number(digitsOnly) : 0;
   };
 
   const handleChange = (key: keyof CompanyFormState, value: string) => {
     if (key === 'industryId') {
-      setForm((prev) => ({ ...prev, industryId: Number(value) }));
+      setFormOverrides((prev) => ({ ...prev, industryId: Number(value) }));
       return;
     }
 
     if (key === 'foundedYear' || key === 'employeeCount') {
-      setForm((prev) => ({ ...prev, [key]: parseNumericInput(value) }));
+      setFormOverrides((prev) => ({ ...prev, [key]: parseNumericInput(value) }));
       return;
     }
 
-    setForm((prev) => ({ ...prev, [key]: value }));
+    setFormOverrides((prev) => ({ ...prev, [key]: value }));
   };
 
   const handleSubmit = () => {

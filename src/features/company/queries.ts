@@ -60,7 +60,7 @@ export function useCreateCompany() {
       return result.data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: companyQueryKeys.list() });
+      queryClient.invalidateQueries({ queryKey: ['companyList'] });
     },
     onError: (error: ApiErrorResponse) => {
       console.error('기업 등록 실패:', error);
@@ -80,7 +80,7 @@ export function useUpdateCompany(companyId: number) {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: companyQueryKeys.detail(companyId) });
-      queryClient.invalidateQueries({ queryKey: companyQueryKeys.list() });
+      queryClient.invalidateQueries({ queryKey: ['companyList'] });
     },
     onError: (error: ApiErrorResponse) => {
       console.error('기업 수정 실패:', error);
@@ -98,7 +98,7 @@ export function useDeleteCompany() {
       return result.data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: companyQueryKeys.list() });
+      queryClient.invalidateQueries({ queryKey: ['companyList'] });
     },
     onError: (error: ApiErrorResponse) => {
       console.error('기업 삭제 실패:', error);
