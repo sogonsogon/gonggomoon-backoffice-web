@@ -14,14 +14,16 @@ import {
   SelectValue,
 } from '@/shared/components/ui/select';
 import { mockIndustries, mockCompanies } from '@/mocks';
-import type { Company } from '@/features/company/types';
+import type { CreateCompanyRequest } from '@/features/company/types';
 import CardActionForm from '@/shared/components/ui/CardActionForm';
 import { COMPANY_TYPE_OPTIONS } from '@/features/company/constants';
 
-const INITIAL_FORM: Omit<Company, 'companyId'> = {
+type CompanyFormState = CreateCompanyRequest;
+
+const INITIAL_FORM: CompanyFormState = {
   companyName: '',
   companyType: 'LARGE_ENTERPRISE',
-  industryType: 'COMMERCE',
+  industryId: 0,
   websiteUrl: '',
   foundedYear: 0,
   address: '',
@@ -43,7 +45,7 @@ export default function CompanyForm() {
 
   const company = isEditMode ? mockCompanies.find((c) => c.companyId === companyId) : undefined;
 
-  const [form, setForm] = useState<Company>({
+  const [form, setForm] = useState<CompanyFormState>({
     ...INITIAL_FORM,
     ...company,
     companyType: company?.companyType ?? INITIAL_FORM.companyType,
@@ -66,18 +68,9 @@ export default function CompanyForm() {
     return Number(digitsOnly);
   };
 
-  const handleChange = (key: keyof Company, value: string) => {
+  const handleChange = (key: keyof CompanyFormState, value: string) => {
     if (key === 'industryId') {
-      const nextIndustryId = Number(value);
-      const nextIndustry = mockIndustries.find(
-        (industry) => industry.industryId === nextIndustryId,
-      );
-
-      setForm((prev) => ({
-        ...prev,
-        industryId: nextIndustryId,
-        industryType: nextIndustry?.industryType ?? prev.industryType,
-      }));
+      setForm((prev) => ({ ...prev, industryId: Number(value) }));
       return;
     }
 
