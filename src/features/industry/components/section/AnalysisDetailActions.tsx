@@ -3,7 +3,6 @@
 import { useRouter } from 'next/navigation';
 import { Button } from '@/shared/components/ui/button';
 import { usePublishIndustryAnalysis, useDeleteIndustryAnalysis } from '@/features/industry/queries';
-import { on } from 'events';
 import { toast } from 'sonner';
 import { ApiErrorResponse } from '@/shared/types/api';
 
