@@ -6,7 +6,7 @@ import AnalysisDetailActions from './AnalysisDetailActions';
 import IndustryAnalysisCard from './IndustryAnalysisCard';
 import IndustryStatusCard from './IndutryStatusCard';
 import { Card, CardContent } from '@/shared/components/ui/card';
-import { useIndustryAnalysis, useIndustryCategoryList } from '../../queries';
+import { useIndustryAnalysis, useIndustryCategoryList } from '@/features/industry/queries';
 import { formatDate } from '@/shared/lib/formatDate';
 
 interface IndustryAnalysisSectionProps {

@@ -27,7 +27,7 @@ export default function CompanyTable() {
   const params: GetCompanyListParams = {
     name: searchParams.get('search') ?? undefined,
     industryId,
-    page: page > 0 ? page : undefined,
+    page,
   };
 
   const { data, isLoading, isError, error } = useCompanyList(params);

@@ -38,7 +38,7 @@ export default function RecruitmentCreateForm({ defaultUrl }: RecruitmentCreateF
     selectedJobType !== null &&
     description.trim() !== '';
 
-  const { data: companyData } = useCompanyList();
+  const { data: companyData } = useCompanyList({ page: 0, size: 1000 });
   const companyNames = (companyData?.contents ?? []).map((company) => company.companyName);
 
   return (
