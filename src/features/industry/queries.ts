@@ -1,12 +1,10 @@
-'use client';
-
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient, queryOptions } from '@tanstack/react-query';
 import {
   getIndustryCategoryList,
-  createIndustryCategory,
-  updateIndustryCategory,
   getIndustryAnalysisList,
   getIndustryAnalysis,
+  createIndustryCategory,
+  updateIndustryCategory,
   createIndustryAnalysis,
   publishIndustryAnalysis,
   deleteIndustryAnalysis,
@@ -16,12 +14,7 @@ import type {
   UpdateIndustryCategoryRequest,
   CreateIndustryAnalysisRequest,
 } from '@/features/industry/types';
-
-function toQueryError(result: { code: string; message: string }) {
-  const error = new Error(result.message || '요청 처리에 실패했습니다.');
-  error.name = result.code || 'API_ERROR';
-  return error;
-}
+import { ApiErrorResponse } from '@/shared/types/api';
 
 export const industryQueryKeys = {
   categoryList: ['industry', 'categories'] as const,
@@ -30,34 +23,38 @@ export const industryQueryKeys = {
 };
 
 // 산업 카테고리 목록 조회 Query Options
-export const industryCategoryListQueryOptions = {
+export const industryCategoryListQueryOptions = queryOptions({
   queryKey: industryQueryKeys.categoryList,
   queryFn: async () => {
     const result = await getIndustryCategoryList();
-    if (!result.success) throw toQueryError(result);
+    if (!result.success) return Promise.reject(result);
     return result.data;
   },
-};
+});
 
 // 산업 분석 목록 조회 Query Options
-export const industryAnalysisListQueryOptions = (industryId: number) => ({
-  queryKey: industryQueryKeys.analysisList(industryId),
-  queryFn: async () => {
-    const result = await getIndustryAnalysisList(industryId);
-    if (!result.success) throw toQueryError(result);
-    return result.data;
-  },
-});
+export const industryAnalysisListQueryOptions = (industryId: number) =>
+  queryOptions({
+    queryKey: industryQueryKeys.analysisList(industryId),
+    queryFn: async () => {
+      const result = await getIndustryAnalysisList(industryId);
+      if (!result.success) return Promise.reject(result);
+      return result.data;
+    },
+  });
 
 // 산업 분석 단건 조회 Query Options
-export const industryAnalysisQueryOptions = (analysisId: number) => ({
-  queryKey: industryQueryKeys.analysis(analysisId),
-  queryFn: async () => {
-    const result = await getIndustryAnalysis(analysisId);
-    if (!result.success) throw toQueryError(result);
-    return result.data;
-  },
-});
+export const industryAnalysisQueryOptions = (analysisId: number) =>
+  queryOptions({
+    queryKey: industryQueryKeys.analysis(analysisId),
+    queryFn: async () => {
+      const result = await getIndustryAnalysis(analysisId);
+      if (!result.success) return Promise.reject(result);
+      return result.data;
+    },
+  });
+
+// 조회 useQuery 훅들
 
 // 산업 카테고리 목록 조회 useQuery
 export function useIndustryCategoryList() {
@@ -72,13 +69,15 @@ export function useIndustryAnalysisList(industryId: number) {
   });
 }
 
-// 산업 분석 단건 조회 useQuery
+// 산업 분석 단건 조회 useQuery (페이지 진입 시 Prefetch)
 export function useIndustryAnalysis(analysisId: number) {
   return useQuery({
     ...industryAnalysisQueryOptions(analysisId),
     enabled: Number.isFinite(analysisId) && analysisId > 0,
   });
 }
+
+// 변이 useMutation 훅들
 
 // 산업 카테고리 생성 useMutation
 export function useCreateIndustryCategory() {
@@ -87,11 +86,14 @@ export function useCreateIndustryCategory() {
   return useMutation({
     mutationFn: async (data: CreateIndustryCategoryRequest) => {
       const result = await createIndustryCategory(data);
-      if (!result.success) throw toQueryError(result);
+      if (!result.success) return Promise.reject(result);
       return result.data;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: industryQueryKeys.categoryList });
+    },
+    onError: (error: ApiErrorResponse) => {
+      console.error('산업 카테고리 생성 실패:', error);
     },
   });
 }
@@ -103,11 +105,14 @@ export function useUpdateIndustryCategory(industryId: number) {
   return useMutation({
     mutationFn: async (data: UpdateIndustryCategoryRequest) => {
       const result = await updateIndustryCategory(industryId, data);
-      if (!result.success) throw toQueryError(result);
+      if (!result.success) return Promise.reject(result);
       return result.data;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: industryQueryKeys.categoryList });
+    },
+    onError: (error: ApiErrorResponse) => {
+      console.error('산업 카테고리 수정 실패:', error);
     },
   });
 }
@@ -119,7 +124,7 @@ export function useCreateIndustryAnalysis(industryId: number) {
   return useMutation({
     mutationFn: async (data: CreateIndustryAnalysisRequest) => {
       const result = await createIndustryAnalysis(industryId, data);
-      if (!result.success) throw toQueryError(result);
+      if (!result.success) return Promise.reject(result);
       return result.data;
     },
     onSuccess: (createdAnalysis) => {
@@ -128,6 +133,9 @@ export function useCreateIndustryAnalysis(industryId: number) {
       queryClient.removeQueries({
         queryKey: industryQueryKeys.analysis(createdAnalysis.analysisId),
       });
+    },
+    onError: (error: ApiErrorResponse) => {
+      console.error('산업 분석 생성 실패:', error);
     },
   });
 }
@@ -139,12 +147,15 @@ export function usePublishIndustryAnalysis(industryId: number) {
   return useMutation({
     mutationFn: async (analysisId: number) => {
       const result = await publishIndustryAnalysis(analysisId);
-      if (!result.success) throw toQueryError(result);
+      if (!result.success) return Promise.reject(result);
       return result.data;
     },
     onSuccess: (_, analysisId) => {
       queryClient.invalidateQueries({ queryKey: industryQueryKeys.analysisList(industryId) });
       queryClient.invalidateQueries({ queryKey: industryQueryKeys.analysis(analysisId) });
+    },
+    onError: (error: ApiErrorResponse) => {
+      console.error('산업 분석 발행 실패:', error);
     },
   });
 }
@@ -156,13 +167,16 @@ export function useDeleteIndustryAnalysis(industryId: number) {
   return useMutation({
     mutationFn: async (analysisId: number) => {
       const result = await deleteIndustryAnalysis(analysisId);
-      if (!result.success) throw toQueryError(result);
+      if (!result.success) return Promise.reject(result);
       return result.data;
     },
     onSuccess: (_, analysisId) => {
       queryClient.invalidateQueries({ queryKey: industryQueryKeys.analysisList(industryId) });
       queryClient.invalidateQueries({ queryKey: industryQueryKeys.categoryList });
       queryClient.removeQueries({ queryKey: industryQueryKeys.analysis(analysisId) });
+    },
+    onError: (error: ApiErrorResponse) => {
+      console.error('산업 분석 삭제 실패:', error);
     },
   });
 }

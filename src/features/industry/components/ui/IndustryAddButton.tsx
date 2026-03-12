@@ -15,12 +15,38 @@ import {
 import { Input } from '@/shared/components/ui/input';
 import { Label } from '@/shared/components/ui/label';
 import { Separator } from '@/shared/components/ui/separator';
+import { toast } from 'sonner';
+import { useCreateIndustryCategory } from '@/features/industry/queries';
 
 export default function IndustryAddButton() {
   const [isOpen, setIsOpen] = useState(false);
+  const [industryName, setIndustryName] = useState('');
+  const { mutate: createCategory, isPending } = useCreateIndustryCategory();
+
+  function handleSubmit() {
+    if (!industryName.trim()) return;
+    createCategory(
+      { industryName: industryName.trim() },
+      {
+        onSuccess: () => {
+          toast.success('산업군이 등록되었습니다.');
+          setIsOpen(false);
+          setIndustryName('');
+        },
+        onError: (error) => {
+          toast.error(error.message || '산업군 등록에 실패했습니다.');
+        },
+      },
+    );
+  }
+
+  function handleOpenChange(open: boolean) {
+    setIsOpen(open);
+    if (!open) setIndustryName('');
+  }
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+    <Dialog open={isOpen} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
         <Button className="gap-1.5">
           <Plus size={16} />
@@ -53,6 +79,8 @@ export default function IndustryAddButton() {
             type="text"
             placeholder="예) 인공지능 / AI"
             className="border-ds-grey-200 bg-white text-sm text-ds-grey-900"
+            value={industryName}
+            onChange={(e) => setIndustryName(e.target.value)}
           />
         </div>
 
@@ -67,8 +95,9 @@ export default function IndustryAddButton() {
               취소
             </Button>
           </DialogClose>
-          {/* TODO: 산업 카테고리 생성 API 호출 위치 (/api/v1/admin/industries) */}
-          <Button>등록</Button>
+          <Button onClick={handleSubmit} disabled={!industryName.trim() || isPending}>
+            등록
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

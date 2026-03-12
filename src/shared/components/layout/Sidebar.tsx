@@ -2,14 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import {
-  LayoutDashboard,
-  Building2,
-  Briefcase,
-  FileText,
-  ChevronRight,
-  LogOut,
-} from 'lucide-react';
+import { Building2, Briefcase, FileText, ChevronRight, LogOut } from 'lucide-react';
 import { Button } from '@/shared/components/ui/button';
 import { Separator } from '@/shared/components/ui/separator';
 import { cn } from '@/shared/lib/cn';
