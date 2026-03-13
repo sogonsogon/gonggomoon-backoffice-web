@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { mockRecruitmentRequests } from '@/mocks';
+import { formatDate } from '@/shared/lib/formatDate';
 import { Button } from '@/shared/components/ui/button';
 import {
   PLATFORM_TYPE_LABELS,
@@ -32,8 +33,7 @@ export default function RecruitmentRequestList() {
           >
             <div className="w-14 px-4 text-[13px] text-ds-grey-600 shrink-0">{i + 1}</div>
             <div className="w-44 px-4 text-sm text-ds-grey-900 shrink-0">
-              {PLATFORM_TYPE_LABELS[item.platformName as keyof typeof PLATFORM_TYPE_LABELS] ??
-                item.platformName}
+              {PLATFORM_TYPE_LABELS[item.platformName]}
             </div>
             <div className="flex-1 px-4 text-[13px] text-primary truncate">
               <a href={item.url} target="_blank" rel="noopener noreferrer">
@@ -48,7 +48,7 @@ export default function RecruitmentRequestList() {
               </span>
             </div>
             <div className="w-28 px-4 text-[13px] text-ds-grey-700 shrink-0">
-              {item.createdAt ? item.createdAt.split('T')[0].replace(/-/g, '.') : '-'}
+              {formatDate(item.createdAt)}
             </div>
             <div className="w-48 px-4 flex items-center gap-1.5 shrink-0">
               {isPending ? (

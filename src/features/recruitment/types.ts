@@ -15,13 +15,15 @@ export type RecruitmentStatus = 'ANALYZING' | 'ANALYSIS_DONE' | 'PUBLISHED';
 
 export type RecruitmentRequestStatus = 'PENDING' | 'APPROVED' | 'REJECTED';
 
+export type PlatformName = 'SARAMIN' | 'WANTED' | 'JABKOREA' | 'JASOSEOL';
+
 // ============ 공고 요청 (requests) ============
 
 // GET /api/v1/admin/posts/submissions - 게시 목록 아이템
 export type RecruitmentRequest = {
   submissionId: number;
   userId: number;
-  platformName: string;
+  platformName: PlatformName;
   url: string;
   submissionStatus: RecruitmentRequestStatus;
   createdAt: string;
@@ -89,6 +91,13 @@ export type PageInfo = {
   totalPages: number;
   totalElements: number;
   hasNext: boolean;
+};
+
+// GET /api/v1/admin/posts - query params
+export type GetRecruitmentListParams = {
+  page?: number;
+  size?: number;
+  status?: RecruitmentStatus;
 };
 
 // GET /api/v1/admin/posts - 응답 data
