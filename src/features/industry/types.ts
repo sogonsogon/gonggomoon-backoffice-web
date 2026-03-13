@@ -21,14 +21,15 @@ export type IndustryIconConfig = {
   bgColor: string;
 };
 
-// AnalysisStatus
-export type IndustryAnalysisStatus = 'SAVED' | 'PUBLISHED';
+// ReportStatus
+export type IndustryReportStatus = 'SAVED' | 'PUBLISHED';
+export type IndustryAnalysisStatus = IndustryReportStatus;
 
 // GET /api/v1/admin/industries/{id}/reports — 목록 아이템
 export type IndustryAnalysisListItem = {
   analysisId: number;
   analysisYear: number;
-  analysisStatus: IndustryAnalysisStatus;
+  analysisStatus: IndustryReportStatus;
   createdAt: string;
   updatedAt: string;
 };
@@ -50,7 +51,7 @@ export type IndustryAnalysis = {
   competition: string;
   hiring: string[];
   investment: string[];
-  analysisStatus: IndustryAnalysisStatus;
+  analysisStatus: IndustryReportStatus;
   createdAt: string;
   updatedAt: string;
 };

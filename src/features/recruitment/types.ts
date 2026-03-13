@@ -15,15 +15,13 @@ export type RecruitmentStatus = 'ANALYZING' | 'ANALYSIS_DONE' | 'PUBLISHED';
 
 export type RecruitmentRequestStatus = 'PENDING' | 'APPROVED' | 'REJECTED';
 
-export type PlatformName = 'Saramin' | 'JobKorea' | 'Wanted' | 'Jasoseol';
-
 // ============ 공고 요청 (requests) ============
 
 // GET /api/v1/admin/posts/submissions - 게시 목록 아이템
 export type RecruitmentRequest = {
   submissionId: number;
   userId: number;
-  platformName: PlatformName;
+  platformName: string;
   url: string;
   submissionStatus: RecruitmentRequestStatus;
   createdAt: string;

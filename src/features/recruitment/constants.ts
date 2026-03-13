@@ -1,6 +1,5 @@
 import type {
   JobType,
-  PlatformName,
   RecruitmentRequestStatus,
   RecruitmentStatus,
 } from '@/features/recruitment/types';
@@ -38,11 +37,4 @@ export const REQUEST_STATUS_BADGE: Record<RecruitmentRequestStatus, string> = {
   PENDING: 'bg-ds-badge-blue-bg text-ds-badge-blue-text',
   APPROVED: 'bg-ds-badge-green-bg text-ds-badge-green-text',
   REJECTED: 'bg-ds-badge-grey-bg text-ds-badge-grey-text',
-};
-
-export const PLATFORM_TYPE_LABELS: Record<PlatformName, string> = {
-  Saramin: '사람인',
-  JobKorea: '잡코리아',
-  Wanted: '원티드',
-  Jasoseol: '자소설닷컴',
 };
