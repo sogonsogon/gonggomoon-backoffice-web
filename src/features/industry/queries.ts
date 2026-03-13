@@ -39,7 +39,7 @@ export const industryAnalysisListQueryOptions = (industryId: number) =>
     queryFn: async () => {
       const result = await getIndustryAnalysisList(industryId);
       if (!result.success) return Promise.reject(result);
-      return result.data;
+      return result.data.contents;
     },
   });
 
@@ -127,12 +127,9 @@ export function useCreateIndustryAnalysis(industryId: number) {
       if (!result.success) return Promise.reject(result);
       return result.data;
     },
-    onSuccess: (createdAnalysis) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: industryQueryKeys.analysisList(industryId) });
       queryClient.invalidateQueries({ queryKey: industryQueryKeys.categoryList });
-      queryClient.removeQueries({
-        queryKey: industryQueryKeys.analysis(createdAnalysis.analysisId),
-      });
     },
     onError: (error: ApiErrorResponse) => {
       console.error('산업 분석 생성 실패:', error);

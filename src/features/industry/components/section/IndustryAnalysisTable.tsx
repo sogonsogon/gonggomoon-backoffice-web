@@ -73,16 +73,16 @@ export default function IndustryAnalysisTable({
         </div>
 
         {analysis.map((item, i) => {
-          const isPublished = item.analysisStatus === 'PUBLISHED';
-          const statusLabel = ANALYSIS_STATUS_LABELS[item.analysisStatus] ?? '저장됨';
+          const isPublished = item.reportStatus === 'PUBLISHED';
+          const statusLabel = ANALYSIS_STATUS_LABELS[item.reportStatus] ?? '대기중';
 
           return (
             <div
-              key={item.analysisId}
+              key={item.reportId}
               className={`flex items-center h-14 ${i < analysis.length - 1 ? 'border-b border-ds-grey-200' : ''}`}
             >
               <div className="w-25 px-4 text-sm font-semibold text-ds-grey-900 shrink-0">
-                {item.analysisYear}
+                {item.reportYear}
               </div>
               <div className="w-37.5 px-4 text-[13px] text-ds-grey-700 shrink-0">
                 {formatDate(item.createdAt)}
@@ -103,7 +103,7 @@ export default function IndustryAnalysisTable({
               </div>
               <div className="flex-1 px-4 flex items-center gap-1.5">
                 <Link
-                  href={`/industry/${industryId}/analysis/${item.analysisId}`}
+                  href={`/industry/${industryId}/analysis/${item.reportId}`}
                   className="inline-flex h-8 items-center justify-center rounded-md border border-ds-grey-200 bg-white px-4 text-sm font-medium text-ds-grey-700 no-underline visited:text-ds-grey-700 hover:bg-ds-grey-50"
                 >
                   상세보기
@@ -112,7 +112,7 @@ export default function IndustryAnalysisTable({
                   size="sm"
                   disabled={isPublished || isPublishing}
                   className={isPublished ? 'bg-ds-grey-300 hover:bg-ds-grey-300' : 'bg-ds-grey-900'}
-                  onClick={() => handlePublish(item.analysisId)}
+                  onClick={() => handlePublish(item.reportId)}
                 >
                   발행
                 </Button>
@@ -121,7 +121,7 @@ export default function IndustryAnalysisTable({
                   variant="outline"
                   className="text-ds-badge-red-text"
                   disabled={isDeleting}
-                  onClick={() => handleDelete(item.analysisId)}
+                  onClick={() => handleDelete(item.reportId)}
                 >
                   삭제
                 </Button>

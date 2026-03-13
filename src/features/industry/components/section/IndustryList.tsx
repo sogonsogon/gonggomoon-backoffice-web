@@ -31,7 +31,7 @@ export default function IndustryList() {
           key={item.industryId}
           industryId={item.industryId}
           label={item.industryName}
-          analysisCount={item.analysisCount}
+          analysisCount={item.reportCount}
         />
       ))}
     </div>

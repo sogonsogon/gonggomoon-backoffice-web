@@ -5,7 +5,6 @@ import type {
   GetIndustryCategoryListResponse,
   GetIndustryAnalysisListResponse,
   GetIndustryAnalysisResponse,
-  IndustryAnalysis,
   CreateIndustryCategoryRequest,
   UpdateIndustryCategoryRequest,
   CreateIndustryAnalysisRequest,
@@ -54,7 +53,7 @@ export async function createIndustryAnalysis(
   industryId: number,
   data: CreateIndustryAnalysisRequest,
 ) {
-  return privateFetch<IndustryAnalysis>(`/api/v1/admin/industries/${industryId}/reports`, {
+  return privateFetch<null>(`/api/v1/admin/industries/${industryId}/reports`, {
     method: 'POST',
     body: JSON.stringify(data),
   });

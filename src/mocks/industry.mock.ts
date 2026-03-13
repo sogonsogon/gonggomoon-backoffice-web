@@ -13,13 +13,13 @@ export const mockIndustries: Industry[] = [
 
 export const mockIndustriesAnalysis: IndustryAnalysis[] = [
   {
-    analysisId: 1,
+    reportId: 1,
     industryId: 1,
     industryName: '커머스',
-    analysisYear: 2024,
+    reportYear: 2024,
     createdAt: '2024-01-01T00:00:00Z',
     updatedAt: '2024-03-01T00:00:00Z',
-    analysisStatus: 'PUBLISHED',
+    reportStatus: 'PUBLISHED',
 
     keyword: ['클라우드', '데이터 플랫폼'],
 
@@ -45,13 +45,13 @@ export const mockIndustriesAnalysis: IndustryAnalysis[] = [
   },
 
   {
-    analysisId: 2,
+    reportId: 2,
     industryId: 5,
     industryName: 'AI',
-    analysisYear: 2025,
+    reportYear: 2025,
     createdAt: '2025-01-01T00:00:00Z',
     updatedAt: '2025-12-01T00:00:00Z',
-    analysisStatus: 'SAVED',
+    reportStatus: 'PENDING',
     keyword: ['생성형 AI', 'MLOps', 'AI 플랫폼'],
 
     marketSize: '520억 규모',
@@ -72,13 +72,13 @@ export const mockIndustriesAnalysis: IndustryAnalysis[] = [
   },
 
   {
-    analysisId: 3,
+    reportId: 3,
     industryId: 5,
     industryName: 'AI',
-    analysisYear: 2026,
+    reportYear: 2026,
     createdAt: '2026-01-01T00:00:00Z',
     updatedAt: '2026-03-01T00:00:00Z',
-    analysisStatus: 'PUBLISHED',
+    reportStatus: 'PUBLISHED',
     keyword: ['AI 인프라', '엣지컴퓨팅', '데이터 플랫폼'],
 
     marketSize: '600억 규모',

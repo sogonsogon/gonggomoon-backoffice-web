@@ -21,7 +21,7 @@ export default function IndustryAnalysisSection({
   const { data: analysis } = useIndustryAnalysis(analysisId);
   const label =
     categoryList?.find((category) => category.industryId === industryId)?.industryName || '산업군';
-  const yearLabel = analysis?.analysisYear ?? '-';
+  const yearLabel = analysis?.reportYear ?? '-';
 
   const isValidIndustryId = Number.isFinite(industryId) && industryId > 0;
   const isValidAnalysisId = Number.isFinite(analysisId) && analysisId > 0;
@@ -43,7 +43,7 @@ export default function IndustryAnalysisSection({
               <AnalysisDetailActions
                 industryId={industryId}
                 analysisId={analysisId}
-                isPublished={analysis?.analysisStatus === 'PUBLISHED'}
+                isPublished={analysis?.reportStatus === 'PUBLISHED'}
               />
             ) : null
           }
@@ -53,8 +53,8 @@ export default function IndustryAnalysisSection({
           <div className="flex items-start gap-4">
             <IndustryAnalysisCard analysis={analysis} />
             <IndustryStatusCard
-              status={analysis.analysisStatus}
-              analyzedYear={analysis.analysisYear}
+              status={analysis.reportStatus}
+              analyzedYear={analysis.reportYear}
             />
           </div>
         ) : (
