@@ -5,8 +5,12 @@ import {
   getCompanyDetail,
   getCompanyList,
   updateCompany,
-} from './actions';
-import { CreateCompanyRequest, GetCompanyListParams, UpdateCompanyRequest } from './types';
+} from '@/features/company/actions';
+import {
+  CreateCompanyRequest,
+  GetCompanyListParams,
+  UpdateCompanyRequest,
+} from '@/features/company/types';
 import { ApiErrorResponse } from '@/shared/types/api';
 
 export const companyQueryKeys = {

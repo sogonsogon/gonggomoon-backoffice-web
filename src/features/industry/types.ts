@@ -21,7 +21,7 @@ export type IndustryIconConfig = {
   bgColor: string;
 };
 
-// AnalysisStatus
+// ReportStatus
 export type IndustryAnalysisStatus = 'SAVED' | 'PUBLISHED';
 
 // GET /api/v1/admin/industries/{id}/reports — 목록 아이템
