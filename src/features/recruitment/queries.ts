@@ -61,8 +61,11 @@ export function useApproveRecruitmentRequest() {
       if (!result.success) return Promise.reject(result);
       return result.data;
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: recruitmentQueryKeys.allSubmissions });
+    onSuccess: async () => {
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: recruitmentQueryKeys.allSubmissions }),
+        queryClient.invalidateQueries({ queryKey: recruitmentQueryKeys.all }),
+      ]);
     },
     onError: (error: ApiErrorResponse) => {
       console.error('공고 게시 요청 승인 실패:', error);

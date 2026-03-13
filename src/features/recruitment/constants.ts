@@ -1,4 +1,9 @@
-import type { JobType, PlatformName, RecruitmentRequestStatus, RecruitmentStatus } from '@/features/recruitment/types';
+import type {
+  JobType,
+  PlatformName,
+  RecruitmentRequestStatus,
+  RecruitmentStatus,
+} from '@/features/recruitment/types';
 
 export const JOB_TYPE_LABELS: Record<JobType, string> = {
   FRONTEND: '프론트엔드',
