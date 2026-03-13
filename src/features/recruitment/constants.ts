@@ -36,8 +36,8 @@ export const REQUEST_STATUS_BADGE: Record<RecruitmentRequestStatus, string> = {
 };
 
 export const PLATFORM_TYPE_LABELS: Record<PlatformName, string> = {
-  SARAMIN: '사람인',
-  WANTED: '원티드',
-  JABKOREA: '잡코리아',
-  JASOSEOL: '자소설닷컴',
+  Saramin: '사람인',
+  JobKorea: '잡코리아',
+  Wanted: '원티드',
+  Jasoseol: '자소설닷컴',
 };

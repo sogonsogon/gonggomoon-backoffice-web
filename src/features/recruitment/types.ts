@@ -15,7 +15,7 @@ export type RecruitmentStatus = 'ANALYZING' | 'ANALYSIS_DONE' | 'PUBLISHED';
 
 export type RecruitmentRequestStatus = 'PENDING' | 'APPROVED' | 'REJECTED';
 
-export type PlatformName = 'SARAMIN' | 'WANTED' | 'JABKOREA' | 'JASOSEOL';
+export type PlatformName = 'Saramin' | 'JobKorea' | 'Wanted' | 'Jasoseol';
 
 // ============ 공고 요청 (requests) ============
 
@@ -35,12 +35,9 @@ export type RecruitmentRequestListParams = {
 };
 
 // GET /api/v1/admin/posts/submissions - 응답 data
+// 참고: page, size, totalElements, totalPages는 응답 root level에 위치하여 data에 포함되지 않음
 export type RecruitmentRequestListResponse = {
   contents: RecruitmentRequest[];
-  page: number;
-  size: number;
-  totalElements: number;
-  totalPages: number;
 };
 
 // POST /api/v1/admin/posts/submissions/{submissionId}/approve - 요청 body
