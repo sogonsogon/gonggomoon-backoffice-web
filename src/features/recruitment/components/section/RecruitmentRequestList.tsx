@@ -22,12 +22,12 @@ export default function RecruitmentRequestList() {
       </div>
 
       {mockRecruitmentRequests.map((item, i) => {
-        const status = item.status;
+        const status = item.submissionStatus;
         const isPending = status === 'PENDING';
 
         return (
           <div
-            key={item.requestId}
+            key={item.submissionId}
             className={`flex items-center h-14 ${i < mockRecruitmentRequests.length - 1 ? 'border-b border-ds-grey-200' : ''}`}
           >
             <div className="w-14 px-4 text-[13px] text-ds-grey-600 shrink-0">{i + 1}</div>
