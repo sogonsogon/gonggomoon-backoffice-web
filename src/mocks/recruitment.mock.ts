@@ -1,4 +1,4 @@
-import type { RecruitmentDetail, Submission } from '@/features/recruitment/types';
+import type { RecruitmentDetail, RecruitmentRequest } from '@/features/recruitment/types';
 
 export const mockRecruitments: RecruitmentDetail[] = [
   {
@@ -125,7 +125,7 @@ export const mockRecruitments: RecruitmentDetail[] = [
   },
 ];
 
-export const mockRecruitmentRequests: Submission[] = [
+export const mockRecruitmentRequests: RecruitmentRequest[] = [
   {
     submissionId: 1,
     userId: 1,

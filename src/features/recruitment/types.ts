@@ -13,28 +13,28 @@ export type JobType =
 
 export type RecruitmentStatus = 'ANALYZING' | 'ANALYSIS_DONE' | 'PUBLISHED';
 
-export type SubmissionStatus = 'PENDING' | 'APPROVED' | 'REJECTED';
+export type RecruitmentRequestStatus = 'PENDING' | 'APPROVED' | 'REJECTED';
 
-// ============ 공고 요청 (submissions) ============
+// ============ 공고 요청 (requests) ============
 
 // GET /api/v1/admin/posts/submissions - 게시 목록 아이템
-export type Submission = {
+export type RecruitmentRequest = {
   submissionId: number;
   userId: number;
   platformName: string;
   url: string;
-  submissionStatus: SubmissionStatus;
+  submissionStatus: RecruitmentRequestStatus;
   createdAt: string;
 };
 
 // GET /api/v1/admin/posts/submissions - query params
-export type SubmissionListParams = {
-  submissionStatus?: SubmissionStatus;
+export type RecruitmentRequestListParams = {
+  submissionStatus?: RecruitmentRequestStatus;
 };
 
 // GET /api/v1/admin/posts/submissions - 응답 data
-export type SubmissionListResponse = {
-  contents: Submission[];
+export type RecruitmentRequestListResponse = {
+  contents: RecruitmentRequest[];
   page: number;
   size: number;
   totalElements: number;
@@ -52,11 +52,11 @@ export type CreateRecruitmentRequest = {
   originalContent: string;
   experienceLevel: number;
   startDate: string;
-  dueDate: string;
+  dueDate: string | null;
 };
 
 // PATCH /api/v1/admin/posts/submissions/{submissionId}/reject - 요청 body
-export type RejectSubmissionRequest = {
+export type RejectRecruitmentRequest = {
   rejectReason: string;
 };
 
