@@ -11,7 +11,7 @@ import {
 import type {
   IndustryIconConfig,
   IndustryType,
-  IndustryReportStatus,
+  IndustryAnalysisStatus,
 } from '@/features/industry/types';
 
 export const INDUSTRY_CONFIG: Record<IndustryType, { label: string } & IndustryIconConfig> = {
@@ -55,7 +55,7 @@ export const INDUSTRY_TYPE_OPTIONS = Object.entries(INDUSTRY_CONFIG).map(([value
   label,
 }));
 
-export const REPORT_STATUS_LABELS: Record<IndustryReportStatus, string> = {
+export const ANALYSIS_STATUS_LABELS: Record<IndustryAnalysisStatus, string> = {
   PUBLISHED: '발행됨',
   PENDING: '대기중',
 };

@@ -1,7 +1,7 @@
 'use client';
 
 import TopBar from '@/shared/components/layout/TopBar';
-import { useIndustryAnalysisList, useIndustryCategoryList } from '../../queries';
+import { useIndustryAnalysisList, useIndustryCategoryList } from '@/features/industry/queries';
 import ContentHeader from '@/shared/components/layout/ContentHeader';
 import IndustryBasicInfoCard from '@/features/industry/components/ui/IndustryBasicInfoCard';
 import IndustryInfoSideCard from '@/features/industry/components/ui/IndustryInfoSideCard';
