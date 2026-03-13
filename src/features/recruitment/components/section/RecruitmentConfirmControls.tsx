@@ -47,7 +47,6 @@ export default function RecruitmentConfirmControls({ postId }: RecruitmentConfir
       secondaryLabel="삭제"
       secondaryButtonClassName="text-ds-badge-red-text"
       onSecondaryClick={handleDelete}
-      secondaryUseBack
     />
   );
 }
