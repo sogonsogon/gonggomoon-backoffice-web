@@ -5,30 +5,16 @@ import { useCompanyList } from '@/features/company/queries';
 import CompanyRow from '@/features/company/components/ui/CompanyRow';
 import type { GetCompanyListParams } from '@/features/company/types';
 
-export default function CompanyTable() {
+interface CompanyTableProps {
+  params: GetCompanyListParams;
+}
+
+export default function CompanyTable({ params }: CompanyTableProps) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
 
-  const rawIndustryId = searchParams.get('industryId');
-  const parsedIndustryId = Number(rawIndustryId);
-  const rawPage = searchParams.get('page');
-  const parsedPage = Number(rawPage);
-
-  const industryId =
-    rawIndustryId &&
-    rawIndustryId !== 'all' &&
-    Number.isFinite(parsedIndustryId) &&
-    parsedIndustryId > 0
-      ? parsedIndustryId
-      : undefined;
-  const page = Number.isFinite(parsedPage) && parsedPage >= 0 ? parsedPage : 0;
-
-  const params: GetCompanyListParams = {
-    name: searchParams.get('search') ?? undefined,
-    industryId,
-    page,
-  };
+  const page = params.page ?? 0;
 
   const { data, isLoading, isError, error } = useCompanyList(params);
 
@@ -51,7 +37,9 @@ export default function CompanyTable() {
 
   if (isError || !data) {
     return (
-      <p className="text-sm text-ds-grey-500">기업 목록을 불러오지 못했습니다. {error?.message}</p>
+      <p className="text-sm text-ds-grey-500">
+        {error?.message || '기업 목록을 불러오지 못했습니다.'}
+      </p>
     );
   }
 

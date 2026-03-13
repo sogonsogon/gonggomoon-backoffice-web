@@ -51,7 +51,7 @@ export default async function CompanyPage({
             <CompanyFilterToolbar />
           </div>
 
-          <CompanyTable />
+          <CompanyTable params={params} />
         </HydrationBoundary>
       </main>
     </>

@@ -28,7 +28,7 @@ const INITIAL_FORM: CompanyFormState = {
   companyType: 'LARGE_ENTERPRISE',
   industryId: 0,
   websiteUrl: '',
-  foundedYear: 0,
+  foundedYear: 2000,
   address: '',
   employeeCount: 0,
   description: '',
@@ -221,7 +221,7 @@ export default function CompanyForm() {
                   </SelectContent>
                 </Select>
                 {isIndustriesError && (
-                  <p className="text-xs text-ds-red-500">
+                  <p className="text-xs text-red-500 px-1">
                     산업군 목록을 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.
                   </p>
                 )}
