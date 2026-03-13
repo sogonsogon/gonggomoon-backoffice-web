@@ -2,9 +2,9 @@
 
 import ContentHeader from '@/shared/components/layout/ContentHeader';
 import TopBar from '@/shared/components/layout/TopBar';
-import AnalysisDetailActions from './AnalysisDetailActions';
-import IndustryAnalysisCard from './IndustryAnalysisCard';
-import IndustryStatusCard from './IndutryStatusCard';
+import AnalysisDetailActions from '@/features/industry/components/AnalysisDetailActions';
+import IndustryAnalysisCard from '@/features/industry/components/section/IndustryAnalysisCard';
+import IndustryStatusCard from '@/features/industry/components/section/IndustryStatusCard';
 import { Card, CardContent } from '@/shared/components/ui/card';
 import { useIndustryAnalysis, useIndustryCategoryList } from '@/features/industry/queries';
 import { formatDate } from '@/shared/lib/formatDate';
@@ -52,10 +52,7 @@ export default function IndustryAnalysisSection({
         {analysis ? (
           <div className="flex items-start gap-4">
             <IndustryAnalysisCard analysis={analysis} />
-            <IndustryStatusCard
-              status={analysis.reportStatus}
-              analyzedYear={analysis.reportYear}
-            />
+            <IndustryStatusCard status={analysis.reportStatus} analyzedYear={analysis.reportYear} />
           </div>
         ) : (
           <Card className="border-ds-grey-200 bg-white py-10">

@@ -5,7 +5,7 @@ import {
   getCompanyDetail,
   getCompanyList,
   updateCompany,
-} from './actions';
+} from '@/features/company/actions';
 import { CreateCompanyRequest, GetCompanyListParams, UpdateCompanyRequest } from './types';
 import { ApiErrorResponse } from '@/shared/types/api';
 
