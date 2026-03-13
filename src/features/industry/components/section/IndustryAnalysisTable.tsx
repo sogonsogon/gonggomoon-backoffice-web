@@ -74,8 +74,8 @@ export default function IndustryAnalysisTable({
 
         {analysis.map((item, i) => {
           const isPublished = item.reportStatus === 'PUBLISHED';
-          const statusLabel = ANALYSIS_STATUS_LABELS[item.reportStatus] ?? '대기중';
-
+          const statusLabel =
+            ANALYSIS_STATUS_LABELS[item.reportStatus] ?? ANALYSIS_STATUS_LABELS.PENDING;
           return (
             <div
               key={item.reportId}
