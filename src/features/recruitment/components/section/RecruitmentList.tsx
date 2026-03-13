@@ -7,7 +7,7 @@ export default function RecruitmentList() {
   const rows = mockRecruitments.filter(
     (item) => item.status === 'PUBLISHED' || item.status === 'ANALYSIS_DONE',
   );
-  const todayStr = new Date().toISOString().split('T')[0];
+  const todayStr = new Date().toLocaleDateString('sv-SE');
 
   return (
     <div className="bg-white rounded-lg border border-ds-grey-200 overflow-hidden">
