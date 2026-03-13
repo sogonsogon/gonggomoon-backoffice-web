@@ -3,9 +3,9 @@
 import TopBar from '@/shared/components/layout/TopBar';
 import { useIndustryAnalysisList, useIndustryCategoryList } from '../../queries';
 import ContentHeader from '@/shared/components/layout/ContentHeader';
-import IndustryBasicInfoCard from '../ui/IndustryBasicInfoCard';
-import IndustryAnalysisTable from './IndustryAnalysisTable';
-import IndustryInfoSideCard from '../ui/IndustryInfoSideCard';
+import IndustryBasicInfoCard from '@/features/industry/components/ui/IndustryBasicInfoCard';
+import IndustryInfoSideCard from '@/features/industry/components/ui/IndustryInfoSideCard';
+import IndustryAnalysisTable from '@/features/industry/components/section/IndustryAnalysisTable';
 
 interface IndustryDetailSectionProps {
   industryId: number;

@@ -8,14 +8,14 @@ import type {
   CompanyDetail,
   CreateCompanyRequest,
   UpdateCompanyRequest,
+  UpdateCompanyResponse,
 } from '@/features/company/types';
 
 // 기업 목록 조회 — GET /api/v1/admin/companies
 export async function getCompanyList(params?: GetCompanyListParams) {
   const searchParams = new URLSearchParams();
   if (params?.name) searchParams.set('name', params.name);
-  if (params?.industryType) searchParams.set('industryType', params.industryType);
-  if (params?.companyType) searchParams.set('companyType', params.companyType);
+  if (params?.industryId !== undefined) searchParams.set('industryId', String(params.industryId));
   if (params?.page !== undefined) searchParams.set('page', String(params.page));
   if (params?.size !== undefined) searchParams.set('size', String(params.size));
 
@@ -38,7 +38,7 @@ export async function createCompany(data: CreateCompanyRequest) {
 
 // 기업 수정 — PATCH /api/v1/admin/companies/{id}
 export async function updateCompany(companyId: number, data: UpdateCompanyRequest) {
-  return privateFetch<CompanyDetail>(`/api/v1/admin/companies/${companyId}`, {
+  return privateFetch<UpdateCompanyResponse>(`/api/v1/admin/companies/${companyId}`, {
     method: 'PATCH',
     body: JSON.stringify(data),
   });

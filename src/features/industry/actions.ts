@@ -5,7 +5,6 @@ import type {
   GetIndustryCategoryListResponse,
   GetIndustryAnalysisListResponse,
   GetIndustryAnalysisResponse,
-  IndustryCategory,
   IndustryAnalysis,
   CreateIndustryCategoryRequest,
   UpdateIndustryCategoryRequest,
@@ -19,7 +18,7 @@ export async function getIndustryCategoryList() {
 
 // 산업 카테고리 생성 — POST /api/v1/admin/industries
 export async function createIndustryCategory(data: CreateIndustryCategoryRequest) {
-  return privateFetch<IndustryCategory>('/api/v1/admin/industries', {
+  return privateFetch<null>('/api/v1/admin/industries', {
     method: 'POST',
     body: JSON.stringify(data),
   });
@@ -30,7 +29,7 @@ export async function updateIndustryCategory(
   industryId: number,
   data: UpdateIndustryCategoryRequest,
 ) {
-  return privateFetch<IndustryCategory>(`/api/v1/admin/industries/${industryId}`, {
+  return privateFetch<null>(`/api/v1/admin/industries/${industryId}`, {
     method: 'PATCH',
     body: JSON.stringify(data),
   });

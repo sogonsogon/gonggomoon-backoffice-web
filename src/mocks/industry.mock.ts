@@ -1,14 +1,14 @@
 import { Industry, IndustryAnalysis } from '@/features/industry/types';
 
 export const mockIndustries: Industry[] = [
-  { industryId: 1, name: '커머스', industryType: 'COMMERCE' },
-  { industryId: 2, name: '핀테크/금융', industryType: 'FINTECH_FINANCIAL' },
-  { industryId: 3, name: '미디어/콘텐츠', industryType: 'MEDIA_CONTENT' },
-  { industryId: 4, name: '모빌리티/물류', industryType: 'MOBILITY_LOGISTICS' },
-  { industryId: 5, name: 'AI', industryType: 'AI' },
-  { industryId: 6, name: '헬스케어/바이오', industryType: 'HEALTHCARE_BIO' },
-  { industryId: 7, name: '제조업', industryType: 'MANUFACTURING_INDUSTRY' },
-  { industryId: 999, name: '기타', industryType: 'OTHER' },
+  { industryId: 1, industryName: '커머스' },
+  { industryId: 2, industryName: '핀테크/금융' },
+  { industryId: 3, industryName: '미디어/콘텐츠' },
+  { industryId: 4, industryName: '모빌리티/물류' },
+  { industryId: 5, industryName: 'AI' },
+  { industryId: 6, industryName: '헬스케어/바이오' },
+  { industryId: 7, industryName: '제조업' },
+  { industryId: 999, industryName: '기타' },
 ];
 
 export const mockIndustriesAnalysis: IndustryAnalysis[] = [
@@ -19,7 +19,7 @@ export const mockIndustriesAnalysis: IndustryAnalysis[] = [
     analysisYear: 2024,
     createdAt: '2024-01-01T00:00:00Z',
     updatedAt: '2024-03-01T00:00:00Z',
-    analysisStatus:'PUBLISHED',
+    analysisStatus: 'PUBLISHED',
 
     keyword: ['클라우드', '데이터 플랫폼'],
 
@@ -51,7 +51,7 @@ export const mockIndustriesAnalysis: IndustryAnalysis[] = [
     analysisYear: 2025,
     createdAt: '2025-01-01T00:00:00Z',
     updatedAt: '2025-12-01T00:00:00Z',
-    analysisStatus:'SAVED',
+    analysisStatus: 'SAVED',
     keyword: ['생성형 AI', 'MLOps', 'AI 플랫폼'],
 
     marketSize: '520억 규모',
@@ -78,7 +78,7 @@ export const mockIndustriesAnalysis: IndustryAnalysis[] = [
     analysisYear: 2026,
     createdAt: '2026-01-01T00:00:00Z',
     updatedAt: '2026-03-01T00:00:00Z',
-    analysisStatus:'PUBLISHED',
+    analysisStatus: 'PUBLISHED',
     keyword: ['AI 인프라', '엣지컴퓨팅', '데이터 플랫폼'],
 
     marketSize: '600억 규모',
