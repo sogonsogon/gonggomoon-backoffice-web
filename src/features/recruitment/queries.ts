@@ -8,13 +8,13 @@ import {
   getRecruitmentRequestList,
   publishRecruitment,
   rejectRecruitmentRequest,
-} from './actions';
+} from '@/features/recruitment/actions';
 import type {
   CreateRecruitmentRequest,
   GetRecruitmentListParams,
   RecruitmentRequestListParams,
   RejectRecruitmentRequest,
-} from './types';
+} from '@/features/recruitment/types';
 import type { ApiErrorResponse } from '@/shared/types/api';
 
 export const recruitmentQueryKeys = {

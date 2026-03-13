@@ -9,7 +9,7 @@ import type {
   GetRecruitmentListParams,
   RecruitmentListResponse,
   RecruitmentDetail,
-} from './types';
+} from '@/features/recruitment/types';
 
 // 공고 게시 요청 목록 조회 — GET /api/v1/admin/posts/submissions
 export async function getRecruitmentRequestList(params?: RecruitmentRequestListParams) {
@@ -27,13 +27,10 @@ export async function approveRecruitmentRequest(
   submissionId: number,
   data: CreateRecruitmentRequest,
 ) {
-  return privateFetch<void>(
-    `/api/v1/admin/posts/submissions/${submissionId}/approve`,
-    {
-      method: 'POST',
-      body: JSON.stringify(data),
-    },
-  );
+  return privateFetch<void>(`/api/v1/admin/posts/submissions/${submissionId}/approve`, {
+    method: 'POST',
+    body: JSON.stringify(data),
+  });
 }
 
 // 공고 게시 요청 거절 — PATCH /api/v1/admin/posts/submissions/{submissionId}/reject
@@ -41,13 +38,10 @@ export async function rejectRecruitmentRequest(
   submissionId: number,
   data: RejectRecruitmentRequest,
 ) {
-  return privateFetch<void>(
-    `/api/v1/admin/posts/submissions/${submissionId}/reject`,
-    {
-      method: 'PATCH',
-      body: JSON.stringify(data),
-    },
-  );
+  return privateFetch<void>(`/api/v1/admin/posts/submissions/${submissionId}/reject`, {
+    method: 'PATCH',
+    body: JSON.stringify(data),
+  });
 }
 
 // 공고 등록 (AI 분석 대기) — POST /api/v1/admin/posts
@@ -66,9 +60,7 @@ export async function getRecruitmentList(params?: GetRecruitmentListParams) {
   if (params?.status) searchParams.set('status', params.status);
 
   const query = searchParams.toString();
-  return privateFetch<RecruitmentListResponse>(
-    `/api/v1/admin/posts${query ? `?${query}` : ''}`,
-  );
+  return privateFetch<RecruitmentListResponse>(`/api/v1/admin/posts${query ? `?${query}` : ''}`);
 }
 
 // 공고 상세 조회 — GET /api/v1/admin/posts/{postId}
