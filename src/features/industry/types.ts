@@ -23,7 +23,6 @@ export type IndustryIconConfig = {
 
 // ReportStatus
 export type IndustryReportStatus = 'SAVED' | 'PUBLISHED';
-export type IndustryAnalysisStatus = IndustryReportStatus;
 
 // GET /api/v1/admin/industries/{id}/reports — 목록 아이템
 export type IndustryAnalysisListItem = {
