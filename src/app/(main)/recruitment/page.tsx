@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Plus } from 'lucide-react';
-import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
+import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
+import { getQueryClient } from '@/shared/lib/queryClient';
 import TopBar from '@/shared/components/layout/TopBar';
 import { Button } from '@/shared/components/ui/button';
 import RecruitmentAnalysisList from '@/features/recruitment/components/section/RecruitmentAnalysisList';
@@ -32,7 +33,7 @@ export default async function RecruitmentPage({
     ? (requestStatusParam as RecruitmentRequestStatus)
     : undefined;
 
-  const queryClient = new QueryClient();
+  const queryClient = getQueryClient();
 
   if (tab === 'requests') {
     await queryClient.prefetchQuery(recruitmentSubmissionListQueryOptions({ submissionStatus }));

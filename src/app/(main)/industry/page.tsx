@@ -1,4 +1,5 @@
-import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
+import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
+import { getQueryClient } from '@/shared/lib/queryClient';
 import TopBar from '@/shared/components/layout/TopBar';
 import ContentHeader from '@/shared/components/layout/ContentHeader';
 import IndustryAddButton from '@/features/industry/components/ui/IndustryAddButton';
@@ -6,7 +7,7 @@ import IndustryList from '@/features/industry/components/section/IndustryList';
 import { industryCategoryListQueryOptions } from '@/features/industry/queries';
 
 export default async function IndustryPage() {
-  const queryClient = new QueryClient();
+  const queryClient = getQueryClient();
   await queryClient.prefetchQuery(industryCategoryListQueryOptions);
 
   return (

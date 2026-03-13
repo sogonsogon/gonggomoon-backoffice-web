@@ -19,6 +19,7 @@ import { JOB_TYPE_LABELS } from '@/features/recruitment/constants';
 import { useRecruitmentCreateStore } from '@/features/recruitment/store';
 
 export default function RecruitmentCreateForm() {
+  const pendingSubmissionId = useRecruitmentCreateStore((s) => s.pendingSubmissionId);
   const pendingUrl = useRecruitmentCreateStore((s) => s.pendingUrl);
   const clearPending = useRecruitmentCreateStore((s) => s.clearPending);
 
@@ -215,8 +216,7 @@ export default function RecruitmentCreateForm() {
             primaryLabel="AI 분석 시작"
             primaryEnabled={isFormValid}
             onPrimaryClick={() => {
-              clearPending();
-              // TODO: approveRecruitmentRequest(requestId) 호출
+              // TODO: approveRecruitmentRequest(pendingSubmissionId) 호출 후 성공 시 clearPending()
             }}
             secondaryLabel="취소"
             secondaryUseBack
