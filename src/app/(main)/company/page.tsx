@@ -1,6 +1,5 @@
 import Link from 'next/link';
-import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
-import { getQueryClient } from '@/shared/lib/queryClient';
+import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 import TopBar from '@/shared/components/layout/TopBar';
 import { Button } from '@/shared/components/ui/button';
 import ContentHeader from '@/shared/components/layout/ContentHeader';
@@ -22,13 +21,16 @@ export default async function CompanyPage({
   const params = {
     name: search ?? undefined,
     industryId:
-      rawIndustryId && rawIndustryId !== 'all' && Number.isFinite(parsedIndustryId) && parsedIndustryId > 0
+      rawIndustryId &&
+      rawIndustryId !== 'all' &&
+      Number.isFinite(parsedIndustryId) &&
+      parsedIndustryId > 0
         ? parsedIndustryId
         : undefined,
     page: Number.isFinite(parsedPage) && parsedPage >= 0 ? parsedPage : 0,
   };
 
-  const queryClient = getQueryClient();
+  const queryClient = new QueryClient();
   await queryClient.prefetchQuery(companyListQueryOptions(params));
   return (
     <>

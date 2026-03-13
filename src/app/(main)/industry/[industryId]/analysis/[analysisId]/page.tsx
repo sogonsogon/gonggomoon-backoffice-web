@@ -1,5 +1,4 @@
-import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
-import { getQueryClient } from '@/shared/lib/queryClient';
+import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 import {
   industryAnalysisQueryOptions,
   industryCategoryListQueryOptions,
@@ -12,7 +11,7 @@ export default async function AnalysisDetailPage({
   params: Promise<{ industryId: string; analysisId: string }>;
 }) {
   const { industryId, analysisId } = await params;
-  const queryClient = getQueryClient();
+  const queryClient = new QueryClient();
   await Promise.all([
     queryClient.prefetchQuery(industryCategoryListQueryOptions),
     queryClient.prefetchQuery(industryAnalysisQueryOptions(Number(analysisId))),

@@ -1,5 +1,4 @@
-import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
-import { getQueryClient } from '@/shared/lib/queryClient';
+import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 import TopBar from '@/shared/components/layout/TopBar';
 import ContentHeader from '@/shared/components/layout/ContentHeader';
 import RecruitmentConfirmSection from '@/features/recruitment/components/section/RecruitmentConfirmSection';
@@ -11,7 +10,7 @@ export default async function RecruitmentReviewPage({
   params: Promise<{ postId: string }>;
 }) {
   const { postId } = await params;
-  const queryClient = getQueryClient();
+  const queryClient = new QueryClient();
   await queryClient.prefetchQuery(recruitmentDetailQueryOptions(Number(postId)));
 
   return (

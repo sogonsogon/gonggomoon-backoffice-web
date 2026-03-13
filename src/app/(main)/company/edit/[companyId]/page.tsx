@@ -1,5 +1,4 @@
-import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
-import { getQueryClient } from '@/shared/lib/queryClient';
+import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 import TopBar from '@/shared/components/layout/TopBar';
 import CompanyForm from '@/features/company/components/section/CompanyForm';
 import { companyDetailQueryOptions } from '@/features/company/queries';
@@ -12,7 +11,7 @@ export default async function CompanyEditPage({
   const { companyId: companyIdParam } = await params;
   const companyId = Number(companyIdParam);
 
-  const queryClient = getQueryClient();
+  const queryClient = new QueryClient();
   if (Number.isFinite(companyId) && companyId > 0) {
     await queryClient.prefetchQuery(companyDetailQueryOptions(companyId));
   }

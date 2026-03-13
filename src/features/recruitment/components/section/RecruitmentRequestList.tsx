@@ -33,7 +33,7 @@ export default function RecruitmentRequestList({ submissionStatus }: Recruitment
 
   const [rejectTargetId, setRejectTargetId] = useState<number | null>(null);
   const [rejectReason, setRejectReason] = useState('');
-  const isRejectDisabled = !rejectTargetId || !rejectReason.trim() || isRejecting;
+  const isRejectDisabled = rejectTargetId === null || !rejectReason.trim() || isRejecting;
 
   const handleRegister = (submissionId: number, url: string) => {
     setPending(submissionId, url);
@@ -41,7 +41,7 @@ export default function RecruitmentRequestList({ submissionStatus }: Recruitment
   };
 
   const handleRejectConfirm = () => {
-    if (!rejectTargetId || !rejectReason.trim()) return;
+    if (rejectTargetId === null || !rejectReason.trim()) return;
     reject(
       { submissionId: rejectTargetId, data: { rejectReason } },
       {

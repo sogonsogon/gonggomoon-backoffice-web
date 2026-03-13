@@ -1,7 +1,9 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { useCompanyList } from '@/features/company/queries';
+import { useApproveRecruitmentRequest } from '@/features/recruitment/queries';
 import CardActionForm from '@/shared/components/ui/CardActionForm';
 import { Button } from '@/shared/components/ui/button';
 import { Input } from '@/shared/components/ui/input';
@@ -14,16 +16,20 @@ import {
   SelectValue,
 } from '@/shared/components/ui/select';
 import { AlertTriangle, Info } from 'lucide-react';
+import { toast } from 'sonner';
 import type { JobType } from '@/features/recruitment/types';
 import { JOB_TYPE_LABELS } from '@/features/recruitment/constants';
 import { useRecruitmentCreateStore } from '@/features/recruitment/store';
 
 export default function RecruitmentCreateForm() {
+  const router = useRouter();
   const pendingSubmissionId = useRecruitmentCreateStore((s) => s.pendingSubmissionId);
   const pendingUrl = useRecruitmentCreateStore((s) => s.pendingUrl);
   const clearPending = useRecruitmentCreateStore((s) => s.clearPending);
 
-  const [companyName, setCompanyName] = useState('');
+  const { mutate: approve, isPending: isApproving } = useApproveRecruitmentRequest();
+
+  const [selectedCompanyId, setSelectedCompanyId] = useState<number | null>(null);
   const [postTitle, setPostTitle] = useState('');
   const [experienceLevel, setExperienceLevel] = useState<number | null>(null);
   const [selectedJobType, setSelectedJobType] = useState<JobType | null>(null);
@@ -33,7 +39,7 @@ export default function RecruitmentCreateForm() {
   const [description, setDescription] = useState('');
 
   const isFormValid =
-    companyName !== '' &&
+    selectedCompanyId !== null &&
     postTitle.trim() !== '' &&
     experienceLevel !== null &&
     selectedJobType !== null &&
@@ -44,7 +50,38 @@ export default function RecruitmentCreateForm() {
     isLoading: isCompanyLoading,
     isError: isCompanyError,
   } = useCompanyList({ page: 0, size: 1000 });
-  const companyNames = (companyData?.contents ?? []).map((company) => company.companyName);
+  const companies = companyData?.contents ?? [];
+
+  const handleApprove = () => {
+    if (!pendingSubmissionId || selectedCompanyId === null || selectedJobType === null || experienceLevel === null) return;
+
+    approve(
+      {
+        submissionId: pendingSubmissionId,
+        data: {
+          companyId: selectedCompanyId,
+          platformId: 0, // TODO: platformId 연동 필요
+          title: postTitle.trim(),
+          url: recruitmentUrl,
+          jobType: selectedJobType,
+          originalContent: description.trim(),
+          experienceLevel,
+          startDate: startDate.replace(/\./g, '-'),
+          dueDate: dueDate ? dueDate.replace(/\./g, '-') : null,
+        },
+      },
+      {
+        onSuccess: () => {
+          toast.success('공고 요청이 승인되었습니다.');
+          clearPending();
+          router.push('/recruitment');
+        },
+        onError: () => {
+          toast.error('승인 처리에 실패했습니다.');
+        },
+      },
+    );
+  };
 
   return (
     <div>
@@ -83,19 +120,19 @@ export default function RecruitmentCreateForm() {
                   </Button>
                 </div>
                 <Select
-                  value={companyName || '__none__'}
-                  onValueChange={(val) => setCompanyName(val === '__none__' ? '' : val)}
+                  value={selectedCompanyId !== null ? String(selectedCompanyId) : '__none__'}
+                  onValueChange={(val) => setSelectedCompanyId(val === '__none__' ? null : Number(val))}
                 >
                   <SelectTrigger
-                    className={`h-10 border-ds-grey-200 w-full bg-white ${companyName ? 'text-ds-grey-900' : 'text-ds-grey-500'}`}
+                    className={`h-10 border-ds-grey-200 w-full bg-white ${selectedCompanyId !== null ? 'text-ds-grey-900' : 'text-ds-grey-500'}`}
                   >
                     <SelectValue placeholder="기업을 선택하세요" />
                   </SelectTrigger>
                   <SelectContent position="popper">
                     <SelectItem value="__none__">기업을 선택하세요</SelectItem>
-                    {companyNames.map((name, index) => (
-                      <SelectItem key={index} value={name}>
-                        {name}
+                    {companies.map((company) => (
+                      <SelectItem key={company.companyId} value={String(company.companyId)}>
+                        {company.companyName}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -214,10 +251,8 @@ export default function RecruitmentCreateForm() {
           {/* Action Card */}
           <CardActionForm
             primaryLabel="AI 분석 시작"
-            primaryEnabled={isFormValid}
-            onPrimaryClick={() => {
-              // TODO: approveRecruitmentRequest(pendingSubmissionId) 호출 후 성공 시 clearPending()
-            }}
+            primaryEnabled={isFormValid && !isApproving}
+            onPrimaryClick={handleApprove}
             secondaryLabel="취소"
             secondaryUseBack
           />
