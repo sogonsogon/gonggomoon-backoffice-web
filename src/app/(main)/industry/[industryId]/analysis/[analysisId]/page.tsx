@@ -20,7 +20,7 @@ export default async function AnalysisDetailPage({
   return (
     <>
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <IndustryAnalysisSection industryId={Number(industryId)} analysisId={Number(analysisId)} />
+        <IndustryAnalysisSection industryId={Number(industryId)} reportId={Number(analysisId)} />
       </HydrationBoundary>
     </>
   );

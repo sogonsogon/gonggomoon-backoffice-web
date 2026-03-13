@@ -11,20 +11,20 @@ import { formatDate } from '@/shared/lib/formatDate';
 
 interface IndustryAnalysisSectionProps {
   industryId: number;
-  analysisId: number;
+  reportId: number;
 }
 export default function IndustryAnalysisSection({
   industryId,
-  analysisId,
+  reportId,
 }: IndustryAnalysisSectionProps) {
   const { data: categoryList } = useIndustryCategoryList();
-  const { data: analysis } = useIndustryAnalysis(analysisId);
+  const { data: analysis } = useIndustryAnalysis(reportId);
   const label =
     categoryList?.find((category) => category.industryId === industryId)?.industryName || '산업군';
-  const yearLabel = analysis?.analysisYear ?? '-';
+  const yearLabel = analysis?.reportYear ?? '-';
 
   const isValidIndustryId = Number.isFinite(industryId) && industryId > 0;
-  const isValidAnalysisId = Number.isFinite(analysisId) && analysisId > 0;
+  const isValidReportId = Number.isFinite(reportId) && reportId > 0;
 
   return (
     <>
@@ -39,11 +39,11 @@ export default function IndustryAnalysisSection({
           backHref={`/industry/${industryId}`}
           actionsAlign="start"
           actions={
-            analysis && isValidIndustryId && isValidAnalysisId ? (
+            analysis && isValidIndustryId && isValidReportId ? (
               <AnalysisDetailActions
                 industryId={industryId}
-                analysisId={analysisId}
-                isPublished={analysis?.analysisStatus === 'PUBLISHED'}
+                reportId={reportId}
+                isPublished={analysis?.reportStatus === 'PUBLISHED'}
               />
             ) : null
           }
@@ -52,10 +52,7 @@ export default function IndustryAnalysisSection({
         {analysis ? (
           <div className="flex items-start gap-4">
             <IndustryAnalysisCard analysis={analysis} />
-            <IndustryStatusCard
-              status={analysis.analysisStatus}
-              analyzedYear={analysis.analysisYear}
-            />
+            <IndustryStatusCard status={analysis.reportStatus} analyzedYear={analysis.reportYear} />
           </div>
         ) : (
           <Card className="border-ds-grey-200 bg-white py-10">

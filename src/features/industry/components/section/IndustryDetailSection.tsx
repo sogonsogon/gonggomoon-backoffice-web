@@ -16,8 +16,8 @@ export default function IndustryDetailSection({ industryId }: IndustryDetailSect
   const label =
     categoryList?.find((category) => category.industryId === industryId)?.industryName || '산업군';
   const publishedAnalysisYear = analysisList?.find(
-    (analysis) => analysis.analysisStatus === 'PUBLISHED',
-  )?.analysisYear;
+    (analysis) => analysis.reportStatus === 'PUBLISHED',
+  )?.reportYear;
 
   return (
     <>

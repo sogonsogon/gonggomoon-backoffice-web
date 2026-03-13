@@ -67,7 +67,7 @@ export default function IndustryAnalysisNewForm({ industryId }: IndustryAnalysis
 
     createAnalysis(
       {
-        analysisYear: Number(analyzedYear),
+        reportYear: Number(analyzedYear),
         keyword: finalKeyword,
         marketSize: marketSize.trim(),
         trend: finalTrend,
