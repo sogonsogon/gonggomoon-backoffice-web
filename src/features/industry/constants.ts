@@ -55,7 +55,7 @@ export const INDUSTRY_TYPE_OPTIONS = Object.entries(INDUSTRY_CONFIG).map(([value
   label,
 }));
 
-export const ANALYSIS_STATUS_LABELS: Record<IndustryReportStatus, string> = {
+export const REPORT_STATUS_LABELS: Record<IndustryReportStatus, string> = {
   PUBLISHED: '발행됨',
   PENDING: '대기중',
 };

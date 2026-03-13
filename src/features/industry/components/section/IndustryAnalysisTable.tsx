@@ -22,8 +22,8 @@ export default function IndustryAnalysisTable({
   const { mutate: publish, isPending: isPublishing } = usePublishIndustryAnalysis(industryId);
   const { mutate: deleteAnalysis, isPending: isDeleting } = useDeleteIndustryAnalysis(industryId);
 
-  const handlePublish = (analysisId: number) => {
-    publish(analysisId, {
+  const handlePublish = (reportId: number) => {
+    publish(reportId, {
       onSuccess: () => {
         toast.success('산업 분석이 발행되었습니다.');
       },
@@ -33,8 +33,8 @@ export default function IndustryAnalysisTable({
     });
   };
 
-  const handleDelete = (analysisId: number) => {
-    deleteAnalysis(analysisId, {
+  const handleDelete = (reportId: number) => {
+    deleteAnalysis(reportId, {
       onSuccess: () => {
         toast.success('산업 분석이 삭제되었습니다.');
       },

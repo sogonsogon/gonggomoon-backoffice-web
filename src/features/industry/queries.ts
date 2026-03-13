@@ -19,7 +19,7 @@ import { ApiErrorResponse } from '@/shared/types/api';
 export const industryQueryKeys = {
   categoryList: ['industry', 'categories'] as const,
   analysisList: (industryId: number) => ['industry', industryId, 'analyses'] as const,
-  analysis: (analysisId: number) => ['industry', 'analyses', analysisId] as const,
+  analysis: (reportId: number) => ['industry', 'analyses', reportId] as const,
 };
 
 // 산업 카테고리 목록 조회 Query Options
@@ -44,11 +44,11 @@ export const industryAnalysisListQueryOptions = (industryId: number) =>
   });
 
 // 산업 분석 단건 조회 Query Options
-export const industryAnalysisQueryOptions = (analysisId: number) =>
+export const industryAnalysisQueryOptions = (reportId: number) =>
   queryOptions({
-    queryKey: industryQueryKeys.analysis(analysisId),
+    queryKey: industryQueryKeys.analysis(reportId),
     queryFn: async () => {
-      const result = await getIndustryAnalysis(analysisId);
+      const result = await getIndustryAnalysis(reportId);
       if (!result.success) return Promise.reject(result);
       return result.data;
     },
@@ -70,10 +70,10 @@ export function useIndustryAnalysisList(industryId: number) {
 }
 
 // 산업 분석 단건 조회 useQuery (페이지 진입 시 Prefetch)
-export function useIndustryAnalysis(analysisId: number) {
+export function useIndustryAnalysis(reportId: number) {
   return useQuery({
-    ...industryAnalysisQueryOptions(analysisId),
-    enabled: Number.isFinite(analysisId) && analysisId > 0,
+    ...industryAnalysisQueryOptions(reportId),
+    enabled: Number.isFinite(reportId) && reportId > 0,
   });
 }
 
@@ -142,14 +142,14 @@ export function usePublishIndustryAnalysis(industryId: number) {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (analysisId: number) => {
-      const result = await publishIndustryAnalysis(analysisId);
+    mutationFn: async (reportId: number) => {
+      const result = await publishIndustryAnalysis(reportId);
       if (!result.success) return Promise.reject(result);
       return result.data;
     },
-    onSuccess: (_, analysisId) => {
+    onSuccess: (_, reportId) => {
       queryClient.invalidateQueries({ queryKey: industryQueryKeys.analysisList(industryId) });
-      queryClient.invalidateQueries({ queryKey: industryQueryKeys.analysis(analysisId) });
+      queryClient.invalidateQueries({ queryKey: industryQueryKeys.analysis(reportId) });
     },
     onError: (error: ApiErrorResponse) => {
       console.error('산업 분석 발행 실패:', error);
@@ -162,15 +162,15 @@ export function useDeleteIndustryAnalysis(industryId: number) {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (analysisId: number) => {
-      const result = await deleteIndustryAnalysis(analysisId);
+    mutationFn: async (reportId: number) => {
+      const result = await deleteIndustryAnalysis(reportId);
       if (!result.success) return Promise.reject(result);
       return result.data;
     },
-    onSuccess: (_, analysisId) => {
+    onSuccess: (_, reportId) => {
       queryClient.invalidateQueries({ queryKey: industryQueryKeys.analysisList(industryId) });
       queryClient.invalidateQueries({ queryKey: industryQueryKeys.categoryList });
-      queryClient.removeQueries({ queryKey: industryQueryKeys.analysis(analysisId) });
+      queryClient.removeQueries({ queryKey: industryQueryKeys.analysis(reportId) });
     },
     onError: (error: ApiErrorResponse) => {
       console.error('산업 분석 삭제 실패:', error);
