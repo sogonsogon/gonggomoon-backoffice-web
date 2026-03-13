@@ -53,7 +53,8 @@ export default function RecruitmentCreateForm() {
   const companies = companyData?.contents ?? [];
 
   const handleApprove = () => {
-    if (!pendingSubmissionId || selectedCompanyId === null || selectedJobType === null || experienceLevel === null) return;
+    if (pendingSubmissionId === null) return;
+    if (selectedCompanyId === null || selectedJobType === null || experienceLevel === null) return;
 
     approve(
       {
@@ -121,7 +122,9 @@ export default function RecruitmentCreateForm() {
                 </div>
                 <Select
                   value={selectedCompanyId !== null ? String(selectedCompanyId) : '__none__'}
-                  onValueChange={(val) => setSelectedCompanyId(val === '__none__' ? null : Number(val))}
+                  onValueChange={(val) =>
+                    setSelectedCompanyId(val === '__none__' ? null : Number(val))
+                  }
                 >
                   <SelectTrigger
                     className={`h-10 border-ds-grey-200 w-full bg-white ${selectedCompanyId !== null ? 'text-ds-grey-900' : 'text-ds-grey-500'}`}
@@ -254,7 +257,10 @@ export default function RecruitmentCreateForm() {
             primaryEnabled={isFormValid && !isApproving}
             onPrimaryClick={handleApprove}
             secondaryLabel="취소"
-            secondaryUseBack
+            onSecondaryClick={() => {
+              clearPending();
+              router.back();
+            }}
           />
 
           {/* Guide Card */}

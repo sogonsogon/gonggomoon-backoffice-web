@@ -144,7 +144,11 @@ export default function RecruitmentRequestList({ submissionStatus }: Recruitment
           <DialogHeader>
             <DialogTitle>공고 요청 거절</DialogTitle>
           </DialogHeader>
+          <label htmlFor="reject-reason" className="sr-only">
+            거절 사유 입력
+          </label>
           <textarea
+            id="reject-reason"
             className="w-full rounded-md border border-ds-grey-200 p-3 text-sm text-ds-grey-900 resize-none focus:outline-none focus:ring-1 focus:ring-primary"
             rows={4}
             placeholder="거절 사유를 입력하세요"
