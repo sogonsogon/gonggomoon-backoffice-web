@@ -18,8 +18,8 @@ import { ApiErrorResponse } from '@/shared/types/api';
 
 export const industryQueryKeys = {
   categoryList: ['industry', 'categories'] as const,
-  analysisList: (industryId: number) => ['industry', industryId, 'analyses'] as const,
-  analysis: (reportId: number) => ['industry', 'analyses', reportId] as const,
+  reportList: (industryId: number) => ['industry', industryId, 'reports'] as const,
+  report: (reportId: number) => ['industry', 'reports', reportId] as const,
 };
 
 // 산업 카테고리 목록 조회 Query Options
@@ -35,7 +35,7 @@ export const industryCategoryListQueryOptions = queryOptions({
 // 산업 분석 목록 조회 Query Options
 export const industryAnalysisListQueryOptions = (industryId: number) =>
   queryOptions({
-    queryKey: industryQueryKeys.analysisList(industryId),
+    queryKey: industryQueryKeys.reportList(industryId),
     queryFn: async () => {
       const result = await getIndustryAnalysisList(industryId);
       if (!result.success) return Promise.reject(result);
@@ -46,7 +46,7 @@ export const industryAnalysisListQueryOptions = (industryId: number) =>
 // 산업 분석 단건 조회 Query Options
 export const industryAnalysisQueryOptions = (reportId: number) =>
   queryOptions({
-    queryKey: industryQueryKeys.analysis(reportId),
+    queryKey: industryQueryKeys.report(reportId),
     queryFn: async () => {
       const result = await getIndustryAnalysis(reportId);
       if (!result.success) return Promise.reject(result);
@@ -128,7 +128,7 @@ export function useCreateIndustryAnalysis(industryId: number) {
       return result.data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: industryQueryKeys.analysisList(industryId) });
+      queryClient.invalidateQueries({ queryKey: industryQueryKeys.reportList(industryId) });
       queryClient.invalidateQueries({ queryKey: industryQueryKeys.categoryList });
     },
     onError: (error: ApiErrorResponse) => {
@@ -148,8 +148,8 @@ export function usePublishIndustryAnalysis(industryId: number) {
       return result.data;
     },
     onSuccess: (_, reportId) => {
-      queryClient.invalidateQueries({ queryKey: industryQueryKeys.analysisList(industryId) });
-      queryClient.invalidateQueries({ queryKey: industryQueryKeys.analysis(reportId) });
+      queryClient.invalidateQueries({ queryKey: industryQueryKeys.reportList(industryId) });
+      queryClient.invalidateQueries({ queryKey: industryQueryKeys.report(reportId) });
     },
     onError: (error: ApiErrorResponse) => {
       console.error('산업 분석 발행 실패:', error);
@@ -168,9 +168,9 @@ export function useDeleteIndustryAnalysis(industryId: number) {
       return result.data;
     },
     onSuccess: (_, reportId) => {
-      queryClient.invalidateQueries({ queryKey: industryQueryKeys.analysisList(industryId) });
+      queryClient.invalidateQueries({ queryKey: industryQueryKeys.reportList(industryId) });
       queryClient.invalidateQueries({ queryKey: industryQueryKeys.categoryList });
-      queryClient.removeQueries({ queryKey: industryQueryKeys.analysis(reportId) });
+      queryClient.removeQueries({ queryKey: industryQueryKeys.report(reportId) });
     },
     onError: (error: ApiErrorResponse) => {
       console.error('산업 분석 삭제 실패:', error);
