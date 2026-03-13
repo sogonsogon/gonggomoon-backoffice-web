@@ -2,11 +2,7 @@ import Link from 'next/link';
 import { mockRecruitmentRequests } from '@/mocks';
 import { formatDate } from '@/shared/lib/formatDate';
 import { Button } from '@/shared/components/ui/button';
-import {
-  PLATFORM_TYPE_LABELS,
-  REQUEST_STATUS_BADGE,
-  REQUEST_STATUS_LABELS,
-} from '@/features/recruitment/constants';
+import { REQUEST_STATUS_BADGE, REQUEST_STATUS_LABELS } from '@/features/recruitment/constants';
 
 export default function RecruitmentRequestList() {
   // TODO: mockRecruitmentRequests → getRecruitmentRequests() 로 교체
@@ -32,9 +28,7 @@ export default function RecruitmentRequestList() {
             className={`flex items-center h-14 ${i < mockRecruitmentRequests.length - 1 ? 'border-b border-ds-grey-200' : ''}`}
           >
             <div className="w-14 px-4 text-[13px] text-ds-grey-600 shrink-0">{i + 1}</div>
-            <div className="w-44 px-4 text-sm text-ds-grey-900 shrink-0">
-              {PLATFORM_TYPE_LABELS[item.platformName]}
-            </div>
+            <div className="w-44 px-4 text-sm text-ds-grey-900 shrink-0">{item.platformName}</div>
             <div className="flex-1 px-4 text-[13px] text-primary truncate">
               <a href={item.url} target="_blank" rel="noopener noreferrer">
                 {item.url}
