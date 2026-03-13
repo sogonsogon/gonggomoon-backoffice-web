@@ -2,12 +2,13 @@ import { mockRecruitments } from '@/mocks';
 import { Button } from '@/shared/components/ui/button';
 import Link from 'next/link';
 import { ANALYSIS_STATUS_BADGE, ANALYSIS_STATUS_LABELS } from '@/features/recruitment/constants';
+import { formatDate } from '@/shared/lib/formatDate';
 
 export default function RecruitmentAnalysisList() {
   // TODO: mockRecruitments → getRecruitments() 로 교체 (ANALYZING / ANALYSIS_DONE 상태 필터)
   const rows = mockRecruitments.filter(
     (item) =>
-      item.status === 'ANALYZING' || item.status === 'ANALYSIS_DONE' || item.status === 'POSTED',
+      item.status === 'ANALYZING' || item.status === 'ANALYSIS_DONE' || item.status === 'PUBLISHED',
   );
 
   return (
@@ -18,7 +19,7 @@ export default function RecruitmentAnalysisList() {
         <div className="w-44 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">기업명</div>
         <div className="flex-1 px-4 text-[13px] font-medium text-ds-grey-600">공고 제목</div>
         <div className="w-48 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">요청 상태</div>
-        <div className="w-28 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">등록일</div>
+        <div className="w-28 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">시작일</div>
         <div className="w-48 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">액션</div>
       </div>
 
@@ -31,7 +32,7 @@ export default function RecruitmentAnalysisList() {
           const status = item.status;
           const isAnalyzing = status === 'ANALYZING';
           const isAnalysisDone = status === 'ANALYSIS_DONE';
-          const statusLabel = status === 'POSTED' ? '발행 대기' : ANALYSIS_STATUS_LABELS[status];
+          const statusLabel = status === 'PUBLISHED' ? '발행 완료' : ANALYSIS_STATUS_LABELS[status];
 
           return (
             <div
@@ -49,7 +50,7 @@ export default function RecruitmentAnalysisList() {
                 </span>
               </div>
               <div className="w-28 px-4 text-[13px] text-ds-grey-700 shrink-0">
-                {item.createdAt.split('T')[0].replace(/-/g, '.')}
+                {formatDate(item.startDate)}
               </div>
               <div className="w-48 px-4 flex items-center gap-1.5 shrink-0">
                 {isAnalyzing ? (

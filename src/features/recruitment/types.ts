@@ -1,3 +1,5 @@
+// ============ 공통 ============
+
 export type JobType =
   | 'FRONTEND'
   | 'BACKEND'
@@ -9,55 +11,106 @@ export type JobType =
   | 'PM_PO'
   | 'QA';
 
-export type PostStatus = 'ANALYZING' | 'ANALYSIS_DONE' | 'POSTED'; // 공고 분석 상태
+export type RecruitmentStatus = 'ANALYZING' | 'ANALYSIS_DONE' | 'PUBLISHED';
 
-export type RecruitmentAnalysis = {
-  summary: string; // 공고 한 줄 요약
-  companySummary: string; // 회사 한 줄 소개
-  rolesResponsibilities: string[]; // R&R
-  requiredSkills: string[]; // 필수 역량
-  highlightPoints: string[]; // 차별 포인트
-  hiddenKeywords: string[]; // 숨은 키워드
-  recommendedActions: string[]; // 추천 활동
-};
+export type RecruitmentRequestStatus = 'PENDING' | 'APPROVED' | 'REJECTED';
 
-export type Recruitment = {
-  postId: number;
-  companyName: string;
-  postTitle: string;
-  experienceLevel: number;
-  companyId: number;
-  jobType: JobType;
-  industryId?: number;
-  industryName?: string;
-  status: PostStatus;
-  recruitmentUrl?: string;
-  startDate?: string | null;
-  dueDate?: string | null;
-  createdAt: string;
-  description: string;
-  analysis?: RecruitmentAnalysis;
-};
+// ============ 공고 요청 (requests) ============
 
-export type RequestStatus = 'PENDING' | 'APPROVED' | 'REJECTED'; // 공고 요청 상태
-
+// GET /api/v1/admin/posts/submissions - 게시 목록 아이템
 export type RecruitmentRequest = {
-  requestId: number;
-  requestUserId?: number;
-  platformId: number;
+  submissionId: number;
+  userId: number;
   platformName: string;
   url: string;
-  status: RequestStatus;
-  createdAt?: string;
+  submissionStatus: RecruitmentRequestStatus;
+  createdAt: string;
 };
 
-export type CreateRecruitment = {
-  companyName: string;
-  postTitle: string;
-  startDate?: string | null;
-  dueDate?: string | null;
-  experienceLevel: number;
+// GET /api/v1/admin/posts/submissions - query params
+export type RecruitmentRequestListParams = {
+  submissionStatus?: RecruitmentRequestStatus;
+};
+
+// GET /api/v1/admin/posts/submissions - 응답 data
+export type RecruitmentRequestListResponse = {
+  contents: RecruitmentRequest[];
+  page: number;
+  size: number;
+  totalElements: number;
+  totalPages: number;
+};
+
+// POST /api/v1/admin/posts/submissions/{submissionId}/approve - 요청 body
+// POST /api/v1/admin/posts - 요청 body (동일 구조)
+export type CreateRecruitmentRequest = {
+  companyId: number;
+  platformId: number;
+  title: string;
+  url: string;
   jobType: JobType;
-  description: string;
-  recruitmentUrl?: string;
+  originalContent: string;
+  experienceLevel: number;
+  startDate: string;
+  dueDate: string | null;
+};
+
+// PATCH /api/v1/admin/posts/submissions/{submissionId}/reject - 요청 body
+export type RejectRecruitmentRequest = {
+  rejectReason: string;
+};
+
+// ============ 공고 (posts) ============
+
+export type RecruitmentAnalysis = {
+  summary: string;
+  companySummary: string;
+  rolesResponsibilities: string[];
+  requiredSkills: string[];
+  highlightPoints: string[];
+  hiddenKeywords: string[];
+  recommendedActions: string[];
+};
+
+// GET /api/v1/admin/posts - 목록 아이템
+export type RecruitmentSummary = {
+  postId: number;
+  companyId: number;
+  companyName: string;
+  platformName: string;
+  postTitle: string;
+  postStatus: RecruitmentStatus;
+  startDate: string;
+  dueDate: string | null;
+};
+
+export type PageInfo = {
+  currentPage: number;
+  totalPages: number;
+  totalElements: number;
+  hasNext: boolean;
+};
+
+// GET /api/v1/admin/posts - 응답 data
+export type RecruitmentListResponse = {
+  content: RecruitmentSummary[];
+  pageInfo: PageInfo;
+};
+
+// GET /api/v1/admin/posts/{postId} - 응답 data
+export type RecruitmentDetail = {
+  postId: number;
+  companyId: number;
+  industryId: number;
+  companyName: string;
+  industryName: string;
+  postTitle: string;
+  postUrl: string;
+  experienceLevel: number;
+  originalContent: string;
+  jobType: JobType;
+  status: RecruitmentStatus;
+  startDate: string;
+  dueDate: string | null;
+  analysis?: RecruitmentAnalysis;
 };

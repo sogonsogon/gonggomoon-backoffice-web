@@ -22,12 +22,12 @@ export default function RecruitmentRequestList() {
       </div>
 
       {mockRecruitmentRequests.map((item, i) => {
-        const status = item.status;
+        const status = item.submissionStatus;
         const isPending = status === 'PENDING';
 
         return (
           <div
-            key={item.requestId}
+            key={item.submissionId}
             className={`flex items-center h-14 ${i < mockRecruitmentRequests.length - 1 ? 'border-b border-ds-grey-200' : ''}`}
           >
             <div className="w-14 px-4 text-[13px] text-ds-grey-600 shrink-0">{i + 1}</div>
@@ -52,7 +52,7 @@ export default function RecruitmentRequestList() {
             </div>
             <div className="w-48 px-4 flex items-center gap-1.5 shrink-0">
               {isPending ? (
-                // TODO: 등록 클릭 시 approveRecruitmentRequest(item.requestId) 호출 후 페이지 이동으로 교체
+                // TODO: 등록 클릭 시 approveRecruitmentRequest(item.submissionId) 호출 후 페이지 이동으로 교체
                 <Button
                   asChild
                   size="sm"
@@ -70,7 +70,7 @@ export default function RecruitmentRequestList() {
                 variant="outline"
                 className={isPending ? 'text-ds-badge-red-text' : 'text-ds-grey-400'}
                 disabled={!isPending}
-                // TODO: onClick={() => rejectRecruitmentRequest(item.requestId)}
+                // TODO: onClick={() => rejectRecruitmentRequest(item.submissionId)}
               >
                 거절
               </Button>

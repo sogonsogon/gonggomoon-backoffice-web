@@ -5,7 +5,7 @@ import Link from 'next/link';
 export default function RecruitmentList() {
   // TODO: mockRecruitments → getRecruitments() 로 교체
   const rows = mockRecruitments.filter(
-    (item) => item.status === 'POSTED' || item.status === 'ANALYSIS_DONE',
+    (item) => item.status === 'PUBLISHED' || item.status === 'ANALYSIS_DONE',
   );
   const now = new Date();
   const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(
@@ -27,9 +27,9 @@ export default function RecruitmentList() {
       {rows.map((item, i) => {
         const companyName = item.companyName;
         const dueDateStr = item.dueDate?.slice(0, 10) ?? null;
-        const isAlwaysOpen = item.status === 'POSTED' && dueDateStr === null;
+        const isAlwaysOpen = item.status === 'PUBLISHED' && dueDateStr === null;
         const isRecruitingOpen =
-          item.status === 'POSTED' && Boolean(dueDateStr && dueDateStr >= todayStr);
+          item.status === 'PUBLISHED' && Boolean(dueDateStr && dueDateStr >= todayStr);
 
         const publicStatusLabel = isAlwaysOpen
           ? '상시'
