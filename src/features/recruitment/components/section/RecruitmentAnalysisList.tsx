@@ -11,12 +11,15 @@ import type { ApiErrorResponse } from '@/shared/types/api';
 export default function RecruitmentAnalysisList() {
   const { data: response } = useRecruitmentList();
   const { mutate: deleteRecruitment } = useDeleteRecruitment();
-  const rows = response?.content ?? [];
+  const rows = (response?.content ?? []).filter(
+    (item) => item.postStatus === 'ANALYZING' || item.postStatus === 'ANALYSIS_DONE',
+  );
 
   const handleDelete = (postId: number) => {
     deleteRecruitment(postId, {
       onSuccess: () => toast.success('공고가 삭제되었습니다.'),
-      onError: (error: ApiErrorResponse) => toast.error(error.message || '공고 삭제에 실패했습니다.'),
+      onError: (error: ApiErrorResponse) =>
+        toast.error(error.message || '공고 삭제에 실패했습니다.'),
     });
   };
 
@@ -41,8 +44,7 @@ export default function RecruitmentAnalysisList() {
           const status = item.postStatus;
           const isAnalyzing = status === 'ANALYZING';
           const isAnalysisDone = status === 'ANALYSIS_DONE';
-          const statusLabel =
-            status === 'PUBLISHED' ? '발행 완료' : ANALYSIS_STATUS_LABELS[status];
+          const statusLabel = status === 'PUBLISHED' ? '발행 완료' : ANALYSIS_STATUS_LABELS[status];
 
           return (
             <div

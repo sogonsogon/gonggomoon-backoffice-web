@@ -1,4 +1,5 @@
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
+import { notFound } from 'next/navigation';
 import TopBar from '@/shared/components/layout/TopBar';
 import ContentHeader from '@/shared/components/layout/ContentHeader';
 import RecruitmentConfirmSection from '@/features/recruitment/components/section/RecruitmentConfirmSection';
@@ -10,8 +11,14 @@ export default async function RecruitmentReviewPage({
   params: Promise<{ postId: string }>;
 }) {
   const { postId } = await params;
+  const parsedPostId = Number(postId);
+
+  if (!Number.isInteger(parsedPostId) || parsedPostId <= 0) {
+    notFound();
+  }
+
   const queryClient = new QueryClient();
-  await queryClient.prefetchQuery(recruitmentDetailQueryOptions(Number(postId)));
+  await queryClient.prefetchQuery(recruitmentDetailQueryOptions(parsedPostId));
 
   return (
     <>
@@ -25,7 +32,7 @@ export default async function RecruitmentReviewPage({
         />
 
         <HydrationBoundary state={dehydrate(queryClient)}>
-          <RecruitmentConfirmSection postId={Number(postId)} />
+          <RecruitmentConfirmSection postId={parsedPostId} />
         </HydrationBoundary>
       </main>
     </>
