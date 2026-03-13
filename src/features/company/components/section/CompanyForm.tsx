@@ -51,7 +51,7 @@ export default function CompanyForm() {
     isLoading: isCompanyDetailLoading,
     isError: isCompanyDetailError,
     error: companyDetailError,
-  } = useCompanyDetail(companyId ?? 0);
+  } = useCompanyDetail(companyId);
   const {
     data: industries,
     isLoading: isIndustriesLoading,
@@ -59,7 +59,7 @@ export default function CompanyForm() {
     error: industriesError,
   } = useIndustryCategoryList();
   const { mutate: createCompanyMutation, isPending: isCreating } = useCreateCompany();
-  const { mutate: updateCompanyMutation, isPending: isUpdating } = useUpdateCompany(companyId ?? 0);
+  const { mutate: updateCompanyMutation, isPending: isUpdating } = useUpdateCompany(companyId);
 
   useEffect(() => {
     if (!isIndustriesError) {

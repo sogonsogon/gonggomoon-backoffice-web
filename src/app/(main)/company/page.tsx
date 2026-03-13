@@ -1,12 +1,17 @@
 import Link from 'next/link';
+import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 import TopBar from '@/shared/components/layout/TopBar';
 import { Button } from '@/shared/components/ui/button';
 import ContentHeader from '@/shared/components/layout/ContentHeader';
 import CompanyFilterToolbar from '@/features/company/components/section/CompanyFilterToolbar';
 import CompanyTable from '@/features/company/components/section/CompanyTable';
 import { Plus } from 'lucide-react';
+import { companyListQueryOptions } from '@/features/company/queries';
 
-export default function CompanyPage() {
+export default async function CompanyPage() {
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery(companyListQueryOptions());
+
   return (
     <>
       <TopBar title="기업 관리" breadcrumb="등록된 기업 정보를 관리합니다" />
@@ -24,11 +29,13 @@ export default function CompanyPage() {
             </Button>
           }
         />
-        <div className="pb-1">
-          <CompanyFilterToolbar />
-        </div>
+        <HydrationBoundary state={dehydrate(queryClient)}>
+          <div className="pb-1">
+            <CompanyFilterToolbar />
+          </div>
 
-        <CompanyTable />
+          <CompanyTable />
+        </HydrationBoundary>
       </main>
     </>
   );
