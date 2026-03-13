@@ -1,8 +1,8 @@
 import { FileText } from 'lucide-react';
-import type { PostDetail } from '@/features/recruitment/types';
+import type { RecruitmentDetail } from '@/features/recruitment/types';
 import { JOB_TYPE_LABELS } from '@/features/recruitment/constants';
 interface RecruitmentBasicInfoProps {
-  item?: PostDetail;
+  item?: RecruitmentDetail;
 }
 
 export default function RecruitmentBasicInfo({ item }: RecruitmentBasicInfoProps) {

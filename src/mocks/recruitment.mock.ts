@@ -1,6 +1,6 @@
-import type { PostDetail, Submission } from '@/features/recruitment/types';
+import type { RecruitmentDetail, Submission } from '@/features/recruitment/types';
 
-export const mockRecruitments: PostDetail[] = [
+export const mockRecruitments: RecruitmentDetail[] = [
   {
     postId: 3001,
     postTitle: '프론트엔드 엔지니어 (커머스)',
@@ -59,7 +59,7 @@ export const mockRecruitments: PostDetail[] = [
     status: 'PUBLISHED',
     postUrl: 'https://example.com/jobs/3002',
     startDate: '2026-06-01',
-    dueDate: '2026-06-30',
+    dueDate: null,
     originalContent:
       '핀테크 서비스 UI 개발을 지원할 프론트엔드 인턴을 모집합니다. 신입 개발자를 찾습니다.',
 

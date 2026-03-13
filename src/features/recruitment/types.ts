@@ -11,9 +11,9 @@ export type JobType =
   | 'PM_PO'
   | 'QA';
 
-export type PostStatus = 'ANALYZING' | 'ANALYSIS_DONE' | 'PUBLISHED';
+export type RecruitmentStatus = 'ANALYZING' | 'ANALYSIS_DONE' | 'PUBLISHED';
 
-export type PostSubmissionStatus = 'PENDING' | 'APPROVED' | 'REJECTED';
+export type SubmissionStatus = 'PENDING' | 'APPROVED' | 'REJECTED';
 
 // ============ 공고 요청 (submissions) ============
 
@@ -23,13 +23,13 @@ export type Submission = {
   userId: number;
   platformName: string;
   url: string;
-  submissionStatus: PostSubmissionStatus;
+  submissionStatus: SubmissionStatus;
   createdAt: string;
 };
 
 // GET /api/v1/admin/posts/submissions - query params
 export type SubmissionListParams = {
-  submissionStatus?: PostSubmissionStatus;
+  submissionStatus?: SubmissionStatus;
 };
 
 // GET /api/v1/admin/posts/submissions - 응답 data
@@ -43,7 +43,7 @@ export type SubmissionListResponse = {
 
 // POST /api/v1/admin/posts/submissions/{submissionId}/approve - 요청 body
 // POST /api/v1/admin/posts - 요청 body (동일 구조)
-export type CreatePostRequest = {
+export type CreateRecruitmentRequest = {
   companyId: number;
   platformId: number;
   title: string;
@@ -62,7 +62,7 @@ export type RejectSubmissionRequest = {
 
 // ============ 공고 (posts) ============
 
-export type PostAnalysis = {
+export type RecruitmentAnalysis = {
   summary: string;
   companySummary: string;
   rolesResponsibilities: string[];
@@ -73,15 +73,15 @@ export type PostAnalysis = {
 };
 
 // GET /api/v1/admin/posts - 목록 아이템
-export type PostSummary = {
+export type RecruitmentSummary = {
   postId: number;
   companyId: number;
   companyName: string;
   platformName: string;
   postTitle: string;
-  postStatus: PostStatus;
+  postStatus: RecruitmentStatus;
   startDate: string;
-  dueDate: string;
+  dueDate: string | null;
 };
 
 export type PageInfo = {
@@ -92,13 +92,13 @@ export type PageInfo = {
 };
 
 // GET /api/v1/admin/posts - 응답 data
-export type PostListResponse = {
-  content: PostSummary[];
+export type RecruitmentListResponse = {
+  content: RecruitmentSummary[];
   pageInfo: PageInfo;
 };
 
 // GET /api/v1/admin/posts/{postId} - 응답 data
-export type PostDetail = {
+export type RecruitmentDetail = {
   postId: number;
   companyId: number;
   industryId: number;
@@ -109,8 +109,8 @@ export type PostDetail = {
   experienceLevel: number;
   originalContent: string;
   jobType: JobType;
-  status: PostStatus;
+  status: RecruitmentStatus;
   startDate: string;
-  dueDate: string;
-  analysis?: PostAnalysis;
+  dueDate: string | null;
+  analysis?: RecruitmentAnalysis;
 };
