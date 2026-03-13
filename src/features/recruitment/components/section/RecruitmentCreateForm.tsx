@@ -38,7 +38,11 @@ export default function RecruitmentCreateForm({ defaultUrl }: RecruitmentCreateF
     selectedJobType !== null &&
     description.trim() !== '';
 
-  const { data: companyData } = useCompanyList({ page: 0, size: 1000 });
+  const {
+    data: companyData,
+    isLoading: isCompanyLoading,
+    isError: isCompanyError,
+  } = useCompanyList({ page: 0, size: 1000 });
   const companyNames = (companyData?.contents ?? []).map((company) => company.companyName);
 
   return (
@@ -55,6 +59,17 @@ export default function RecruitmentCreateForm({ defaultUrl }: RecruitmentCreateF
                 기업명, 공고 제목, 마감일, 원본 공고 URL을 입력하세요.
               </p>
             </div>
+            {isCompanyError && (
+              <div className="mt-2 flex items-start gap-1 text-[12px] text-red-600">
+                <AlertTriangle className="h-3.5 w-3.5 mt-0.5" />
+                <span>
+                  기업 목록을 불러오지 못했습니다. 나중에 다시 시도하거나 회사명을 직접 입력하세요.
+                </span>
+              </div>
+            )}
+            {isCompanyLoading && !isCompanyError && (
+              <p className="mt-2 text-[12px] text-ds-grey-500">기업 목록을 불러오는 중입니다...</p>
+            )}
 
             {/* Row 1: 기업명 + 경력 */}
             <div className="flex gap-4">

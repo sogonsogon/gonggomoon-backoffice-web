@@ -61,7 +61,7 @@ export type GetIndustryAnalysisResponse = IndustryAnalysis;
 export type IndustryCategory = {
   industryId: number;
   industryName: string;
-  analysisCount?: number;
+  analysisCount: number;
 };
 
 export type GetIndustryCategoryListResponse = {
