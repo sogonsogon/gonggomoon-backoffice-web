@@ -9,7 +9,7 @@ interface IndustryStatusCardProps {
 }
 
 export default function IndustryStatusCard({ status, analyzedYear }: IndustryStatusCardProps) {
-  const statusLabel = status ? ANALYSIS_STATUS_LABELS[status] : '저장됨';
+  const statusLabel = status ? ANALYSIS_STATUS_LABELS[status] : '대기중';
 
   return (
     <Card className="w-70 shrink-0 border-ds-grey-200 bg-white py-4">
