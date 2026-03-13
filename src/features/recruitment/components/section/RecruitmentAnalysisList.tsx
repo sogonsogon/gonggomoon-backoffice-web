@@ -1,15 +1,24 @@
-import { mockRecruitments } from '@/mocks';
+'use client';
+
 import { Button } from '@/shared/components/ui/button';
 import Link from 'next/link';
 import { ANALYSIS_STATUS_BADGE, ANALYSIS_STATUS_LABELS } from '@/features/recruitment/constants';
 import { formatDate } from '@/shared/lib/formatDate';
+import { useRecruitmentList, useDeleteRecruitment } from '@/features/recruitment/queries';
+import { toast } from 'sonner';
+import type { ApiErrorResponse } from '@/shared/types/api';
 
 export default function RecruitmentAnalysisList() {
-  // TODO: mockRecruitments → getRecruitments() 로 교체 (ANALYZING / ANALYSIS_DONE 상태 필터)
-  const rows = mockRecruitments.filter(
-    (item) =>
-      item.status === 'ANALYZING' || item.status === 'ANALYSIS_DONE' || item.status === 'PUBLISHED',
-  );
+  const { data: response } = useRecruitmentList();
+  const { mutate: deleteRecruitment } = useDeleteRecruitment();
+  const rows = response?.content ?? [];
+
+  const handleDelete = (postId: number) => {
+    deleteRecruitment(postId, {
+      onSuccess: () => toast.success('공고가 삭제되었습니다.'),
+      onError: (error: ApiErrorResponse) => toast.error(error.message || '공고 삭제에 실패했습니다.'),
+    });
+  };
 
   return (
     <div className="bg-white rounded-lg border border-ds-grey-200 overflow-hidden">
@@ -29,10 +38,11 @@ export default function RecruitmentAnalysisList() {
         </div>
       ) : (
         rows.map((item, i) => {
-          const status = item.status;
+          const status = item.postStatus;
           const isAnalyzing = status === 'ANALYZING';
           const isAnalysisDone = status === 'ANALYSIS_DONE';
-          const statusLabel = status === 'PUBLISHED' ? '발행 완료' : ANALYSIS_STATUS_LABELS[status];
+          const statusLabel =
+            status === 'PUBLISHED' ? '발행 완료' : ANALYSIS_STATUS_LABELS[status];
 
           return (
             <div
@@ -72,7 +82,7 @@ export default function RecruitmentAnalysisList() {
                       size="sm"
                       variant="outline"
                       className="text-ds-badge-red-text"
-                      // TODO: onClick={() => deleteRecruitment(item.postId)}
+                      onClick={() => handleDelete(item.postId)}
                     >
                       삭제
                     </Button>

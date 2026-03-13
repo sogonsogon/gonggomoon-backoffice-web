@@ -1,13 +1,23 @@
-import { mockRecruitments } from '@/mocks';
+'use client';
+
 import { Button } from '@/shared/components/ui/button';
 import Link from 'next/link';
+import { useRecruitmentList, useDeleteRecruitment } from '@/features/recruitment/queries';
+import { toast } from 'sonner';
+import type { ApiErrorResponse } from '@/shared/types/api';
 
 export default function RecruitmentList() {
-  // TODO: mockRecruitments → getRecruitments() 로 교체
-  const rows = mockRecruitments.filter(
-    (item) => item.status === 'PUBLISHED' || item.status === 'ANALYSIS_DONE',
-  );
+  const { data: response } = useRecruitmentList();
+  const { mutate: deleteRecruitment } = useDeleteRecruitment();
+  const rows = response?.content ?? [];
   const todayStr = new Date().toLocaleDateString('sv-SE');
+
+  const handleDelete = (postId: number) => {
+    deleteRecruitment(postId, {
+      onSuccess: () => toast.success('공고가 삭제되었습니다.'),
+      onError: (error: ApiErrorResponse) => toast.error(error.message || '공고 삭제에 실패했습니다.'),
+    });
+  };
 
   return (
     <div className="bg-white rounded-lg border border-ds-grey-200 overflow-hidden">
@@ -24,9 +34,9 @@ export default function RecruitmentList() {
       {rows.map((item, i) => {
         const companyName = item.companyName;
         const dueDateStr = item.dueDate?.slice(0, 10) ?? null;
-        const isAlwaysOpen = item.status === 'PUBLISHED' && dueDateStr === null;
+        const isAlwaysOpen = item.postStatus === 'PUBLISHED' && dueDateStr === null;
         const isRecruitingOpen =
-          item.status === 'PUBLISHED' && Boolean(dueDateStr && dueDateStr >= todayStr);
+          item.postStatus === 'PUBLISHED' && Boolean(dueDateStr && dueDateStr >= todayStr);
 
         const publicStatusLabel = isAlwaysOpen
           ? '상시'
@@ -71,7 +81,7 @@ export default function RecruitmentList() {
                 size="sm"
                 variant="outline"
                 className="text-ds-badge-red-text"
-                // TODO: onClick={() => deleteRecruitment(item.postId)}
+                onClick={() => handleDelete(item.postId)}
               >
                 삭제
               </Button>

@@ -16,19 +16,19 @@ import {
 import { AlertTriangle, Info } from 'lucide-react';
 import type { JobType } from '@/features/recruitment/types';
 import { JOB_TYPE_LABELS } from '@/features/recruitment/constants';
+import { useRecruitmentCreateStore } from '@/features/recruitment/store';
 
-interface RecruitmentCreateFormProps {
-  defaultUrl?: string;
-}
+export default function RecruitmentCreateForm() {
+  const pendingUrl = useRecruitmentCreateStore((s) => s.pendingUrl);
+  const clearPending = useRecruitmentCreateStore((s) => s.clearPending);
 
-export default function RecruitmentCreateForm({ defaultUrl }: RecruitmentCreateFormProps) {
   const [companyName, setCompanyName] = useState('');
   const [postTitle, setPostTitle] = useState('');
   const [experienceLevel, setExperienceLevel] = useState<number | null>(null);
   const [selectedJobType, setSelectedJobType] = useState<JobType | null>(null);
   const [startDate, setStartDate] = useState('');
   const [dueDate, setDueDate] = useState('');
-  const [recruitmentUrl, setRecruitmentUrl] = useState(defaultUrl ?? '');
+  const [recruitmentUrl, setRecruitmentUrl] = useState(pendingUrl ?? '');
   const [description, setDescription] = useState('');
 
   const isFormValid =
@@ -215,6 +215,7 @@ export default function RecruitmentCreateForm({ defaultUrl }: RecruitmentCreateF
             primaryLabel="AI 분석 시작"
             primaryEnabled={isFormValid}
             onPrimaryClick={() => {
+              clearPending();
               // TODO: approveRecruitmentRequest(requestId) 호출
             }}
             secondaryLabel="취소"

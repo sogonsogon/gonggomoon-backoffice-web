@@ -1,9 +1,8 @@
+import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 import TopBar from '@/shared/components/layout/TopBar';
 import ContentHeader from '@/shared/components/layout/ContentHeader';
-import { mockRecruitments } from '@/mocks/recruitment.mock';
-import RecruitmentAnalysisInfo from '@/features/recruitment/components/section/RecruitmentAnalysisInfo';
-import RecruitmentBasicInfo from '@/features/recruitment/components/section/RecruitmentBasicInfo';
-import RecruitmentConfirmControls from '@/features/recruitment/components/section/RecruitmentConfirmControls';
+import RecruitmentConfirmSection from '@/features/recruitment/components/section/RecruitmentConfirmSection';
+import { recruitmentDetailQueryOptions } from '@/features/recruitment/queries';
 
 export default async function RecruitmentReviewPage({
   params,
@@ -11,9 +10,8 @@ export default async function RecruitmentReviewPage({
   params: Promise<{ postId: string }>;
 }) {
   const { postId } = await params;
-  // TODO: mockRecruitments.find → getRecruitment(postId) 로 교체
-  const item = mockRecruitments.find((r) => r.postId === Number(postId));
-  const analysis = item?.analysis;
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery(recruitmentDetailQueryOptions(Number(postId)));
 
   return (
     <>
@@ -26,13 +24,9 @@ export default async function RecruitmentReviewPage({
           backHref="/recruitment"
         />
 
-        <div className="flex gap-5 items-start">
-          <RecruitmentBasicInfo item={item} />
-          <div className="flex-1 flex flex-col gap-3">
-            <RecruitmentAnalysisInfo analysis={analysis} />
-            <RecruitmentConfirmControls postId={Number(postId)} />
-          </div>
-        </div>
+        <HydrationBoundary state={dehydrate(queryClient)}>
+          <RecruitmentConfirmSection postId={Number(postId)} />
+        </HydrationBoundary>
       </main>
     </>
   );
