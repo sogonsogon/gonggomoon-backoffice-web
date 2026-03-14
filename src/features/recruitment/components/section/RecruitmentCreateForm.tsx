@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useCompanyList } from '@/features/company/queries';
-import { useApproveRecruitmentRequest } from '@/features/recruitment/queries';
+import { useApproveRecruitmentRequest, useCreateRecruitment } from '@/features/recruitment/queries';
 import CardActionForm from '@/shared/components/ui/CardActionForm';
 import { Button } from '@/shared/components/ui/button';
 import { Input } from '@/shared/components/ui/input';
@@ -27,7 +27,9 @@ export default function RecruitmentCreateForm() {
   const pendingUrl = useRecruitmentCreateStore((s) => s.pendingUrl);
   const clearPending = useRecruitmentCreateStore((s) => s.clearPending);
 
+  const { mutate: create, isPending: isCreating } = useCreateRecruitment();
   const { mutate: approve, isPending: isApproving } = useApproveRecruitmentRequest();
+  const isSubmitting = isCreating || isApproving;
 
   const [selectedCompanyId, setSelectedCompanyId] = useState<number | null>(null);
   const [postTitle, setPostTitle] = useState('');
@@ -52,36 +54,47 @@ export default function RecruitmentCreateForm() {
   } = useCompanyList({ page: 0, size: 1000 });
   const companies = companyData?.contents ?? [];
 
-  const handleApprove = () => {
-    if (pendingSubmissionId === null) return;
+  const handleSubmit = () => {
     if (selectedCompanyId === null || selectedJobType === null || experienceLevel === null) return;
 
-    approve(
-      {
-        submissionId: pendingSubmissionId,
-        data: {
-          companyId: selectedCompanyId,
-          platformId: 0, // TODO: platformId 연동 필요
-          title: postTitle.trim(),
-          url: recruitmentUrl,
-          jobType: selectedJobType,
-          originalContent: description.trim(),
-          experienceLevel,
-          startDate: startDate.replace(/\./g, '-'),
-          dueDate: dueDate ? dueDate.replace(/\./g, '-') : null,
-        },
+    const data = {
+      companyId: selectedCompanyId,
+      platformId: 0, // TODO: platformId 연동 필요
+      title: postTitle.trim(),
+      url: recruitmentUrl,
+      jobType: selectedJobType,
+      originalContent: description.trim(),
+      experienceLevel,
+      startDate: startDate.replace(/\./g, '-'),
+      dueDate: dueDate ? dueDate.replace(/\./g, '-') : null,
+    };
+
+    const callbacks = {
+      onSuccess: () => {
+        toast.success(
+          pendingSubmissionId !== null
+            ? '공고 등록 요청이 승인 되었습니다. AI 공고 분석이 시작되었습니다.'
+            : 'AI 공고 분석이 시작되었습니다',
+        );
+        clearPending();
+        router.push(
+          pendingSubmissionId !== null ? '/recruitment?tab=request' : '/recruitment?tab=analysis',
+        );
       },
-      {
-        onSuccess: () => {
-          toast.success('공고 요청이 승인되었습니다.');
-          clearPending();
-          router.push('/recruitment');
-        },
-        onError: () => {
-          toast.error('승인 처리에 실패했습니다.');
-        },
+      onError: () => {
+        toast.error(
+          pendingSubmissionId !== null
+            ? '공고 등록 요청 승인이 실패하였습니다'
+            : '공고 등록에 실패하였습니다.',
+        );
       },
-    );
+    };
+
+    if (pendingSubmissionId !== null) {
+      approve({ submissionId: pendingSubmissionId, data }, callbacks);
+    } else {
+      create(data, callbacks);
+    }
   };
 
   return (
@@ -254,8 +267,8 @@ export default function RecruitmentCreateForm() {
           {/* Action Card */}
           <CardActionForm
             primaryLabel="AI 분석 시작"
-            primaryEnabled={isFormValid && !isApproving}
-            onPrimaryClick={handleApprove}
+            primaryEnabled={isFormValid && !isSubmitting}
+            onPrimaryClick={handleSubmit}
             secondaryLabel="취소"
             onSecondaryClick={() => {
               clearPending();

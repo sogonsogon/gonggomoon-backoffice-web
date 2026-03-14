@@ -19,7 +19,7 @@ export default function RecruitmentConfirmControls({ postId }: RecruitmentConfir
     publish(undefined, {
       onSuccess: () => {
         toast.success('공고가 발행되었습니다.');
-        router.push('/recruitment');
+        router.push('/recruitment?tab=analysis');
       },
       onError: (error: ApiErrorResponse) => {
         toast.error(error.message || '공고 발행에 실패했습니다.');
@@ -31,7 +31,7 @@ export default function RecruitmentConfirmControls({ postId }: RecruitmentConfir
     deleteRecruitment(postId, {
       onSuccess: () => {
         toast.success('공고가 삭제되었습니다.');
-        router.push('/recruitment');
+        router.push('/recruitment?tab=analysis');
       },
       onError: (error: ApiErrorResponse) => {
         toast.error(error.message || '공고 삭제에 실패했습니다.');

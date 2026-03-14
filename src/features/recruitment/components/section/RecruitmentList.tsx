@@ -1,5 +1,6 @@
 'use client';
 
+import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { Button } from '@/shared/components/ui/button';
 import Link from 'next/link';
 import { useRecruitmentList, useDeleteRecruitment } from '@/features/recruitment/queries';
@@ -7,9 +8,23 @@ import { toast } from 'sonner';
 import type { ApiErrorResponse } from '@/shared/types/api';
 
 export default function RecruitmentList() {
-  const { data: response } = useRecruitmentList();
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const rawPage = searchParams.get('page');
+  const page = Number.isFinite(Number(rawPage)) && Number(rawPage) >= 0 ? Number(rawPage) : 0;
+
+  const { data: response } = useRecruitmentList({ page });
   const { mutate: deleteRecruitment } = useDeleteRecruitment();
   const rows = response?.content ?? [];
+  const pageInfo = response?.pageInfo;
+
+  const handlePageChange = (nextPage: number) => {
+    const next = new URLSearchParams(searchParams.toString());
+    next.set('page', String(nextPage));
+    router.push(`${pathname}?${next.toString()}`);
+  };
   const todayStr = new Date().toLocaleDateString('sv-SE');
 
   const handleDelete = (postId: number) => {
@@ -92,9 +107,17 @@ export default function RecruitmentList() {
 
       {/* Pagination Footer */}
       <div className="h-13 border-t border-ds-grey-200 flex items-center justify-center gap-1 px-4">
-        <span className="w-8 h-8 flex items-center justify-center rounded-md bg-ds-grey-900 text-white text-sm font-medium">
-          1
-        </span>
+        {Array.from({ length: pageInfo?.totalPages ?? 1 }).map((_, i) => (
+          <button
+            key={i}
+            onClick={() => handlePageChange(i)}
+            className={`w-8 h-8 flex items-center justify-center rounded-md text-sm font-medium ${
+              i === page ? 'bg-ds-grey-900 text-white' : 'text-ds-grey-600 hover:bg-ds-grey-100'
+            }`}
+          >
+            {i + 1}
+          </button>
+        ))}
       </div>
     </div>
   );
