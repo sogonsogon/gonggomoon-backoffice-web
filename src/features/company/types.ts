@@ -23,12 +23,18 @@ export type CompanyListItem = {
 
 export type CompanyList = CompanyListItem[];
 
+//pageInfo":{"currentPage":0,"totalPages":2,"totalElements":16,"hasNext":true}},
+export type pageInfo = {
+  currentPage: number;
+  totalPages: number;
+  totalElements: number;
+  hasNext: boolean;
+};
+
 export type GetCompanyListResponse = {
   content: CompanyList;
-  page: number;
   size: number;
-  totalElements: number;
-  totalPages: number;
+  pageInfo: pageInfo;
 };
 
 export type CompanyDetail = {

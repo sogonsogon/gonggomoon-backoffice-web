@@ -43,7 +43,7 @@ export default function CompanyTable({ params }: CompanyTableProps) {
     );
   }
 
-  const { content: companies, totalPages } = data;
+  const { content: companies, pageInfo } = data;
 
   return (
     <div className="bg-white rounded-[10px] border border-ds-grey-200 overflow-hidden">
@@ -61,7 +61,7 @@ export default function CompanyTable({ params }: CompanyTableProps) {
 
       {/* Pagination Footer */}
       <div className="h-13 border-t border-ds-grey-200 flex items-center justify-center gap-1 px-4">
-        {Array.from({ length: totalPages ?? 1 }).map((_, i) => (
+        {Array.from({ length: pageInfo.totalPages ?? 1 }).map((_, i) => (
           <button
             key={i}
             onClick={() => handlePageChange(i)}
