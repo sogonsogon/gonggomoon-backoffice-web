@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-const BASE_API_URL = process.env.NEXT_PUBLIC_API_URL;
+const BASE_API_URL = process.env.API_URL || process.env.NEXT_PUBLIC_API_URL;
 
 export async function proxy(request: NextRequest) {
   const accessToken = request.cookies.get('accessToken')?.value;
