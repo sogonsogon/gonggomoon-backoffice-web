@@ -16,7 +16,9 @@ import {
 } from '@/shared/api/httpClient.debug';
 import { cookies } from 'next/headers';
 
-const BASE_API_URL = process.env.NEXT_PUBLIC_API_URL;
+const BASE_API_URL = process.env.API_URL ?? process.env.NEXT_PUBLIC_API_URL;
+// 로컬 테스트를 위한 14일 기간의 엑세스 토큰
+const ACCESS_TOKEN = process.env.DEV_ACCESS_TOKEN;
 
 /**
  * 내부 헬퍼 함수: 예상치 못한 시스템/네트워크 에러를 표준 실패 포맷으로 규격화

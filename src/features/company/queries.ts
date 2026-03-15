@@ -5,12 +5,17 @@ import {
   getCompanyDetail,
   getCompanyList,
   updateCompany,
-} from './actions';
-import { CreateCompanyRequest, GetCompanyListParams, UpdateCompanyRequest } from './types';
+} from '@/features/company/actions';
+import {
+  CreateCompanyRequest,
+  GetCompanyListParams,
+  UpdateCompanyRequest,
+} from '@/features/company/types';
 import { ApiErrorResponse } from '@/shared/types/api';
 
 export const companyQueryKeys = {
-  list: (params?: GetCompanyListParams) => ['companyList', params] as const,
+  all: ['companyList'] as const,
+  list: (params?: GetCompanyListParams) => [...companyQueryKeys.all, params] as const,
   detail: (companyId: number) => ['companyDetail', companyId] as const,
 };
 
@@ -42,10 +47,10 @@ export function useCompanyList(params?: GetCompanyListParams) {
 }
 
 // 기업 상세 조회 useQuery
-export function useCompanyDetail(companyId: number) {
+export function useCompanyDetail(companyId: number | undefined) {
   return useQuery({
-    ...companyDetailQueryOptions(companyId),
-    enabled: Number.isFinite(companyId) && companyId > 0,
+    ...companyDetailQueryOptions(companyId ?? 0),
+    enabled: companyId !== undefined && Number.isFinite(companyId) && companyId > 0,
   });
 }
 
@@ -60,7 +65,7 @@ export function useCreateCompany() {
       return result.data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: companyQueryKeys.list() });
+      queryClient.invalidateQueries({ queryKey: companyQueryKeys.all });
     },
     onError: (error: ApiErrorResponse) => {
       console.error('기업 등록 실패:', error);
@@ -69,18 +74,21 @@ export function useCreateCompany() {
 }
 
 // 기업 수정 useMutation
-export function useUpdateCompany(companyId: number) {
+export function useUpdateCompany(companyId: number | undefined) {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: async (data: UpdateCompanyRequest) => {
+      if (companyId === undefined) return Promise.reject(new Error('companyId가 없습니다.'));
       const result = await updateCompany(companyId, data);
       if (!result.success) return Promise.reject(result);
       return result.data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: companyQueryKeys.detail(companyId) });
-      queryClient.invalidateQueries({ queryKey: companyQueryKeys.list() });
+      if (companyId !== undefined) {
+        queryClient.invalidateQueries({ queryKey: companyQueryKeys.detail(companyId) });
+      }
+      queryClient.invalidateQueries({ queryKey: companyQueryKeys.all });
     },
     onError: (error: ApiErrorResponse) => {
       console.error('기업 수정 실패:', error);
@@ -98,7 +106,7 @@ export function useDeleteCompany() {
       return result.data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: companyQueryKeys.list() });
+      queryClient.invalidateQueries({ queryKey: companyQueryKeys.all });
     },
     onError: (error: ApiErrorResponse) => {
       console.error('기업 삭제 실패:', error);

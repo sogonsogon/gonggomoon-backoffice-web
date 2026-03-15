@@ -8,13 +8,13 @@ import { ApiErrorResponse } from '@/shared/types/api';
 
 interface AnalysisDetailActionsProps {
   industryId: number;
-  analysisId: number;
+  reportId: number;
   isPublished: boolean;
 }
 
 export default function AnalysisDetailActions({
   industryId,
-  analysisId,
+  reportId,
   isPublished,
 }: AnalysisDetailActionsProps) {
   const router = useRouter();
@@ -22,7 +22,7 @@ export default function AnalysisDetailActions({
   const { mutate: deleteAnalysis, isPending: isDeleting } = useDeleteIndustryAnalysis(industryId);
 
   const handlePublish = () => {
-    publish(analysisId, {
+    publish(reportId, {
       onSuccess: () => {
         toast.success('산업 분석이 발행되었습니다.');
       },
@@ -33,7 +33,7 @@ export default function AnalysisDetailActions({
   };
 
   const handleDelete = () => {
-    deleteAnalysis(analysisId, {
+    deleteAnalysis(reportId, {
       onSuccess: () => {
         toast.success('산업 분석이 삭제되었습니다.');
       },

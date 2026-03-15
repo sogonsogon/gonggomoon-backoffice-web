@@ -1,11 +1,11 @@
 'use client';
 
 import TopBar from '@/shared/components/layout/TopBar';
-import { useIndustryAnalysisList, useIndustryCategoryList } from '../../queries';
+import { useIndustryAnalysisList, useIndustryCategoryList } from '@/features/industry/queries';
 import ContentHeader from '@/shared/components/layout/ContentHeader';
-import IndustryBasicInfoCard from '../ui/IndustryBasicInfoCard';
-import IndustryAnalysisTable from './IndustryAnalysisTable';
-import IndustryInfoSideCard from '../ui/IndustryInfoSideCard';
+import IndustryBasicInfoCard from '@/features/industry/components/ui/IndustryBasicInfoCard';
+import IndustryInfoSideCard from '@/features/industry/components/ui/IndustryInfoSideCard';
+import IndustryAnalysisTable from '@/features/industry/components/section/IndustryAnalysisTable';
 
 interface IndustryDetailSectionProps {
   industryId: number;
@@ -16,8 +16,8 @@ export default function IndustryDetailSection({ industryId }: IndustryDetailSect
   const label =
     categoryList?.find((category) => category.industryId === industryId)?.industryName || '산업군';
   const publishedAnalysisYear = analysisList?.find(
-    (analysis) => analysis.analysisStatus === 'PUBLISHED',
-  )?.analysisYear;
+    (analysis) => analysis.reportStatus === 'PUBLISHED',
+  )?.reportYear;
 
   return (
     <>

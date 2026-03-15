@@ -27,7 +27,7 @@ export default function IndustryAddButton() {
   function handleSubmit() {
     if (!industryName.trim()) return;
     createCategory(
-      { industryName: industryName.trim() },
+      { name: industryName.trim() },
       {
         onSuccess: () => {
           toast.success('산업군이 등록되었습니다.');

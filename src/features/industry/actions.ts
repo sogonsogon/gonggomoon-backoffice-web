@@ -5,8 +5,6 @@ import type {
   GetIndustryCategoryListResponse,
   GetIndustryAnalysisListResponse,
   GetIndustryAnalysisResponse,
-  IndustryCategory,
-  IndustryAnalysis,
   CreateIndustryCategoryRequest,
   UpdateIndustryCategoryRequest,
   CreateIndustryAnalysisRequest,
@@ -19,7 +17,7 @@ export async function getIndustryCategoryList() {
 
 // 산업 카테고리 생성 — POST /api/v1/admin/industries
 export async function createIndustryCategory(data: CreateIndustryCategoryRequest) {
-  return privateFetch<IndustryCategory>('/api/v1/admin/industries', {
+  return privateFetch<null>('/api/v1/admin/industries', {
     method: 'POST',
     body: JSON.stringify(data),
   });
@@ -30,7 +28,7 @@ export async function updateIndustryCategory(
   industryId: number,
   data: UpdateIndustryCategoryRequest,
 ) {
-  return privateFetch<IndustryCategory>(`/api/v1/admin/industries/${industryId}`, {
+  return privateFetch<null>(`/api/v1/admin/industries/${industryId}`, {
     method: 'PATCH',
     body: JSON.stringify(data),
   });
@@ -44,9 +42,9 @@ export async function getIndustryAnalysisList(industryId: number) {
 }
 
 // 산업 분석 단건 조회 — GET /api/v1/admin/industries/reports/{id}
-export async function getIndustryAnalysis(analysisId: number) {
+export async function getIndustryAnalysis(reportId: number) {
   return privateFetch<GetIndustryAnalysisResponse>(
-    `/api/v1/admin/industries/reports/${analysisId}`,
+    `/api/v1/admin/industries/reports/${reportId}`,
   );
 }
 
@@ -55,22 +53,22 @@ export async function createIndustryAnalysis(
   industryId: number,
   data: CreateIndustryAnalysisRequest,
 ) {
-  return privateFetch<IndustryAnalysis>(`/api/v1/admin/industries/${industryId}/reports`, {
+  return privateFetch<null>(`/api/v1/admin/industries/${industryId}/reports`, {
     method: 'POST',
     body: JSON.stringify(data),
   });
 }
 
 // 산업 분석 발행 — PATCH /api/v1/admin/industries/reports/{id}/publish
-export async function publishIndustryAnalysis(analysisId: number) {
-  return privateFetch<void>(`/api/v1/admin/industries/reports/${analysisId}/publish`, {
+export async function publishIndustryAnalysis(reportId: number) {
+  return privateFetch<void>(`/api/v1/admin/industries/reports/${reportId}/publish`, {
     method: 'PATCH',
   });
 }
 
 // 산업 분석 삭제 — DELETE /api/v1/admin/industries/reports/{id}
-export async function deleteIndustryAnalysis(analysisId: number) {
-  return privateFetch<void>(`/api/v1/admin/industries/reports/${analysisId}`, {
+export async function deleteIndustryAnalysis(reportId: number) {
+  return privateFetch<void>(`/api/v1/admin/industries/reports/${reportId}`, {
     method: 'DELETE',
   });
 }

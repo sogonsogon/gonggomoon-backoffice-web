@@ -201,11 +201,7 @@ export async function parseResponseBody<T>(
 }
 
 export function logRequestSuccess(debugInfo: FetchDebugInfo): void {
-  debugLog(
-    'info',
-    LOG_LABELS.REQUEST_SUCCESS,
-    `${debugInfo.method} ${debugInfo.url} -> ${debugInfo.status}`,
-  );
+  debugLog('info', LOG_LABELS.REQUEST_SUCCESS, buildLogPayload(debugInfo));
 }
 
 export function logRequestFailed(debugInfo: FetchDebugInfo): void {

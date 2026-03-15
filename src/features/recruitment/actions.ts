@@ -1,29 +1,83 @@
 'use server';
 
-export async function approveRecruitmentRequest(_requestId: number) {
-  // TODO: POST /api/v1/admin/posts/requests/{id}/approves 공고 게시 요청 승인/AI 분석 대기 요청 위치
+import { privateFetch } from '@/shared/api/httpClient';
+import type {
+  RecruitmentRequestListParams,
+  RecruitmentRequestListResponse,
+  CreateRecruitmentRequest,
+  RejectRecruitmentRequest,
+  GetRecruitmentListParams,
+  RecruitmentListResponse,
+  RecruitmentDetail,
+} from '@/features/recruitment/types';
+
+// 공고 게시 요청 목록 조회 — GET /api/v1/admin/posts/submissions
+export async function getRecruitmentRequestList(params?: RecruitmentRequestListParams) {
+  const searchParams = new URLSearchParams();
+  if (params?.submissionStatus) searchParams.set('submissionStatus', params.submissionStatus);
+
+  const query = searchParams.toString();
+  return privateFetch<RecruitmentRequestListResponse>(
+    `/api/v1/admin/posts/submissions${query ? `?${query}` : ''}`,
+  );
 }
 
-export async function rejectRecruitmentRequest(_requestId: number) {
-  // TODO: PATCH /api/v1/admin/posts/requests/{id}/rejects 공고 게시 요청 거절 요청 위치
+// 공고 게시 요청 승인 (AI 분석 대기) — POST /api/v1/admin/posts/submissions/{submissionId}/approve
+export async function approveRecruitmentRequest(
+  submissionId: number,
+  data: CreateRecruitmentRequest,
+) {
+  return privateFetch<void>(`/api/v1/admin/posts/submissions/${submissionId}/approve`, {
+    method: 'POST',
+    body: JSON.stringify(data),
+  });
 }
 
-export async function publishRecruitment(_postId: number) {
-  // TODO: PATCH /api/v1/admin/posts/{id}/publishes 공고 발행 요청 위치
+// 공고 게시 요청 거절 — PATCH /api/v1/admin/posts/submissions/{submissionId}/reject
+export async function rejectRecruitmentRequest(
+  submissionId: number,
+  data: RejectRecruitmentRequest,
+) {
+  return privateFetch<void>(`/api/v1/admin/posts/submissions/${submissionId}/reject`, {
+    method: 'PATCH',
+    body: JSON.stringify(data),
+  });
 }
 
-export async function deleteRecruitment(_postId: number) {
-  // TODO: DELETE /api/v1/posts/{id} 공고 삭제 요청 위치
+// 공고 등록 (AI 분석 대기) — POST /api/v1/admin/posts
+export async function createRecruitment(data: CreateRecruitmentRequest) {
+  return privateFetch<void>('/api/v1/admin/posts', {
+    method: 'POST',
+    body: JSON.stringify(data),
+  });
 }
 
-export async function getRecruitments() {
-  // TODO: GET /api/v1/posts 공고 목록 조회 요청 위치
+// 공고 목록 조회 — GET /api/v1/admin/posts
+export async function getRecruitmentList(params?: GetRecruitmentListParams) {
+  const searchParams = new URLSearchParams();
+  if (params?.page !== undefined) searchParams.set('page', String(params.page));
+  if (params?.size !== undefined) searchParams.set('size', String(params.size));
+  if (params?.status) searchParams.set('status', params.status);
+
+  const query = searchParams.toString();
+  return privateFetch<RecruitmentListResponse>(`/api/v1/admin/posts${query ? `?${query}` : ''}`);
 }
 
-export async function getRecruitment(_postId: number) {
-  // TODO: GET /api/v1/posts/{id} 공고 상세 조회 요청 위치
+// 공고 상세 조회 — GET /api/v1/admin/posts/{postId}
+export async function getRecruitmentDetail(postId: number) {
+  return privateFetch<RecruitmentDetail>(`/api/v1/admin/posts/${postId}`);
 }
 
-export async function getRecruitmentRequests() {
-  // TODO: GET /api/v1/admin/posts/requests 공고 게시 요청 목록 조회 요청 위치
+// 공고 발행 — PATCH /api/v1/admin/posts/{postId}/publish
+export async function publishRecruitment(postId: number) {
+  return privateFetch<void>(`/api/v1/admin/posts/${postId}/publish`, {
+    method: 'PATCH',
+  });
+}
+
+// 공고 삭제 — DELETE /api/v1/admin/posts/{postId}
+export async function deleteRecruitment(postId: number) {
+  return privateFetch<void>(`/api/v1/admin/posts/${postId}`, {
+    method: 'DELETE',
+  });
 }

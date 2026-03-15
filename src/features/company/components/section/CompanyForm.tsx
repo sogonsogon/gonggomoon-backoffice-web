@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter, useParams, usePathname } from 'next/navigation';
 import { Info } from 'lucide-react';
 import { Input } from '@/shared/components/ui/input';
@@ -13,10 +13,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/shared/components/ui/select';
-import { mockIndustries, mockCompanies } from '@/mocks';
 import type { CreateCompanyRequest } from '@/features/company/types';
 import CardActionForm from '@/shared/components/ui/CardActionForm';
 import { COMPANY_TYPE_OPTIONS } from '@/features/company/constants';
+import { useCompanyDetail, useCreateCompany, useUpdateCompany } from '@/features/company/queries';
+import { useIndustryCategoryList } from '@/features/industry/queries';
+import { toast } from 'sonner';
+import type { ApiErrorResponse } from '@/shared/types/api';
 
 type CompanyFormState = CreateCompanyRequest;
 
@@ -25,7 +28,7 @@ const INITIAL_FORM: CompanyFormState = {
   companyType: 'LARGE_ENTERPRISE',
   industryId: 0,
   websiteUrl: '',
-  foundedYear: 0,
+  foundedYear: 2000,
   address: '',
   employeeCount: 0,
   description: '',
@@ -43,57 +46,127 @@ export default function CompanyForm() {
     parsedCompanyId !== undefined && !Number.isNaN(parsedCompanyId) ? parsedCompanyId : undefined;
   const isEditMode = pathname.startsWith('/company/edit/') && companyId !== undefined;
 
-  const company = isEditMode ? mockCompanies.find((c) => c.companyId === companyId) : undefined;
+  const {
+    data: companyDetail,
+    isLoading: isCompanyDetailLoading,
+    isError: isCompanyDetailError,
+    error: companyDetailError,
+  } = useCompanyDetail(companyId);
+  const {
+    data: industries,
+    isLoading: isIndustriesLoading,
+    isError: isIndustriesError,
+    error: industriesError,
+  } = useIndustryCategoryList();
+  const { mutate: createCompanyMutation, isPending: isCreating } = useCreateCompany();
+  const { mutate: updateCompanyMutation, isPending: isUpdating } = useUpdateCompany(companyId);
 
-  const [form, setForm] = useState<CompanyFormState>({
-    ...INITIAL_FORM,
-    ...company,
-    companyType: company?.companyType ?? INITIAL_FORM.companyType,
-  });
+  useEffect(() => {
+    if (!isIndustriesError) {
+      return;
+    }
+
+    toast.error(industriesError?.message || '산업군 목록을 불러오지 못했습니다.');
+  }, [isIndustriesError, industriesError]);
+
+  const [formOverrides, setFormOverrides] = useState<Partial<CompanyFormState>>({});
+
+  const baseForm: CompanyFormState =
+    isEditMode && companyDetail
+      ? {
+          companyName: companyDetail.companyName,
+          companyType: companyDetail.companyType,
+          industryId: companyDetail.industryId,
+          websiteUrl: companyDetail.websiteUrl,
+          foundedYear: companyDetail.foundedYear,
+          address: companyDetail.address,
+          employeeCount: companyDetail.employeeCount,
+          description: companyDetail.description,
+        }
+      : INITIAL_FORM;
+
+  const form: CompanyFormState = { ...baseForm, ...formOverrides };
 
   const isPrimaryEnabled =
     form.companyName.trim().length > 0 &&
-    (form.foundedYear ?? 0) > 0 &&
-    (form.industryId ?? 0) > 0 &&
+    form.foundedYear > 0 &&
+    form.industryId > 0 &&
     Boolean(form.companyType) &&
-    (form.employeeCount ?? 0) > 0;
+    form.employeeCount > 0;
 
-  const parseNumericInput = (value: string): number | undefined => {
+  const parseNumericInput = (value: string): number => {
     const digitsOnly = value.replace(/[^0-9]/g, '');
-
-    if (!digitsOnly) {
-      return undefined;
-    }
-
-    return Number(digitsOnly);
+    return digitsOnly ? Number(digitsOnly) : 0;
   };
 
   const handleChange = (key: keyof CompanyFormState, value: string) => {
     if (key === 'industryId') {
-      setForm((prev) => ({ ...prev, industryId: Number(value) }));
+      setFormOverrides((prev) => ({ ...prev, industryId: Number(value) }));
       return;
     }
 
     if (key === 'foundedYear' || key === 'employeeCount') {
-      setForm((prev) => ({ ...prev, [key]: parseNumericInput(value) }));
+      setFormOverrides((prev) => ({ ...prev, [key]: parseNumericInput(value) }));
       return;
     }
 
-    setForm((prev) => ({ ...prev, [key]: value }));
+    setFormOverrides((prev) => ({ ...prev, [key]: value }));
   };
 
-  const handleSubmit = async () => {
-    if (isEditMode && company !== undefined) {
-      // TODO: updateCompany server action 연결
-      // updateCompany 호출 시 companyId를 포함한 payload 전달
-      await router.push('/company/edit/' + companyId);
+  const handleSubmit = () => {
+    if (isEditMode && companyId !== undefined) {
+      updateCompanyMutation(form, {
+        onSuccess: () => {
+          toast.success('기업 정보가 수정되었습니다.');
+          router.push('/company');
+        },
+        onError: (error: ApiErrorResponse) => {
+          toast.error(error.message || '기업 수정에 실패했습니다.');
+        },
+      });
       return;
     }
 
-    // TODO: createCompany server action 연결
-    // createCompany 호출 시 companyId를 제외한 payload 전달
-    await router.push('/company/create');
+    createCompanyMutation(form, {
+      onSuccess: () => {
+        toast.success('기업이 등록되었습니다.');
+        router.push('/company');
+      },
+      onError: (error: ApiErrorResponse) => {
+        toast.error(error.message || '기업 등록에 실패했습니다.');
+      },
+    });
   };
+
+  if (isEditMode && isCompanyDetailLoading) {
+    return (
+      <div className="flex-1 overflow-auto bg-ds-grey-100 p-8 flex flex-col gap-6">
+        <ContentHeader
+          title="기업 정보 수정"
+          description="기업 정보를 불러오는 중입니다"
+          backHref="/company"
+        />
+        <div className="rounded-[10px] bg-white border border-ds-grey-200 p-6 text-sm text-ds-grey-500">
+          기업 정보를 불러오는 중입니다.
+        </div>
+      </div>
+    );
+  }
+
+  if (isEditMode && isCompanyDetailError) {
+    return (
+      <div className="flex-1 overflow-auto bg-ds-grey-100 p-8 flex flex-col gap-6">
+        <ContentHeader
+          title="기업 정보 수정"
+          description="기업 정보를 불러오지 못했습니다"
+          backHref="/company"
+        />
+        <div className="rounded-[10px] bg-white border border-ds-grey-200 p-6 text-sm text-ds-grey-500">
+          기업 정보를 불러오지 못했습니다. {companyDetailError?.message}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex-1 overflow-auto bg-ds-grey-100 p-8 flex flex-col gap-6">
@@ -123,7 +196,7 @@ export default function CompanyForm() {
                 <Label>설립 연도</Label>
                 <Input
                   placeholder="예: 2010"
-                  value={form.foundedYear}
+                  value={String(form.foundedYear)}
                   onChange={(e) => handleChange('foundedYear', e.target.value)}
                 />
               </div>
@@ -134,18 +207,24 @@ export default function CompanyForm() {
                 <Select
                   value={form.industryId ? form.industryId.toString() : ''}
                   onValueChange={(v) => handleChange('industryId', v)}
+                  disabled={isIndustriesLoading || isIndustriesError}
                 >
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder="산업군 선택" />
                   </SelectTrigger>
                   <SelectContent position="popper">
-                    {mockIndustries.map((item) => (
+                    {(industries ?? []).map((item) => (
                       <SelectItem key={item.industryId} value={item.industryId.toString()}>
-                        {item.name}
+                        {item.industryName}
                       </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
+                {isIndustriesError && (
+                  <p className="text-xs text-red-500 px-1">
+                    산업군 목록을 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.
+                  </p>
+                )}
               </div>
               <div className="flex-1 flex flex-col gap-1.5">
                 <Label>기업 유형</Label>
@@ -170,7 +249,7 @@ export default function CompanyForm() {
               <Label>임직원 수</Label>
               <Input
                 placeholder="예: 1,200"
-                value={form.employeeCount}
+                value={String(form.employeeCount)}
                 onChange={(e) => handleChange('employeeCount', e.target.value)}
               />
             </div>
@@ -203,8 +282,8 @@ export default function CompanyForm() {
           {/* Action Card */}
           <CardActionForm
             primaryLabel={isEditMode ? '수정' : '저장'}
-            onPrimaryClick={handleSubmit} //TODO : Create/Update API 연결
-            primaryEnabled={isPrimaryEnabled}
+            onPrimaryClick={handleSubmit}
+            primaryEnabled={isPrimaryEnabled && !isCreating && !isUpdating}
             primaryButtonClassName="bg-black text-white"
             secondaryLabel="취소"
             onSecondaryClick={() => router.back()}

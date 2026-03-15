@@ -25,7 +25,7 @@ export default function IndustryBasicInfoCard({ industryId, label }: IndustryBas
     }
 
     updateCategory(
-      { industryName },
+      { name: industryName },
       {
         onSuccess: () => {
           toast.success('산업군 정보가 업데이트되었습니다.');
