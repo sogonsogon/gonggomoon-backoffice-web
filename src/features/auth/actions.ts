@@ -44,22 +44,15 @@ export async function login(data: LoginRequest) {
   } catch {
     return {
       success: false as const,
-      code: 'NETWORK_ERROR',
-      message: '서버와의 통신에 실패했습니다.',
+      code: 'COOKIE_SET_ERROR',
+      message: '쿠키 세팅 중 오류가 발생했습니다.',
       data: null,
       errors: [],
       timestamp: new Date().toISOString(),
     };
   }
 
-  return {
-    success: true as const,
-    code: 'SUCCESS',
-    message: '로그인 성공',
-    data: res.data,
-    errors: [],
-    timestamp: new Date().toISOString(),
-  };
+  return res;
 }
 
 export async function logout(): Promise<ApiResponse<null>> {
