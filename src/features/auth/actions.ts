@@ -32,7 +32,7 @@ export async function login(data: LoginRequest) {
 }
 
 export async function logout(): Promise<ApiResponse<null>> {
-  const response = await privateFetch<null>('/api/v1/auth/logout', {
+  const response = await privateFetch<null>('/api/v1/admin/auth/logout', {
     method: 'POST',
   });
   return response;
