@@ -10,7 +10,11 @@ export async function login(data: LoginRequest) {
     body: JSON.stringify(data),
   });
 
-  if (!res.success || !res.data.accessToken) {
+  if (!res.success) {
+    return res;
+  }
+
+  if (!res.data.accessToken) {
     return {
       success: false as const,
       code: 'LOGIN_FAILED',
@@ -21,10 +25,10 @@ export async function login(data: LoginRequest) {
     };
   }
 
-  const cookieStore = await cookies();
   const isSecureCookie = process.env.NODE_ENV === 'production';
 
   try {
+    const cookieStore = await cookies();
     cookieStore.set('accessToken', res.data.accessToken, {
       httpOnly: true,
       secure: isSecureCookie,
