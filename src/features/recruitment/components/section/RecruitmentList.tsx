@@ -42,7 +42,7 @@ export default function RecruitmentList() {
         <div className="w-14 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">No.</div>
         <div className="w-44 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">기업명</div>
         <div className="flex-1 px-4 text-[13px] font-medium text-ds-grey-600">공고 제목</div>
-        <div className="w-48 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">채용 기간</div>
+        <div className="w-56 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">채용 기간</div>
         <div className="w-28 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">상태</div>
         <div className="w-48 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">액션</div>
       </div>
@@ -74,8 +74,8 @@ export default function RecruitmentList() {
             <div className="w-14 px-4 text-[13px] text-ds-grey-600 shrink-0">{i + 1}</div>
             <div className="w-44 px-4 text-sm text-ds-grey-900 shrink-0">{companyName}</div>
             <div className="flex-1 px-4 text-sm text-ds-grey-900 truncate">{item.postTitle}</div>
-            <div className="w-48 px-4 text-[13px] text-ds-grey-700 shrink-0">
-              {item.startDate ?? '-'} ~ {item.dueDate ?? '상시'}
+            <div className="w-56 px-4 text-[13px] text-ds-grey-700 shrink-0">
+              {item.startDate?.slice(0, 10) ?? '-'} ~ {item.dueDate?.slice(0, 10) ?? '상시'}
             </div>
             <div className="w-28 px-4 shrink-0">
               <span

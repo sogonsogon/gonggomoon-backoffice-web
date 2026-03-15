@@ -34,7 +34,7 @@ export default function RecruitmentRequestList({ submissionStatus }: Recruitment
           <div className="w-14 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">No.</div>
           <div className="w-44 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">플랫폼</div>
           <div className="flex-1 px-4 text-[13px] font-medium text-ds-grey-600">공고 URL</div>
-          <div className="w-48 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">
+          <div className="w-56 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">
             요청 상태
           </div>
           <div className="w-28 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">요청일</div>
@@ -57,7 +57,7 @@ export default function RecruitmentRequestList({ submissionStatus }: Recruitment
                   {item.url}
                 </a>
               </div>
-              <div className="w-48 px-4 shrink-0">
+              <div className="w-56 px-4 shrink-0">
                 <span
                   className={`inline-flex px-2 py-0.5 rounded-md text-xs font-medium ${REQUEST_STATUS_BADGE[status]}`}
                 >
