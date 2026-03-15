@@ -11,6 +11,7 @@ import {
   DialogTitle,
 } from '@/shared/components/ui/dialog';
 import { useLogout } from '@/features/auth/queries';
+import { on } from 'events';
 
 export default function TopBarUserMenu() {
   const [open, setOpen] = useState(false);
