@@ -24,7 +24,7 @@ export type CompanyListItem = {
 export type CompanyList = CompanyListItem[];
 
 export type GetCompanyListResponse = {
-  contents: CompanyList;
+  content: CompanyList;
   page: number;
   size: number;
   totalElements: number;

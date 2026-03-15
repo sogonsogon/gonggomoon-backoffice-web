@@ -34,7 +34,7 @@ export default function RecruitmentAnalysisList() {
     ? (analysisStatusParam as Exclude<RecruitmentStatus, 'PUBLISHED'>)
     : undefined;
 
-  const { data: response } = useRecruitmentList({ page, status });
+  const { data: response } = useRecruitmentList({ page, size: 10, status });
   const { mutate: deleteRecruitment } = useDeleteRecruitment();
   const rows = (response?.content ?? []).filter((item) => item.postStatus !== 'PUBLISHED');
   const pageInfo = response?.pageInfo;
@@ -81,7 +81,7 @@ export default function RecruitmentAnalysisList() {
               key={item.postId}
               className={`flex items-center h-14 ${i < rows.length - 1 ? 'border-b border-ds-grey-200' : ''}`}
             >
-              <div className="w-14 px-4 text-[13px] text-ds-grey-600 shrink-0">{i + 1}</div>
+              <div className="w-14 px-4 text-[13px] text-ds-grey-600 shrink-0">{page * 10 + i + 1}</div>
               <div className="w-44 px-4 text-sm text-ds-grey-900 shrink-0">{item.companyName}</div>
               <div className="flex-1 px-4 text-sm text-ds-grey-900 truncate">{item.postTitle}</div>
               <div className="w-56 px-4 shrink-0">

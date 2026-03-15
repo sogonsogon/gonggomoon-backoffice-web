@@ -43,7 +43,7 @@ export default function CompanyTable({ params }: CompanyTableProps) {
     );
   }
 
-  const { contents: companies, totalPages, size } = data;
+  const { content: companies, totalPages, size } = data;
 
   return (
     <div className="bg-white rounded-[10px] border border-ds-grey-200 overflow-hidden">

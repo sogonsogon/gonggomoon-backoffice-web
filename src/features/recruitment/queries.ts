@@ -36,7 +36,7 @@ export const recruitmentSubmissionListQueryOptions = (params?: RecruitmentReques
     queryFn: async () => {
       const result = await getRecruitmentRequestList(params);
       if (!result.success) return Promise.reject(result);
-      return result.data.contents;
+      return result.data.content;
     },
   });
 

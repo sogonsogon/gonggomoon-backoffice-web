@@ -40,9 +40,8 @@ export type RecruitmentRequestListParams = {
 };
 
 // GET /api/v1/admin/posts/submissions - 응답 data
-// 참고: page, size, totalElements, totalPages는 응답 root level에 위치하여 data에 포함되지 않음
 export type RecruitmentRequestListResponse = {
-  contents: RecruitmentRequest[];
+  content: RecruitmentRequest[];
 };
 
 // POST /api/v1/admin/posts/submissions/{submissionId}/approve - 요청 body

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { formatDate } from '@/shared/lib/formatDate';
 import { Button } from '@/shared/components/ui/button';
 import { REQUEST_STATUS_BADGE, REQUEST_STATUS_LABELS } from '@/features/recruitment/constants';
@@ -16,8 +16,22 @@ interface RecruitmentRequestListProps {
 
 export default function RecruitmentRequestList({ submissionStatus }: RecruitmentRequestListProps) {
   const router = useRouter();
-  const { data: items = [] } = useRecruitmentSubmissionList({ submissionStatus });
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+
+  const rawPage = searchParams.get('page');
+  const page = Number.isFinite(Number(rawPage)) && Number(rawPage) >= 0 ? Number(rawPage) : 0;
+
+  const { data: allItems = [] } = useRecruitmentSubmissionList({ submissionStatus });
+  const totalPages = Math.ceil(allItems.length / 10) || 1;
+  const items = allItems.slice(page * 10, page * 10 + 10);
   const setPending = useRecruitmentCreateStore((s) => s.setPending);
+
+  const handlePageChange = (nextPage: number) => {
+    const next = new URLSearchParams(searchParams.toString());
+    next.set('page', String(nextPage));
+    router.push(`${pathname}?${next.toString()}`);
+  };
 
   const [rejectTargetId, setRejectTargetId] = useState<number | null>(null);
 
@@ -50,7 +64,9 @@ export default function RecruitmentRequestList({ submissionStatus }: Recruitment
               key={item.submissionId}
               className={`flex items-center h-14 ${i < items.length - 1 ? 'border-b border-ds-grey-200' : ''}`}
             >
-              <div className="w-14 px-4 text-[13px] text-ds-grey-600 shrink-0">{i + 1}</div>
+              <div className="w-14 px-4 text-[13px] text-ds-grey-600 shrink-0">
+                {page * 10 + i + 1}
+              </div>
               <div className="w-44 px-4 text-sm text-ds-grey-900 shrink-0">{item.platformName}</div>
               <div className="flex-1 px-4 text-[13px] text-primary truncate">
                 <a href={item.url} target="_blank" rel="noopener noreferrer">
@@ -97,9 +113,17 @@ export default function RecruitmentRequestList({ submissionStatus }: Recruitment
 
         {/* Pagination Footer */}
         <div className="h-13 border-t border-ds-grey-200 flex items-center justify-center gap-1 px-4">
-          <span className="w-8 h-8 flex items-center justify-center rounded-md bg-ds-grey-900 text-white text-sm font-medium">
-            1
-          </span>
+          {Array.from({ length: totalPages }).map((_, i) => (
+            <button
+              key={i}
+              onClick={() => handlePageChange(i)}
+              className={`w-8 h-8 flex items-center justify-center rounded-md text-sm font-medium ${
+                i === page ? 'bg-ds-grey-900 text-white' : 'text-ds-grey-600 hover:bg-ds-grey-100'
+              }`}
+            >
+              {i + 1}
+            </button>
+          ))}
         </div>
       </div>
 

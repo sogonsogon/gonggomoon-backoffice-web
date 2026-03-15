@@ -61,9 +61,9 @@ export default async function RecruitmentPage({
   if (tab === 'requests') {
     await queryClient.prefetchQuery(recruitmentSubmissionListQueryOptions({ submissionStatus }));
   } else if (tab === 'analysis') {
-    await queryClient.prefetchQuery(recruitmentListQueryOptions({ status: analysisStatus, page }));
+    await queryClient.prefetchQuery(recruitmentListQueryOptions({ status: analysisStatus, page, size: 10 }));
   } else {
-    await queryClient.prefetchQuery(recruitmentListQueryOptions({ status: 'PUBLISHED', page }));
+    await queryClient.prefetchQuery(recruitmentListQueryOptions({ status: 'PUBLISHED', page, size: 10 }));
   }
 
   return (
