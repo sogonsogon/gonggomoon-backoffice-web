@@ -15,9 +15,9 @@ export default function RecruitmentList() {
   const rawPage = searchParams.get('page');
   const page = Number.isFinite(Number(rawPage)) && Number(rawPage) >= 0 ? Number(rawPage) : 0;
 
-  const { data: response } = useRecruitmentList({ page });
+  const { data: response } = useRecruitmentList({ status: 'PUBLISHED', page });
   const { mutate: deleteRecruitment } = useDeleteRecruitment();
-  const rows = response?.content ?? [];
+  const rows = (response?.content ?? []).filter((item) => item.postStatus === 'PUBLISHED');
   const pageInfo = response?.pageInfo;
 
   const handlePageChange = (nextPage: number) => {
@@ -30,7 +30,8 @@ export default function RecruitmentList() {
   const handleDelete = (postId: number) => {
     deleteRecruitment(postId, {
       onSuccess: () => toast.success('공고가 삭제되었습니다.'),
-      onError: (error: ApiErrorResponse) => toast.error(error.message || '공고 삭제에 실패했습니다.'),
+      onError: (error: ApiErrorResponse) =>
+        toast.error(error.message || '공고 삭제에 실패했습니다.'),
     });
   };
 

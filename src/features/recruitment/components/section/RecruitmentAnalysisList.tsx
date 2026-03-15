@@ -10,12 +10,11 @@ import { toast } from 'sonner';
 import type { ApiErrorResponse } from '@/shared/types/api';
 import type { RecruitmentStatus } from '@/features/recruitment/types';
 
-const VALID_RECRUITMENT_STATUS: RecruitmentStatus[] = [
+const ANALYSIS_VISIBLE_STATUSES: Exclude<RecruitmentStatus, 'PUBLISHED'>[] = [
   'PENDING',
   'ANALYZING',
   'ANALYZED',
   'ANALYSIS_FAILED',
-  'PUBLISHED',
   'REJECTED',
   'EXPIRED',
 ];
@@ -29,13 +28,15 @@ export default function RecruitmentAnalysisList() {
   const page = Number.isFinite(Number(rawPage)) && Number(rawPage) >= 0 ? Number(rawPage) : 0;
 
   const analysisStatusParam = searchParams.get('analysisStatus');
-  const status = VALID_RECRUITMENT_STATUS.includes(analysisStatusParam as RecruitmentStatus)
-    ? (analysisStatusParam as RecruitmentStatus)
+  const status = ANALYSIS_VISIBLE_STATUSES.includes(
+    analysisStatusParam as Exclude<RecruitmentStatus, 'PUBLISHED'>,
+  )
+    ? (analysisStatusParam as Exclude<RecruitmentStatus, 'PUBLISHED'>)
     : undefined;
 
   const { data: response } = useRecruitmentList({ page, status });
   const { mutate: deleteRecruitment } = useDeleteRecruitment();
-  const rows = response?.content ?? [];
+  const rows = (response?.content ?? []).filter((item) => item.postStatus !== 'PUBLISHED');
   const pageInfo = response?.pageInfo;
 
   const handlePageChange = (nextPage: number) => {

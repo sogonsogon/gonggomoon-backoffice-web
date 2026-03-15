@@ -31,7 +31,6 @@ const STATUS_FILTERS: Partial<Record<Tab, FilterConfig>> = {
     options: [
       ALL_OPTION,
       ...Object.entries(ANALYSIS_STATUS_LABELS).map(([value, label]) => ({ value, label })),
-      { value: 'POSTED', label: '발행 대기' },
     ],
   },
   requests: {

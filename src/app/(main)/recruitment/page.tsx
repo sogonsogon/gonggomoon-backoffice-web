@@ -62,7 +62,7 @@ export default async function RecruitmentPage({
   } else if (tab === 'analysis') {
     await queryClient.prefetchQuery(recruitmentListQueryOptions({ status: analysisStatus, page }));
   } else {
-    await queryClient.prefetchQuery(recruitmentListQueryOptions({ page }));
+    await queryClient.prefetchQuery(recruitmentListQueryOptions({ status: 'PUBLISHED', page }));
   }
 
   return (

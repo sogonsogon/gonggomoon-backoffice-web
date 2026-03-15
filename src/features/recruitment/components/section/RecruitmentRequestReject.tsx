@@ -1,3 +1,5 @@
+'use client';
+
 import { Button } from '@/shared/components/ui/button';
 import {
   Dialog,
@@ -18,7 +20,11 @@ interface RecruitmentRequestRejectProps {
   onClose: () => void;
 }
 
-export default function RecruitmentRequestReject({ submissionId, open, onClose }: RecruitmentRequestRejectProps) {
+export default function RecruitmentRequestReject({
+  submissionId,
+  open,
+  onClose,
+}: RecruitmentRequestRejectProps) {
   const [rejectReason, setRejectReason] = useState('');
 
   const { mutate: reject, isPending: isRejecting } = useRejectRecruitmentRequest();
@@ -48,7 +54,12 @@ export default function RecruitmentRequestReject({ submissionId, open, onClose }
   };
   return (
     <div>
-      <Dialog open={open} onOpenChange={(nextOpen) => { if (!nextOpen) handleRejectDialogClose(); }}>
+      <Dialog
+        open={open}
+        onOpenChange={(nextOpen) => {
+          if (!nextOpen) handleRejectDialogClose();
+        }}
+      >
         <DialogContent className="w-[480px]">
           <DialogHeader>
             <DialogTitle>공고 요청 거절</DialogTitle>
