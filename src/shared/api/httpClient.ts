@@ -14,6 +14,7 @@ import {
   logUnexpectedError,
   parseResponseBody,
 } from '@/shared/api/httpClient.debug';
+import { cookies } from 'next/headers';
 
 const BASE_API_URL = process.env.API_URL ?? process.env.NEXT_PUBLIC_API_URL;
 // 로컬 테스트를 위한 14일 기간의 엑세스 토큰
@@ -126,7 +127,7 @@ async function requestApi<T>(
       );
     }
 
-    if (result.success !== true) {
+    if (result.success === false) {
       logApiFailure(debugInfo, result.message);
 
       return createErrorResponse(
@@ -139,8 +140,11 @@ async function requestApi<T>(
 
     logRequestSuccess(debugInfo);
 
+    // success 필드가 있는 표준 포맷이면 data 필드를, 없으면 응답 전체를 data로 사용
+    const data = result.success === true ? (result.data as T) : (result as T);
+
     return createSuccessResponse<T>(
-      result.data as T,
+      data,
       result.code ?? 'SUCCESS',
       result.message ?? '요청에 성공했습니다.',
       result.timestamp ?? new Date().toISOString(),
@@ -153,28 +157,25 @@ async function requestApi<T>(
 
 /**
  * [Token O] 인증이 필요한 공통 Fetch
- * - proxy.ts에서 이미 갱신 처리를 완료했다고 가정
- * - 여기서 401이 발생하면 토큰이 완전히 만료된 상태이므로 세션 만료 에러를 반환
+ * - 로그인 후 쿠키에 저장된 accessToken을 읽어 요청에 사용
+ * - 쿠키가 없으면 SESSION_EXPIRED 반환
+ * - 401이 발생하면 토큰이 만료된 상태이므로 세션 만료 에러를 반환
  *
- * TODO:
- * - 현재는 로컬 테스트를 위해 DEV_ACCESS_TOKEN을 사용합니다.
- * - 추후 실환경에서는 cookies() 기반 accessToken 조회 방식으로 전환할 수 있습니다.
  */
 export async function privateFetch<T>(
   endpoint: string,
   options: RequestInit = {},
 ): Promise<ApiResponse<T>> {
-  // 추후 실환경 전환 시 사용 가능
-  // const cookieStore = await cookies();
-  // const currentToken = cookieStore.get('accessToken')?.value;
+  const cookieStore = await cookies();
+  const accessToken = cookieStore.get('accessToken')?.value;
 
-  // if (!currentToken) {
-  //   return createErrorResponse('SESSION_EXPIRED', '접근 권한이 없습니다. 다시 로그인해 주세요.');
-  // }
+  if (!accessToken) {
+    return createErrorResponse('SESSION_EXPIRED', '접근 권한이 없습니다. 다시 로그인해 주세요.');
+  }
 
   return requestApi<T>(endpoint, options, {
     requireAuth: true,
-    accessToken: ACCESS_TOKEN, // currentToken
+    accessToken,
     sessionExpiredMessage: '세션이 만료되었습니다. 다시 로그인해 주세요.',
   });
 }
