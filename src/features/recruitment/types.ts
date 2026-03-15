@@ -48,13 +48,13 @@ export type RecruitmentRequestListResponse = {
 // POST /api/v1/admin/posts - 요청 body (동일 구조)
 export type CreateRecruitmentRequest = {
   companyId: number;
-  platformId: number;
+  platformId: number | null;
   title: string;
   url: string;
   jobType: JobType;
   originalContent: string;
   experienceLevel: number;
-  startDate: string;
+  startDate: string | null;
   dueDate: string | null;
 };
 

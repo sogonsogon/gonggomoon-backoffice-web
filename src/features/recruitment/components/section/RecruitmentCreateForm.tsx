@@ -32,6 +32,8 @@ export default function RecruitmentCreateForm() {
   const isSubmitting = isCreating || isApproving;
 
   const [selectedCompanyId, setSelectedCompanyId] = useState<number | null>(null);
+  const [companySearch, setCompanySearch] = useState('');
+  const [showCompanyDropdown, setShowCompanyDropdown] = useState(false);
   const [postTitle, setPostTitle] = useState('');
   const [experienceLevel, setExperienceLevel] = useState<number | null>(null);
   const [selectedJobType, setSelectedJobType] = useState<JobType | null>(null);
@@ -47,20 +49,26 @@ export default function RecruitmentCreateForm() {
     selectedJobType !== null &&
     description.trim() !== '';
 
-  const { companies, isLoading: isCompanyLoading, isError: isCompanyError } = useAllCompanyList();
+  const { companies: allCompanies, isLoading: isCompanyLoading, isError: isCompanyError } =
+    useAllCompanyList();
+  const searchedCompanies = companySearch.trim()
+    ? allCompanies.filter((c) =>
+        c.companyName.toLowerCase().includes(companySearch.trim().toLowerCase()),
+      )
+    : [];
 
   const handleSubmit = () => {
     if (selectedCompanyId === null || selectedJobType === null || experienceLevel === null) return;
 
     const data = {
       companyId: selectedCompanyId,
-      platformId: 0, // TODO: platformId 연동 필요
+      platformId: null,
       title: postTitle.trim(),
       url: recruitmentUrl,
       jobType: selectedJobType,
       originalContent: description.trim(),
       experienceLevel,
-      startDate: startDate.replace(/\./g, '-'),
+      startDate: startDate ? startDate.replace(/\./g, '-') : null,
       dueDate: dueDate ? dueDate.replace(/\./g, '-') : null,
     };
 
@@ -106,21 +114,9 @@ export default function RecruitmentCreateForm() {
                 기업명, 공고 제목, 마감일, 원본 공고 URL을 입력하세요.
               </p>
             </div>
-            {isCompanyError && (
-              <div className="mt-2 flex items-start gap-1 text-[12px] text-red-600">
-                <AlertTriangle className="h-3.5 w-3.5 mt-0.5" />
-                <span>
-                  기업 목록을 불러오지 못했습니다. 나중에 다시 시도하거나 회사명을 직접 입력하세요.
-                </span>
-              </div>
-            )}
-            {isCompanyLoading && !isCompanyError && (
-              <p className="mt-2 text-[12px] text-ds-grey-500">기업 목록을 불러오는 중입니다...</p>
-            )}
-
             {/* Row 1: 기업명 + 경력 */}
             <div className="flex gap-4">
-              {/* Company Select */}
+              {/* Company Search */}
               <div className="flex-1 flex flex-col gap-1.5">
                 <div className="flex items-center justify-between">
                   <Label className="text-ds-grey-900">기업명 *</Label>
@@ -128,26 +124,51 @@ export default function RecruitmentCreateForm() {
                     기업 등록하기
                   </Button>
                 </div>
-                <Select
-                  value={selectedCompanyId !== null ? String(selectedCompanyId) : '__none__'}
-                  onValueChange={(val) =>
-                    setSelectedCompanyId(val === '__none__' ? null : Number(val))
-                  }
-                >
-                  <SelectTrigger
-                    className={`h-10 border-ds-grey-200 w-full bg-white ${selectedCompanyId !== null ? 'text-ds-grey-900' : 'text-ds-grey-500'}`}
-                  >
-                    <SelectValue placeholder="기업을 선택하세요" />
-                  </SelectTrigger>
-                  <SelectContent position="popper">
-                    <SelectItem value="__none__">기업을 선택하세요</SelectItem>
-                    {companies.map((company) => (
-                      <SelectItem key={company.companyId} value={String(company.companyId)}>
-                        {company.companyName}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <div className="relative">
+                  <Input
+                    value={companySearch}
+                    onChange={(e) => {
+                      setCompanySearch(e.target.value);
+                      setShowCompanyDropdown(true);
+                      if (!e.target.value) setSelectedCompanyId(null);
+                    }}
+                    onFocus={() => {
+                      if (companySearch.trim()) setShowCompanyDropdown(true);
+                    }}
+                    onBlur={() => setTimeout(() => setShowCompanyDropdown(false), 150)}
+                    placeholder="기업명을 검색하세요"
+                    className={`h-10 border-ds-grey-200 placeholder:text-ds-grey-400 ${selectedCompanyId !== null ? 'text-ds-grey-900' : ''}`}
+                  />
+                  {showCompanyDropdown && companySearch.trim() && (
+                    <div className="absolute z-50 top-full left-0 right-0 mt-1 bg-white border border-ds-grey-200 rounded-md shadow-md max-h-52 overflow-y-auto">
+                      {isCompanyLoading && (
+                        <p className="px-3 py-2 text-[13px] text-ds-grey-500">검색 중...</p>
+                      )}
+                      {isCompanyError && searchedCompanies.length === 0 && (
+                        <p className="px-3 py-2 text-[13px] text-red-500">검색에 실패했습니다.</p>
+                      )}
+                      {!isCompanyLoading && searchedCompanies.length === 0 && !isCompanyError && (
+                        <p className="px-3 py-2 text-[13px] text-ds-grey-500">
+                          검색 결과가 없습니다.
+                        </p>
+                      )}
+                      {searchedCompanies.map((company) => (
+                        <button
+                          key={company.companyId}
+                          type="button"
+                          className="w-full text-left px-3 py-2 text-sm text-ds-grey-900 hover:bg-ds-grey-50"
+                          onMouseDown={() => {
+                            setSelectedCompanyId(company.companyId);
+                            setCompanySearch(company.companyName);
+                            setShowCompanyDropdown(false);
+                          }}
+                        >
+                          {company.companyName}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
 
               {/* 경력 Select */}

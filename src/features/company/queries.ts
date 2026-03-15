@@ -48,7 +48,11 @@ export function useCompanyList(params?: GetCompanyListParams) {
 
 // 전체 기업 목록 조회 (모든 페이지 합산)
 export function useAllCompanyList() {
-  const { data: firstPage } = useQuery(companyListQueryOptions({ page: 0 }));
+  const {
+    data: firstPage,
+    isLoading: isFirstPageLoading,
+    isError: isFirstPageError,
+  } = useQuery(companyListQueryOptions({ page: 0 }));
   const totalPages = firstPage?.totalPages ?? 1;
 
   const restResults = useQueries({
@@ -62,8 +66,8 @@ export function useAllCompanyList() {
     ...restResults.flatMap((r) => r.data?.content ?? []),
   ];
 
-  const isLoading = !firstPage || restResults.some((r) => r.isLoading);
-  const isError = restResults.some((r) => r.isError);
+  const isLoading = isFirstPageLoading || restResults.some((r) => r.isLoading);
+  const isError = isFirstPageError || restResults.some((r) => r.isError);
 
   return { companies: allContent, isLoading, isError };
 }

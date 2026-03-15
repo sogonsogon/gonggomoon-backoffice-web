@@ -1,8 +1,13 @@
+import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 import TopBar from '@/shared/components/layout/TopBar';
 import ContentHeader from '@/shared/components/layout/ContentHeader';
 import RecruitmentCreateForm from '@/features/recruitment/components/section/RecruitmentCreateForm';
+import { companyListQueryOptions } from '@/features/company/queries';
 
-export default function RecruitmentCreatePage() {
+export default async function RecruitmentCreatePage() {
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery(companyListQueryOptions({ page: 0 }));
+
   return (
     <>
       <TopBar title="공고 등록" breadcrumb="공고 관리 > 공고 등록 > 기본 정보 입력" />
@@ -14,7 +19,9 @@ export default function RecruitmentCreatePage() {
           backHref="/recruitment"
         />
 
-        <RecruitmentCreateForm />
+        <HydrationBoundary state={dehydrate(queryClient)}>
+          <RecruitmentCreateForm />
+        </HydrationBoundary>
       </main>
     </>
   );
