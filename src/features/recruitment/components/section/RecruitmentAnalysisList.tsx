@@ -127,19 +127,21 @@ export default function RecruitmentAnalysisList() {
       )}
 
       {/* Pagination Footer */}
-      <div className="h-13 border-t border-ds-grey-200 flex items-center justify-center gap-1 px-4">
-        {Array.from({ length: pageInfo?.totalPages ?? 1 }).map((_, i) => (
-          <button
-            key={i}
-            onClick={() => handlePageChange(i)}
-            className={`w-8 h-8 flex items-center justify-center rounded-md text-sm font-medium ${
-              i === page ? 'bg-ds-grey-900 text-white' : 'text-ds-grey-600 hover:bg-ds-grey-100'
-            }`}
-          >
-            {i + 1}
-          </button>
-        ))}
-      </div>
+      {rows.length > 0 && (
+        <div className="h-13 border-t border-ds-grey-200 flex items-center justify-center gap-1 px-4">
+          {Array.from({ length: pageInfo?.totalPages ?? 1 }).map((_, i) => (
+            <button
+              key={i}
+              onClick={() => handlePageChange(i)}
+              className={`w-8 h-8 flex items-center justify-center rounded-md text-sm font-medium ${
+                i === page ? 'bg-ds-grey-900 text-white' : 'text-ds-grey-600 hover:bg-ds-grey-100'
+              }`}
+            >
+              {i + 1}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

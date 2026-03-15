@@ -15,11 +15,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/shared/components/ui/select';
-import { AlertTriangle, Info } from 'lucide-react';
+import { AlertTriangle, Info, Plus, PlusCircleIcon } from 'lucide-react';
 import { toast } from 'sonner';
 import type { JobType } from '@/features/recruitment/types';
 import { JOB_TYPE_LABELS } from '@/features/recruitment/constants';
 import { useRecruitmentCreateStore } from '@/features/recruitment/store';
+import CompanyQuickRegisterModal from '@/features/company/components/ui/CompanyQuickRegisterModal';
 
 export default function RecruitmentCreateForm() {
   const router = useRouter();
@@ -31,6 +32,7 @@ export default function RecruitmentCreateForm() {
   const { mutate: approve, isPending: isApproving } = useApproveRecruitmentRequest();
   const isSubmitting = isCreating || isApproving;
 
+  const [isCompanyModalOpen, setIsCompanyModalOpen] = useState(false);
   const [selectedCompanyId, setSelectedCompanyId] = useState<number | null>(null);
   const [companySearch, setCompanySearch] = useState('');
   const [showCompanyDropdown, setShowCompanyDropdown] = useState(false);
@@ -49,8 +51,11 @@ export default function RecruitmentCreateForm() {
     selectedJobType !== null &&
     description.trim() !== '';
 
-  const { companies: allCompanies, isLoading: isCompanyLoading, isError: isCompanyError } =
-    useAllCompanyList();
+  const {
+    companies: allCompanies,
+    isLoading: isCompanyLoading,
+    isError: isCompanyError,
+  } = useAllCompanyList();
   const searchedCompanies = companySearch.trim()
     ? allCompanies.filter((c) =>
         c.companyName.toLowerCase().includes(companySearch.trim().toLowerCase()),
@@ -120,7 +125,13 @@ export default function RecruitmentCreateForm() {
               <div className="flex-1 flex flex-col gap-1.5">
                 <div className="flex items-center justify-between">
                   <Label className="text-ds-grey-900">기업명 *</Label>
-                  <Button variant="link" size="sm" className="h-auto p-0 text-primary">
+                  <Button
+                    variant="link"
+                    size="sm"
+                    className="h-auto p-0 text-primary"
+                    onClick={() => setIsCompanyModalOpen(true)}
+                  >
+                    <PlusCircleIcon size={16} className="mr-1" />
                     기업 등록하기
                   </Button>
                 </div>
@@ -327,6 +338,16 @@ export default function RecruitmentCreateForm() {
           </div>
         </div>
       </div>
+
+      {isCompanyModalOpen && (
+        <CompanyQuickRegisterModal
+          onClose={() => setIsCompanyModalOpen(false)}
+          onSuccess={(companyId, companyName) => {
+            setSelectedCompanyId(companyId);
+            setCompanySearch(companyName);
+          }}
+        />
+      )}
     </div>
   );
 }
