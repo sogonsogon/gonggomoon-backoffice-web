@@ -2,7 +2,7 @@
 import { privateFetch } from '@/shared/api/httpClient';
 import { ApiResponse } from '@/shared/types/api';
 import { cookies } from 'next/headers';
-import { LoginRequest, LoginResponse } from './types';
+import { LoginRequest, LoginResponse } from '@/features/auth/types';
 
 export async function login(data: LoginRequest) {
   const BASE_API_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -17,7 +17,14 @@ export async function login(data: LoginRequest) {
     const body: LoginResponse = await res.json();
 
     if (!res.ok || !body.accessToken) {
-      return { success: false as const, code: 'LOGIN_FAILED', message: '로그인에 실패했습니다.', data: null, errors: [], timestamp: new Date().toISOString() };
+      return {
+        success: false as const,
+        code: 'LOGIN_FAILED',
+        message: '로그인에 실패했습니다.',
+        data: null,
+        errors: [],
+        timestamp: new Date().toISOString(),
+      };
     }
 
     const cookieStore = await cookies();
@@ -36,9 +43,23 @@ export async function login(data: LoginRequest) {
       maxAge: 60 * 60 * 24 * 14,
     });
 
-    return { success: true as const, code: 'SUCCESS', message: '로그인 성공', data: body, errors: [], timestamp: new Date().toISOString() };
+    return {
+      success: true as const,
+      code: 'SUCCESS',
+      message: '로그인 성공',
+      data: body,
+      errors: [],
+      timestamp: new Date().toISOString(),
+    };
   } catch {
-    return { success: false as const, code: 'NETWORK_ERROR', message: '서버와의 통신에 실패했습니다.', data: null, errors: [], timestamp: new Date().toISOString() };
+    return {
+      success: false as const,
+      code: 'NETWORK_ERROR',
+      message: '서버와의 통신에 실패했습니다.',
+      data: null,
+      errors: [],
+      timestamp: new Date().toISOString(),
+    };
   }
 }
 
