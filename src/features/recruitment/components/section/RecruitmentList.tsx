@@ -15,7 +15,7 @@ export default function RecruitmentList() {
   const rawPage = searchParams.get('page');
   const page = Number.isFinite(Number(rawPage)) && Number(rawPage) >= 0 ? Number(rawPage) : 0;
 
-  const { data: response } = useRecruitmentList({ status: 'PUBLISHED', page });
+  const { data: response } = useRecruitmentList({ status: 'PUBLISHED', page, size: 10 });
   const { mutate: deleteRecruitment } = useDeleteRecruitment();
   const rows = (response?.content ?? []).filter((item) => item.postStatus === 'PUBLISHED');
   const pageInfo = response?.pageInfo;

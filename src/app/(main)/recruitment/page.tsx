@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { Plus } from 'lucide-react';
+import { Suspense } from 'react';
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 import TopBar from '@/shared/components/layout/TopBar';
 import { Button } from '@/shared/components/ui/button';
@@ -104,13 +105,15 @@ export default async function RecruitmentPage({
         </div>
 
         <HydrationBoundary state={dehydrate(queryClient)}>
-          {tab === 'requests' ? (
-            <RecruitmentRequestList submissionStatus={submissionStatus} />
-          ) : tab === 'analysis' ? (
-            <RecruitmentAnalysisList />
-          ) : (
-            <RecruitmentList />
-          )}
+          <Suspense>
+            {tab === 'requests' ? (
+              <RecruitmentRequestList submissionStatus={submissionStatus} />
+            ) : tab === 'analysis' ? (
+              <RecruitmentAnalysisList />
+            ) : (
+              <RecruitmentList />
+            )}
+          </Suspense>
         </HydrationBoundary>
       </main>
     </>
