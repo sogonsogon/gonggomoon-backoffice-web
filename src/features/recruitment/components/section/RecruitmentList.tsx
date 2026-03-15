@@ -1,13 +1,39 @@
-import { mockRecruitments } from '@/mocks';
+'use client';
+
+import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { Button } from '@/shared/components/ui/button';
 import Link from 'next/link';
+import { useRecruitmentList, useDeleteRecruitment } from '@/features/recruitment/queries';
+import { toast } from 'sonner';
+import type { ApiErrorResponse } from '@/shared/types/api';
 
 export default function RecruitmentList() {
-  // TODO: mockRecruitments → getRecruitments() 로 교체
-  const rows = mockRecruitments.filter(
-    (item) => item.status === 'PUBLISHED' || item.status === 'ANALYSIS_DONE',
-  );
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const rawPage = searchParams.get('page');
+  const page = Number.isFinite(Number(rawPage)) && Number(rawPage) >= 0 ? Number(rawPage) : 0;
+
+  const { data: response } = useRecruitmentList({ status: 'PUBLISHED', page });
+  const { mutate: deleteRecruitment } = useDeleteRecruitment();
+  const rows = (response?.content ?? []).filter((item) => item.postStatus === 'PUBLISHED');
+  const pageInfo = response?.pageInfo;
+
+  const handlePageChange = (nextPage: number) => {
+    const next = new URLSearchParams(searchParams.toString());
+    next.set('page', String(nextPage));
+    router.push(`${pathname}?${next.toString()}`);
+  };
   const todayStr = new Date().toLocaleDateString('sv-SE');
+
+  const handleDelete = (postId: number) => {
+    deleteRecruitment(postId, {
+      onSuccess: () => toast.success('공고가 삭제되었습니다.'),
+      onError: (error: ApiErrorResponse) =>
+        toast.error(error.message || '공고 삭제에 실패했습니다.'),
+    });
+  };
 
   return (
     <div className="bg-white rounded-lg border border-ds-grey-200 overflow-hidden">
@@ -24,9 +50,9 @@ export default function RecruitmentList() {
       {rows.map((item, i) => {
         const companyName = item.companyName;
         const dueDateStr = item.dueDate?.slice(0, 10) ?? null;
-        const isAlwaysOpen = item.status === 'PUBLISHED' && dueDateStr === null;
+        const isAlwaysOpen = item.postStatus === 'PUBLISHED' && dueDateStr === null;
         const isRecruitingOpen =
-          item.status === 'PUBLISHED' && Boolean(dueDateStr && dueDateStr >= todayStr);
+          item.postStatus === 'PUBLISHED' && Boolean(dueDateStr && dueDateStr >= todayStr);
 
         const publicStatusLabel = isAlwaysOpen
           ? '상시'
@@ -71,7 +97,7 @@ export default function RecruitmentList() {
                 size="sm"
                 variant="outline"
                 className="text-ds-badge-red-text"
-                // TODO: onClick={() => deleteRecruitment(item.postId)}
+                onClick={() => handleDelete(item.postId)}
               >
                 삭제
               </Button>
@@ -82,9 +108,17 @@ export default function RecruitmentList() {
 
       {/* Pagination Footer */}
       <div className="h-13 border-t border-ds-grey-200 flex items-center justify-center gap-1 px-4">
-        <span className="w-8 h-8 flex items-center justify-center rounded-md bg-ds-grey-900 text-white text-sm font-medium">
-          1
-        </span>
+        {Array.from({ length: pageInfo?.totalPages ?? 1 }).map((_, i) => (
+          <button
+            key={i}
+            onClick={() => handlePageChange(i)}
+            className={`w-8 h-8 flex items-center justify-center rounded-md text-sm font-medium ${
+              i === page ? 'bg-ds-grey-900 text-white' : 'text-ds-grey-600 hover:bg-ds-grey-100'
+            }`}
+          >
+            {i + 1}
+          </button>
+        ))}
       </div>
     </div>
   );

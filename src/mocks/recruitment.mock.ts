@@ -10,7 +10,7 @@ export const mockRecruitments: RecruitmentDetail[] = [
     jobType: 'FRONTEND',
     industryId: 1,
     industryName: 'COMMERCE',
-    status: 'ANALYSIS_DONE',
+    status: 'ANALYZED',
     postUrl: 'https://example.com/jobs/3001',
     startDate: '2026-03-01',
     dueDate: '2026-03-31',

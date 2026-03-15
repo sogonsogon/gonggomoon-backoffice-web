@@ -21,7 +21,10 @@ export default async function CompanyPage({
   const params = {
     name: search ?? undefined,
     industryId:
-      rawIndustryId && rawIndustryId !== 'all' && Number.isFinite(parsedIndustryId) && parsedIndustryId > 0
+      rawIndustryId &&
+      rawIndustryId !== 'all' &&
+      Number.isFinite(parsedIndustryId) &&
+      parsedIndustryId > 0
         ? parsedIndustryId
         : undefined,
     page: Number.isFinite(parsedPage) && parsedPage >= 0 ? parsedPage : 0,

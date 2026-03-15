@@ -1,23 +1,69 @@
 import Link from 'next/link';
 import { Plus } from 'lucide-react';
+import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 import TopBar from '@/shared/components/layout/TopBar';
 import { Button } from '@/shared/components/ui/button';
 import RecruitmentAnalysisList from '@/features/recruitment/components/section/RecruitmentAnalysisList';
 import RecruitmentList from '@/features/recruitment/components/section/RecruitmentList';
 import RecruitmentRequestList from '@/features/recruitment/components/section/RecruitmentRequestList';
 import RecruitmentFilterToolbar from '@/features/recruitment/components/section/RecruitmentFilterToolbar';
+import {
+  recruitmentListQueryOptions,
+  recruitmentSubmissionListQueryOptions,
+} from '@/features/recruitment/queries';
+import type { RecruitmentRequestStatus, RecruitmentStatus } from '@/features/recruitment/types';
 
 const VALID_TABS = ['public', 'analysis', 'requests'] as const;
 type Tab = (typeof VALID_TABS)[number];
 
+const VALID_SUBMISSION_STATUS: RecruitmentRequestStatus[] = ['PENDING', 'APPROVED', 'REJECTED'];
+const VALID_RECRUITMENT_STATUS: RecruitmentStatus[] = [
+  'PENDING',
+  'ANALYZING',
+  'ANALYZED',
+  'ANALYSIS_FAILED',
+  'PUBLISHED',
+  'REJECTED',
+  'EXPIRED',
+];
+
 export default async function RecruitmentPage({
   searchParams,
 }: {
-  searchParams: Promise<{ tab?: string }>;
+  searchParams: Promise<{
+    tab?: string;
+    requestStatus?: string;
+    analysisStatus?: string;
+    page?: string;
+  }>;
 }) {
-  const { tab: tabParam } = await searchParams;
+  const {
+    tab: tabParam,
+    requestStatus: requestStatusParam,
+    analysisStatus: analysisStatusParam,
+    page: rawPage,
+  } = await searchParams;
+  const page = Number.isFinite(Number(rawPage)) && Number(rawPage) >= 0 ? Number(rawPage) : 0;
 
   const tab: Tab = VALID_TABS.includes(tabParam as Tab) ? (tabParam as Tab) : 'public';
+  const submissionStatus = VALID_SUBMISSION_STATUS.includes(
+    requestStatusParam as RecruitmentRequestStatus,
+  )
+    ? (requestStatusParam as RecruitmentRequestStatus)
+    : undefined;
+  const analysisStatus = VALID_RECRUITMENT_STATUS.includes(analysisStatusParam as RecruitmentStatus)
+    ? (analysisStatusParam as RecruitmentStatus)
+    : undefined;
+
+  const queryClient = new QueryClient();
+
+  if (tab === 'requests') {
+    await queryClient.prefetchQuery(recruitmentSubmissionListQueryOptions({ submissionStatus }));
+  } else if (tab === 'analysis') {
+    await queryClient.prefetchQuery(recruitmentListQueryOptions({ status: analysisStatus, page }));
+  } else {
+    await queryClient.prefetchQuery(recruitmentListQueryOptions({ status: 'PUBLISHED', page }));
+  }
 
   return (
     <>
@@ -57,13 +103,15 @@ export default async function RecruitmentPage({
           </Button>
         </div>
 
-        {tab === 'requests' ? (
-          <RecruitmentRequestList />
-        ) : tab === 'analysis' ? (
-          <RecruitmentAnalysisList />
-        ) : (
-          <RecruitmentList />
-        )}
+        <HydrationBoundary state={dehydrate(queryClient)}>
+          {tab === 'requests' ? (
+            <RecruitmentRequestList submissionStatus={submissionStatus} />
+          ) : tab === 'analysis' ? (
+            <RecruitmentAnalysisList />
+          ) : (
+            <RecruitmentList />
+          )}
+        </HydrationBoundary>
       </main>
     </>
   );

@@ -11,7 +11,14 @@ export type JobType =
   | 'PM_PO'
   | 'QA';
 
-export type RecruitmentStatus = 'ANALYZING' | 'ANALYSIS_DONE' | 'PUBLISHED';
+export type RecruitmentStatus =
+  | 'PENDING'
+  | 'ANALYZING'
+  | 'ANALYZED'
+  | 'ANALYSIS_FAILED'
+  | 'PUBLISHED'
+  | 'REJECTED'
+  | 'EXPIRED';
 
 export type RecruitmentRequestStatus = 'PENDING' | 'APPROVED' | 'REJECTED';
 
