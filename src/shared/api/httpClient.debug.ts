@@ -169,7 +169,7 @@ export async function parseResponseBody<T>(
         success: parsed?.success,
         code: parsed?.code,
         message: parsed?.message,
-        data: parsed?.data ?? null,
+        data: parsed !== null && 'data' in parsed ? parsed.data : parsed,
         errors: normalizeErrors(parsed?.errors),
         timestamp: parsed?.timestamp,
       };
