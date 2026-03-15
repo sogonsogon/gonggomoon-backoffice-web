@@ -16,6 +16,9 @@ export default function RecruitmentConfirmControls({ postId }: RecruitmentConfir
   const { mutate: deleteRecruitment, isPending: isDeleting } = useDeleteRecruitment();
 
   const handlePublish = () => {
+    if (isPublishing || isDeleting) {
+      return;
+    }
     publish(undefined, {
       onSuccess: () => {
         toast.success('공고가 발행되었습니다.');
@@ -28,6 +31,10 @@ export default function RecruitmentConfirmControls({ postId }: RecruitmentConfir
   };
 
   const handleDelete = () => {
+    if (isPublishing || isDeleting) {
+      return;
+    }
+
     deleteRecruitment(postId, {
       onSuccess: () => {
         toast.success('공고가 삭제되었습니다.');

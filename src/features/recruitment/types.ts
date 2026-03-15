@@ -13,7 +13,7 @@ export type JobType =
 
 export type RecruitmentStatus =
   | 'PENDING'
-  | 'ALAYZING'
+  | 'ANALYZING'
   | 'ANALYZED'
   | 'ANALYSIS_FAILED'
   | 'PUBLISHED'

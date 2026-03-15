@@ -18,7 +18,7 @@ export const JOB_TYPE_LABELS: Record<JobType, string> = {
 
 export const ANALYSIS_STATUS_LABELS: Record<Exclude<RecruitmentStatus, 'PUBLISHED'>, string> = {
   PENDING: '등록 대기',
-  ALAYZING: '분석 중',
+  ANALYZING: '분석 중',
   ANALYZED: '검토 대기',
   ANALYSIS_FAILED: '분석 실패',
   REJECTED: '거절됨',
@@ -27,7 +27,7 @@ export const ANALYSIS_STATUS_LABELS: Record<Exclude<RecruitmentStatus, 'PUBLISHE
 
 export const ANALYSIS_STATUS_BADGE: Record<RecruitmentStatus, string> = {
   PENDING: 'bg-ds-badge-blue-bg text-ds-badge-blue-text',
-  ALAYZING: 'bg-ds-badge-yellow-bg text-ds-badge-yellow-text',
+  ANALYZING: 'bg-ds-badge-yellow-bg text-ds-badge-yellow-text',
   ANALYZED: 'bg-ds-badge-green-bg text-ds-badge-green-text',
   ANALYSIS_FAILED: 'bg-ds-badge-red-bg text-ds-badge-red-text',
   PUBLISHED: 'bg-ds-grey-100 text-ds-grey-600',

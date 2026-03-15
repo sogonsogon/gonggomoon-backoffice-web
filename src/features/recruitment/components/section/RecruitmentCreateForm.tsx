@@ -78,7 +78,7 @@ export default function RecruitmentCreateForm() {
         );
         clearPending();
         router.push(
-          pendingSubmissionId !== null ? '/recruitment?tab=request' : '/recruitment?tab=analysis',
+          pendingSubmissionId !== null ? '/recruitment?tab=requests' : '/recruitment?tab=analysis',
         );
       },
       onError: () => {

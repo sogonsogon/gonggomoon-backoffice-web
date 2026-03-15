@@ -12,7 +12,7 @@ import type { RecruitmentStatus } from '@/features/recruitment/types';
 
 const VALID_RECRUITMENT_STATUS: RecruitmentStatus[] = [
   'PENDING',
-  'ALAYZING',
+  'ANALYZING',
   'ANALYZED',
   'ANALYSIS_FAILED',
   'PUBLISHED',
@@ -71,7 +71,7 @@ export default function RecruitmentAnalysisList() {
       ) : (
         rows.map((item, i) => {
           const status = item.postStatus;
-          const isAnalyzing = status === 'ALAYZING';
+          const isAnalyzing = status === 'ANALYZING';
           const isAnalysisDone = status === 'ANALYZED';
           const statusLabel = status === 'PUBLISHED' ? '발행 완료' : ANALYSIS_STATUS_LABELS[status];
 

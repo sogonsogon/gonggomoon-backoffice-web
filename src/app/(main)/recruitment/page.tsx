@@ -17,14 +17,32 @@ const VALID_TABS = ['public', 'analysis', 'requests'] as const;
 type Tab = (typeof VALID_TABS)[number];
 
 const VALID_SUBMISSION_STATUS: RecruitmentRequestStatus[] = ['PENDING', 'APPROVED', 'REJECTED'];
-const VALID_RECRUITMENT_STATUS: RecruitmentStatus[] = ['PENDING', 'ALAYZING', 'ANALYZED', 'ANALYSIS_FAILED', 'PUBLISHED', 'REJECTED', 'EXPIRED'];
+const VALID_RECRUITMENT_STATUS: RecruitmentStatus[] = [
+  'PENDING',
+  'ANALYZING',
+  'ANALYZED',
+  'ANALYSIS_FAILED',
+  'PUBLISHED',
+  'REJECTED',
+  'EXPIRED',
+];
 
 export default async function RecruitmentPage({
   searchParams,
 }: {
-  searchParams: Promise<{ tab?: string; requestStatus?: string; analysisStatus?: string; page?: string }>;
+  searchParams: Promise<{
+    tab?: string;
+    requestStatus?: string;
+    analysisStatus?: string;
+    page?: string;
+  }>;
 }) {
-  const { tab: tabParam, requestStatus: requestStatusParam, analysisStatus: analysisStatusParam, page: rawPage } = await searchParams;
+  const {
+    tab: tabParam,
+    requestStatus: requestStatusParam,
+    analysisStatus: analysisStatusParam,
+    page: rawPage,
+  } = await searchParams;
   const page = Number.isFinite(Number(rawPage)) && Number(rawPage) >= 0 ? Number(rawPage) : 0;
 
   const tab: Tab = VALID_TABS.includes(tabParam as Tab) ? (tabParam as Tab) : 'public';
@@ -33,9 +51,7 @@ export default async function RecruitmentPage({
   )
     ? (requestStatusParam as RecruitmentRequestStatus)
     : undefined;
-  const analysisStatus = VALID_RECRUITMENT_STATUS.includes(
-    analysisStatusParam as RecruitmentStatus,
-  )
+  const analysisStatus = VALID_RECRUITMENT_STATUS.includes(analysisStatusParam as RecruitmentStatus)
     ? (analysisStatusParam as RecruitmentStatus)
     : undefined;
 

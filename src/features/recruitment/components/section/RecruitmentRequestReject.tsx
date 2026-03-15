@@ -12,23 +12,28 @@ import { useRejectRecruitmentRequest } from '../../queries';
 import { ApiErrorResponse } from '@/shared/types/api';
 import { toast } from 'sonner';
 
-export default function RecruitmentRequestReject({}) {
-  const [rejectTargetId, setRejectTargetId] = useState<number | null>(null);
+interface RecruitmentRequestRejectProps {
+  submissionId: number | null;
+  open: boolean;
+  onClose: () => void;
+}
+
+export default function RecruitmentRequestReject({ submissionId, open, onClose }: RecruitmentRequestRejectProps) {
   const [rejectReason, setRejectReason] = useState('');
 
   const { mutate: reject, isPending: isRejecting } = useRejectRecruitmentRequest();
 
-  const isRejectDisabled = rejectTargetId === null || !rejectReason.trim() || isRejecting;
+  const isRejectDisabled = submissionId === null || !rejectReason.trim() || isRejecting;
 
   const handleRejectConfirm = () => {
-    if (rejectTargetId === null || !rejectReason.trim()) return;
+    if (submissionId === null || !rejectReason.trim()) return;
     reject(
-      { submissionId: rejectTargetId, data: { rejectReason } },
+      { submissionId, data: { rejectReason } },
       {
         onSuccess: () => {
           toast.success('공고 요청을 거절하였습니다.');
-          setRejectTargetId(null);
           setRejectReason('');
+          onClose();
         },
         onError: (error: ApiErrorResponse) => {
           toast.error(error.message || '거절 처리에 실패했습니다.');
@@ -38,12 +43,12 @@ export default function RecruitmentRequestReject({}) {
   };
 
   const handleRejectDialogClose = () => {
-    setRejectTargetId(null);
     setRejectReason('');
+    onClose();
   };
   return (
     <div>
-      <Dialog open={rejectTargetId !== null} onOpenChange={handleRejectDialogClose}>
+      <Dialog open={open} onOpenChange={(nextOpen) => { if (!nextOpen) handleRejectDialogClose(); }}>
         <DialogContent className="w-[480px]">
           <DialogHeader>
             <DialogTitle>공고 요청 거절</DialogTitle>

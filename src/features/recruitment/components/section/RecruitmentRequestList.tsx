@@ -5,10 +5,7 @@ import { useRouter } from 'next/navigation';
 import { formatDate } from '@/shared/lib/formatDate';
 import { Button } from '@/shared/components/ui/button';
 import { REQUEST_STATUS_BADGE, REQUEST_STATUS_LABELS } from '@/features/recruitment/constants';
-import {
-  useRecruitmentSubmissionList,
-  useRejectRecruitmentRequest,
-} from '@/features/recruitment/queries';
+import { useRecruitmentSubmissionList } from '@/features/recruitment/queries';
 import { useRecruitmentCreateStore } from '@/features/recruitment/store';
 import type { RecruitmentRequestStatus } from '@/features/recruitment/types';
 import RecruitmentRequestReject from './RecruitmentRequestReject';
@@ -21,7 +18,6 @@ export default function RecruitmentRequestList({ submissionStatus }: Recruitment
   const router = useRouter();
   const { data: items = [] } = useRecruitmentSubmissionList({ submissionStatus });
   const setPending = useRecruitmentCreateStore((s) => s.setPending);
-  const { mutate: reject, isPending: isRejecting } = useRejectRecruitmentRequest();
 
   const [rejectTargetId, setRejectTargetId] = useState<number | null>(null);
 
@@ -89,7 +85,7 @@ export default function RecruitmentRequestList({ submissionStatus }: Recruitment
                   size="sm"
                   variant="outline"
                   className={isPending ? 'text-ds-badge-red-text' : 'text-ds-grey-400'}
-                  disabled={!isPending || isRejecting}
+                  disabled={!isPending}
                   onClick={() => setRejectTargetId(item.submissionId)}
                 >
                   거절
@@ -107,7 +103,11 @@ export default function RecruitmentRequestList({ submissionStatus }: Recruitment
         </div>
       </div>
 
-      <RecruitmentRequestReject />
+      <RecruitmentRequestReject
+        submissionId={rejectTargetId}
+        open={rejectTargetId !== null}
+        onClose={() => setRejectTargetId(null)}
+      />
     </>
   );
 }
