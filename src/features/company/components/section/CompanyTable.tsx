@@ -43,7 +43,7 @@ export default function CompanyTable({ params }: CompanyTableProps) {
     );
   }
 
-  const { contents: companies, totalPages, size } = data;
+  const { content: companies, totalPages } = data;
 
   return (
     <div className="bg-white rounded-[10px] border border-ds-grey-200 overflow-hidden">
@@ -52,7 +52,7 @@ export default function CompanyTable({ params }: CompanyTableProps) {
       {companies.map((company, i) => (
         <CompanyRow
           key={company.companyId}
-          no={page * size + i + 1}
+          no={i + 1}
           company={company}
           industryName={company.industryName}
           last={i === companies.length - 1}
@@ -61,7 +61,7 @@ export default function CompanyTable({ params }: CompanyTableProps) {
 
       {/* Pagination Footer */}
       <div className="h-13 border-t border-ds-grey-200 flex items-center justify-center gap-1 px-4">
-        {Array.from({ length: totalPages }).map((_, i) => (
+        {Array.from({ length: totalPages ?? 1 }).map((_, i) => (
           <button
             key={i}
             onClick={() => handlePageChange(i)}
@@ -82,9 +82,9 @@ const headerRow = (
     <div className="w-14 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">No.</div>
     <div className="flex-1 px-4 text-[13px] font-medium text-ds-grey-600">기업명</div>
     <div className="w-56 px-4 text-[13px] font-medium text-ds-grey-600">사업 분야</div>
-    <div className="w-56 px-4 text-[13px] font-medium text-ds-grey-600">기업 유형</div>
-    <div className="w-48 px-4 text-[13px] font-medium text-ds-grey-600">임직원 수</div>
-    <div className="w-28 px-4 text-[13px] font-medium text-ds-grey-600">설립연도</div>
+    <div className="w-44 px-4 text-[13px] font-medium text-ds-grey-600">기업 유형</div>
+    <div className="w-32 px-4 text-[13px] font-medium text-ds-grey-600">임직원 수</div>
+    <div className="w-32 px-4 text-[13px] font-medium text-ds-grey-600">설립연도</div>
     <div className="w-48 px-4 text-[13px] font-medium text-ds-grey-600">액션</div>
   </div>
 );

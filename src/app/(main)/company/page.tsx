@@ -28,6 +28,7 @@ export default async function CompanyPage({
         ? parsedIndustryId
         : undefined,
     page: Number.isFinite(parsedPage) && parsedPage >= 0 ? parsedPage : 0,
+    size: 10,
   };
 
   const queryClient = new QueryClient();
