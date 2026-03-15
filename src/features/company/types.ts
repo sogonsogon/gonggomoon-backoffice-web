@@ -39,7 +39,7 @@ export type GetCompanyListResponse = {
 
 export type CompanyDetail = {
   companyId: number;
-  companyName: string;
+  name: string;
   companyType: CompanyType;
   industryId: number;
   industryName: string;
@@ -57,7 +57,7 @@ export type CompanyDetail = {
 export type GetCompanyDetailResponse = CompanyDetail;
 
 export type CreateCompanyRequest = {
-  companyName: string;
+  name: string;
   industryId: number;
   companyType: CompanyType;
   employeeCount: number;
@@ -68,7 +68,7 @@ export type CreateCompanyRequest = {
 };
 
 export type UpdateCompanyRequest = {
-  companyName: string;
+  name: string;
   industryId: number;
   companyType: CompanyType;
   employeeCount: number;
