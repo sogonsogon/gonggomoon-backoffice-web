@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useCompanyList } from '@/features/company/queries';
+import { useAllCompanyList } from '@/features/company/queries';
 import { useApproveRecruitmentRequest, useCreateRecruitment } from '@/features/recruitment/queries';
 import CardActionForm from '@/shared/components/ui/CardActionForm';
 import { Button } from '@/shared/components/ui/button';
@@ -47,12 +47,7 @@ export default function RecruitmentCreateForm() {
     selectedJobType !== null &&
     description.trim() !== '';
 
-  const {
-    data: companyData,
-    isLoading: isCompanyLoading,
-    isError: isCompanyError,
-  } = useCompanyList({ page: 0, size: 1000 });
-  const companies = companyData?.content ?? [];
+  const { companies, isLoading: isCompanyLoading, isError: isCompanyError } = useAllCompanyList();
 
   const handleSubmit = () => {
     if (selectedCompanyId === null || selectedJobType === null || experienceLevel === null) return;

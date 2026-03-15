@@ -1,4 +1,4 @@
-import { queryOptions, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { queryOptions, useMutation, useQueries, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   createCompany,
   deleteCompany,
@@ -44,6 +44,28 @@ export const companyDetailQueryOptions = (companyId: number) =>
 // 기업 목록 조회 useQuery
 export function useCompanyList(params?: GetCompanyListParams) {
   return useQuery(companyListQueryOptions(params));
+}
+
+// 전체 기업 목록 조회 (모든 페이지 합산)
+export function useAllCompanyList() {
+  const { data: firstPage } = useQuery(companyListQueryOptions({ page: 0 }));
+  const totalPages = firstPage?.totalPages ?? 1;
+
+  const restResults = useQueries({
+    queries: Array.from({ length: Math.max(0, totalPages - 1) }, (_, i) =>
+      companyListQueryOptions({ page: i + 1 }),
+    ),
+  });
+
+  const allContent = [
+    ...(firstPage?.content ?? []),
+    ...restResults.flatMap((r) => r.data?.content ?? []),
+  ];
+
+  const isLoading = !firstPage || restResults.some((r) => r.isLoading);
+  const isError = restResults.some((r) => r.isError);
+
+  return { companies: allContent, isLoading, isError };
 }
 
 // 기업 상세 조회 useQuery
