@@ -14,6 +14,7 @@ import {
   logUnexpectedError,
   parseResponseBody,
 } from '@/shared/api/httpClient.debug';
+import { cookies } from 'next/headers';
 
 const BASE_API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -160,7 +161,6 @@ export async function privateFetch<T>(
   endpoint: string,
   options: RequestInit = {},
 ): Promise<ApiResponse<T>> {
-  const { cookies } = await import('next/headers');
   const cookieStore = await cookies();
   const accessToken = cookieStore.get('accessToken')?.value;
 

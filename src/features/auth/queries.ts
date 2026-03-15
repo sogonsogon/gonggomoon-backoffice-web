@@ -1,19 +1,22 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useRouter } from 'next/navigation';
-import type { LoginRequest } from './types';
+import type { LoginRequest, LoginResponse } from './types';
 import { login, logout } from './actions';
+import type { ApiErrorResponse, ApiSuccessResponse } from '@/shared/types/api';
 
-export function useLogIn() {
+export function useLogin() {
   const queryClient = useQueryClient();
-  const router = useRouter();
 
-  return useMutation({
-    mutationFn: (data: LoginRequest) => login(data),
-    onSuccess: (result) => {
-      if (result.success) {
-        queryClient.clear();
-        router.push('/industry');
-      }
+  return useMutation<ApiSuccessResponse<LoginResponse>, ApiErrorResponse, LoginRequest>({
+    mutationFn: (data: LoginRequest) =>
+      login(data).then((result) => {
+        if (!result.success) return Promise.reject(result);
+        return result;
+      }),
+    onSuccess: () => {
+      queryClient.clear();
+    },
+    onError: (error: ApiErrorResponse) => {
+      console.error('로그인 실패:', error);
     },
   });
 }
@@ -21,13 +24,11 @@ export function useLogIn() {
 // 로그아웃
 export function useLogout() {
   const queryClient = useQueryClient();
-  const router = useRouter();
 
   return useMutation({
     mutationFn: () => logout(),
     onSuccess: () => {
       queryClient.clear();
-      router.push('/login');
     },
   });
 }

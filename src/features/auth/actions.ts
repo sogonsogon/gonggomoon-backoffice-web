@@ -15,15 +15,17 @@ export async function login(data: LoginRequest) {
   }
 
   const cookieStore = await cookies();
+  const isSecureCookie = process.env.NODE_ENV === 'production';
+
   cookieStore.set('accessToken', response.data.accessToken, {
     httpOnly: true,
-    secure: true,
+    secure: isSecureCookie,
     sameSite: 'strict',
     maxAge: 60 * 60 * 24,
   });
   cookieStore.set('refreshToken', response.data.refreshToken, {
     httpOnly: true,
-    secure: true,
+    secure: isSecureCookie,
     sameSite: 'strict',
     maxAge: 60 * 60 * 24 * 14,
   });
