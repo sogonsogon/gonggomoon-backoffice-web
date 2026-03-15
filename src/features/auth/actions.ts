@@ -35,5 +35,10 @@ export async function logout(): Promise<ApiResponse<null>> {
   const response = await privateFetch<null>('/api/v1/admin/auth/logout', {
     method: 'POST',
   });
+
+  const cookieStore = await cookies();
+  cookieStore.delete('accessToken');
+  cookieStore.delete('refreshToken');
+
   return response;
 }
