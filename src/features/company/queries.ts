@@ -19,6 +19,7 @@ import {
   UpdateCompanyRequest,
 } from '@/features/company/types';
 import { ApiErrorResponse } from '@/shared/types/api';
+import { isError } from 'util';
 
 export const companyQueryKeys = {
   all: ['companyList'] as const,
@@ -59,27 +60,31 @@ export function useCompanyList(params?: GetCompanyListParams) {
 // 전체 기업 목록 조회 (모든 페이지 합산)
 export function useAllCompanyList() {
   const {
-    data: firstPage,
-    isLoading: isFirstPageLoading,
-    isError: isFirstPageError,
-  } = useQuery(companyListQueryOptions({ page: 0 }));
-  const totalPages = firstPage?.pageInfo?.totalPages ?? 1;
+    data: companies,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: [...companyQueryKeys.all, 'allPages'] as const,
+    queryFn: async () => {
+      const firstResult = await getCompanyList({ page: 0 });
+      if (!firstResult.success) {
+        return Promise.reject(firstResult);
+      }
+      const firstPageData = firstResult.data;
+      const totalPages = firstPageData.pageInfo?.totalPages ?? 1;
+      let allContent = [...(firstPageData.content ?? [])];
 
-  const restResults = useQueries({
-    queries: Array.from({ length: Math.max(0, totalPages - 1) }, (_, i) =>
-      companyListQueryOptions({ page: i + 1 }),
-    ),
+      for (let page = 1; page < totalPages; page += 1) {
+        const result = await getCompanyList({ page });
+        if (!result.success) {
+          return Promise.reject(result);
+        }
+        allContent = allContent.concat(result.data.content ?? []);
+      }
+      return allContent;
+    },
   });
-
-  const allContent = [
-    ...(firstPage?.content ?? []),
-    ...restResults.flatMap((r) => r.data?.content ?? []),
-  ];
-
-  const isLoading = isFirstPageLoading || restResults.some((r) => r.isLoading);
-  const isError = isFirstPageError || restResults.some((r) => r.isError);
-
-  return { companies: allContent, isLoading, isError };
+  return { companies: companies ?? [], isLoading, isError };
 }
 
 // 기업 상세 조회 useQuery

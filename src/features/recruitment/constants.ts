@@ -2,7 +2,6 @@ import type {
   JobType,
   RecruitmentAnalysisStatus,
   RecruitmentRequestStatus,
-  RecruitmentStatus,
 } from '@/features/recruitment/types';
 
 export const JOB_TYPE_LABELS: Record<JobType, string> = {

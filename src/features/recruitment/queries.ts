@@ -78,6 +78,7 @@ export function useApproveRecruitmentRequest() {
       await Promise.all([
         queryClient.invalidateQueries({ queryKey: recruitmentQueryKeys.allSubmissions }),
         queryClient.invalidateQueries({ queryKey: recruitmentQueryKeys.all }),
+        queryClient.invalidateQueries({ queryKey: recruitmentQueryKeys.allAnalysis }),
       ]);
     },
     onError: (error: ApiErrorResponse) => {
@@ -179,6 +180,7 @@ export function useCreateRecruitment() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: recruitmentQueryKeys.all });
+      queryClient.invalidateQueries({ queryKey: recruitmentQueryKeys.allAnalysis });
     },
     onError: (error: ApiErrorResponse) => {
       console.error('공고 등록 실패:', error);
@@ -199,6 +201,7 @@ export function usePublishRecruitment(postId: number) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: recruitmentQueryKeys.detail(postId) });
       queryClient.invalidateQueries({ queryKey: recruitmentQueryKeys.all });
+      queryClient.invalidateQueries({ queryKey: recruitmentQueryKeys.allAnalysis });
     },
     onError: (error: ApiErrorResponse) => {
       console.error('공고 발행 실패:', error);
@@ -218,6 +221,7 @@ export function useDeleteRecruitment() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: recruitmentQueryKeys.all });
+      queryClient.invalidateQueries({ queryKey: recruitmentQueryKeys.allAnalysis });
     },
     onError: (error: ApiErrorResponse) => {
       console.error('공고 삭제 실패:', error);

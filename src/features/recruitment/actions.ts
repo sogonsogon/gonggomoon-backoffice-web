@@ -9,6 +9,8 @@ import type {
   GetRecruitmentListParams,
   RecruitmentListResponse,
   RecruitmentDetail,
+  GetRecruitmentAnalysisListParams,
+  RecruitmentAnalysisStatus,
 } from '@/features/recruitment/types';
 
 // 공고 게시 요청 목록 조회 — GET /api/v1/admin/posts/submissions
@@ -65,16 +67,21 @@ export async function getRecruitmentList(params?: GetRecruitmentListParams) {
 }
 
 // 공고 분석 목록 조회 - GET /api/v1/admin/posts?statuses=ANALYZING,ANALYZED
-export async function getRecruitmentAnalysisStatusList(params?: GetRecruitmentListParams) {
+export async function getRecruitmentAnalysisStatusList(params?: GetRecruitmentAnalysisListParams) {
   const searchParams = new URLSearchParams();
   if (params?.page !== undefined) searchParams.set('page', String(params.page));
   if (params?.size !== undefined) searchParams.set('size', String(params.size));
   if (params?.title) searchParams.set('title', params.title);
-
   const query = searchParams.toString();
-  const statusPart = params?.status
-    ? `statuses=${params.status}`
-    : `statuses=ANALYZING,ANALYZED,ANALYSIS_FAILED`;
+  const defaultStatuses = 'ANALYZING,ANALYZED,ANALYSIS_FAILED';
+  let statusesValue: string;
+  if (params?.status) {
+    const status = params.status as RecruitmentAnalysisStatus | RecruitmentAnalysisStatus[];
+    statusesValue = Array.isArray(status) ? status.join(',') : status;
+  } else {
+    statusesValue = defaultStatuses;
+  }
+  const statusPart = `statuses=${statusesValue}`;
   return privateFetch<RecruitmentListResponse>(
     `/api/v1/admin/posts?${statusPart}${query ? `&${query}` : ''}`,
   );
