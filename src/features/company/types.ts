@@ -23,8 +23,7 @@ export type CompanyListItem = {
 
 export type CompanyList = CompanyListItem[];
 
-//pageInfo":{"currentPage":0,"totalPages":2,"totalElements":16,"hasNext":true}},
-export type pageInfo = {
+export type PageInfo = {
   currentPage: number;
   totalPages: number;
   totalElements: number;
@@ -34,7 +33,7 @@ export type pageInfo = {
 export type GetCompanyListResponse = {
   content: CompanyList;
   size: number;
-  pageInfo: pageInfo;
+  pageInfo: PageInfo;
 };
 
 export type CompanyDetail = {

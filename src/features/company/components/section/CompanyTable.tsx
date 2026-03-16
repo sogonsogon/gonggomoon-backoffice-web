@@ -52,7 +52,7 @@ export default function CompanyTable({ params }: CompanyTableProps) {
       {companies.map((company, i) => (
         <CompanyRow
           key={company.companyId}
-          no={i + 1}
+          no={page * 10 + i + 1}
           company={company}
           industryName={company.industryName}
           last={i === companies.length - 1}
