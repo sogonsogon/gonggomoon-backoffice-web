@@ -138,6 +138,8 @@ async function requestApi<T>(
       );
     }
 
+    logRequestSuccess(debugInfo);
+
     // success 필드가 있는 표준 포맷이면 data 필드를, 없으면 응답 전체를 data로 사용
     const data = result.success === true ? (result.data as T) : (result as T);
 
