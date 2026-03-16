@@ -26,7 +26,7 @@ export default function CompanyTable({ params }: CompanyTableProps) {
 
   if (isLoading) {
     return (
-      <div className="bg-white rounded-[10px] border border-ds-grey-200 overflow-hidden">
+      <div className="bg-white rounded-[10px] border border-ds-grey-200 overflow-hidden shrink-0">
         {headerRow}
         {Array.from({ length: 5 }).map((_, i) => (
           <div key={i} className="h-14 border-b border-ds-grey-200 animate-pulse bg-ds-grey-100" />
@@ -46,7 +46,7 @@ export default function CompanyTable({ params }: CompanyTableProps) {
   const { content: companies, pageInfo } = data;
 
   return (
-    <div className="bg-white rounded-[10px] border border-ds-grey-200 overflow-hidden">
+    <div className="bg-white rounded-[10px] border border-ds-grey-200 overflow-hidden shrink-0">
       {headerRow}
 
       {companies.map((company, i) => (

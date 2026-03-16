@@ -1,4 +1,4 @@
-import { queryOptions, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { queryOptions, useMutation, useQuery, useQueryClient, keepPreviousData } from '@tanstack/react-query';
 import {
   createCompany,
   deleteCompany,
@@ -43,7 +43,10 @@ export const companyDetailQueryOptions = (companyId: number) =>
 
 // 기업 목록 조회 useQuery
 export function useCompanyList(params?: GetCompanyListParams) {
-  return useQuery(companyListQueryOptions(params));
+  return useQuery({
+    ...companyListQueryOptions(params),
+    placeholderData: keepPreviousData,
+  });
 }
 
 // 기업 상세 조회 useQuery

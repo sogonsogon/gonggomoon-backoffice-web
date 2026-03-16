@@ -16,7 +16,7 @@ export default function CompanyRow({ no, company, industryName, last = false }: 
     : '-';
 
   return (
-    <div className={`flex items-center h-14 ${!last ? 'border-b border-ds-grey-200' : ''}`}>
+    <div className={`flex items-center h-14 ${!last ? 'border-b border-ds-grey-200' : ''} `}>
       <div className="w-14 px-4 text-[13px] text-ds-grey-600 shrink-0">{no}</div>
       <div className="flex-1 px-4 text-sm font-medium text-ds-grey-900">{company.companyName}</div>
       <div className="w-56 px-4 text-sm text-ds-grey-900">{industryName ?? '-'}</div>
