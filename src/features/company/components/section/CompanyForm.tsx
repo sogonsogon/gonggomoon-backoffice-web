@@ -24,7 +24,7 @@ import type { ApiErrorResponse } from '@/shared/types/api';
 type CompanyFormState = CreateCompanyRequest;
 
 const INITIAL_FORM: CompanyFormState = {
-  companyName: '',
+  name: '',
   companyType: 'LARGE_ENTERPRISE',
   industryId: 0,
   websiteUrl: '',
@@ -74,7 +74,7 @@ export default function CompanyForm() {
   const baseForm: CompanyFormState =
     isEditMode && companyDetail
       ? {
-          companyName: companyDetail.companyName,
+          name: companyDetail.name,
           companyType: companyDetail.companyType,
           industryId: companyDetail.industryId,
           websiteUrl: companyDetail.websiteUrl,
@@ -88,7 +88,7 @@ export default function CompanyForm() {
   const form: CompanyFormState = { ...baseForm, ...formOverrides };
 
   const isPrimaryEnabled =
-    form.companyName.trim().length > 0 &&
+    form.name.trim().length > 0 &&
     form.foundedYear > 0 &&
     form.industryId > 0 &&
     Boolean(form.companyType) &&
@@ -188,8 +188,8 @@ export default function CompanyForm() {
                 <Label>기업명</Label>
                 <Input
                   placeholder="기업명을 입력하세요"
-                  value={form.companyName}
-                  onChange={(e) => handleChange('companyName', e.target.value)}
+                  value={form.name}
+                  onChange={(e) => handleChange('name', e.target.value)}
                 />
               </div>
               <div className="flex-1 flex flex-col gap-1.5">

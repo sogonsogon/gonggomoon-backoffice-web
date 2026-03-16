@@ -23,17 +23,22 @@ export type CompanyListItem = {
 
 export type CompanyList = CompanyListItem[];
 
-export type GetCompanyListResponse = {
-  contents: CompanyList;
-  page: number;
-  size: number;
-  totalElements: number;
+export type PageInfo = {
+  currentPage: number;
   totalPages: number;
+  totalElements: number;
+  hasNext: boolean;
+};
+
+export type GetCompanyListResponse = {
+  content: CompanyList;
+  size: number;
+  pageInfo: PageInfo;
 };
 
 export type CompanyDetail = {
   companyId: number;
-  companyName: string;
+  name: string;
   companyType: CompanyType;
   industryId: number;
   industryName: string;
@@ -51,7 +56,7 @@ export type CompanyDetail = {
 export type GetCompanyDetailResponse = CompanyDetail;
 
 export type CreateCompanyRequest = {
-  companyName: string;
+  name: string;
   industryId: number;
   companyType: CompanyType;
   employeeCount: number;
@@ -62,7 +67,7 @@ export type CreateCompanyRequest = {
 };
 
 export type UpdateCompanyRequest = {
-  companyName: string;
+  name: string;
   industryId: number;
   companyType: CompanyType;
   employeeCount: number;

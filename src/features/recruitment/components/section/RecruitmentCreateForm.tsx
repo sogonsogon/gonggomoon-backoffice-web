@@ -52,7 +52,7 @@ export default function RecruitmentCreateForm() {
     isLoading: isCompanyLoading,
     isError: isCompanyError,
   } = useCompanyList({ page: 0, size: 1000 });
-  const companies = companyData?.contents ?? [];
+  const companies = companyData?.content ?? [];
 
   const handleSubmit = () => {
     if (selectedCompanyId === null || selectedJobType === null || experienceLevel === null) return;

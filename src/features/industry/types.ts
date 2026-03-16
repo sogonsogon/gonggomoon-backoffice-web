@@ -36,7 +36,7 @@ export type IndustryAnalysisListItem = {
 export type GetIndustryAnalysisListResponse = {
   industryId: number;
   industryName: string;
-  contents: IndustryAnalysisListItem[];
+  content: IndustryAnalysisListItem[];
 };
 
 // GET /api/v1/admin/industries/reports/{id} — 단건

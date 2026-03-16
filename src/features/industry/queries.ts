@@ -40,7 +40,7 @@ export const industryAnalysisListQueryOptions = (industryId: number) =>
     queryFn: async () => {
       const result = await getIndustryAnalysisList(industryId);
       if (!result.success) return Promise.reject(result);
-      return result.data.contents;
+      return result.data.content;
     },
   });
 
