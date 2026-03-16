@@ -1,4 +1,10 @@
-import { queryOptions, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import {
+  queryOptions,
+  useMutation,
+  useQuery,
+  useQueryClient,
+  keepPreviousData,
+} from '@tanstack/react-query';
 import {
   approveRecruitmentRequest,
   createRecruitment,
@@ -142,7 +148,10 @@ export const recruitmentDetailQueryOptions = (postId: number) =>
 
 // 공고 목록 조회 useQuery
 export function useRecruitmentList(params?: GetRecruitmentListParams) {
-  return useQuery(recruitmentListQueryOptions(params));
+  return useQuery({
+    ...recruitmentListQueryOptions(params),
+    placeholderData: keepPreviousData,
+  });
 }
 
 // 공고 분석 목록 조회 useQuery
