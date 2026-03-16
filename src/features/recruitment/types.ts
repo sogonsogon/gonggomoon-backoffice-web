@@ -20,6 +20,8 @@ export type RecruitmentStatus =
   | 'REJECTED'
   | 'EXPIRED';
 
+export type RecruitmentAnalysisStatus = 'ANALYZING' | 'ANALYZED' | 'ANALYSIS_FAILED';
+
 export type RecruitmentRequestStatus = 'PENDING' | 'APPROVED' | 'REJECTED';
 
 // ============ 공고 요청 (requests) ============
@@ -99,6 +101,14 @@ export type GetRecruitmentListParams = {
   page?: number;
   size?: number;
   status?: RecruitmentStatus;
+  title?: string;
+};
+
+// GET /api/v1/admin/posts?statuses=ANALYZING,ANALYZED - query params
+export type GetRecruitmentAnalysisListParams = {
+  page?: number;
+  size?: number;
+  status?: RecruitmentAnalysisStatus;
   title?: string;
 };
 

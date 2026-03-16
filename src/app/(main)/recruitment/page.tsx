@@ -9,23 +9,24 @@ import RecruitmentList from '@/features/recruitment/components/section/Recruitme
 import RecruitmentRequestList from '@/features/recruitment/components/section/RecruitmentRequestList';
 import RecruitmentFilterToolbar from '@/features/recruitment/components/section/RecruitmentFilterToolbar';
 import {
+  recruitmentAnalysisListQueryOptions,
   recruitmentListQueryOptions,
   recruitmentSubmissionListQueryOptions,
 } from '@/features/recruitment/queries';
-import type { RecruitmentRequestStatus, RecruitmentStatus } from '@/features/recruitment/types';
+import type {
+  RecruitmentAnalysisStatus,
+  RecruitmentRequestStatus,
+  RecruitmentStatus,
+} from '@/features/recruitment/types';
 
 const VALID_TABS = ['public', 'analysis', 'requests'] as const;
 type Tab = (typeof VALID_TABS)[number];
 
 const VALID_SUBMISSION_STATUS: RecruitmentRequestStatus[] = ['PENDING', 'APPROVED', 'REJECTED'];
-const VALID_RECRUITMENT_STATUS: RecruitmentStatus[] = [
-  'PENDING',
+const VALID_RECRUITMENT_STATUS: RecruitmentAnalysisStatus[] = [
   'ANALYZING',
   'ANALYZED',
   'ANALYSIS_FAILED',
-  'PUBLISHED',
-  'REJECTED',
-  'EXPIRED',
 ];
 
 export default async function RecruitmentPage({
@@ -54,8 +55,10 @@ export default async function RecruitmentPage({
   )
     ? (requestStatusParam as RecruitmentRequestStatus)
     : undefined;
-  const analysisStatus = VALID_RECRUITMENT_STATUS.includes(analysisStatusParam as RecruitmentStatus)
-    ? (analysisStatusParam as RecruitmentStatus)
+  const analysisStatus = VALID_RECRUITMENT_STATUS.includes(
+    analysisStatusParam as RecruitmentAnalysisStatus,
+  )
+    ? (analysisStatusParam as RecruitmentAnalysisStatus)
     : undefined;
 
   const queryClient = new QueryClient();
@@ -63,9 +66,13 @@ export default async function RecruitmentPage({
   if (tab === 'requests') {
     await queryClient.prefetchQuery(recruitmentSubmissionListQueryOptions({ submissionStatus }));
   } else if (tab === 'analysis') {
-    await queryClient.prefetchQuery(recruitmentListQueryOptions({ status: analysisStatus, page, size: 10 }));
+    await queryClient.prefetchQuery(
+      recruitmentAnalysisListQueryOptions({ status: analysisStatus, page, size: 10 }),
+    );
   } else {
-    await queryClient.prefetchQuery(recruitmentListQueryOptions({ status: 'PUBLISHED', page, size: 10, title }));
+    await queryClient.prefetchQuery(
+      recruitmentListQueryOptions({ status: 'PUBLISHED', page, size: 10, title }),
+    );
   }
 
   return (

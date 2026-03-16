@@ -23,6 +23,13 @@ export async function createIndustryCategory(data: CreateIndustryCategoryRequest
   });
 }
 
+// 산업 카테고리 삭제 — DELETE /api/v1/admin/industries/{id}
+export async function deleteIndustryCategory(industryId: number) {
+  return privateFetch<null>(`/api/v1/admin/industries/${industryId}`, {
+    method: 'DELETE',
+  });
+}
+
 // 산업 카테고리 수정 — PATCH /api/v1/admin/industries/{id}
 export async function updateIndustryCategory(
   industryId: number,

@@ -64,6 +64,20 @@ export async function getRecruitmentList(params?: GetRecruitmentListParams) {
   return privateFetch<RecruitmentListResponse>(`/api/v1/admin/posts${query ? `?${query}` : ''}`);
 }
 
+// 공고 분석 목록 조회 - GET /api/v1/admin/posts?statuses=ANALYZING,ANALYZED
+export async function getRecruitmentAnalysisStatusList(params?: GetRecruitmentListParams) {
+  const searchParams = new URLSearchParams();
+  if (params?.page !== undefined) searchParams.set('page', String(params.page));
+  if (params?.size !== undefined) searchParams.set('size', String(params.size));
+  if (params?.title) searchParams.set('title', params.title);
+
+  const query = searchParams.toString();
+  const statusPart = params?.status ? `status=${params.status}` : `statuses=ANALYZING,ANALYZED`;
+  return privateFetch<RecruitmentListResponse>(
+    `/api/v1/admin/posts?${statusPart}${query ? `&${query}` : ''}`,
+  );
+}
+
 // 공고 상세 조회 — GET /api/v1/admin/posts/{postId}
 export async function getRecruitmentDetail(postId: number) {
   return privateFetch<RecruitmentDetail>(`/api/v1/admin/posts/${postId}`);

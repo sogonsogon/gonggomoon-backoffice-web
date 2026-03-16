@@ -12,11 +12,12 @@ export default function getIndustryIconConfig(industryName: string): IndustryIco
   return INDUSTRY_CATEGORY_ICON_CONFIG[industryName] ?? DEFAULT_ICON_CONFIG;
 }
 
-export const INDUSTRY_CATEGORY_ICON_CONFIG: Record<string, IndustryIconConfig> = Object.values(
+export const INDUSTRY_CATEGORY_ICON_CONFIG: Record<string, IndustryIconConfig> = Object.entries(
   INDUSTRY_CONFIG,
-).reduce<Record<string, IndustryIconConfig>>((acc, config) => {
+).reduce<Record<string, IndustryIconConfig>>((acc, [key, config]) => {
   const { label, ...iconConfig } = config;
   acc[label] = iconConfig;
+  acc[key] = iconConfig;
 
   return acc;
 }, {});

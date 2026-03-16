@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import { ChevronRight } from 'lucide-react';
 import getIndustryIconConfig from '@/features/industry/utils/getIndustryIconConfig';
+import { INDUSTRY_CONFIG } from '@/features/industry/constants';
+import type { IndustryType } from '@/features/industry/types';
 
 interface IndustryCardProps {
   industryId: number;
@@ -11,6 +13,7 @@ interface IndustryCardProps {
 export default function IndustryCard({ industryId, label, analysisCount }: IndustryCardProps) {
   const config = getIndustryIconConfig(label);
   const Icon = config.icon;
+  const displayLabel = INDUSTRY_CONFIG[label as IndustryType]?.label ?? label;
 
   return (
     <Link
@@ -24,7 +27,7 @@ export default function IndustryCard({ industryId, label, analysisCount }: Indus
         <Icon size={20} style={{ color: config.iconColor }} />
       </div>
       <div className="flex items-center justify-between w-full">
-        <span className="text-sm font-semibold text-ds-grey-900">{label}</span>
+        <span className="text-sm font-semibold text-ds-grey-900">{displayLabel}</span>
         <ChevronRight size={14} className="text-ds-grey-500 shrink-0" />
       </div>
       <span className="text-xs text-ds-grey-500">분석 버전 {analysisCount}건</span>

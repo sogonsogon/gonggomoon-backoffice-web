@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { ShieldCheck, EyeOff } from 'lucide-react';
+import { ShieldCheck, Eye, EyeOff } from 'lucide-react';
 import { Button } from '@/shared/components/ui/button';
 import { Input } from '@/shared/components/ui/input';
 import { Label } from '@/shared/components/ui/label';
@@ -14,6 +14,7 @@ export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const { mutate: login, isPending } = useLogin();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -69,16 +70,19 @@ export default function LoginPage() {
             <div className="relative">
               <Input
                 id="password"
-                type="password"
+                type={isPasswordVisible ? 'text' : 'password'}
                 placeholder="비밀번호를 입력하세요"
                 className="h-10 border-ds-grey-200 bg-white pr-9 text-ds-grey-900"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
-              <EyeOff
-                size={16}
-                className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-ds-grey-400"
-              />
+              <button
+                type="button"
+                onClick={() => setIsPasswordVisible((prev) => !prev)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-ds-grey-400 hover:text-ds-grey-600"
+              >
+                {isPasswordVisible ? <Eye size={16} /> : <EyeOff size={16} />}
+              </button>
             </div>
           </div>
 

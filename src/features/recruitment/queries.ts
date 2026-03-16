@@ -3,6 +3,7 @@ import {
   approveRecruitmentRequest,
   createRecruitment,
   deleteRecruitment,
+  getRecruitmentAnalysisStatusList,
   getRecruitmentDetail,
   getRecruitmentList,
   getRecruitmentRequestList,
@@ -11,6 +12,7 @@ import {
 } from '@/features/recruitment/actions';
 import type {
   CreateRecruitmentRequest,
+  GetRecruitmentAnalysisListParams,
   GetRecruitmentListParams,
   RecruitmentRequestListParams,
   RejectRecruitmentRequest,
@@ -24,6 +26,11 @@ export const recruitmentQueryKeys = {
 
   all: ['recruitmentList'] as const,
   list: (params?: GetRecruitmentListParams) => [...recruitmentQueryKeys.all, params] as const,
+
+  allAnalysis: ['recruitmentAnalysisList'] as const,
+  analysisList: (params?: GetRecruitmentAnalysisListParams) =>
+    [...recruitmentQueryKeys.allAnalysis, params] as const,
+
   detail: (postId: number) => ['recruitmentDetail', postId] as const,
 };
 
@@ -111,6 +118,17 @@ export const recruitmentListQueryOptions = (params?: GetRecruitmentListParams) =
     },
   });
 
+// 공고 분석 목록 조회 query options
+export const recruitmentAnalysisListQueryOptions = (params?: GetRecruitmentAnalysisListParams) =>
+  queryOptions({
+    queryKey: recruitmentQueryKeys.analysisList(params),
+    queryFn: async () => {
+      const result = await getRecruitmentAnalysisStatusList(params);
+      if (!result.success) return Promise.reject(result);
+      return result.data;
+    },
+  });
+
 // 공고 상세 조회 query options
 export const recruitmentDetailQueryOptions = (postId: number) =>
   queryOptions({
@@ -125,6 +143,11 @@ export const recruitmentDetailQueryOptions = (postId: number) =>
 // 공고 목록 조회 useQuery
 export function useRecruitmentList(params?: GetRecruitmentListParams) {
   return useQuery(recruitmentListQueryOptions(params));
+}
+
+// 공고 분석 목록 조회 useQuery
+export function useRecruitmentAnalysisList(params?: GetRecruitmentAnalysisListParams) {
+  return useQuery(recruitmentAnalysisListQueryOptions(params));
 }
 
 // 공고 상세 조회 useQuery
