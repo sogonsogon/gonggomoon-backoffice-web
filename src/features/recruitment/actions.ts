@@ -73,7 +73,7 @@ export async function getRecruitmentAnalysisStatusList(params?: GetRecruitmentLi
 
   const query = searchParams.toString();
   const statusPart = params?.status
-    ? `status=${params.status}`
+    ? `statuses=${params.status}`
     : `statuses=ANALYZING,ANALYZED,ANALYSIS_FAILED`;
   return privateFetch<RecruitmentListResponse>(
     `/api/v1/admin/posts?${statusPart}${query ? `&${query}` : ''}`,
