@@ -58,7 +58,7 @@ export default function CompanyQuickRegisterModal({
 
     createCompany(
       {
-        companyName: companyName.trim(),
+        name: companyName.trim(),
         industryId: selectedIndustryId,
         companyType: selectedCompanyType,
         foundedYear: year,
