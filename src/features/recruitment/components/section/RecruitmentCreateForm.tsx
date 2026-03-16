@@ -37,6 +37,8 @@ export default function RecruitmentCreateForm() {
   const [selectedCompanyId, setSelectedCompanyId] = useState<number | null>(null);
   const [companySearch, setCompanySearch] = useState('');
   const [showCompanyDropdown, setShowCompanyDropdown] = useState(false);
+  const [activeCompanyIndex, setActiveCompanyIndex] = useState(-1);
+  const companyListboxId = 'company-listbox';
   const [postTitle, setPostTitle] = useState('');
   const [experienceLevel, setExperienceLevel] = useState<number | null>(null);
   const [selectedJobType, setSelectedJobType] = useState<JobType | null>(null);
@@ -155,47 +157,89 @@ export default function RecruitmentCreateForm() {
                 </div>
                 <div className="relative">
                   <Input
+                    role="combobox"
+                    aria-expanded={showCompanyDropdown && companySearch.trim() !== ''}
+                    aria-autocomplete="list"
+                    aria-controls={companyListboxId}
+                    aria-activedescendant={
+                      activeCompanyIndex >= 0
+                        ? `company-option-${searchedCompanies[activeCompanyIndex]?.companyId}`
+                        : undefined
+                    }
                     value={companySearch}
                     onChange={(e) => {
                       setCompanySearch(e.target.value);
                       setShowCompanyDropdown(true);
+                      setActiveCompanyIndex(-1);
                       if (!e.target.value) setSelectedCompanyId(null);
                     }}
                     onFocus={() => {
                       if (companySearch.trim()) setShowCompanyDropdown(true);
                     }}
                     onBlur={() => setTimeout(() => setShowCompanyDropdown(false), 150)}
+                    onKeyDown={(e) => {
+                      if (!showCompanyDropdown || searchedCompanies.length === 0) return;
+                      if (e.key === 'ArrowDown') {
+                        e.preventDefault();
+                        setActiveCompanyIndex((i) => Math.min(i + 1, searchedCompanies.length - 1));
+                      } else if (e.key === 'ArrowUp') {
+                        e.preventDefault();
+                        setActiveCompanyIndex((i) => Math.max(i - 1, 0));
+                      } else if (e.key === 'Enter' && activeCompanyIndex >= 0) {
+                        e.preventDefault();
+                        const company = searchedCompanies[activeCompanyIndex];
+                        setSelectedCompanyId(company.companyId);
+                        setCompanySearch(company.companyName);
+                        setShowCompanyDropdown(false);
+                        setActiveCompanyIndex(-1);
+                      } else if (e.key === 'Escape') {
+                        setShowCompanyDropdown(false);
+                        setActiveCompanyIndex(-1);
+                      }
+                    }}
                     placeholder="기업명을 검색하세요"
                     className={`h-10 border-ds-grey-200 placeholder:text-ds-grey-400 ${selectedCompanyId !== null ? 'text-ds-grey-900' : ''}`}
                   />
                   {showCompanyDropdown && companySearch.trim() && (
-                    <div className="absolute z-50 top-full left-0 right-0 mt-1 bg-white border border-ds-grey-200 rounded-md shadow-md max-h-52 overflow-y-auto">
+                    <ul
+                      id={companyListboxId}
+                      role="listbox"
+                      aria-label="기업 검색 결과"
+                      className="absolute z-50 top-full left-0 right-0 mt-1 bg-white border border-ds-grey-200 rounded-md shadow-md max-h-52 overflow-y-auto"
+                    >
                       {isCompanyLoading && (
-                        <p className="px-3 py-2 text-[13px] text-ds-grey-500">검색 중...</p>
+                        <li className="px-3 py-2 text-[13px] text-ds-grey-500" aria-live="polite">
+                          검색 중...
+                        </li>
                       )}
                       {isCompanyError && searchedCompanies.length === 0 && (
-                        <p className="px-3 py-2 text-[13px] text-red-500">검색에 실패했습니다.</p>
+                        <li className="px-3 py-2 text-[13px] text-red-500" aria-live="assertive">
+                          검색에 실패했습니다.
+                        </li>
                       )}
                       {!isCompanyLoading && searchedCompanies.length === 0 && !isCompanyError && (
-                        <p className="px-3 py-2 text-[13px] text-ds-grey-500">
+                        <li className="px-3 py-2 text-[13px] text-ds-grey-500" aria-live="polite">
                           검색 결과가 없습니다.
-                        </p>
+                        </li>
                       )}
-                      {searchedCompanies.map((company) => (
-                        <button
+                      {searchedCompanies.map((company, index) => (
+                        <li
                           key={company.companyId}
-                          type="button"
-                          className="w-full text-left px-3 py-2 text-sm text-ds-grey-900 hover:bg-ds-grey-50"
+                          id={`company-option-${company.companyId}`}
+                          role="option"
+                          aria-selected={selectedCompanyId === company.companyId}
+                          className={`w-full text-left px-3 py-2 text-sm text-ds-grey-900 cursor-pointer hover:bg-ds-grey-50 ${activeCompanyIndex === index ? 'bg-ds-grey-50' : ''}`}
                           onMouseDown={() => {
                             setSelectedCompanyId(company.companyId);
                             setCompanySearch(company.companyName);
                             setShowCompanyDropdown(false);
+                            setActiveCompanyIndex(-1);
                           }}
                         >
                           {company.companyName}
-                        </button>
+                        </li>
                       ))}
-                    </div>
+                    </ul>
                   )}
                 </div>
               </div>
