@@ -36,6 +36,7 @@ export default async function RecruitmentPage({
     requestStatus?: string;
     analysisStatus?: string;
     page?: string;
+    title?: string;
   }>;
 }) {
   const {
@@ -43,6 +44,7 @@ export default async function RecruitmentPage({
     requestStatus: requestStatusParam,
     analysisStatus: analysisStatusParam,
     page: rawPage,
+    title,
   } = await searchParams;
   const page = Number.isFinite(Number(rawPage)) && Number(rawPage) >= 0 ? Number(rawPage) : 0;
 
@@ -63,7 +65,7 @@ export default async function RecruitmentPage({
   } else if (tab === 'analysis') {
     await queryClient.prefetchQuery(recruitmentListQueryOptions({ status: analysisStatus, page, size: 10 }));
   } else {
-    await queryClient.prefetchQuery(recruitmentListQueryOptions({ status: 'PUBLISHED', page, size: 10 }));
+    await queryClient.prefetchQuery(recruitmentListQueryOptions({ status: 'PUBLISHED', page, size: 10, title }));
   }
 
   return (
