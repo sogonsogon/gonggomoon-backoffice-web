@@ -1,4 +1,10 @@
-import { queryOptions, useMutation, useQuery, useQueryClient, keepPreviousData } from '@tanstack/react-query';
+import {
+  queryOptions,
+  useMutation,
+  useQuery,
+  useQueryClient,
+  keepPreviousData,
+} from '@tanstack/react-query';
 import {
   approveRecruitmentRequest,
   createRecruitment,
@@ -36,7 +42,7 @@ export const recruitmentSubmissionListQueryOptions = (params?: RecruitmentReques
     queryFn: async () => {
       const result = await getRecruitmentRequestList(params);
       if (!result.success) return Promise.reject(result);
-      return result.data.contents;
+      return result.data.content;
     },
   });
 
