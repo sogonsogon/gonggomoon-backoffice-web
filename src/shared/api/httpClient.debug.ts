@@ -158,7 +158,7 @@ export async function parseResponseBody<T>(
 
   debugInfo.responseBodyRaw = raw.length > 8000 ? `${raw.slice(0, 8000)}...(truncated)` : raw;
 
-  const contentType = response.headers.get('content-type') ?? '';
+  const contentType = response.headers.get('Content-Type') ?? '';
 
   if (contentType.includes('application/json')) {
     try {

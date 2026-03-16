@@ -6,6 +6,7 @@ import { Building2, Briefcase, FileText, ChevronRight, LogOut } from 'lucide-rea
 import { Button } from '@/shared/components/ui/button';
 import { Separator } from '@/shared/components/ui/separator';
 import { cn } from '@/shared/lib/cn';
+import { useLogout } from '@/features/auth/queries';
 
 const navItems = [
   //{ label: '대시보드', icon: LayoutDashboard, href: '/' }, TODO: 대시보드 페이지 개발 후 활성화
@@ -16,6 +17,7 @@ const navItems = [
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const { mutate: handleLogout, isPending } = useLogout();
 
   return (
     <aside className="w-64 shrink-0 bg-white border-r border-ds-grey-200 flex flex-col p-2 gap-4 h-full">
@@ -75,6 +77,8 @@ export default function Sidebar() {
             size="icon-sm"
             className="shrink-0 text-ds-grey-400 hover:text-ds-grey-600"
             aria-label="로그아웃"
+            disabled={isPending}
+            onClick={() => handleLogout()}
           >
             <LogOut size={14} />
           </Button>
