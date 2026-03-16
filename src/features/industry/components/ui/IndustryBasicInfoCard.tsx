@@ -42,11 +42,12 @@ export default function IndustryBasicInfoCard({ industryId, label }: IndustryBas
     );
   };
 
-  const handleDeleteConfirm = () => {
-    deleteCategory(industryId, {
+  const handleDeleteConfirm = (id: number) => {
+    deleteCategory(id, {
       onSuccess: () => {
         toast.success('산업군이 삭제되었습니다.');
-        router.push('/industry');
+        setIsDeleteModalOpen(false);
+        router.replace('/industry');
       },
       onError: (error: ApiErrorResponse) => {
         toast.error(error.message || '산업군 삭제에 실패했습니다.');
@@ -72,7 +73,10 @@ export default function IndustryBasicInfoCard({ industryId, label }: IndustryBas
             <Button
               className="bg-ds-grey-900 text-white hover:bg-ds-grey-800"
               disabled={
-                isPending || isDeleting || industryName.trim().length === 0 || industryName.trim() === label.trim()
+                isPending ||
+                isDeleting ||
+                industryName.trim().length === 0 ||
+                industryName.trim() === label.trim()
               }
               onClick={handleSave}
             >
@@ -94,6 +98,7 @@ export default function IndustryBasicInfoCard({ industryId, label }: IndustryBas
 
       <ConfirmDialog
         open={isDeleteModalOpen}
+        id={industryId}
         onOpenChange={setIsDeleteModalOpen}
         title="산업군 삭제"
         description="정말 삭제하시겠습니까? 삭제된 산업군은 복구할 수 없습니다."

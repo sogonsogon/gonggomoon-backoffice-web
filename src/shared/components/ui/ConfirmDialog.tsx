@@ -11,10 +11,11 @@ import {
 
 interface ConfirmDialogProps {
   open: boolean;
+  id: number;
   onOpenChange: (open: boolean) => void;
   title: string;
   description: string;
-  onConfirm: () => void;
+  onConfirm: (id: number) => void;
   isPending?: boolean;
   confirmLabel?: string;
   cancelLabel?: string;
@@ -22,6 +23,7 @@ interface ConfirmDialogProps {
 
 export default function ConfirmDialog({
   open,
+  id,
   onOpenChange,
   title,
   description,
@@ -38,16 +40,12 @@ export default function ConfirmDialog({
         </DialogHeader>
         <p className="text-sm text-ds-grey-700">{description}</p>
         <DialogFooter>
-          <Button
-            variant="outline"
-            onClick={() => onOpenChange(false)}
-            disabled={isPending}
-          >
+          <Button variant="outline" onClick={() => onOpenChange(false)} disabled={isPending}>
             {cancelLabel}
           </Button>
           <Button
             className="bg-ds-badge-red-text text-white hover:opacity-90"
-            onClick={onConfirm}
+            onClick={() => onConfirm(id)}
             disabled={isPending}
           >
             {isPending ? '처리 중...' : confirmLabel}
