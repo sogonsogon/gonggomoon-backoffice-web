@@ -19,7 +19,7 @@ import type { CompanyType } from '@/features/company/types';
 
 interface CompanyQuickRegisterModalProps {
   onClose: () => void;
-  onSuccess?: (companyId: number, companyName: string) => void;
+  onSuccess?: (companyName: string) => void;
 }
 
 export default function CompanyQuickRegisterModal({
@@ -68,9 +68,9 @@ export default function CompanyQuickRegisterModal({
         description: description.trim(),
       },
       {
-        onSuccess: (data) => {
+        onSuccess: () => {
           toast.success('기업이 등록되었습니다.');
-          onSuccess?.(data.companyId, companyName.trim());
+          onSuccess?.(companyName.trim());
           onClose();
         },
         onError: () => {

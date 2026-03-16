@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAllCompanyList } from '@/features/company/queries';
 import { useApproveRecruitmentRequest, useCreateRecruitment } from '@/features/recruitment/queries';
@@ -44,6 +44,14 @@ export default function RecruitmentCreateForm() {
   const [dueDate, setDueDate] = useState('');
   const [recruitmentUrl, setRecruitmentUrl] = useState(pendingUrl ?? '');
   const [description, setDescription] = useState('');
+  const [newlyRegisteredCompanyName, setNewlyRegisteredCompanyName] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (pendingSubmissionId === null) {
+      clearPending();
+      setRecruitmentUrl('');
+    }
+  }, []);
 
   const isFormValid =
     selectedCompanyId !== null &&
@@ -57,6 +65,15 @@ export default function RecruitmentCreateForm() {
     isLoading: isCompanyLoading,
     isError: isCompanyError,
   } = useAllCompanyList();
+
+  useEffect(() => {
+    if (newlyRegisteredCompanyName === null) return;
+    const matched = allCompanies.find((c) => c.companyName === newlyRegisteredCompanyName);
+    if (matched) {
+      setSelectedCompanyId(matched.companyId);
+      setNewlyRegisteredCompanyName(null);
+    }
+  }, [allCompanies, newlyRegisteredCompanyName]);
   const searchedCompanies = companySearch.trim()
     ? allCompanies.filter((c) =>
         c.companyName.toLowerCase().includes(companySearch.trim().toLowerCase()),
@@ -343,9 +360,9 @@ export default function RecruitmentCreateForm() {
       {isCompanyModalOpen && (
         <CompanyQuickRegisterModal
           onClose={() => setIsCompanyModalOpen(false)}
-          onSuccess={(companyId, companyName) => {
-            setSelectedCompanyId(companyId);
+          onSuccess={(companyName) => {
             setCompanySearch(companyName);
+            setNewlyRegisteredCompanyName(companyName);
           }}
         />
       )}
