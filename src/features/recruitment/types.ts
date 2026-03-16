@@ -30,6 +30,7 @@ export type RecruitmentRequestStatus = 'PENDING' | 'APPROVED' | 'REJECTED';
 export type RecruitmentRequest = {
   submissionId: number;
   userId: number;
+  platformId: number | null;
   platformName: string;
   url: string;
   submissionStatus: RecruitmentRequestStatus;

@@ -28,7 +28,7 @@ export default function RecruitmentRequestRow({
   const isPending = status === 'PENDING';
 
   const handleRegister = () => {
-    setPending(item.submissionId, item.url);
+    setPending(item.submissionId, item.platformId, item.url);
     router.push('/recruitment/create');
   };
 

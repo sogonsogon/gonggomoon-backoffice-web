@@ -15,7 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/shared/components/ui/select';
-import { AlertTriangle, Info, Plus, PlusCircleIcon } from 'lucide-react';
+import { AlertTriangle, Info, PlusCircleIcon } from 'lucide-react';
 import { toast } from 'sonner';
 import type { JobType } from '@/features/recruitment/types';
 import { JOB_TYPE_LABELS } from '@/features/recruitment/constants';
@@ -25,6 +25,7 @@ import CompanyQuickRegisterModal from '@/features/company/components/ui/CompanyQ
 export default function RecruitmentCreateForm() {
   const router = useRouter();
   const pendingSubmissionId = useRecruitmentCreateStore((s) => s.pendingSubmissionId);
+  const pendingPlatformId = useRecruitmentCreateStore((s) => s.pendingPlatformId);
   const pendingUrl = useRecruitmentCreateStore((s) => s.pendingUrl);
   const clearPending = useRecruitmentCreateStore((s) => s.clearPending);
 
@@ -67,7 +68,7 @@ export default function RecruitmentCreateForm() {
 
     const data = {
       companyId: selectedCompanyId,
-      platformId: null,
+      platformId: pendingSubmissionId !== null ? pendingPlatformId : null,
       title: postTitle.trim(),
       url: recruitmentUrl,
       jobType: selectedJobType,
