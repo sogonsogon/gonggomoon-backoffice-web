@@ -5,6 +5,7 @@ import {
   getIndustryAnalysis,
   createIndustryCategory,
   updateIndustryCategory,
+  deleteIndustryCategory,
   createIndustryAnalysis,
   publishIndustryAnalysis,
   deleteIndustryAnalysis,
@@ -28,7 +29,7 @@ export const industryCategoryListQueryOptions = queryOptions({
   queryFn: async () => {
     const result = await getIndustryCategoryList();
     if (!result.success) return Promise.reject(result);
-    return result.data.contents;
+    return result.data.content;
   },
 });
 
@@ -113,6 +114,25 @@ export function useUpdateIndustryCategory(industryId: number) {
     },
     onError: (error: ApiErrorResponse) => {
       console.error('산업 카테고리 수정 실패:', error);
+    },
+  });
+}
+
+// 산업 카테고리 삭제 useMutation
+export function useDeleteIndustryCategory() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (industryId: number) => {
+      const result = await deleteIndustryCategory(industryId);
+      if (!result.success) return Promise.reject(result);
+      return result.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: industryQueryKeys.categoryList });
+    },
+    onError: (error: ApiErrorResponse) => {
+      console.error('산업 카테고리 삭제 실패:', error);
     },
   });
 }

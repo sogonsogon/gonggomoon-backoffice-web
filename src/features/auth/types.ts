@@ -21,3 +21,9 @@ export type LoginRequest = {
   email: string;
   password: string;
 };
+
+export type ReissueResponse = {
+  grantType: string;
+  accessToken: string;
+  refreshToken: string;
+};
