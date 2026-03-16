@@ -58,6 +58,7 @@ export async function getRecruitmentList(params?: GetRecruitmentListParams) {
   if (params?.page !== undefined) searchParams.set('page', String(params.page));
   if (params?.size !== undefined) searchParams.set('size', String(params.size));
   if (params?.status) searchParams.set('status', params.status);
+  if (params?.title) searchParams.set('title', params.title);
 
   const query = searchParams.toString();
   return privateFetch<RecruitmentListResponse>(`/api/v1/admin/posts${query ? `?${query}` : ''}`);

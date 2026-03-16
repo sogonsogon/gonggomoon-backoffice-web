@@ -99,6 +99,7 @@ export type GetRecruitmentListParams = {
   page?: number;
   size?: number;
   status?: RecruitmentStatus;
+  title?: string;
 };
 
 // GET /api/v1/admin/posts - 응답 data
