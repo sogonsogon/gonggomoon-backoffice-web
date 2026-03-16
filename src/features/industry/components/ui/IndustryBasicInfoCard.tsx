@@ -102,7 +102,7 @@ export default function IndustryBasicInfoCard({ industryId, label }: IndustryBas
         onOpenChange={setIsDeleteModalOpen}
         title="산업군 삭제"
         description="정말 삭제하시겠습니까? 삭제된 산업군은 복구할 수 없습니다."
-        onConfirm={handleDeleteConfirm}
+        onConfirm={() => handleDeleteConfirm(industryId)}
         isPending={isDeleting}
       />
     </>

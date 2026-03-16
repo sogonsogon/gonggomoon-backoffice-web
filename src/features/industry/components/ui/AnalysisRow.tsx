@@ -27,7 +27,8 @@ export default function AnalysisRow({
   onPublish,
   onDelete,
 }: AnalysisRowProps) {
-  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+  const [isPublishConfirmOpen, setIsPublishConfirmOpen] = useState(false);
+  const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
   const isPublished = item.reportStatus === 'PUBLISHED';
   const statusLabel = ANALYSIS_STATUS_LABELS[item.reportStatus] ?? ANALYSIS_STATUS_LABELS.PENDING;
 
@@ -65,7 +66,7 @@ export default function AnalysisRow({
             size="sm"
             disabled={isPublished || isPublishing}
             className={isPublished ? 'bg-ds-grey-300 hover:bg-ds-grey-300' : 'bg-ds-grey-900'}
-            onClick={() => onPublish(item.reportId)}
+            onClick={() => setIsPublishConfirmOpen(true)}
           >
             발행
           </Button>
@@ -74,7 +75,7 @@ export default function AnalysisRow({
             variant="outline"
             className="text-ds-badge-red-text"
             disabled={isDeleting}
-            onClick={() => setIsConfirmOpen(true)}
+            onClick={() => setIsDeleteConfirmOpen(true)}
           >
             삭제
           </Button>
@@ -82,13 +83,22 @@ export default function AnalysisRow({
       </div>
 
       <ConfirmDialog
-        open={isConfirmOpen}
+        open={isDeleteConfirmOpen}
         id={item.reportId}
-        onOpenChange={setIsConfirmOpen}
+        onOpenChange={setIsDeleteConfirmOpen}
         title="산업 분석 삭제"
         description="정말 삭제하시겠습니까? 삭제된 분석은 복구할 수 없습니다."
         onConfirm={onDelete}
         isPending={isDeleting}
+      />
+      <ConfirmDialog
+        open={isPublishConfirmOpen}
+        id={item.reportId}
+        onOpenChange={setIsPublishConfirmOpen}
+        title="산업 분석 발행"
+        description="정말 발행하시겠습니까? 발행된 분석은 수정할 수 없습니다."
+        onConfirm={onPublish}
+        isPending={isPublishing}
       />
     </>
   );

@@ -77,7 +77,7 @@ export default function RecruitmentAnalysisList() {
             item={item}
             last={i === rows.length - 1}
             isDeleting={isDeleting}
-            onDelete={handleDelete}
+            onDelete={() => handleDelete(item.postId)}
           />
         ))
       )}
