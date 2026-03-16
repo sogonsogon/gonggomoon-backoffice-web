@@ -13,11 +13,11 @@ export default function IndustryStatusCard({ status, analyzedYear }: IndustrySta
 
   return (
     <Card className="w-70 shrink-0 border-ds-grey-200 bg-white py-4">
-      <CardHeader className="px-4 pb-2">
+      <CardHeader className="px-4">
         <CardTitle className="text-[16px] font-semibold text-ds-grey-900">버전 상태</CardTitle>
       </CardHeader>
       <Separator className="bg-ds-grey-200" />
-      <CardContent className="space-y-3 px-4 pt-3">
+      <CardContent className="space-y-3 px-4 pt-4">
         <div className="flex items-center justify-between text-[13px]">
           <span className="text-ds-grey-600">현재 상태</span>
           <span className="font-semibold text-ds-grey-900">{statusLabel}</span>

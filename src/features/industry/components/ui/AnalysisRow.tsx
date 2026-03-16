@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { FileText, Send, Trash2 } from 'lucide-react';
 import { Button } from '@/shared/components/ui/button';
 import ConfirmDialog from '@/shared/components/ui/ConfirmDialog';
 import { ANALYSIS_STATUS_LABELS } from '@/features/industry/constants';
@@ -38,10 +39,10 @@ export default function AnalysisRow({
         <div className="w-25 px-4 text-sm font-semibold text-ds-grey-900 shrink-0">
           {item.reportYear}
         </div>
-        <div className="w-37.5 px-4 text-[13px] text-ds-grey-700 shrink-0">
+        <div className="w-40 px-4 text-[13px] text-ds-grey-700 shrink-0">
           {formatDate(item.createdAt)}
         </div>
-        <div className="w-37.5 px-4 text-[13px] text-ds-grey-700 shrink-0">
+        <div className="w-40 px-4 text-[13px] text-ds-grey-700 shrink-0">
           {formatDate(item.updatedAt)}
         </div>
         <div className="w-27.5 px-4 shrink-0">
@@ -55,28 +56,31 @@ export default function AnalysisRow({
             {statusLabel}
           </span>
         </div>
-        <div className="flex-1 px-4 flex items-center gap-1.5">
+        <div className="w-72 px-4 flex items-center gap-2 shrink-0">
           <Link
             href={`/industry/${industryId}/analysis/${item.reportId}`}
-            className="inline-flex h-8 items-center justify-center rounded-md border border-ds-grey-200 bg-white px-4 text-sm font-medium text-ds-grey-700 no-underline visited:text-ds-grey-700 hover:bg-ds-grey-50"
+            className="inline-flex h-8 items-center justify-center gap-1.5 rounded-md border border-ds-grey-200 bg-white px-3 text-sm font-medium text-ds-grey-600 no-underline visited:text-ds-grey-600 hover:bg-ds-grey-50"
           >
+            <FileText size={13} />
             상세보기
           </Link>
           <Button
             size="sm"
             disabled={isPublished || isPublishing}
-            className={isPublished ? 'bg-ds-grey-300 hover:bg-ds-grey-300' : 'bg-ds-grey-900'}
+            className={`gap-1.5 ${isPublished ? 'bg-ds-grey-300 hover:bg-ds-grey-300 cursor-not-allowed' : 'bg-ds-grey-900 hover:bg-ds-grey-800'}`}
             onClick={() => setIsPublishConfirmOpen(true)}
           >
+            <Send size={12} />
             발행
           </Button>
           <Button
             size="sm"
             variant="outline"
-            className="text-ds-badge-red-text"
+            className="gap-1.5 text-ds-badge-red-text hover:bg-ds-badge-red-bg hover:border-ds-badge-red-text"
             disabled={isDeleting}
             onClick={() => setIsDeleteConfirmOpen(true)}
           >
+            <Trash2 size={12} />
             삭제
           </Button>
         </div>

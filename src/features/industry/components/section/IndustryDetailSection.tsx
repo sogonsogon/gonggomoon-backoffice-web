@@ -23,10 +23,10 @@ export default function IndustryDetailSection({ industryId }: IndustryDetailSect
     <>
       <TopBar title="산업군 관리" breadcrumb={`산업군 관리 > ${label}`} />
 
-      <main className="flex-1 overflow-auto bg-ds-grey-100 p-6 flex flex-col gap-5">
+      <main className="flex-1 overflow-auto bg-ds-grey-100 p-6 flex flex-col gap-6">
         <ContentHeader title={label} backHref="/industry" />
 
-        <div className="flex gap-5 items-start">
+        <div className="flex gap-6 items-start">
           <div className="flex-1 flex flex-col gap-4">
             <IndustryBasicInfoCard industryId={industryId} label={label} />
             <IndustryAnalysisTable industryId={industryId} analysis={analysisList || []} />

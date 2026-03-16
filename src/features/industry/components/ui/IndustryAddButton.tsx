@@ -49,7 +49,7 @@ export default function IndustryAddButton() {
   return (
     <Dialog open={isOpen} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
-        <Button className="gap-1.5">
+        <Button className="gap-2">
           <Plus size={16} />
           산업군 추가
         </Button>
@@ -74,7 +74,7 @@ export default function IndustryAddButton() {
 
         <Separator className="bg-ds-grey-200" />
 
-        <div className="flex flex-col gap-1.5">
+        <div className="flex flex-col gap-2">
           <Label className="text-sm font-medium text-ds-grey-900">산업군 이름 *</Label>
           <Input
             type="text"

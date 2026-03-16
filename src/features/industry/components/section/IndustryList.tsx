@@ -8,7 +8,7 @@ export default function IndustryList() {
 
   if (isLoading) {
     return (
-      <div className="grid grid-cols-4 gap-3">
+      <div className="grid grid-cols-4 gap-4">
         {Array.from({ length: 8 }).map((_, i) => (
           <div key={i} className="h-35 rounded-[10px] bg-ds-grey-200 animate-pulse" />
         ))}
@@ -25,7 +25,7 @@ export default function IndustryList() {
   }
 
   return (
-    <div className="grid grid-cols-4 gap-3">
+    <div className="grid grid-cols-4 gap-4">
       {categories.map((item) => (
         <IndustryCard
           key={item.industryId}

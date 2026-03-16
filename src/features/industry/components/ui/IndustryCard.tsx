@@ -15,7 +15,7 @@ export default function IndustryCard({ industryId, label, analysisCount }: Indus
   return (
     <Link
       href={`/industry/${industryId}`}
-      className="bg-white rounded-[10px] p-5 flex flex-col justify-between border border-ds-grey-200 shadow-[0_1px_3px_0_rgba(0,29,58,0.08)] h-35"
+      className="bg-white rounded-[10px] p-5 flex flex-col justify-between border border-ds-grey-200 shadow-[0_1px_3px_0_rgba(0,29,58,0.08)] h-35 hover:shadow-md hover:border-ds-grey-300 transition-all duration-150"
     >
       <div
         className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0"
@@ -23,11 +23,13 @@ export default function IndustryCard({ industryId, label, analysisCount }: Indus
       >
         <Icon size={20} style={{ color: config.iconColor }} />
       </div>
-      <div className="flex items-center justify-between w-full">
-        <span className="text-sm font-semibold text-ds-grey-900">{label}</span>
-        <ChevronRight size={14} className="text-ds-grey-500 shrink-0" />
+      <div className="flex flex-col gap-1.5">
+        <div className="flex items-center justify-between w-full">
+          <span className="text-sm font-semibold text-ds-grey-900">{label}</span>
+          <ChevronRight size={16} className="text-ds-grey-500 shrink-0" />
+        </div>
+        <span className="text-xs text-ds-grey-500">분석 버전 {analysisCount}건</span>
       </div>
-      <span className="text-xs text-ds-grey-500">분석 버전 {analysisCount}건</span>
     </Link>
   );
 }

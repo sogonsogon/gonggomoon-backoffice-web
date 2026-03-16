@@ -60,7 +60,7 @@ export default function CompanyTable({ params }: CompanyTableProps) {
       ))}
 
       {/* Pagination Footer */}
-      <div className="h-13 border-t border-ds-grey-200 flex items-center justify-center gap-1 px-4">
+      <div className="h-14 border-t border-ds-grey-200 flex items-center justify-center gap-1 px-4">
         {Array.from({ length: pageInfo.totalPages ?? 1 }).map((_, i) => (
           <button
             key={i}
@@ -85,6 +85,6 @@ const headerRow = (
     <div className="w-44 px-4 text-[13px] font-medium text-ds-grey-600">기업 유형</div>
     <div className="w-32 px-4 text-[13px] font-medium text-ds-grey-600">임직원 수</div>
     <div className="w-32 px-4 text-[13px] font-medium text-ds-grey-600">설립연도</div>
-    <div className="w-48 px-4 text-[13px] font-medium text-ds-grey-600">액션</div>
+    <div className="w-52 px-4 text-[13px] font-medium text-ds-grey-600">액션</div>
   </div>
 );

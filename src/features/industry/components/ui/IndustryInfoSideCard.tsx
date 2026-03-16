@@ -9,7 +9,7 @@ export default function IndustryInfoSideCard({
 }: IndustryInfoSideCardProps) {
   return (
     <div className="w-70 flex flex-col gap-3">
-      <div className="bg-white rounded-lg border border-ds-grey-200 p-4 flex flex-col gap-3">
+      <div className="bg-white rounded-lg border border-ds-grey-200 px-6 py-5 flex flex-col gap-3">
         <span className="text-sm font-semibold text-ds-grey-900">산업 정보</span>
         <div className="h-px bg-ds-grey-200" />
         <div className="flex justify-between text-[13px]">
