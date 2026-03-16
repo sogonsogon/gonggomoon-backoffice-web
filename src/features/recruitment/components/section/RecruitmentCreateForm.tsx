@@ -73,8 +73,8 @@ export default function RecruitmentCreateForm() {
       jobType: selectedJobType,
       originalContent: description.trim(),
       experienceLevel,
-      startDate: startDate ? startDate.replace(/\./g, '-') : null,
-      dueDate: dueDate ? dueDate.replace(/\./g, '-') : null,
+      startDate: startDate ? `${startDate.replace(/\./g, '-')}T00:00:00Z` : null,
+      dueDate: dueDate ? `${dueDate.replace(/\./g, '-')}T00:00:00Z` : null,
     };
 
     const callbacks = {

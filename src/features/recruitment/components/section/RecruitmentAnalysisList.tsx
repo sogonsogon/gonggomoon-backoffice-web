@@ -54,7 +54,7 @@ export default function RecruitmentAnalysisList() {
   };
 
   return (
-    <div className="bg-white rounded-lg border border-ds-grey-200 overflow-hidden">
+    <div className="bg-white rounded-lg border border-ds-grey-200 overflow-hidden shrink-0">
       {/* Header Row */}
       <div className="flex items-center h-11 bg-ds-grey-50 border-b border-ds-grey-200">
         <div className="w-14 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">No.</div>
