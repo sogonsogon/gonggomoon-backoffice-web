@@ -3,7 +3,6 @@ import { privateFetch, publicFetch } from '@/shared/api/httpClient';
 import { ApiResponse } from '@/shared/types/api';
 import { cookies } from 'next/headers';
 import { LoginRequest, LoginResponse } from '@/features/auth/types';
-
 export async function login(data: LoginRequest) {
   const res = await publicFetch<LoginResponse>('/api/v1/admin/auth/login', {
     method: 'POST',

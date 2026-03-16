@@ -30,12 +30,12 @@ export default function IndustryAnalysisSection({
     <>
       <TopBar title="산업군 관리" breadcrumb={`산업군 관리 > ${label} > ${yearLabel}년 분석`} />
 
-      <main className="flex flex-1 flex-col gap-5 overflow-auto bg-ds-grey-100 p-6">
+      <main className="flex flex-1 flex-col gap-6 overflow-auto bg-ds-grey-100 p-6">
         <ContentHeader
           title={`${label} - ${yearLabel} 분석`}
-          titleClassName="text-[30px]"
+          titleClassName="text-2xl"
           description={`수정일: ${formatDate(analysis?.updatedAt)}`}
-          descriptionClassName="pl-7"
+          descriptionClassName="pl-[26px]"
           backHref={`/industry/${industryId}`}
           actionsAlign="start"
           actions={
@@ -50,7 +50,7 @@ export default function IndustryAnalysisSection({
         />
 
         {analysis ? (
-          <div className="flex items-start gap-4">
+          <div className="flex items-start gap-6">
             <IndustryAnalysisCard analysis={analysis} />
             <IndustryStatusCard status={analysis.reportStatus} analyzedYear={analysis.reportYear} />
           </div>

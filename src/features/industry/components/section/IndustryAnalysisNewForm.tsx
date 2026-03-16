@@ -94,19 +94,19 @@ export default function IndustryAnalysisNewForm({ industryId }: IndustryAnalysis
   };
 
   return (
-    <main className="flex flex-1 flex-col gap-6 overflow-auto bg-ds-grey-100 p-8">
+    <main className="flex flex-1 flex-col gap-6 overflow-auto bg-ds-grey-100 p-6">
       <ContentHeader
         title="버전 추가"
         description="분석 항목을 입력하거나 AI로 자동 생성할 수 있습니다"
-        descriptionClassName="pl-6"
+        descriptionClassName="pl-[26px]"
         backHref={`/industry/${industryId}`}
       />
 
       <div className="flex gap-6">
         <div className="flex-1">
           <Card className="gap-4 border-ds-grey-200 bg-white py-4">
-            <CardContent className="space-y-4 px-4">
-              <div className="w-50 space-y-1.5">
+            <CardContent className="space-y-4 px-6">
+              <div className="w-50 space-y-2">
                 <Label htmlFor="analysis-year" className="text-sm font-semibold text-ds-grey-900">
                   분석 연도
                 </Label>
@@ -135,13 +135,13 @@ export default function IndustryAnalysisNewForm({ industryId }: IndustryAnalysis
                 />
 
                 <div className="space-y-2">
-                  <Label className="text-[13px] font-semibold text-ds-grey-900">산업 규모</Label>
+                  <Label className="text-sm font-semibold text-ds-grey-900">산업 규모</Label>
                   <textarea
                     value={marketSize}
                     onChange={(event) => setMarketSize(event.target.value)}
                     placeholder="산업 규모를 입력합니다."
                     rows={2}
-                    className="w-full resize-none rounded-md border border-ds-grey-200 bg-white px-4 py-2 text-[13px] text-ds-grey-700 outline-none"
+                    className="w-full resize-none rounded-md border border-ds-grey-200 bg-white px-4 py-2 text-sm text-ds-grey-700 outline-none focus:border-ds-grey-400"
                   />
                 </div>
 
@@ -158,13 +158,13 @@ export default function IndustryAnalysisNewForm({ industryId }: IndustryAnalysis
                 />
 
                 <div className="space-y-2">
-                  <Label className="text-[13px] font-semibold text-ds-grey-900">경쟁 구도</Label>
+                  <Label className="text-sm font-semibold text-ds-grey-900">경쟁 구도</Label>
                   <textarea
                     value={rival}
                     onChange={(event) => setRival(event.target.value)}
                     placeholder="주요 경쟁 구도를 쉼표로 구분해 입력합니다."
                     rows={2}
-                    className="w-full resize-none rounded-md border border-ds-grey-200 bg-white px-4 py-2 text-[13px] text-ds-grey-700 outline-none"
+                    className="w-full resize-none rounded-md border border-ds-grey-200 bg-white px-4 py-2 text-sm text-ds-grey-700 outline-none focus:border-ds-grey-400"
                   />
                 </div>
 

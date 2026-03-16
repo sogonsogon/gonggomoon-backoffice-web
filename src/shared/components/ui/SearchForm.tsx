@@ -108,7 +108,7 @@ export default function SearchForm({
             value={inputValue}
             placeholder={searchPlaceholder}
             onChange={(e) => setInputValue(e.target.value)}
-            className="w-70 border-ds-grey-200 bg-white pl-9 placeholder:text-ds-grey-400"
+            className="h-10 w-70 border-ds-grey-200 bg-white pl-9 placeholder:text-ds-grey-400"
           />
         </div>
       )}

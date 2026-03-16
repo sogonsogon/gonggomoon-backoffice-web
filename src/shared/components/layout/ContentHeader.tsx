@@ -34,7 +34,7 @@ export default function ContentHeader({
   return (
     <div className={cn('flex items-center justify-between py-1 gap-4', className)}>
       <div className="flex flex-col gap-1 min-w-0">
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-2.5">
           {backHref ? (
             <Link href={backHref} aria-label={backAriaLabel}>
               <ChevronLeft size={20} className="text-ds-grey-900" />

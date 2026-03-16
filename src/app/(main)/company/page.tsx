@@ -37,12 +37,11 @@ export default async function CompanyPage({
     <>
       <TopBar title="기업 관리" breadcrumb="등록된 기업 정보를 관리합니다" />
 
-      <main className="flex-1 overflow-auto bg-ds-grey-100 p-8 flex flex-col gap-5 [scrollbar-gutter:stable]">
+      <main className="flex-1 overflow-auto bg-ds-grey-100 p-6 flex flex-col gap-6 [scrollbar-gutter:stable]">
         <ContentHeader
           title="기업 목록"
-          description="등록된 기업 정보를 관리합니다"
           actions={
-            <Button asChild>
+            <Button asChild className="gap-2">
               <Link href="/company/create">
                 <Plus />
                 기업 등록
@@ -51,10 +50,7 @@ export default async function CompanyPage({
           }
         />
         <HydrationBoundary state={dehydrate(queryClient)}>
-          <div className="pb-1">
-            <CompanyFilterToolbar />
-          </div>
-
+          <CompanyFilterToolbar />
           <CompanyTable params={params} />
         </HydrationBoundary>
       </main>
