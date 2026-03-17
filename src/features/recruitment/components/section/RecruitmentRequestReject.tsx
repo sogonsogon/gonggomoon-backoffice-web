@@ -10,7 +10,7 @@ import {
 } from '@/shared/components/ui/dialog';
 import { Textarea } from '@/shared/components/ui/textarea';
 import { useState } from 'react';
-import { useRejectRecruitmentRequest } from '../../queries';
+import { useRejectRecruitmentRequest } from '@/features/recruitment/queries';
 import { ApiErrorResponse } from '@/shared/types/api';
 import { toast } from 'sonner';
 

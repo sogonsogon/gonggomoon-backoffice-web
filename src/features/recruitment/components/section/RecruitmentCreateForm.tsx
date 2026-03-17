@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAllCompanyList } from '@/features/company/queries';
+import { useCompanyList } from '@/features/company/queries';
+import { useDebounce } from '@/shared/hooks/useDebounce';
 import { useApproveRecruitmentRequest, useCreateRecruitment } from '@/features/recruitment/queries';
 import CardActionForm from '@/shared/components/ui/CardActionForm';
 import { Button } from '@/shared/components/ui/button';
@@ -36,6 +37,7 @@ export default function RecruitmentCreateForm() {
   const [isCompanyModalOpen, setIsCompanyModalOpen] = useState(false);
   const [selectedCompanyId, setSelectedCompanyId] = useState<number | null>(null);
   const [companySearch, setCompanySearch] = useState('');
+  const debouncedCompanySearch = useDebounce(companySearch, 300);
   const [showCompanyDropdown, setShowCompanyDropdown] = useState(false);
   const [activeCompanyIndex, setActiveCompanyIndex] = useState(-1);
   const companyListboxId = 'company-listbox';
@@ -63,24 +65,24 @@ export default function RecruitmentCreateForm() {
     description.trim() !== '';
 
   const {
-    companies: allCompanies,
+    data: companyListData,
     isLoading: isCompanyLoading,
     isError: isCompanyError,
-  } = useAllCompanyList();
+  } = useCompanyList(
+    debouncedCompanySearch.trim() ? { name: debouncedCompanySearch.trim(), page: 0 } : undefined,
+  );
+  const searchedCompanies = debouncedCompanySearch.trim()
+    ? (companyListData?.content ?? [])
+    : [];
 
   useEffect(() => {
     if (newlyRegisteredCompanyName === null) return;
-    const matched = allCompanies.find((c) => c.companyName === newlyRegisteredCompanyName);
+    const matched = searchedCompanies.find((c) => c.companyName === newlyRegisteredCompanyName);
     if (matched) {
       setSelectedCompanyId(matched.companyId);
       setNewlyRegisteredCompanyName(null);
     }
-  }, [allCompanies, newlyRegisteredCompanyName]);
-  const searchedCompanies = companySearch.trim()
-    ? allCompanies.filter((c) =>
-        c.companyName.toLowerCase().includes(companySearch.trim().toLowerCase()),
-      )
-    : [];
+  }, [searchedCompanies, newlyRegisteredCompanyName]);
 
   const handleSubmit = () => {
     if (selectedCompanyId === null || selectedJobType === null || experienceLevel === null) return;

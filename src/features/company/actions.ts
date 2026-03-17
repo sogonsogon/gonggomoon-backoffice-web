@@ -29,7 +29,7 @@ export async function getCompanyDetail(companyId: number) {
 
 // 기업 등록 — POST /api/v1/admin/companies
 export async function createCompany(data: CreateCompanyRequest) {
-  return privateFetch<void>('/api/v1/admin/companies', {
+  return privateFetch<null>('/api/v1/admin/companies', {
     method: 'POST',
     body: JSON.stringify(data),
   });
