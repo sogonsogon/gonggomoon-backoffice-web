@@ -6,11 +6,15 @@ import { Button } from '@/shared/components/ui/button';
 import ConfirmDialog from '@/shared/components/ui/ConfirmDialog';
 import { ANALYSIS_STATUS_BADGE, ANALYSIS_STATUS_LABELS } from '@/features/recruitment/constants';
 import { formatDate } from '@/shared/lib/formatDate';
-import type { RecruitmentSummary } from '@/features/recruitment/types';
+import type { RecruitmentAnalysisStatus, RecruitmentSummary } from '@/features/recruitment/types';
+
+type RecruitmentAnalysisItem = Omit<RecruitmentSummary, 'postStatus'> & {
+  postStatus: RecruitmentAnalysisStatus;
+};
 
 interface RecruitmentAnalysisRowProps {
   no: number;
-  item: RecruitmentSummary;
+  item: RecruitmentAnalysisItem;
   last?: boolean;
   isDeleting: boolean;
   onDelete: (postId: number) => void;
@@ -28,7 +32,7 @@ export default function RecruitmentAnalysisRow({
   const status = item.postStatus;
   const isAnalyzing = status === 'ANALYZING';
   const isAnalysisDone = status === 'ANALYZED';
-  const statusLabel = status === 'PUBLISHED' ? '발행 완료' : ANALYSIS_STATUS_LABELS[status];
+  const statusLabel = ANALYSIS_STATUS_LABELS[status];
 
   return (
     <>

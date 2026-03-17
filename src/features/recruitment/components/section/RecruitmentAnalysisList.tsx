@@ -4,7 +4,7 @@ import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { useRecruitmentAnalysisList, useDeleteRecruitment } from '@/features/recruitment/queries';
 import { toast } from 'sonner';
 import type { ApiErrorResponse } from '@/shared/types/api';
-import type { RecruitmentAnalysisStatus } from '@/features/recruitment/types';
+import type { RecruitmentAnalysisStatus, RecruitmentSummary } from '@/features/recruitment/types';
 import RecruitmentAnalysisRow from '@/features/recruitment/components/ui/RecruitmentAnalysisRow';
 
 const ANALYSIS_VISIBLE_STATUSES: RecruitmentAnalysisStatus[] = [
@@ -32,7 +32,7 @@ export default function RecruitmentAnalysisList() {
   const { mutate: deleteRecruitment, isPending: isDeleting } = useDeleteRecruitment();
   const rows = (response?.content ?? []).filter((item) =>
     status ? item.postStatus === status : item.postStatus !== 'PUBLISHED',
-  );
+  ) as (Omit<RecruitmentSummary, 'postStatus'> & { postStatus: RecruitmentAnalysisStatus })[];
   const pageInfo = response?.pageInfo;
 
   const handlePageChange = (nextPage: number) => {
