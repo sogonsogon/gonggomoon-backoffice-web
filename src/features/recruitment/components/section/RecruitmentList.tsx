@@ -52,7 +52,7 @@ export default function RecruitmentList() {
       {rows.map((item, i) => (
         <RecruitmentRow
           key={item.postId}
-          no={i + 1}
+          no={page * 10 + i + 1}
           item={item}
           last={i === rows.length - 1}
           isDeleting={isDeleting}

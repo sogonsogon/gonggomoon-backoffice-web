@@ -72,7 +72,7 @@ export default function RecruitmentAnalysisList() {
         rows.map((item, i) => (
           <RecruitmentAnalysisRow
             key={item.postId}
-            no={i + 1}
+            no={page * 10 + i + 1}
             item={item}
             last={i === rows.length - 1}
             isDeleting={isDeleting}
