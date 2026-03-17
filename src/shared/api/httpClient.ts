@@ -15,7 +15,6 @@ import {
   parseResponseBody,
 } from '@/shared/api/httpClient.debug';
 import { cookies } from 'next/headers';
-import { reissueAccessToken } from '@/features/auth/token';
 
 const BASE_API_URL = process.env.API_URL ?? process.env.NEXT_PUBLIC_API_URL;
 // 로컬 테스트를 위한 14일 기간의 엑세스 토큰
@@ -110,54 +109,6 @@ async function requestApi<T>(
 
     if (!response.ok) {
       logRequestFailed(debugInfo);
-
-      if (response.status === 401 && requireAuth) {
-        // accessToken 만료 → refreshToken으로 재발급 시도
-        const reissueResult = await reissueAccessToken();
-
-        if (!reissueResult.success) {
-          // refreshToken도 만료 → 세션 만료 처리
-          return createErrorResponse(
-            'SESSION_EXPIRED',
-            sessionExpiredMessage,
-            [],
-            new Date().toISOString(),
-          );
-        }
-
-        // 재발급 성공 → 새 accessToken으로 원래 요청 재시도
-        const newAccessToken = reissueResult.data.accessToken;
-        const retryHeaders = new Headers(options.headers);
-        retryHeaders.set('Authorization', `Bearer ${newAccessToken}`);
-        if (!isFormData && !retryHeaders.get('Content-Type')) {
-          retryHeaders.set('Content-Type', 'application/json');
-        }
-
-        const retryResponse = await fetch(url, {
-          ...options,
-          method: options.method || 'GET',
-          headers: retryHeaders,
-        });
-
-        const retryResult = await parseResponseBody<T>(retryResponse, debugInfo);
-
-        if (!retryResponse.ok) {
-          return createErrorResponse(
-            retryResult.code || 'HTTP_ERROR',
-            retryResult.message || '요청 처리에 실패했습니다.',
-            retryResult.errors ?? [],
-            retryResult.timestamp,
-          );
-        }
-
-        const retryData = retryResult.success === true ? (retryResult.data as T) : (retryResult as T);
-        return createSuccessResponse<T>(
-          retryData,
-          retryResult.code ?? 'SUCCESS',
-          retryResult.message ?? '요청에 성공했습니다.',
-          retryResult.timestamp ?? new Date().toISOString(),
-        );
-      }
 
       return createErrorResponse(
         result.code || 'HTTP_ERROR',

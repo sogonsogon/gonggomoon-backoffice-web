@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { ShieldCheck, Eye, EyeOff } from 'lucide-react';
 import { Button } from '@/shared/components/ui/button';
@@ -15,11 +15,25 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [isRememberEmail, setIsRememberEmail] = useState(false);
   const { mutate: login, isPending } = useLogin();
+
+  useEffect(() => {
+    const savedEmail = localStorage.getItem('savedEmail');
+    if (savedEmail) {
+      setEmail(savedEmail);
+      setIsRememberEmail(true);
+    }
+  }, []);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setErrorMessage('');
+    if (isRememberEmail) {
+      localStorage.setItem('savedEmail', email);
+    } else {
+      localStorage.removeItem('savedEmail');
+    }
     login(
       { email, password },
       {
@@ -27,7 +41,7 @@ export default function LoginPage() {
           router.push('/industry');
         },
         onError: (error: ApiErrorResponse) => {
-          setErrorMessage(error.message || '로그인에 실패했습니다.');
+          setErrorMessage(error.message || '아이디 또는 비밀번호가 올바르지 않습니다.');
         },
       },
     );
@@ -95,9 +109,13 @@ export default function LoginPage() {
 
           {/* Remember Me */}
           <div className="flex items-center gap-2">
-            <Checkbox id="remember" />
-            <Label htmlFor="remember" className="text-ds-grey-900">
-              로그인 상태 유지
+            <Checkbox
+              id="remember"
+              checked={isRememberEmail}
+              onCheckedChange={(checked) => setIsRememberEmail(checked === true)}
+            />
+            <Label htmlFor="remember" className="text-ds-grey-900 cursor-pointer">
+              아이디 기억하기
             </Label>
           </div>
         </form>

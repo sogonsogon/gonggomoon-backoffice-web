@@ -10,7 +10,13 @@ export async function login(data: LoginRequest) {
   });
 
   if (!res.success) {
-    return res;
+    return {
+      ...res,
+      message:
+        res.code === 'NON_JSON_RESPONSE' || !res.message
+          ? '아이디 또는 비밀번호가 올바르지 않습니다.'
+          : res.message,
+    };
   }
 
   if (!res.data.accessToken) {
