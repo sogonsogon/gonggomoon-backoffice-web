@@ -60,7 +60,7 @@ export default function RecruitmentAnalysisList() {
         <div className="w-14 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">No.</div>
         <div className="w-44 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">기업명</div>
         <div className="flex-1 px-4 text-[13px] font-medium text-ds-grey-600">공고 제목</div>
-        <div className="w-48 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">요청 상태</div>
+        <div className="w-56 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">요청 상태</div>
         <div className="w-28 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">시작일</div>
         <div className="w-56 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">액션</div>
       </div>

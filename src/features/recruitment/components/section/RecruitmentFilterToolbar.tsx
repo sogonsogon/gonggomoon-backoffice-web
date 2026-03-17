@@ -16,6 +16,7 @@ export default function RecruitmentFilterToolbar({ tab }: RecruitmentFilterToolb
       searchParamKey="title"
       searchPlaceholder="공고 제목 검색..."
       filters={statusFilter ? [statusFilter] : []}
+      resetKey={tab}
     />
   );
 }

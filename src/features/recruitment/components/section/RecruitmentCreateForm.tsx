@@ -255,7 +255,9 @@ export default function RecruitmentCreateForm() {
 
               {/* 경력 Select */}
               <div className="flex-1 flex flex-col gap-1.5">
-                <Label className="text-ds-grey-900">경력 </Label>
+                <div className="flex items-center h-5">
+                  <Label className="text-ds-grey-900">경력</Label>
+                </div>
                 <Select
                   value={experienceLevel !== null ? String(experienceLevel) : 'none'}
                   onValueChange={(val) => setExperienceLevel(val === 'none' ? null : Number(val))}

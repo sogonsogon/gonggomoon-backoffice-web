@@ -48,7 +48,7 @@ export default function RecruitmentRequestRow({
             {item.url}
           </a>
         </div>
-        <div className="w-48 px-4 shrink-0">
+        <div className="w-56 px-4 shrink-0">
           <span
             className={`inline-flex px-2 py-0.5 rounded-md text-xs font-medium ${REQUEST_STATUS_BADGE[status]}`}
           >

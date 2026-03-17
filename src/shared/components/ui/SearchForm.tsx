@@ -26,6 +26,7 @@ interface SearchFormProps {
   searchParamKey?: string;
   searchPlaceholder?: string;
   filters?: FilterConfig[];
+  resetKey?: string;
 }
 
 const SEARCH_DEBOUNCE_MS = 800;
@@ -35,12 +36,17 @@ export default function SearchForm({
   searchParamKey = 'query',
   searchPlaceholder = '검색...',
   filters = [],
+  resetKey,
 }: SearchFormProps) {
   const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
 
   const [inputValue, setInputValue] = useState(searchParams.get(searchParamKey) ?? '');
+
+  useEffect(() => {
+    setInputValue('');
+  }, [resetKey]);
 
   // 기존 파라미터를 모두 보존하고 변경된 키만 덮어씀
   const buildParams = useCallback(
@@ -122,7 +128,7 @@ export default function SearchForm({
           onValueChange={(value) => handleFilterChange(filter.paramKey, value, filter.allValue, filter.defaultValue)}
         >
           <SelectTrigger
-            className={`h-10 border-ds-grey-200 bg-white text-ds-grey-600 ${filter.width ?? 'w-36'}`}
+            className={`h-10! border-ds-grey-200 bg-white text-ds-grey-600 ${filter.width ?? 'w-36'}`}
           >
             <SelectValue placeholder={filter.placeholder} />
           </SelectTrigger>
