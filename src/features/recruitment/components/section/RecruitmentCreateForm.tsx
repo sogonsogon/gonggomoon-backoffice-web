@@ -71,9 +71,7 @@ export default function RecruitmentCreateForm() {
   } = useCompanyList(
     debouncedCompanySearch.trim() ? { name: debouncedCompanySearch.trim(), page: 0 } : undefined,
   );
-  const searchedCompanies = debouncedCompanySearch.trim()
-    ? (companyListData?.content ?? [])
-    : [];
+  const searchedCompanies = debouncedCompanySearch.trim() ? (companyListData?.content ?? []) : [];
 
   useEffect(() => {
     if (newlyRegisteredCompanyName === null) return;
@@ -86,6 +84,15 @@ export default function RecruitmentCreateForm() {
 
   const handleSubmit = () => {
     if (selectedCompanyId === null || selectedJobType === null || experienceLevel === null) return;
+
+    if (startDate && !isValidDate(startDate)) {
+      toast.error('올바른 시작일 형식을 입력해주세요. (예: 2024.01.01)');
+      return;
+    }
+    if (dueDate && !isValidDate(dueDate)) {
+      toast.error('올바른 마감일 형식을 입력해주세요. (예: 2024.01.01)');
+      return;
+    }
 
     const data = {
       companyId: selectedCompanyId,
@@ -146,7 +153,7 @@ export default function RecruitmentCreateForm() {
               {/* Company Search */}
               <div className="flex-1 flex flex-col gap-1.5">
                 <div className="flex items-center justify-between">
-                  <Label className="text-ds-grey-900">기업명 *</Label>
+                  <Label className="text-ds-grey-900">기업명 </Label>
                   <Button
                     variant="link"
                     size="sm"
@@ -248,7 +255,7 @@ export default function RecruitmentCreateForm() {
 
               {/* 경력 Select */}
               <div className="flex-1 flex flex-col gap-1.5">
-                <Label className="text-ds-grey-900">경력 *</Label>
+                <Label className="text-ds-grey-900">경력 </Label>
                 <Select
                   value={experienceLevel !== null ? String(experienceLevel) : 'none'}
                   onValueChange={(val) => setExperienceLevel(val === 'none' ? null : Number(val))}
@@ -296,7 +303,7 @@ export default function RecruitmentCreateForm() {
 
             {/* 직무 */}
             <div className="flex flex-col gap-1.5">
-              <Label className="text-ds-grey-900">직무 *</Label>
+              <Label className="text-ds-grey-900">직무 </Label>
               <div className="flex flex-wrap gap-2">
                 {(Object.entries(JOB_TYPE_LABELS) as [JobType, string][]).map(([key, label]) => (
                   <button
@@ -318,7 +325,7 @@ export default function RecruitmentCreateForm() {
 
             {/* 공고 제목 */}
             <div className="flex flex-col gap-1.5">
-              <Label className="text-ds-grey-900">공고 제목 *</Label>
+              <Label className="text-ds-grey-900">공고 제목</Label>
               <Input
                 type="text"
                 value={postTitle}
@@ -342,7 +349,7 @@ export default function RecruitmentCreateForm() {
 
             {/* 공고 원문 */}
             <div className="flex flex-col gap-1.5">
-              <Label className="text-ds-grey-900">공고 원문 *</Label>
+              <Label className="text-ds-grey-900">공고 원문 </Label>
               <textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
@@ -420,6 +427,13 @@ function formatDateInput(value: string): string {
   if (digits.length <= 4) return digits;
   if (digits.length <= 6) return `${digits.slice(0, 4)}.${digits.slice(4)}`;
   return `${digits.slice(0, 4)}.${digits.slice(4, 6)}.${digits.slice(6)}`;
+}
+
+function isValidDate(value: string): boolean {
+  if (value.length !== 10) return false;
+  const [y, m, d] = value.split('.').map(Number);
+  const date = new Date(y, m - 1, d);
+  return date.getFullYear() === y && date.getMonth() === m - 1 && date.getDate() === d;
 }
 
 const EXPERIENCE_OPTIONS = [
