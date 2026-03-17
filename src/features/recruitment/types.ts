@@ -39,7 +39,7 @@ export type RecruitmentRequest = {
 
 // GET /api/v1/admin/posts/submissions - query params
 export type RecruitmentRequestListParams = {
-  submissionStatus?: RecruitmentRequestStatus;
+  status?: RecruitmentRequestStatus;
 };
 
 // GET /api/v1/admin/posts/submissions - 응답 data

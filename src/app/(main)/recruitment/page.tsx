@@ -50,9 +50,7 @@ export default async function RecruitmentPage({
   const page = Number.isFinite(Number(rawPage)) && Number(rawPage) >= 0 ? Number(rawPage) : 0;
 
   const tab: Tab = VALID_TABS.includes(tabParam as Tab) ? (tabParam as Tab) : 'public';
-  const submissionStatus = VALID_SUBMISSION_STATUS.includes(
-    requestStatusParam as RecruitmentRequestStatus,
-  )
+  const status = VALID_SUBMISSION_STATUS.includes(requestStatusParam as RecruitmentRequestStatus)
     ? (requestStatusParam as RecruitmentRequestStatus)
     : undefined;
   const analysisStatus = VALID_RECRUITMENT_STATUS.includes(
@@ -64,7 +62,7 @@ export default async function RecruitmentPage({
   const queryClient = new QueryClient();
 
   if (tab === 'requests') {
-    await queryClient.prefetchQuery(recruitmentSubmissionListQueryOptions({ submissionStatus }));
+    await queryClient.prefetchQuery(recruitmentSubmissionListQueryOptions({ status }));
   } else if (tab === 'analysis') {
     await queryClient.prefetchQuery(
       recruitmentAnalysisListQueryOptions({ status: analysisStatus, page, size: 10 }),
@@ -116,7 +114,7 @@ export default async function RecruitmentPage({
         <HydrationBoundary state={dehydrate(queryClient)}>
           <Suspense>
             {tab === 'requests' ? (
-              <RecruitmentRequestList submissionStatus={submissionStatus} />
+              <RecruitmentRequestList status={status} />
             ) : tab === 'analysis' ? (
               <RecruitmentAnalysisList />
             ) : (

@@ -129,6 +129,7 @@ export const mockRecruitmentRequests: RecruitmentRequest[] = [
   {
     submissionId: 1,
     userId: 1,
+    platformId: 1,
     platformName: 'Wanted',
     url: 'https://www.wanted.co.kr/wd/123456',
     submissionStatus: 'PENDING',
@@ -137,6 +138,7 @@ export const mockRecruitmentRequests: RecruitmentRequest[] = [
   {
     submissionId: 2,
     userId: 2,
+    platformId: 2,
     platformName: 'Saramin',
     url: 'https://www.saramin.co.kr/zf_user/jobs/relay/view?rec_idx=456789',
     submissionStatus: 'REJECTED',

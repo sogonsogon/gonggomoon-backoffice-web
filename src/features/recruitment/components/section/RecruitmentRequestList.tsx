@@ -5,11 +5,11 @@ import type { RecruitmentRequestStatus } from '@/features/recruitment/types';
 import RecruitmentRequestRow from '@/features/recruitment/components/ui/RecruitmentRequestRow';
 
 interface RecruitmentRequestListProps {
-  submissionStatus?: RecruitmentRequestStatus;
+  status?: RecruitmentRequestStatus;
 }
 
-export default function RecruitmentRequestList({ submissionStatus }: RecruitmentRequestListProps) {
-  const { data: items = [] } = useRecruitmentSubmissionList({ submissionStatus });
+export default function RecruitmentRequestList({ status }: RecruitmentRequestListProps) {
+  const { data: items = [] } = useRecruitmentSubmissionList({ status });
 
   return (
     <div className="bg-white rounded-lg border border-ds-grey-200 overflow-hidden">

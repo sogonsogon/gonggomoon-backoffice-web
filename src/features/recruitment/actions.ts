@@ -16,7 +16,7 @@ import type {
 // 공고 게시 요청 목록 조회 — GET /api/v1/admin/posts/submissions
 export async function getRecruitmentRequestList(params?: RecruitmentRequestListParams) {
   const searchParams = new URLSearchParams();
-  if (params?.submissionStatus) searchParams.set('submissionStatus', params.submissionStatus);
+  if (params?.status) searchParams.set('status', params.status);
 
   const query = searchParams.toString();
   return privateFetch<RecruitmentRequestListResponse>(
@@ -24,24 +24,24 @@ export async function getRecruitmentRequestList(params?: RecruitmentRequestListP
   );
 }
 
-// 공고 게시 요청 승인 (AI 분석 대기) — POST /api/v1/admin/posts/submissions/{submissionId}/approve
+// 공고 게시 요청 승인 (AI 분석 대기) — PUT /api/v1/admin/posts/submissions/{submissionId}/approve
 export async function approveRecruitmentRequest(
   submissionId: number,
   data: CreateRecruitmentRequest,
 ) {
   return privateFetch<void>(`/api/v1/admin/posts/submissions/${submissionId}/approve`, {
-    method: 'POST',
+    method: 'PUT',
     body: JSON.stringify(data),
   });
 }
 
-// 공고 게시 요청 거절 — PATCH /api/v1/admin/posts/submissions/{submissionId}/reject
+// 공고 게시 요청 거절 — PUT /api/v1/admin/posts/submissions/{submissionId}/reject
 export async function rejectRecruitmentRequest(
   submissionId: number,
   data: RejectRecruitmentRequest,
 ) {
   return privateFetch<void>(`/api/v1/admin/posts/submissions/${submissionId}/reject`, {
-    method: 'PATCH',
+    method: 'PUT',
     body: JSON.stringify(data),
   });
 }
