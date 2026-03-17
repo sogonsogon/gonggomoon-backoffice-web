@@ -5,9 +5,25 @@ import type { NextRequest } from 'next/server';
 
 const BASE_API_URL = process.env.API_URL || process.env.NEXT_PUBLIC_API_URL;
 
+const PUBLIC_PATHS = ['/login'];
+
 export async function proxy(request: NextRequest) {
+  const { pathname } = request.nextUrl;
   const accessToken = request.cookies.get('accessToken')?.value;
   const refreshToken = request.cookies.get('refreshToken')?.value;
+  const isPublic = PUBLIC_PATHS.some((path) => pathname.startsWith(path));
+
+  // 비로그인 상태에서 보호된 경로 접근 → /login 리다이렉트
+  if (!isPublic && !refreshToken) {
+    const loginUrl = new URL('/login', request.url);
+    loginUrl.searchParams.set('redirect', pathname);
+    return NextResponse.redirect(loginUrl);
+  }
+
+  // 로그인 상태에서 /login 접근 → /industry 리다이렉트
+  if (isPublic && refreshToken) {
+    return NextResponse.redirect(new URL('/industry', request.url));
+  }
 
   // 1. 토큰 갱신 필요 여부 판별 (만료되었고, 리프레시 토큰은 존재하는 경우)
   const isTokenExpired = !accessToken;
