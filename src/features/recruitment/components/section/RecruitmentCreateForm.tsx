@@ -263,7 +263,7 @@ export default function RecruitmentCreateForm() {
                   onValueChange={(val) => setExperienceLevel(val === 'none' ? null : Number(val))}
                 >
                   <SelectTrigger
-                    className={`h-10 border-ds-grey-200 w-full bg-white ${experienceLevel !== null ? 'text-ds-grey-900' : 'text-ds-grey-500'}`}
+                    className={`h-10! w-full! border-ds-grey-200 bg-white ${experienceLevel !== null ? 'text-ds-grey-900' : 'text-ds-grey-500'}`}
                   >
                     <SelectValue placeholder="경력을 선택하세요" />
                   </SelectTrigger>
