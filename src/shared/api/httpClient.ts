@@ -15,7 +15,6 @@ import {
   parseResponseBody,
 } from '@/shared/api/httpClient.debug';
 import { cookies } from 'next/headers';
-
 const BASE_API_URL = process.env.API_URL ?? process.env.NEXT_PUBLIC_API_URL;
 // 로컬 테스트를 위한 14일 기간의 엑세스 토큰
 const ACCESS_TOKEN = process.env.DEV_ACCESS_TOKEN;
