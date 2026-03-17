@@ -37,5 +37,5 @@ export const REQUEST_STATUS_LABELS: Record<RecruitmentRequestStatus, string> = {
 export const REQUEST_STATUS_BADGE: Record<RecruitmentRequestStatus, string> = {
   PENDING: 'bg-ds-badge-blue-bg text-ds-badge-blue-text',
   APPROVED: 'bg-ds-badge-green-bg text-ds-badge-green-text',
-  REJECTED: 'bg-ds-badge-grey-bg text-ds-badge-grey-text',
+  REJECTED: 'bg-ds-badge-red-bg text-ds-badge-red-text',
 };

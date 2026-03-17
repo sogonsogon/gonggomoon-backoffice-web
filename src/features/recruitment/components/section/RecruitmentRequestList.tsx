@@ -5,17 +5,23 @@ import { useRecruitmentSubmissionList } from '@/features/recruitment/queries';
 import type { RecruitmentRequestStatus } from '@/features/recruitment/types';
 import RecruitmentRequestRow from '@/features/recruitment/components/ui/RecruitmentRequestRow';
 
-interface RecruitmentRequestListProps {
-  status?: RecruitmentRequestStatus;
-}
+const VALID_SUBMISSION_STATUS: RecruitmentRequestStatus[] = ['PENDING', 'APPROVED', 'REJECTED'];
 
-export default function RecruitmentRequestList({ status = 'PENDING' }: RecruitmentRequestListProps) {
+export default function RecruitmentRequestList() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
 
   const rawPage = searchParams.get('page');
   const page = Number.isFinite(Number(rawPage)) && Number(rawPage) >= 0 ? Number(rawPage) : 0;
+
+  const requestStatusParam = searchParams.get('requestStatus');
+  const status =
+    requestStatusParam === 'all'
+      ? undefined
+      : VALID_SUBMISSION_STATUS.includes(requestStatusParam as RecruitmentRequestStatus)
+        ? (requestStatusParam as RecruitmentRequestStatus)
+        : 'PENDING';
 
   const { data: response } = useRecruitmentSubmissionList({ status, page, size: 10 });
   const items = response?.content ?? [];

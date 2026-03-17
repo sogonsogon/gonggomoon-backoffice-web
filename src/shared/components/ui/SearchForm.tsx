@@ -88,8 +88,9 @@ export default function SearchForm({
     replaceWithParams(buildParams(searchParamKey, query || null));
   };
 
-  const handleFilterChange = (paramKey: string, value: string, allValue: string) => {
-    replaceWithParams(buildParams(paramKey, value === allValue ? null : value));
+  const handleFilterChange = (paramKey: string, value: string, allValue: string, defaultValue?: string) => {
+    const hasDefault = defaultValue !== undefined;
+    replaceWithParams(buildParams(paramKey, value === allValue && !hasDefault ? null : value));
   };
 
   return (
@@ -118,7 +119,7 @@ export default function SearchForm({
         <Select
           key={filter.paramKey}
           value={searchParams.get(filter.paramKey) ?? filter.defaultValue ?? filter.allValue}
-          onValueChange={(value) => handleFilterChange(filter.paramKey, value, filter.allValue)}
+          onValueChange={(value) => handleFilterChange(filter.paramKey, value, filter.allValue, filter.defaultValue)}
         >
           <SelectTrigger
             className={`h-10 border-ds-grey-200 bg-white text-ds-grey-600 ${filter.width ?? 'w-36'}`}

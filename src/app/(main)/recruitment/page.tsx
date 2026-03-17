@@ -50,14 +50,18 @@ export default async function RecruitmentPage({
   const page = Number.isFinite(Number(rawPage)) && Number(rawPage) >= 0 ? Number(rawPage) : 0;
 
   const tab: Tab = VALID_TABS.includes(tabParam as Tab) ? (tabParam as Tab) : 'public';
-  const status = VALID_SUBMISSION_STATUS.includes(requestStatusParam as RecruitmentRequestStatus)
-    ? (requestStatusParam as RecruitmentRequestStatus)
-    : 'PENDING';
-  const analysisStatus = VALID_RECRUITMENT_STATUS.includes(
-    analysisStatusParam as RecruitmentAnalysisStatus,
-  )
-    ? (analysisStatusParam as RecruitmentAnalysisStatus)
-    : 'ANALYZED';
+  const status =
+    requestStatusParam === 'all'
+      ? undefined
+      : VALID_SUBMISSION_STATUS.includes(requestStatusParam as RecruitmentRequestStatus)
+        ? (requestStatusParam as RecruitmentRequestStatus)
+        : 'PENDING';
+  const analysisStatus =
+    analysisStatusParam === 'all'
+      ? undefined
+      : VALID_RECRUITMENT_STATUS.includes(analysisStatusParam as RecruitmentAnalysisStatus)
+        ? (analysisStatusParam as RecruitmentAnalysisStatus)
+        : 'ANALYZED';
 
   const queryClient = new QueryClient();
 
@@ -114,7 +118,7 @@ export default async function RecruitmentPage({
         <HydrationBoundary state={dehydrate(queryClient)}>
           <Suspense>
             {tab === 'requests' ? (
-              <RecruitmentRequestList status={status} />
+              <RecruitmentRequestList />
             ) : tab === 'analysis' ? (
               <RecruitmentAnalysisList />
             ) : (

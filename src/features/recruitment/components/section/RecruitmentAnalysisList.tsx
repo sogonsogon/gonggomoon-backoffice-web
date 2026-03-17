@@ -22,11 +22,12 @@ export default function RecruitmentAnalysisList() {
   const page = Number.isFinite(Number(rawPage)) && Number(rawPage) >= 0 ? Number(rawPage) : 0;
 
   const analysisStatusParam = searchParams.get('analysisStatus');
-  const status = ANALYSIS_VISIBLE_STATUSES.includes(
-    analysisStatusParam as RecruitmentAnalysisStatus,
-  )
-    ? (analysisStatusParam as RecruitmentAnalysisStatus)
-    : 'ANALYZED';
+  const status =
+    analysisStatusParam === 'all'
+      ? undefined
+      : ANALYSIS_VISIBLE_STATUSES.includes(analysisStatusParam as RecruitmentAnalysisStatus)
+        ? (analysisStatusParam as RecruitmentAnalysisStatus)
+        : 'ANALYZED';
 
   const { data: response } = useRecruitmentAnalysisList({ page, size: 10, status });
   const { mutate: deleteRecruitment, isPending: isDeleting } = useDeleteRecruitment();
