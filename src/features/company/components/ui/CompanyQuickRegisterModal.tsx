@@ -14,15 +14,24 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/shared/components/ui/select';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from '@/shared/components/ui/dialog';
 import { toast } from 'sonner';
 import type { CompanyType } from '@/features/company/types';
 
 interface CompanyQuickRegisterModalProps {
+  open: boolean;
   onClose: () => void;
   onSuccess?: (companyName: string) => void;
 }
 
 export default function CompanyQuickRegisterModal({
+  open,
   onClose,
   onSuccess,
 }: CompanyQuickRegisterModalProps) {
@@ -81,15 +90,12 @@ export default function CompanyQuickRegisterModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/55">
-      <div className="bg-white rounded-xl p-7 w-[480px] flex flex-col gap-5 shadow-lg max-h-[90vh] overflow-y-auto">
-        {/* Header */}
-        <div className="flex flex-col gap-1">
-          <h2 className="text-[17px] font-semibold text-ds-grey-900">기업 등록</h2>
-          <p className="text-[13px] text-ds-grey-500">
-            필수 정보를 입력하여 기업을 빠르게 등록하세요.
-          </p>
-        </div>
+    <Dialog open={open} onOpenChange={(isOpen) => { if (!isOpen) onClose(); }}>
+      <DialogContent className="w-[480px] max-h-[90vh] overflow-y-auto">
+        <DialogHeader>
+          <DialogTitle>기업 등록</DialogTitle>
+          <DialogDescription>필수 정보를 입력하여 기업을 빠르게 등록하세요.</DialogDescription>
+        </DialogHeader>
 
         {/* Fields */}
         <div className="flex flex-col gap-4">
@@ -100,32 +106,6 @@ export default function CompanyQuickRegisterModal({
               value={companyName}
               onChange={(e) => setCompanyName(e.target.value)}
               placeholder="기업명을 입력하세요"
-              className="h-10 border-ds-grey-200 placeholder:text-ds-grey-400"
-            />
-          </div>
-
-          {/* 설립 연도 */}
-          <div className="flex flex-col gap-1.5">
-            <Label className="text-ds-grey-900">설립 연도 *</Label>
-            <Input
-              type="text"
-              inputMode="numeric"
-              value={foundedYear}
-              onChange={(e) => setFoundedYear(e.target.value.replace(/\D/g, '').slice(0, 4))}
-              placeholder="예) 2010"
-              className="h-10 border-ds-grey-200 placeholder:text-ds-grey-400"
-            />
-          </div>
-
-          {/* 임직원 수 */}
-          <div className="flex flex-col gap-1.5">
-            <Label className="text-ds-grey-900">임직원 수 *</Label>
-            <Input
-              type="text"
-              inputMode="numeric"
-              value={employeeCount}
-              onChange={(e) => setEmployeeCount(e.target.value.replace(/\D/g, ''))}
-              placeholder="예) 100"
               className="h-10 border-ds-grey-200 placeholder:text-ds-grey-400"
             />
           </div>
@@ -178,39 +158,6 @@ export default function CompanyQuickRegisterModal({
               </SelectContent>
             </Select>
           </div>
-
-          {/* 본사 주소 */}
-          <div className="flex flex-col gap-1.5">
-            <Label className="text-ds-grey-900">본사 주소</Label>
-            <Input
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-              placeholder="주소를 입력하세요"
-              className="h-10 border-ds-grey-200 placeholder:text-ds-grey-400"
-            />
-          </div>
-
-          {/* 웹사이트 URL */}
-          <div className="flex flex-col gap-1.5">
-            <Label className="text-ds-grey-900">웹사이트 URL</Label>
-            <Input
-              value={websiteUrl}
-              onChange={(e) => setWebsiteUrl(e.target.value)}
-              placeholder="https://example.com"
-              className="h-10 border-ds-grey-200 placeholder:text-ds-grey-400"
-            />
-          </div>
-
-          {/* 기업 소개 */}
-          <div className="flex flex-col gap-1.5">
-            <Label className="text-ds-grey-900">기업 소개</Label>
-            <textarea
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              placeholder="기업 소개를 입력하세요"
-              className="h-20 w-full resize-none rounded-md border border-ds-grey-200 bg-white p-3 text-[13px] text-ds-grey-900 placeholder:text-ds-grey-400 focus:outline-none focus:ring-1 focus:ring-primary"
-            />
-          </div>
         </div>
 
         {/* Actions */}
@@ -227,7 +174,7 @@ export default function CompanyQuickRegisterModal({
             {isPending ? '등록 중...' : '저장'}
           </Button>
         </div>
-      </div>
-    </div>
+      </DialogContent>
+    </Dialog>
   );
 }

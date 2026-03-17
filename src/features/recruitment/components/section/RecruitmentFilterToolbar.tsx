@@ -37,6 +37,7 @@ const STATUS_FILTERS: Partial<Record<Tab, FilterConfig>> = {
     paramKey: 'requestStatus',
     placeholder: '상태 전체',
     allValue: 'all',
+    defaultValue: 'PENDING',
     width: 'w-32',
     options: [
       ALL_OPTION,

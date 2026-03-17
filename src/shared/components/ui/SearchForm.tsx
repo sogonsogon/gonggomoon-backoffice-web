@@ -16,6 +16,7 @@ export interface FilterConfig {
   paramKey: string;
   placeholder: string;
   allValue: string;
+  defaultValue?: string;
   width?: string;
   options: { value: string; label: string }[];
 }
@@ -116,7 +117,7 @@ export default function SearchForm({
       {filters.map((filter) => (
         <Select
           key={filter.paramKey}
-          value={searchParams.get(filter.paramKey) ?? filter.allValue}
+          value={searchParams.get(filter.paramKey) ?? filter.defaultValue ?? filter.allValue}
           onValueChange={(value) => handleFilterChange(filter.paramKey, value, filter.allValue)}
         >
           <SelectTrigger

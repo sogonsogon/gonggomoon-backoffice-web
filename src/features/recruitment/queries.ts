@@ -49,13 +49,16 @@ export const recruitmentSubmissionListQueryOptions = (params?: RecruitmentReques
     queryFn: async () => {
       const result = await getRecruitmentRequestList(params);
       if (!result.success) return Promise.reject(result);
-      return result.data.content;
+      return result.data;
     },
   });
 
 // 공고 게시 요청 목록 조회 useQuery
 export function useRecruitmentSubmissionList(params?: RecruitmentRequestListParams) {
-  return useQuery(recruitmentSubmissionListQueryOptions(params));
+  return useQuery({
+    ...recruitmentSubmissionListQueryOptions(params),
+    placeholderData: keepPreviousData,
+  });
 }
 
 // 공고 게시 요청 승인 useMutation

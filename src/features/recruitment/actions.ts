@@ -17,6 +17,8 @@ import type {
 export async function getRecruitmentRequestList(params?: RecruitmentRequestListParams) {
   const searchParams = new URLSearchParams();
   if (params?.status) searchParams.set('status', params.status);
+  if (params?.page !== undefined) searchParams.set('page', String(params.page));
+  if (params?.size !== undefined) searchParams.set('size', String(params.size));
 
   const query = searchParams.toString();
   return privateFetch<RecruitmentRequestListResponse>(

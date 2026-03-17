@@ -403,15 +403,14 @@ export default function RecruitmentCreateForm() {
         </div>
       </div>
 
-      {isCompanyModalOpen && (
-        <CompanyQuickRegisterModal
-          onClose={() => setIsCompanyModalOpen(false)}
-          onSuccess={(companyName) => {
-            setCompanySearch(companyName);
-            setNewlyRegisteredCompanyName(companyName);
-          }}
-        />
-      )}
+      <CompanyQuickRegisterModal
+        open={isCompanyModalOpen}
+        onClose={() => setIsCompanyModalOpen(false)}
+        onSuccess={(companyName) => {
+          setCompanySearch(companyName);
+          setNewlyRegisteredCompanyName(companyName);
+        }}
+      />
     </div>
   );
 }

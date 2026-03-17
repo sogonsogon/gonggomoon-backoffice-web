@@ -52,7 +52,7 @@ export default async function RecruitmentPage({
   const tab: Tab = VALID_TABS.includes(tabParam as Tab) ? (tabParam as Tab) : 'public';
   const status = VALID_SUBMISSION_STATUS.includes(requestStatusParam as RecruitmentRequestStatus)
     ? (requestStatusParam as RecruitmentRequestStatus)
-    : undefined;
+    : 'PENDING';
   const analysisStatus = VALID_RECRUITMENT_STATUS.includes(
     analysisStatusParam as RecruitmentAnalysisStatus,
   )
@@ -62,7 +62,7 @@ export default async function RecruitmentPage({
   const queryClient = new QueryClient();
 
   if (tab === 'requests') {
-    await queryClient.prefetchQuery(recruitmentSubmissionListQueryOptions({ status }));
+    await queryClient.prefetchQuery(recruitmentSubmissionListQueryOptions({ status, page, size: 10 }));
   } else if (tab === 'analysis') {
     await queryClient.prefetchQuery(
       recruitmentAnalysisListQueryOptions({ status: analysisStatus, page, size: 10 }),

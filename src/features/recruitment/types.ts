@@ -40,11 +40,14 @@ export type RecruitmentRequest = {
 // GET /api/v1/admin/posts/submissions - query params
 export type RecruitmentRequestListParams = {
   status?: RecruitmentRequestStatus;
+  page?: number;
+  size?: number;
 };
 
 // GET /api/v1/admin/posts/submissions - 응답 data
 export type RecruitmentRequestListResponse = {
   content: RecruitmentRequest[];
+  pageInfo: PageInfo;
 };
 
 // POST /api/v1/admin/posts/submissions/{submissionId}/approve - 요청 body
