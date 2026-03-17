@@ -157,10 +157,10 @@ export default function RecruitmentCreateForm() {
                   <Button
                     variant="link"
                     size="sm"
-                    className="h-auto p-0 text-primary"
+                    className="h-auto p-0 text-primary no-underline hover:no-underline"
                     onClick={() => setIsCompanyModalOpen(true)}
                   >
-                    <PlusCircleIcon size={16} className="mr-1" />
+                    <PlusCircleIcon size={16} />
                     기업 등록하기
                   </Button>
                 </div>

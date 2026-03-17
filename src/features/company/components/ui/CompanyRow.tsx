@@ -18,7 +18,7 @@ export default function CompanyRow({ no, company, industryName, last = false }: 
 
   return (
     <div className={`flex items-center h-14 ${!last ? 'border-b border-ds-grey-200' : ''} `}>
-      <div className="w-14 px-4 text-sm text-ds-grey-500 shrink-0">{no}</div>
+      <div className="w-14 px-4 text-[13px] text-ds-grey-600 shrink-0">{no}</div>
       <div className="flex-1 px-4 text-sm font-medium text-ds-grey-900">{company.companyName}</div>
       <div className="w-56 px-4 text-sm text-ds-grey-900">{industryName ?? '-'}</div>
       <div className="w-44 px-4">
@@ -37,7 +37,7 @@ export default function CompanyRow({ no, company, industryName, last = false }: 
           href={`https://gonggomoon.com/company/${company.companyId}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex h-8 items-center justify-center gap-1.5 rounded-md border border-ds-grey-200 bg-white px-3 text-sm font-medium text-ds-grey-600 no-underline visited:text-ds-grey-600 hover:bg-ds-grey-50"
+          className="inline-flex h-8 items-center justify-center gap-1.5 rounded-md border border-ds-grey-200 bg-white px-3 text-[13px] font-medium text-ds-grey-600 no-underline visited:text-ds-grey-600 hover:bg-ds-grey-50 hover:no-underline"
         >
           <ExternalLink size={13} />
           상세보기

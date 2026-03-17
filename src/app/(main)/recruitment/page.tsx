@@ -66,7 +66,9 @@ export default async function RecruitmentPage({
   const queryClient = new QueryClient();
 
   if (tab === 'requests') {
-    await queryClient.prefetchQuery(recruitmentSubmissionListQueryOptions({ status, page, size: 10 }));
+    await queryClient.prefetchQuery(
+      recruitmentSubmissionListQueryOptions({ status, page, size: 10 }),
+    );
   } else if (tab === 'analysis') {
     await queryClient.prefetchQuery(
       recruitmentAnalysisListQueryOptions({ status: analysisStatus, page, size: 10 }),
@@ -83,22 +85,22 @@ export default async function RecruitmentPage({
 
       <main className="flex-1 overflow-auto bg-ds-grey-100 p-8 flex flex-col gap-6 [scrollbar-gutter:stable]">
         {/* Tab Bar */}
-        <div className="flex items-end h-14 border-b border-ds-grey-200 gap-4">
+        <div className="flex items-end h-14 border-b border-ds-grey-200">
           <Link
             href="/recruitment?tab=public"
-            className={`h-14 px-4 pl-2 flex items-center text-base ${tab === 'public' ? 'font-semibold text-primary border-b-2 border-primary' : 'text-ds-grey-500'}`}
+            className={`h-14 px-4 flex items-center text-sm no-underline hover:no-underline ${tab === 'public' ? 'font-semibold text-primary border-b-2 border-primary' : 'text-ds-grey-600'}`}
           >
             공개 공고 목록
           </Link>
           <Link
             href="/recruitment?tab=analysis"
-            className={`h-14 px-4 flex items-center text-base ${tab === 'analysis' ? 'font-semibold text-primary border-b-2 border-primary' : 'text-ds-grey-500'}`}
+            className={`h-14 px-4 flex items-center text-sm no-underline hover:no-underline ${tab === 'analysis' ? 'font-semibold text-primary border-b-2 border-primary' : 'text-ds-grey-600'}`}
           >
             공고 분석 진행 확인
           </Link>
           <Link
             href="/recruitment?tab=requests"
-            className={`h-14 px-4 flex items-center text-base ${tab === 'requests' ? 'font-semibold text-primary border-b-2 border-primary' : 'text-ds-grey-500'}`}
+            className={`h-14 px-4 flex items-center text-sm no-underline hover:no-underline ${tab === 'requests' ? 'font-semibold text-primary border-b-2 border-primary' : 'text-ds-grey-600'}`}
           >
             등록 요청 공고
           </Link>
@@ -108,7 +110,7 @@ export default async function RecruitmentPage({
         <div className="flex items-center justify-between gap-3">
           <RecruitmentFilterToolbar tab={tab} />
           <Button asChild>
-            <Link href="/recruitment/create">
+            <Link href="/recruitment/create" className="no-underline hover:no-underline gap-1">
               <Plus size={16} />
               공고 등록
             </Link>

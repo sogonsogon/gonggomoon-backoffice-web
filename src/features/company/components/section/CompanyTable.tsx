@@ -60,12 +60,12 @@ export default function CompanyTable({ params }: CompanyTableProps) {
       ))}
 
       {/* Pagination Footer */}
-      <div className="h-14 border-t border-ds-grey-200 flex items-center justify-center gap-1 px-4">
+      <div className="h-[52px] border-t border-ds-grey-200 flex items-center justify-center gap-1 px-4">
         {Array.from({ length: pageInfo.totalPages ?? 1 }).map((_, i) => (
           <button
             key={i}
             onClick={() => handlePageChange(i)}
-            className={`w-8 h-8 flex items-center justify-center rounded-md text-sm font-medium ${
+            className={`w-8 h-8 flex items-center justify-center rounded-md text-sm font-medium cursor-pointer ${
               i === page ? 'bg-ds-grey-900 text-white' : 'text-ds-grey-600 hover:bg-ds-grey-100'
             }`}
           >
