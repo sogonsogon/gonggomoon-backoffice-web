@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { ExternalLink, Trash2 } from 'lucide-react';
 import { Button } from '@/shared/components/ui/button';
 import ConfirmDialog from '@/shared/components/ui/ConfirmDialog';
 import type { RecruitmentSummary } from '@/features/recruitment/types';
@@ -39,7 +40,7 @@ export default function RecruitmentRow({
   return (
     <>
       <div className={`flex items-center h-14 ${!last ? 'border-b border-ds-grey-200' : ''}`}>
-        <div className="w-14 px-4 text-[13px] text-ds-grey-600 shrink-0">{no}</div>
+        <div className="w-14 px-4 text-[13px] text-ds-grey-500 shrink-0">{no}</div>
         <div className="w-44 px-4 text-sm text-ds-grey-900 shrink-0">{item.companyName}</div>
         <div className="flex-1 px-4 text-sm text-ds-grey-900 truncate">{item.postTitle}</div>
         <div className="w-56 px-4 text-[13px] text-ds-grey-700 shrink-0">
@@ -52,22 +53,24 @@ export default function RecruitmentRow({
             {publicStatusLabel}
           </span>
         </div>
-        <div className="w-48 px-4 flex items-center gap-1.5 shrink-0">
+        <div className="w-56 px-4 flex items-center gap-2 shrink-0">
           <Link
             href={`https://gonggomoon.com/recruitment/${item.postId}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex h-8 items-center justify-center rounded-md border border-ds-grey-200 bg-white px-4 text-sm font-medium text-ds-grey-700 no-underline visited:text-ds-grey-700 hover:bg-ds-grey-50"
+            className="inline-flex h-8 items-center justify-center gap-1.5 rounded-md border border-ds-grey-200 bg-white px-3 text-[13px] font-medium text-ds-grey-600 no-underline visited:text-ds-grey-600 hover:bg-ds-grey-50 hover:no-underline"
           >
+            <ExternalLink size={13} />
             상세보기
           </Link>
           <Button
             size="sm"
             variant="outline"
-            className="text-ds-badge-red-text"
+            className="gap-1.5 text-ds-badge-red-text hover:bg-ds-badge-red-bg hover:border-ds-badge-red-text"
             disabled={isDeleting}
             onClick={() => setIsConfirmOpen(true)}
           >
+            <Trash2 size={12} />
             삭제
           </Button>
         </div>

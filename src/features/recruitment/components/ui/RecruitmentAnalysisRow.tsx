@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { FileSearch, Trash2 } from 'lucide-react';
 import { Button } from '@/shared/components/ui/button';
 import ConfirmDialog from '@/shared/components/ui/ConfirmDialog';
 import { ANALYSIS_STATUS_BADGE, ANALYSIS_STATUS_LABELS } from '@/features/recruitment/constants';
@@ -37,14 +38,10 @@ export default function RecruitmentAnalysisRow({
   return (
     <>
       <div className={`flex items-center h-14 ${!last ? 'border-b border-ds-grey-200' : ''}`}>
-        <div className="w-14 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">{no}</div>
-        <div className="w-44 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">
-          {item.companyName}
-        </div>
-        <div className="flex-1 px-4 text-[13px] font-medium text-ds-grey-600 truncate">
-          {item.postTitle}
-        </div>
-        <div className="w-48 px-4 shrink-0">
+        <div className="w-14 px-4 text-[13px] text-ds-grey-500 shrink-0">{no}</div>
+        <div className="w-44 px-4 text-sm text-ds-grey-900 shrink-0">{item.companyName}</div>
+        <div className="flex-1 px-4 text-sm text-ds-grey-900 truncate">{item.postTitle}</div>
+        <div className="w-56 px-4 shrink-0">
           <span
             className={`inline-flex px-2 py-0.5 rounded-md text-xs font-medium ${ANALYSIS_STATUS_BADGE[status]}`}
           >
@@ -54,29 +51,35 @@ export default function RecruitmentAnalysisRow({
         <div className="w-28 px-4 text-[13px] text-ds-grey-700 shrink-0">
           {formatDate(item.startDate)}
         </div>
-        <div className="w-48 px-4 flex items-center gap-1.5 shrink-0">
+        <div className="w-56 px-4 flex items-center gap-2 shrink-0">
           {isAnalyzing ? (
-            <Button disabled size="sm" variant="outline" className="text-ds-grey-500">
+            <Button disabled size="sm" variant="outline" className="gap-1.5 text-ds-grey-500">
+              <FileSearch size={13} />
               분석중
             </Button>
           ) : (
             <>
               {isAnalysisDone ? (
-                <Button asChild size="sm">
-                  <Link href={`/recruitment/confirm/${item.postId}`}>검토</Link>
+                <Button asChild size="sm" className="gap-1.5">
+                  <Link href={`/recruitment/confirm/${item.postId}`}>
+                    <FileSearch size={13} />
+                    검토
+                  </Link>
                 </Button>
               ) : (
-                <Button disabled size="sm" variant="outline" className="text-ds-grey-400">
+                <Button disabled size="sm" variant="outline" className="gap-1.5 text-ds-grey-400">
+                  <FileSearch size={13} />
                   검토
                 </Button>
               )}
               <Button
                 size="sm"
                 variant="outline"
-                className="text-ds-badge-red-text"
+                className="gap-1.5 text-ds-badge-red-text hover:bg-ds-badge-red-bg hover:border-ds-badge-red-text"
                 disabled={isDeleting}
                 onClick={() => setIsConfirmOpen(true)}
               >
+                <Trash2 size={12} />
                 삭제
               </Button>
             </>

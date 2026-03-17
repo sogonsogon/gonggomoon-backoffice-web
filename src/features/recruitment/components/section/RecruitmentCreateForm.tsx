@@ -157,10 +157,10 @@ export default function RecruitmentCreateForm() {
                   <Button
                     variant="link"
                     size="sm"
-                    className="h-auto p-0 text-primary"
+                    className="h-auto p-0 text-primary no-underline hover:no-underline"
                     onClick={() => setIsCompanyModalOpen(true)}
                   >
-                    <PlusCircleIcon size={16} className="mr-1" />
+                    <PlusCircleIcon size={16} />
                     기업 등록하기
                   </Button>
                 </div>
@@ -255,13 +255,15 @@ export default function RecruitmentCreateForm() {
 
               {/* 경력 Select */}
               <div className="flex-1 flex flex-col gap-1.5">
-                <Label className="text-ds-grey-900">경력 </Label>
+                <div className="flex items-center h-5">
+                  <Label className="text-ds-grey-900">경력</Label>
+                </div>
                 <Select
                   value={experienceLevel !== null ? String(experienceLevel) : 'none'}
                   onValueChange={(val) => setExperienceLevel(val === 'none' ? null : Number(val))}
                 >
                   <SelectTrigger
-                    className={`h-10 border-ds-grey-200 w-full bg-white ${experienceLevel !== null ? 'text-ds-grey-900' : 'text-ds-grey-500'}`}
+                    className={`h-10! w-full! border-ds-grey-200 bg-white ${experienceLevel !== null ? 'text-ds-grey-900' : 'text-ds-grey-500'}`}
                   >
                     <SelectValue placeholder="경력을 선택하세요" />
                   </SelectTrigger>
