@@ -83,7 +83,7 @@ export default async function RecruitmentPage({
     <>
       <TopBar title="공고 관리" breadcrumb="공고 관리 > 공고 목록" />
 
-      <main className="flex-1 overflow-auto bg-ds-grey-100 p-8 flex flex-col gap-6 [scrollbar-gutter:stable]">
+      <main className="flex-1 overflow-auto bg-ds-grey-100 p-6 flex flex-col gap-6 [scrollbar-gutter:stable]">
         {/* Tab Bar */}
         <div className="flex items-end h-14 border-b border-ds-grey-200">
           <Link

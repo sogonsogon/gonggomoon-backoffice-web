@@ -1,4 +1,5 @@
 import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
 import type { ApiResponse } from '@/shared/types/api';
 
 const BASE_API_URL = process.env.API_URL ?? process.env.NEXT_PUBLIC_API_URL;
@@ -24,7 +25,8 @@ export async function reissueAccessToken(): Promise<
   });
 
   if (!refreshToken) {
-    return fail('세션이 만료되었습니다. 다시 로그인해 주세요.');
+    cookieStore.delete('accessToken');
+    redirect('/login');
   }
 
   try {
@@ -39,7 +41,7 @@ export async function reissueAccessToken(): Promise<
     if (!response.ok) {
       cookieStore.delete('accessToken');
       cookieStore.delete('refreshToken');
-      return fail('세션이 만료되었습니다. 다시 로그인해 주세요.');
+      redirect('/login');
     }
 
     const data = await response.json();
@@ -49,7 +51,7 @@ export async function reissueAccessToken(): Promise<
     if (!accessToken) {
       cookieStore.delete('accessToken');
       cookieStore.delete('refreshToken');
-      return fail('토큰 재발급에 실패했습니다.');
+      redirect('/login');
     }
 
     cookieStore.set('accessToken', accessToken, {
