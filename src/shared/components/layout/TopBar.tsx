@@ -1,7 +1,6 @@
 import { Bell } from 'lucide-react';
 import { Button } from '@/shared/components/ui/button';
 import { cn } from '@/shared/lib/cn';
-import TopBarUserMenu from '@/shared/components/layout/TopBarUserMenu';
 
 interface TopBarProps {
   title: string;
@@ -20,7 +19,6 @@ export default function TopBar({ title, breadcrumb, className }: TopBarProps) {
         <Button variant="ghost" size="icon-sm" className="text-ds-grey-600" aria-label="알림">
           <Bell size={20} />
         </Button>
-        <TopBarUserMenu />
       </div>
     </header>
   );

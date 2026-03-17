@@ -9,6 +9,7 @@ import {
   approveRecruitmentRequest,
   createRecruitment,
   deleteRecruitment,
+  getRecruitmentAnalysisStatusList,
   getRecruitmentDetail,
   getRecruitmentList,
   getRecruitmentRequestList,
@@ -17,6 +18,7 @@ import {
 } from '@/features/recruitment/actions';
 import type {
   CreateRecruitmentRequest,
+  GetRecruitmentAnalysisListParams,
   GetRecruitmentListParams,
   RecruitmentRequestListParams,
   RejectRecruitmentRequest,
@@ -30,6 +32,11 @@ export const recruitmentQueryKeys = {
 
   all: ['recruitmentList'] as const,
   list: (params?: GetRecruitmentListParams) => [...recruitmentQueryKeys.all, params] as const,
+
+  allAnalysis: ['recruitmentAnalysisList'] as const,
+  analysisList: (params?: GetRecruitmentAnalysisListParams) =>
+    [...recruitmentQueryKeys.allAnalysis, params] as const,
+
   detail: (postId: number) => ['recruitmentDetail', postId] as const,
 };
 
@@ -42,13 +49,16 @@ export const recruitmentSubmissionListQueryOptions = (params?: RecruitmentReques
     queryFn: async () => {
       const result = await getRecruitmentRequestList(params);
       if (!result.success) return Promise.reject(result);
-      return result.data.content;
+      return result.data;
     },
   });
 
 // 공고 게시 요청 목록 조회 useQuery
 export function useRecruitmentSubmissionList(params?: RecruitmentRequestListParams) {
-  return useQuery(recruitmentSubmissionListQueryOptions(params));
+  return useQuery({
+    ...recruitmentSubmissionListQueryOptions(params),
+    placeholderData: keepPreviousData,
+  });
 }
 
 // 공고 게시 요청 승인 useMutation
@@ -71,6 +81,7 @@ export function useApproveRecruitmentRequest() {
       await Promise.all([
         queryClient.invalidateQueries({ queryKey: recruitmentQueryKeys.allSubmissions }),
         queryClient.invalidateQueries({ queryKey: recruitmentQueryKeys.all }),
+        queryClient.invalidateQueries({ queryKey: recruitmentQueryKeys.allAnalysis }),
       ]);
     },
     onError: (error: ApiErrorResponse) => {
@@ -117,6 +128,17 @@ export const recruitmentListQueryOptions = (params?: GetRecruitmentListParams) =
     },
   });
 
+// 공고 분석 목록 조회 query options
+export const recruitmentAnalysisListQueryOptions = (params?: GetRecruitmentAnalysisListParams) =>
+  queryOptions({
+    queryKey: recruitmentQueryKeys.analysisList(params),
+    queryFn: async () => {
+      const result = await getRecruitmentAnalysisStatusList(params);
+      if (!result.success) return Promise.reject(result);
+      return result.data;
+    },
+  });
+
 // 공고 상세 조회 query options
 export const recruitmentDetailQueryOptions = (postId: number) =>
   queryOptions({
@@ -134,6 +156,11 @@ export function useRecruitmentList(params?: GetRecruitmentListParams) {
     ...recruitmentListQueryOptions(params),
     placeholderData: keepPreviousData,
   });
+}
+
+// 공고 분석 목록 조회 useQuery
+export function useRecruitmentAnalysisList(params?: GetRecruitmentAnalysisListParams) {
+  return useQuery(recruitmentAnalysisListQueryOptions(params));
 }
 
 // 공고 상세 조회 useQuery
@@ -156,6 +183,7 @@ export function useCreateRecruitment() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: recruitmentQueryKeys.all });
+      queryClient.invalidateQueries({ queryKey: recruitmentQueryKeys.allAnalysis });
     },
     onError: (error: ApiErrorResponse) => {
       console.error('공고 등록 실패:', error);
@@ -176,6 +204,7 @@ export function usePublishRecruitment(postId: number) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: recruitmentQueryKeys.detail(postId) });
       queryClient.invalidateQueries({ queryKey: recruitmentQueryKeys.all });
+      queryClient.invalidateQueries({ queryKey: recruitmentQueryKeys.allAnalysis });
     },
     onError: (error: ApiErrorResponse) => {
       console.error('공고 발행 실패:', error);
@@ -195,6 +224,7 @@ export function useDeleteRecruitment() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: recruitmentQueryKeys.all });
+      queryClient.invalidateQueries({ queryKey: recruitmentQueryKeys.allAnalysis });
     },
     onError: (error: ApiErrorResponse) => {
       console.error('공고 삭제 실패:', error);

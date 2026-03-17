@@ -10,7 +10,6 @@ interface RecruitmentRowProps {
   no: number;
   item: RecruitmentSummary;
   last?: boolean;
-  todayStr: string;
   isDeleting: boolean;
   onDelete: (postId: number) => void;
 }
@@ -19,12 +18,12 @@ export default function RecruitmentRow({
   no,
   item,
   last = false,
-  todayStr,
   isDeleting,
   onDelete,
 }: RecruitmentRowProps) {
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
 
+  const todayStr = new Date().toLocaleDateString('sv-SE');
   const dueDateStr = item.dueDate?.slice(0, 10) ?? null;
   const isAlwaysOpen = item.postStatus === 'PUBLISHED' && dueDateStr === null;
   const isRecruitingOpen =
@@ -39,17 +38,17 @@ export default function RecruitmentRow({
 
   return (
     <>
-      <div
-        className={`flex items-center h-14 ${!last ? 'border-b border-ds-grey-200' : ''}`}
-      >
+      <div className={`flex items-center h-14 ${!last ? 'border-b border-ds-grey-200' : ''}`}>
         <div className="w-14 px-4 text-[13px] text-ds-grey-600 shrink-0">{no}</div>
         <div className="w-44 px-4 text-sm text-ds-grey-900 shrink-0">{item.companyName}</div>
         <div className="flex-1 px-4 text-sm text-ds-grey-900 truncate">{item.postTitle}</div>
-        <div className="w-48 px-4 text-[13px] text-ds-grey-700 shrink-0">
-          {item.startDate ?? '-'} ~ {item.dueDate ?? '상시'}
+        <div className="w-56 px-4 text-[13px] text-ds-grey-700 shrink-0">
+          {item.startDate?.slice(0, 10) ?? '-'} ~ {item.dueDate?.slice(0, 10) ?? '상시'}
         </div>
         <div className="w-28 px-4 shrink-0">
-          <span className={`inline-flex px-2 py-0.5 rounded-md text-xs font-medium ${publicStatusBadge}`}>
+          <span
+            className={`inline-flex px-2 py-0.5 rounded-md text-xs font-medium ${publicStatusBadge}`}
+          >
             {publicStatusLabel}
           </span>
         </div>

@@ -1,4 +1,10 @@
-import { queryOptions, useMutation, useQuery, useQueryClient, keepPreviousData } from '@tanstack/react-query';
+import {
+  queryOptions,
+  useMutation,
+  useQuery,
+  useQueryClient,
+  keepPreviousData,
+} from '@tanstack/react-query';
 import {
   createCompany,
   deleteCompany,
@@ -12,7 +18,6 @@ import {
   UpdateCompanyRequest,
 } from '@/features/company/types';
 import { ApiErrorResponse } from '@/shared/types/api';
-
 export const companyQueryKeys = {
   all: ['companyList'] as const,
   list: (params?: GetCompanyListParams) => [...companyQueryKeys.all, params] as const,

@@ -20,6 +20,8 @@ export type RecruitmentStatus =
   | 'REJECTED'
   | 'EXPIRED';
 
+export type RecruitmentAnalysisStatus = 'ANALYZING' | 'ANALYZED' | 'ANALYSIS_FAILED';
+
 export type RecruitmentRequestStatus = 'PENDING' | 'APPROVED' | 'REJECTED';
 
 // ============ 공고 요청 (requests) ============
@@ -28,6 +30,7 @@ export type RecruitmentRequestStatus = 'PENDING' | 'APPROVED' | 'REJECTED';
 export type RecruitmentRequest = {
   submissionId: number;
   userId: number;
+  platformId: number | null;
   platformName: string;
   url: string;
   submissionStatus: RecruitmentRequestStatus;
@@ -36,26 +39,28 @@ export type RecruitmentRequest = {
 
 // GET /api/v1/admin/posts/submissions - query params
 export type RecruitmentRequestListParams = {
-  submissionStatus?: RecruitmentRequestStatus;
+  status?: RecruitmentRequestStatus;
+  page?: number;
+  size?: number;
 };
 
 // GET /api/v1/admin/posts/submissions - 응답 data
-// 참고: page, size, totalElements, totalPages는 응답 root level에 위치하여 data에 포함되지 않음
 export type RecruitmentRequestListResponse = {
   content: RecruitmentRequest[];
+  pageInfo: PageInfo;
 };
 
 // POST /api/v1/admin/posts/submissions/{submissionId}/approve - 요청 body
 // POST /api/v1/admin/posts - 요청 body (동일 구조)
 export type CreateRecruitmentRequest = {
   companyId: number;
-  platformId: number;
+  platformId: number | null;
   title: string;
   url: string;
   jobType: JobType;
   originalContent: string;
   experienceLevel: number;
-  startDate: string;
+  startDate: string | null;
   dueDate: string | null;
 };
 
@@ -100,6 +105,15 @@ export type GetRecruitmentListParams = {
   page?: number;
   size?: number;
   status?: RecruitmentStatus;
+  title?: string;
+};
+
+// GET /api/v1/admin/posts?statuses=ANALYZING,ANALYZED - query params
+export type GetRecruitmentAnalysisListParams = {
+  page?: number;
+  size?: number;
+  status?: RecruitmentAnalysisStatus;
+  title?: string;
 };
 
 // GET /api/v1/admin/posts - 응답 data

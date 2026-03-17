@@ -6,11 +6,15 @@ import { Button } from '@/shared/components/ui/button';
 import ConfirmDialog from '@/shared/components/ui/ConfirmDialog';
 import { ANALYSIS_STATUS_BADGE, ANALYSIS_STATUS_LABELS } from '@/features/recruitment/constants';
 import { formatDate } from '@/shared/lib/formatDate';
-import type { RecruitmentSummary } from '@/features/recruitment/types';
+import type { RecruitmentAnalysisStatus, RecruitmentSummary } from '@/features/recruitment/types';
+
+type RecruitmentAnalysisItem = Omit<RecruitmentSummary, 'postStatus'> & {
+  postStatus: RecruitmentAnalysisStatus;
+};
 
 interface RecruitmentAnalysisRowProps {
   no: number;
-  item: RecruitmentSummary;
+  item: RecruitmentAnalysisItem;
   last?: boolean;
   isDeleting: boolean;
   onDelete: (postId: number) => void;
@@ -28,14 +32,18 @@ export default function RecruitmentAnalysisRow({
   const status = item.postStatus;
   const isAnalyzing = status === 'ANALYZING';
   const isAnalysisDone = status === 'ANALYZED';
-  const statusLabel = status === 'PUBLISHED' ? '발행 완료' : ANALYSIS_STATUS_LABELS[status];
+  const statusLabel = ANALYSIS_STATUS_LABELS[status];
 
   return (
     <>
       <div className={`flex items-center h-14 ${!last ? 'border-b border-ds-grey-200' : ''}`}>
-        <div className="w-14 px-4 text-[13px] text-ds-grey-600 shrink-0">{no}</div>
-        <div className="w-44 px-4 text-sm text-ds-grey-900 shrink-0">{item.companyName}</div>
-        <div className="flex-1 px-4 text-sm text-ds-grey-900 truncate">{item.postTitle}</div>
+        <div className="w-14 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">{no}</div>
+        <div className="w-44 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">
+          {item.companyName}
+        </div>
+        <div className="flex-1 px-4 text-[13px] font-medium text-ds-grey-600 truncate">
+          {item.postTitle}
+        </div>
         <div className="w-48 px-4 shrink-0">
           <span
             className={`inline-flex px-2 py-0.5 rounded-md text-xs font-medium ${ANALYSIS_STATUS_BADGE[status]}`}

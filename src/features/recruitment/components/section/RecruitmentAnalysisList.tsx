@@ -1,19 +1,16 @@
 'use client';
 
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
-import { useRecruitmentList, useDeleteRecruitment } from '@/features/recruitment/queries';
+import { useRecruitmentAnalysisList, useDeleteRecruitment } from '@/features/recruitment/queries';
 import { toast } from 'sonner';
 import type { ApiErrorResponse } from '@/shared/types/api';
-import type { RecruitmentStatus } from '@/features/recruitment/types';
+import type { RecruitmentAnalysisStatus, RecruitmentSummary } from '@/features/recruitment/types';
 import RecruitmentAnalysisRow from '@/features/recruitment/components/ui/RecruitmentAnalysisRow';
 
-const ANALYSIS_VISIBLE_STATUSES: Exclude<RecruitmentStatus, 'PUBLISHED'>[] = [
-  'PENDING',
+const ANALYSIS_VISIBLE_STATUSES: RecruitmentAnalysisStatus[] = [
   'ANALYZING',
   'ANALYZED',
   'ANALYSIS_FAILED',
-  'REJECTED',
-  'EXPIRED',
 ];
 
 export default function RecruitmentAnalysisList() {
@@ -25,15 +22,18 @@ export default function RecruitmentAnalysisList() {
   const page = Number.isFinite(Number(rawPage)) && Number(rawPage) >= 0 ? Number(rawPage) : 0;
 
   const analysisStatusParam = searchParams.get('analysisStatus');
-  const status = ANALYSIS_VISIBLE_STATUSES.includes(
-    analysisStatusParam as Exclude<RecruitmentStatus, 'PUBLISHED'>,
-  )
-    ? (analysisStatusParam as Exclude<RecruitmentStatus, 'PUBLISHED'>)
-    : undefined;
+  const status =
+    analysisStatusParam === 'all'
+      ? undefined
+      : ANALYSIS_VISIBLE_STATUSES.includes(analysisStatusParam as RecruitmentAnalysisStatus)
+        ? (analysisStatusParam as RecruitmentAnalysisStatus)
+        : 'ANALYZED';
 
-  const { data: response } = useRecruitmentList({ page, status });
+  const { data: response } = useRecruitmentAnalysisList({ page, size: 10, status });
   const { mutate: deleteRecruitment, isPending: isDeleting } = useDeleteRecruitment();
-  const rows = (response?.content ?? []).filter((item) => item.postStatus !== 'PUBLISHED');
+  const rows = (response?.content ?? []).filter((item) =>
+    status ? item.postStatus === status : item.postStatus !== 'PUBLISHED',
+  ) as (Omit<RecruitmentSummary, 'postStatus'> & { postStatus: RecruitmentAnalysisStatus })[];
   const pageInfo = response?.pageInfo;
 
   const handlePageChange = (nextPage: number) => {
@@ -73,7 +73,7 @@ export default function RecruitmentAnalysisList() {
         rows.map((item, i) => (
           <RecruitmentAnalysisRow
             key={item.postId}
-            no={i + 1}
+            no={page * 10 + i + 1}
             item={item}
             last={i === rows.length - 1}
             isDeleting={isDeleting}
@@ -83,19 +83,21 @@ export default function RecruitmentAnalysisList() {
       )}
 
       {/* Pagination Footer */}
-      <div className="h-13 border-t border-ds-grey-200 flex items-center justify-center gap-1 px-4">
-        {Array.from({ length: pageInfo?.totalPages ?? 1 }).map((_, i) => (
-          <button
-            key={i}
-            onClick={() => handlePageChange(i)}
-            className={`w-8 h-8 flex items-center justify-center rounded-md text-sm font-medium ${
-              i === page ? 'bg-ds-grey-900 text-white' : 'text-ds-grey-600 hover:bg-ds-grey-100'
-            }`}
-          >
-            {i + 1}
-          </button>
-        ))}
-      </div>
+      {rows.length > 0 && (
+        <div className="h-13 border-t border-ds-grey-200 flex items-center justify-center gap-1 px-4">
+          {Array.from({ length: pageInfo?.totalPages ?? 1 }).map((_, i) => (
+            <button
+              key={i}
+              onClick={() => handlePageChange(i)}
+              className={`w-8 h-8 flex items-center justify-center rounded-md text-sm font-medium ${
+                i === page ? 'bg-ds-grey-900 text-white' : 'text-ds-grey-600 hover:bg-ds-grey-100'
+              }`}
+            >
+              {i + 1}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

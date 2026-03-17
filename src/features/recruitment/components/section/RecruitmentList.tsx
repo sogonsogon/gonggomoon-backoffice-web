@@ -13,12 +13,12 @@ export default function RecruitmentList() {
 
   const rawPage = searchParams.get('page');
   const page = Number.isFinite(Number(rawPage)) && Number(rawPage) >= 0 ? Number(rawPage) : 0;
+  const title = searchParams.get('title') ?? undefined;
 
-  const { data: response } = useRecruitmentList({ status: 'PUBLISHED', page });
+  const { data: response } = useRecruitmentList({ status: 'PUBLISHED', page, size: 10, title });
   const { mutate: deleteRecruitment, isPending: isDeleting } = useDeleteRecruitment();
   const rows = (response?.content ?? []).filter((item) => item.postStatus === 'PUBLISHED');
   const pageInfo = response?.pageInfo;
-  const todayStr = new Date().toLocaleDateString('sv-SE');
 
   const handlePageChange = (nextPage: number) => {
     const next = new URLSearchParams(searchParams.toString());
@@ -44,7 +44,7 @@ export default function RecruitmentList() {
         <div className="w-14 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">No.</div>
         <div className="w-44 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">기업명</div>
         <div className="flex-1 px-4 text-[13px] font-medium text-ds-grey-600">공고 제목</div>
-        <div className="w-48 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">채용 기간</div>
+        <div className="w-56 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">채용 기간</div>
         <div className="w-28 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">상태</div>
         <div className="w-48 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">액션</div>
       </div>
@@ -52,10 +52,9 @@ export default function RecruitmentList() {
       {rows.map((item, i) => (
         <RecruitmentRow
           key={item.postId}
-          no={i + 1}
+          no={page * 10 + i + 1}
           item={item}
           last={i === rows.length - 1}
-          todayStr={todayStr}
           isDeleting={isDeleting}
           onDelete={() => handleDelete(item.postId)}
         />

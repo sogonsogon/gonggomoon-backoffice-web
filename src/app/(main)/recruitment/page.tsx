@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { Plus } from 'lucide-react';
+import { Suspense } from 'react';
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 import TopBar from '@/shared/components/layout/TopBar';
 import { Button } from '@/shared/components/ui/button';
@@ -8,23 +9,24 @@ import RecruitmentList from '@/features/recruitment/components/section/Recruitme
 import RecruitmentRequestList from '@/features/recruitment/components/section/RecruitmentRequestList';
 import RecruitmentFilterToolbar from '@/features/recruitment/components/section/RecruitmentFilterToolbar';
 import {
+  recruitmentAnalysisListQueryOptions,
   recruitmentListQueryOptions,
   recruitmentSubmissionListQueryOptions,
 } from '@/features/recruitment/queries';
-import type { RecruitmentRequestStatus, RecruitmentStatus } from '@/features/recruitment/types';
+import type {
+  RecruitmentAnalysisStatus,
+  RecruitmentRequestStatus,
+  RecruitmentStatus,
+} from '@/features/recruitment/types';
 
 const VALID_TABS = ['public', 'analysis', 'requests'] as const;
 type Tab = (typeof VALID_TABS)[number];
 
 const VALID_SUBMISSION_STATUS: RecruitmentRequestStatus[] = ['PENDING', 'APPROVED', 'REJECTED'];
-const VALID_RECRUITMENT_STATUS: RecruitmentStatus[] = [
-  'PENDING',
+const VALID_RECRUITMENT_STATUS: RecruitmentAnalysisStatus[] = [
   'ANALYZING',
   'ANALYZED',
   'ANALYSIS_FAILED',
-  'PUBLISHED',
-  'REJECTED',
-  'EXPIRED',
 ];
 
 export default async function RecruitmentPage({
@@ -35,6 +37,7 @@ export default async function RecruitmentPage({
     requestStatus?: string;
     analysisStatus?: string;
     page?: string;
+    title?: string;
   }>;
 }) {
   const {
@@ -42,27 +45,36 @@ export default async function RecruitmentPage({
     requestStatus: requestStatusParam,
     analysisStatus: analysisStatusParam,
     page: rawPage,
+    title,
   } = await searchParams;
   const page = Number.isFinite(Number(rawPage)) && Number(rawPage) >= 0 ? Number(rawPage) : 0;
 
   const tab: Tab = VALID_TABS.includes(tabParam as Tab) ? (tabParam as Tab) : 'public';
-  const submissionStatus = VALID_SUBMISSION_STATUS.includes(
-    requestStatusParam as RecruitmentRequestStatus,
-  )
-    ? (requestStatusParam as RecruitmentRequestStatus)
-    : undefined;
-  const analysisStatus = VALID_RECRUITMENT_STATUS.includes(analysisStatusParam as RecruitmentStatus)
-    ? (analysisStatusParam as RecruitmentStatus)
-    : undefined;
+  const status =
+    requestStatusParam === 'all'
+      ? undefined
+      : VALID_SUBMISSION_STATUS.includes(requestStatusParam as RecruitmentRequestStatus)
+        ? (requestStatusParam as RecruitmentRequestStatus)
+        : 'PENDING';
+  const analysisStatus =
+    analysisStatusParam === 'all'
+      ? undefined
+      : VALID_RECRUITMENT_STATUS.includes(analysisStatusParam as RecruitmentAnalysisStatus)
+        ? (analysisStatusParam as RecruitmentAnalysisStatus)
+        : 'ANALYZED';
 
   const queryClient = new QueryClient();
 
   if (tab === 'requests') {
-    await queryClient.prefetchQuery(recruitmentSubmissionListQueryOptions({ submissionStatus }));
+    await queryClient.prefetchQuery(recruitmentSubmissionListQueryOptions({ status, page, size: 10 }));
   } else if (tab === 'analysis') {
-    await queryClient.prefetchQuery(recruitmentListQueryOptions({ status: analysisStatus, page }));
+    await queryClient.prefetchQuery(
+      recruitmentAnalysisListQueryOptions({ status: analysisStatus, page, size: 10 }),
+    );
   } else {
-    await queryClient.prefetchQuery(recruitmentListQueryOptions({ status: 'PUBLISHED', page }));
+    await queryClient.prefetchQuery(
+      recruitmentListQueryOptions({ status: 'PUBLISHED', page, size: 10, title }),
+    );
   }
 
   return (
@@ -104,13 +116,15 @@ export default async function RecruitmentPage({
         </div>
 
         <HydrationBoundary state={dehydrate(queryClient)}>
-          {tab === 'requests' ? (
-            <RecruitmentRequestList submissionStatus={submissionStatus} />
-          ) : tab === 'analysis' ? (
-            <RecruitmentAnalysisList />
-          ) : (
-            <RecruitmentList />
-          )}
+          <Suspense>
+            {tab === 'requests' ? (
+              <RecruitmentRequestList />
+            ) : tab === 'analysis' ? (
+              <RecruitmentAnalysisList />
+            ) : (
+              <RecruitmentList />
+            )}
+          </Suspense>
         </HydrationBoundary>
       </main>
     </>

@@ -1,8 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useCompanyList } from '@/features/company/queries';
+import { useDebounce } from '@/shared/hooks/useDebounce';
 import { useApproveRecruitmentRequest, useCreateRecruitment } from '@/features/recruitment/queries';
 import CardActionForm from '@/shared/components/ui/CardActionForm';
 import { Button } from '@/shared/components/ui/button';
@@ -15,15 +16,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/shared/components/ui/select';
-import { AlertTriangle, Info } from 'lucide-react';
+import { AlertTriangle, Info, PlusCircleIcon } from 'lucide-react';
 import { toast } from 'sonner';
 import type { JobType } from '@/features/recruitment/types';
 import { JOB_TYPE_LABELS } from '@/features/recruitment/constants';
 import { useRecruitmentCreateStore } from '@/features/recruitment/store';
+import CompanyQuickRegisterModal from '@/features/company/components/ui/CompanyQuickRegisterModal';
 
 export default function RecruitmentCreateForm() {
   const router = useRouter();
   const pendingSubmissionId = useRecruitmentCreateStore((s) => s.pendingSubmissionId);
+  const pendingPlatformId = useRecruitmentCreateStore((s) => s.pendingPlatformId);
   const pendingUrl = useRecruitmentCreateStore((s) => s.pendingUrl);
   const clearPending = useRecruitmentCreateStore((s) => s.clearPending);
 
@@ -31,7 +34,13 @@ export default function RecruitmentCreateForm() {
   const { mutate: approve, isPending: isApproving } = useApproveRecruitmentRequest();
   const isSubmitting = isCreating || isApproving;
 
+  const [isCompanyModalOpen, setIsCompanyModalOpen] = useState(false);
   const [selectedCompanyId, setSelectedCompanyId] = useState<number | null>(null);
+  const [companySearch, setCompanySearch] = useState('');
+  const debouncedCompanySearch = useDebounce(companySearch, 300);
+  const [showCompanyDropdown, setShowCompanyDropdown] = useState(false);
+  const [activeCompanyIndex, setActiveCompanyIndex] = useState(-1);
+  const companyListboxId = 'company-listbox';
   const [postTitle, setPostTitle] = useState('');
   const [experienceLevel, setExperienceLevel] = useState<number | null>(null);
   const [selectedJobType, setSelectedJobType] = useState<JobType | null>(null);
@@ -39,6 +48,14 @@ export default function RecruitmentCreateForm() {
   const [dueDate, setDueDate] = useState('');
   const [recruitmentUrl, setRecruitmentUrl] = useState(pendingUrl ?? '');
   const [description, setDescription] = useState('');
+  const [newlyRegisteredCompanyName, setNewlyRegisteredCompanyName] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (pendingSubmissionId === null) {
+      clearPending();
+      setRecruitmentUrl('');
+    }
+  }, []);
 
   const isFormValid =
     selectedCompanyId !== null &&
@@ -48,25 +65,45 @@ export default function RecruitmentCreateForm() {
     description.trim() !== '';
 
   const {
-    data: companyData,
+    data: companyListData,
     isLoading: isCompanyLoading,
     isError: isCompanyError,
-  } = useCompanyList({ page: 0, size: 1000 });
-  const companies = companyData?.content ?? [];
+  } = useCompanyList(
+    debouncedCompanySearch.trim() ? { name: debouncedCompanySearch.trim(), page: 0 } : undefined,
+  );
+  const searchedCompanies = debouncedCompanySearch.trim() ? (companyListData?.content ?? []) : [];
+
+  useEffect(() => {
+    if (newlyRegisteredCompanyName === null) return;
+    const matched = searchedCompanies.find((c) => c.companyName === newlyRegisteredCompanyName);
+    if (matched) {
+      setSelectedCompanyId(matched.companyId);
+      setNewlyRegisteredCompanyName(null);
+    }
+  }, [searchedCompanies, newlyRegisteredCompanyName]);
 
   const handleSubmit = () => {
     if (selectedCompanyId === null || selectedJobType === null || experienceLevel === null) return;
 
+    if (startDate && !isValidDate(startDate)) {
+      toast.error('올바른 시작일 형식을 입력해주세요. (예: 2024.01.01)');
+      return;
+    }
+    if (dueDate && !isValidDate(dueDate)) {
+      toast.error('올바른 마감일 형식을 입력해주세요. (예: 2024.01.01)');
+      return;
+    }
+
     const data = {
       companyId: selectedCompanyId,
-      platformId: 0, // TODO: platformId 연동 필요
+      platformId: pendingSubmissionId !== null ? pendingPlatformId : null,
       title: postTitle.trim(),
       url: recruitmentUrl,
       jobType: selectedJobType,
       originalContent: description.trim(),
       experienceLevel,
-      startDate: startDate.replace(/\./g, '-'),
-      dueDate: dueDate ? dueDate.replace(/\./g, '-') : null,
+      startDate: startDate ? `${startDate.replace(/\./g, '-')}T00:00:00Z` : null,
+      dueDate: dueDate ? `${dueDate.replace(/\./g, '-')}T00:00:00Z` : null,
     };
 
     const callbacks = {
@@ -111,53 +148,114 @@ export default function RecruitmentCreateForm() {
                 기업명, 공고 제목, 마감일, 원본 공고 URL을 입력하세요.
               </p>
             </div>
-            {isCompanyError && (
-              <div className="mt-2 flex items-start gap-1 text-[12px] text-red-600">
-                <AlertTriangle className="h-3.5 w-3.5 mt-0.5" />
-                <span>
-                  기업 목록을 불러오지 못했습니다. 나중에 다시 시도하거나 회사명을 직접 입력하세요.
-                </span>
-              </div>
-            )}
-            {isCompanyLoading && !isCompanyError && (
-              <p className="mt-2 text-[12px] text-ds-grey-500">기업 목록을 불러오는 중입니다...</p>
-            )}
-
             {/* Row 1: 기업명 + 경력 */}
             <div className="flex gap-4">
-              {/* Company Select */}
+              {/* Company Search */}
               <div className="flex-1 flex flex-col gap-1.5">
                 <div className="flex items-center justify-between">
-                  <Label className="text-ds-grey-900">기업명 *</Label>
-                  <Button variant="link" size="sm" className="h-auto p-0 text-primary">
+                  <Label className="text-ds-grey-900">기업명 </Label>
+                  <Button
+                    variant="link"
+                    size="sm"
+                    className="h-auto p-0 text-primary"
+                    onClick={() => setIsCompanyModalOpen(true)}
+                  >
+                    <PlusCircleIcon size={16} className="mr-1" />
                     기업 등록하기
                   </Button>
                 </div>
-                <Select
-                  value={selectedCompanyId !== null ? String(selectedCompanyId) : '__none__'}
-                  onValueChange={(val) =>
-                    setSelectedCompanyId(val === '__none__' ? null : Number(val))
-                  }
-                >
-                  <SelectTrigger
-                    className={`h-10 border-ds-grey-200 w-full bg-white ${selectedCompanyId !== null ? 'text-ds-grey-900' : 'text-ds-grey-500'}`}
-                  >
-                    <SelectValue placeholder="기업을 선택하세요" />
-                  </SelectTrigger>
-                  <SelectContent position="popper">
-                    <SelectItem value="__none__">기업을 선택하세요</SelectItem>
-                    {companies.map((company) => (
-                      <SelectItem key={company.companyId} value={String(company.companyId)}>
-                        {company.companyName}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <div className="relative">
+                  <Input
+                    role="combobox"
+                    aria-expanded={showCompanyDropdown && companySearch.trim() !== ''}
+                    aria-autocomplete="list"
+                    aria-controls={companyListboxId}
+                    aria-activedescendant={
+                      activeCompanyIndex >= 0
+                        ? `company-option-${searchedCompanies[activeCompanyIndex]?.companyId}`
+                        : undefined
+                    }
+                    value={companySearch}
+                    onChange={(e) => {
+                      setCompanySearch(e.target.value);
+                      setShowCompanyDropdown(true);
+                      setActiveCompanyIndex(-1);
+                      if (!e.target.value) setSelectedCompanyId(null);
+                    }}
+                    onFocus={() => {
+                      if (companySearch.trim()) setShowCompanyDropdown(true);
+                    }}
+                    onBlur={() => setTimeout(() => setShowCompanyDropdown(false), 150)}
+                    onKeyDown={(e) => {
+                      if (!showCompanyDropdown || searchedCompanies.length === 0) return;
+                      if (e.key === 'ArrowDown') {
+                        e.preventDefault();
+                        setActiveCompanyIndex((i) => Math.min(i + 1, searchedCompanies.length - 1));
+                      } else if (e.key === 'ArrowUp') {
+                        e.preventDefault();
+                        setActiveCompanyIndex((i) => Math.max(i - 1, 0));
+                      } else if (e.key === 'Enter' && activeCompanyIndex >= 0) {
+                        e.preventDefault();
+                        const company = searchedCompanies[activeCompanyIndex];
+                        setSelectedCompanyId(company.companyId);
+                        setCompanySearch(company.companyName);
+                        setShowCompanyDropdown(false);
+                        setActiveCompanyIndex(-1);
+                      } else if (e.key === 'Escape') {
+                        setShowCompanyDropdown(false);
+                        setActiveCompanyIndex(-1);
+                      }
+                    }}
+                    placeholder="기업명을 검색하세요"
+                    className={`h-10 border-ds-grey-200 placeholder:text-ds-grey-400 ${selectedCompanyId !== null ? 'text-ds-grey-900' : ''}`}
+                  />
+                  {showCompanyDropdown && companySearch.trim() && (
+                    <ul
+                      id={companyListboxId}
+                      role="listbox"
+                      aria-label="기업 검색 결과"
+                      className="absolute z-50 top-full left-0 right-0 mt-1 bg-white border border-ds-grey-200 rounded-md shadow-md max-h-52 overflow-y-auto"
+                    >
+                      {isCompanyLoading && (
+                        <li className="px-3 py-2 text-[13px] text-ds-grey-500" aria-live="polite">
+                          검색 중...
+                        </li>
+                      )}
+                      {isCompanyError && searchedCompanies.length === 0 && (
+                        <li className="px-3 py-2 text-[13px] text-red-500" aria-live="assertive">
+                          검색에 실패했습니다.
+                        </li>
+                      )}
+                      {!isCompanyLoading && searchedCompanies.length === 0 && !isCompanyError && (
+                        <li className="px-3 py-2 text-[13px] text-ds-grey-500" aria-live="polite">
+                          검색 결과가 없습니다.
+                        </li>
+                      )}
+                      {searchedCompanies.map((company, index) => (
+                        <li
+                          key={company.companyId}
+                          id={`company-option-${company.companyId}`}
+                          role="option"
+                          aria-selected={selectedCompanyId === company.companyId}
+                          className={`w-full text-left px-3 py-2 text-sm text-ds-grey-900 cursor-pointer hover:bg-ds-grey-50 ${activeCompanyIndex === index ? 'bg-ds-grey-50' : ''}`}
+                          onMouseDown={() => {
+                            setSelectedCompanyId(company.companyId);
+                            setCompanySearch(company.companyName);
+                            setShowCompanyDropdown(false);
+                            setActiveCompanyIndex(-1);
+                          }}
+                        >
+                          {company.companyName}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
               </div>
 
               {/* 경력 Select */}
               <div className="flex-1 flex flex-col gap-1.5">
-                <Label className="text-ds-grey-900">경력 *</Label>
+                <Label className="text-ds-grey-900">경력 </Label>
                 <Select
                   value={experienceLevel !== null ? String(experienceLevel) : 'none'}
                   onValueChange={(val) => setExperienceLevel(val === 'none' ? null : Number(val))}
@@ -205,7 +303,7 @@ export default function RecruitmentCreateForm() {
 
             {/* 직무 */}
             <div className="flex flex-col gap-1.5">
-              <Label className="text-ds-grey-900">직무 *</Label>
+              <Label className="text-ds-grey-900">직무 </Label>
               <div className="flex flex-wrap gap-2">
                 {(Object.entries(JOB_TYPE_LABELS) as [JobType, string][]).map(([key, label]) => (
                   <button
@@ -227,7 +325,7 @@ export default function RecruitmentCreateForm() {
 
             {/* 공고 제목 */}
             <div className="flex flex-col gap-1.5">
-              <Label className="text-ds-grey-900">공고 제목 *</Label>
+              <Label className="text-ds-grey-900">공고 제목</Label>
               <Input
                 type="text"
                 value={postTitle}
@@ -251,7 +349,7 @@ export default function RecruitmentCreateForm() {
 
             {/* 공고 원문 */}
             <div className="flex flex-col gap-1.5">
-              <Label className="text-ds-grey-900">공고 원문 *</Label>
+              <Label className="text-ds-grey-900">공고 원문 </Label>
               <textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
@@ -311,6 +409,15 @@ export default function RecruitmentCreateForm() {
           </div>
         </div>
       </div>
+
+      <CompanyQuickRegisterModal
+        open={isCompanyModalOpen}
+        onClose={() => setIsCompanyModalOpen(false)}
+        onSuccess={(companyName) => {
+          setCompanySearch(companyName);
+          setNewlyRegisteredCompanyName(companyName);
+        }}
+      />
     </div>
   );
 }
@@ -320,6 +427,13 @@ function formatDateInput(value: string): string {
   if (digits.length <= 4) return digits;
   if (digits.length <= 6) return `${digits.slice(0, 4)}.${digits.slice(4)}`;
   return `${digits.slice(0, 4)}.${digits.slice(4, 6)}.${digits.slice(6)}`;
+}
+
+function isValidDate(value: string): boolean {
+  if (value.length !== 10) return false;
+  const [y, m, d] = value.split('.').map(Number);
+  const date = new Date(y, m - 1, d);
+  return date.getFullYear() === y && date.getMonth() === m - 1 && date.getDate() === d;
 }
 
 const EXPERIENCE_OPTIONS = [
