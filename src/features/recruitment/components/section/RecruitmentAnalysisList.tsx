@@ -26,7 +26,7 @@ export default function RecruitmentAnalysisList() {
     analysisStatusParam as RecruitmentAnalysisStatus,
   )
     ? (analysisStatusParam as RecruitmentAnalysisStatus)
-    : undefined;
+    : 'ANALYZED';
 
   const { data: response } = useRecruitmentAnalysisList({ page, size: 10, status });
   const { mutate: deleteRecruitment, isPending: isDeleting } = useDeleteRecruitment();

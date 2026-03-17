@@ -48,20 +48,12 @@ export default function CompanyQuickRegisterModal({
   const { mutate: createCompany, isPending } = useCreateCompany();
 
   const isFormValid =
-    companyName.trim() !== '' &&
-    foundedYear.trim() !== '' &&
-    employeeCount.trim() !== '' &&
-    selectedIndustryId !== null &&
-    selectedCompanyType !== null;
+    companyName.trim() !== '' && selectedIndustryId !== null && selectedCompanyType !== null;
 
   const handleSubmit = () => {
     if (!isFormValid || selectedIndustryId === null || selectedCompanyType === null) return;
 
     const year = Number(foundedYear);
-    if (!Number.isInteger(year) || year < 1800 || year > new Date().getFullYear()) {
-      toast.error('올바른 설립 연도를 입력하세요.');
-      return;
-    }
 
     const count = Number(employeeCount.replace(/\D/g, ''));
 
@@ -90,7 +82,12 @@ export default function CompanyQuickRegisterModal({
   };
 
   return (
-    <Dialog open={open} onOpenChange={(isOpen) => { if (!isOpen) onClose(); }}>
+    <Dialog
+      open={open}
+      onOpenChange={(isOpen) => {
+        if (!isOpen) onClose();
+      }}
+    >
       <DialogContent className="w-[480px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>기업 등록</DialogTitle>

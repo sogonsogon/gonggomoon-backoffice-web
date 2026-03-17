@@ -27,6 +27,7 @@ const STATUS_FILTERS: Partial<Record<Tab, FilterConfig>> = {
     paramKey: 'analysisStatus',
     placeholder: '상태 전체',
     allValue: 'all',
+    defaultValue: 'ANALYZED',
     width: 'w-32',
     options: [
       ALL_OPTION,

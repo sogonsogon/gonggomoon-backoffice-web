@@ -57,7 +57,7 @@ export default async function RecruitmentPage({
     analysisStatusParam as RecruitmentAnalysisStatus,
   )
     ? (analysisStatusParam as RecruitmentAnalysisStatus)
-    : undefined;
+    : 'ANALYZED';
 
   const queryClient = new QueryClient();
 
