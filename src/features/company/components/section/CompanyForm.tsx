@@ -74,7 +74,7 @@ export default function CompanyForm() {
   const baseForm: CompanyFormState =
     isEditMode && companyDetail
       ? {
-          name: companyDetail.name,
+          name: companyDetail.companyName,
           companyType: companyDetail.companyType,
           industryId: companyDetail.industryId,
           websiteUrl: companyDetail.websiteUrl,

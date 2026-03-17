@@ -38,7 +38,7 @@ export type GetCompanyListResponse = {
 
 export type CompanyDetail = {
   companyId: number;
-  name: string;
+  companyName: string;
   companyType: CompanyType;
   industryId: number;
   industryName: string;
