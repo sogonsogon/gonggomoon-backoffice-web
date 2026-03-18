@@ -94,9 +94,9 @@ export async function getRecruitmentDetail(postId: number) {
   return privateFetch<RecruitmentDetail>(`/api/v1/admin/posts/${postId}`);
 }
 
-// 공고 발행 — PATCH /api/v1/admin/posts/{postId}/publish
+// 공고 발행 — PATCH /api/v1/admin/posts/{postId}
 export async function publishRecruitment(postId: number) {
-  return privateFetch<void>(`/api/v1/admin/posts/${postId}/publish`, {
+  return privateFetch<void>(`/api/v1/admin/posts/${postId}`, {
     method: 'PATCH',
   });
 }
