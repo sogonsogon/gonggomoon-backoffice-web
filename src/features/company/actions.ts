@@ -45,7 +45,7 @@ export async function updateCompany(companyId: number, data: UpdateCompanyReques
 
 // 기업 삭제 — DELETE /api/v1/admin/companies/{id}
 export async function deleteCompany(companyId: number) {
-  return privateFetch<void>(`/api/v1/admin/companies/${companyId}`, {
+  return privateFetch<null>(`/api/v1/admin/companies/${companyId}`, {
     method: 'DELETE',
   });
 }

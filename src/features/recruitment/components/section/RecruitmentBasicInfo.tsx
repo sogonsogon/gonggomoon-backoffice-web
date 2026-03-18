@@ -73,7 +73,7 @@ export default function RecruitmentBasicInfo({ item }: RecruitmentBasicInfoProps
         {/* Row 5: 공고 원문 */}
         <div className="flex flex-col gap-1.5">
           <span className="text-xs font-medium text-ds-grey-500">공고 원문</span>
-          <p className="text-[13px] text-ds-grey-700 leading-relaxed">
+          <p className="text-[13px] text-ds-grey-700 leading-relaxed whitespace-pre-wrap">
             {item?.originalContent ?? '-'}
           </p>
         </div>

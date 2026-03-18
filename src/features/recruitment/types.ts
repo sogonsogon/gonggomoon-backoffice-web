@@ -73,12 +73,12 @@ export type RejectRecruitmentRequest = {
 
 export type RecruitmentAnalysis = {
   summary: string;
-  companySummary: string;
-  rolesResponsibilities: string[];
-  requiredSkills: string[];
-  highlightPoints: string[];
-  hiddenKeywords: string[];
-  recommendedActions: string[];
+  company_intro: string;
+  rnr: string[];
+  differentiators: string[];
+  required_skills: string[];
+  hidden_keywords: string[];
+  action_items: string[];
 };
 
 // GET /api/v1/admin/posts - 목록 아이템
@@ -137,5 +137,5 @@ export type RecruitmentDetail = {
   status: RecruitmentStatus;
   startDate: string;
   dueDate: string | null;
-  analysis?: RecruitmentAnalysis;
+  analyzedContent?: RecruitmentAnalysis;
 };

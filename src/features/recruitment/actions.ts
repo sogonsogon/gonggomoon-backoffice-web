@@ -31,7 +31,7 @@ export async function approveRecruitmentRequest(
   submissionId: number,
   data: CreateRecruitmentRequest,
 ) {
-  return privateFetch<void>(`/api/v1/admin/posts/submissions/${submissionId}/approve`, {
+  return privateFetch<null>(`/api/v1/admin/posts/submissions/${submissionId}/approve`, {
     method: 'PUT',
     body: JSON.stringify(data),
   });
@@ -42,7 +42,7 @@ export async function rejectRecruitmentRequest(
   submissionId: number,
   data: RejectRecruitmentRequest,
 ) {
-  return privateFetch<void>(`/api/v1/admin/posts/submissions/${submissionId}/reject`, {
+  return privateFetch<null>(`/api/v1/admin/posts/submissions/${submissionId}/reject`, {
     method: 'PUT',
     body: JSON.stringify(data),
   });
@@ -50,7 +50,7 @@ export async function rejectRecruitmentRequest(
 
 // 공고 등록 (AI 분석 대기) — POST /api/v1/admin/posts
 export async function createRecruitment(data: CreateRecruitmentRequest) {
-  return privateFetch<void>('/api/v1/admin/posts', {
+  return privateFetch<null>('/api/v1/admin/posts', {
     method: 'POST',
     body: JSON.stringify(data),
   });
@@ -94,16 +94,16 @@ export async function getRecruitmentDetail(postId: number) {
   return privateFetch<RecruitmentDetail>(`/api/v1/admin/posts/${postId}`);
 }
 
-// 공고 발행 — PATCH /api/v1/admin/posts/{postId}/publish
+// 공고 발행 — PATCH /api/v1/admin/posts/{postId}
 export async function publishRecruitment(postId: number) {
-  return privateFetch<void>(`/api/v1/admin/posts/${postId}/publish`, {
+  return privateFetch<null>(`/api/v1/admin/posts/${postId}`, {
     method: 'PATCH',
   });
 }
 
 // 공고 삭제 — DELETE /api/v1/admin/posts/{postId}
 export async function deleteRecruitment(postId: number) {
-  return privateFetch<void>(`/api/v1/admin/posts/${postId}`, {
+  return privateFetch<null>(`/api/v1/admin/posts/${postId}`, {
     method: 'DELETE',
   });
 }
