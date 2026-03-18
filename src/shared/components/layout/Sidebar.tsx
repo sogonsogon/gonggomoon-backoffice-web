@@ -23,10 +23,8 @@ export default function Sidebar() {
     <aside className="w-64 shrink-0 bg-white border-r border-ds-grey-200 flex flex-col p-2 gap-4 h-full">
       {/* Header */}
       <div className="flex items-center gap-2 p-2 rounded-md">
-        <div className="w-7 h-7 rounded-lg bg-ds-grey-900 flex items-center justify-center">
-          <span className="text-white text-[11px] font-bold">G</span>
-        </div>
-        <span className="text-[15px] font-semibold text-ds-grey-900">관리자페이지</span>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/logo.png" alt="공고문 로고" style={{ height: 28, width: 'auto' }} />
       </div>
 
       {/* Nav */}
