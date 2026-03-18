@@ -1,6 +1,6 @@
 import { AlignLeft, Building2, Key, ListChecks, Rocket, Sparkles, Star, Zap } from 'lucide-react';
 import type { RecruitmentAnalysis } from '@/features/recruitment/types';
-import { joinOrDash } from '@/features/recruitment/utils/joinOrDash';
+import { Badge } from '@/shared/components/ui/badge';
 
 interface RecruitmentAnalysisInfoProps {
   analysis?: RecruitmentAnalysis;
@@ -39,7 +39,7 @@ export default function RecruitmentAnalysisInfo({ analysis }: RecruitmentAnalysi
             <span className="text-[11px] font-semibold text-primary">회사 한 줄 소개</span>
           </div>
           <p className="text-[13px] text-ds-grey-700 leading-relaxed">
-            {analysis?.companySummary ?? '-'}
+            {analysis?.company_intro ?? '-'}
           </p>
         </div>
 
@@ -53,9 +53,18 @@ export default function RecruitmentAnalysisInfo({ analysis }: RecruitmentAnalysi
               R&R (Roles & Responsibilities)
             </span>
           </div>
-          <p className="text-[13px] text-ds-grey-700 leading-relaxed">
-            {joinOrDash(analysis?.rolesResponsibilities)}
-          </p>
+          {analysis?.rnr && analysis.rnr.length > 0 ? (
+            <ul className="flex flex-col gap-1 pl-1">
+              {analysis.rnr.map((item, i) => (
+                <li key={i} className="flex items-start gap-1.5 text-[13px] text-ds-grey-700 leading-relaxed">
+                  <span className="mt-[7px] w-1 h-1 rounded-full bg-ds-grey-400 shrink-0" />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-[13px] text-ds-grey-700">-</p>
+          )}
         </div>
 
         <div className="h-px bg-ds-grey-100" />
@@ -66,9 +75,18 @@ export default function RecruitmentAnalysisInfo({ analysis }: RecruitmentAnalysi
             <Star size={13} className="text-primary shrink-0" />
             <span className="text-[11px] font-semibold text-primary">필수 역량</span>
           </div>
-          <p className="text-[13px] text-ds-grey-700 leading-relaxed">
-            {joinOrDash(analysis?.requiredSkills)}
-          </p>
+          {analysis?.required_skills && analysis.required_skills.length > 0 ? (
+            <ul className="flex flex-col gap-1 pl-1">
+              {analysis.required_skills.map((item, i) => (
+                <li key={i} className="flex items-start gap-1.5 text-[13px] text-ds-grey-700 leading-relaxed">
+                  <span className="mt-[7px] w-1 h-1 rounded-full bg-ds-grey-400 shrink-0" />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-[13px] text-ds-grey-700">-</p>
+          )}
         </div>
 
         <div className="h-px bg-ds-grey-100" />
@@ -79,9 +97,18 @@ export default function RecruitmentAnalysisInfo({ analysis }: RecruitmentAnalysi
             <Zap size={13} className="text-primary shrink-0" />
             <span className="text-[11px] font-semibold text-primary">차별 포인트</span>
           </div>
-          <p className="text-[13px] text-ds-grey-700 leading-relaxed">
-            {joinOrDash(analysis?.highlightPoints)}
-          </p>
+          {analysis?.differentiators && analysis.differentiators.length > 0 ? (
+            <ul className="flex flex-col gap-1 pl-1">
+              {analysis.differentiators.map((item, i) => (
+                <li key={i} className="flex items-start gap-1.5 text-[13px] text-ds-grey-700 leading-relaxed">
+                  <span className="mt-[7px] w-1 h-1 rounded-full bg-ds-grey-400 shrink-0" />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-[13px] text-ds-grey-700">-</p>
+          )}
         </div>
 
         <div className="h-px bg-ds-grey-100" />
@@ -92,9 +119,17 @@ export default function RecruitmentAnalysisInfo({ analysis }: RecruitmentAnalysi
             <Key size={13} className="text-primary shrink-0" />
             <span className="text-[11px] font-semibold text-primary">숨은 키워드</span>
           </div>
-          <p className="text-[13px] text-ds-grey-700 leading-relaxed">
-            {joinOrDash(analysis?.hiddenKeywords)}
-          </p>
+          {analysis?.hidden_keywords && analysis.hidden_keywords.length > 0 ? (
+            <div className="flex flex-wrap gap-1.5">
+              {analysis.hidden_keywords.map((keyword, i) => (
+                <Badge key={i} variant="outline" className="text-[11px] text-ds-grey-700 border-ds-grey-200 rounded-md">
+                  {keyword.startsWith('#') ? keyword : `#${keyword}`}
+                </Badge>
+              ))}
+            </div>
+          ) : (
+            <p className="text-[13px] text-ds-grey-700">-</p>
+          )}
         </div>
 
         <div className="h-px bg-ds-grey-100" />
@@ -105,9 +140,18 @@ export default function RecruitmentAnalysisInfo({ analysis }: RecruitmentAnalysi
             <Rocket size={13} className="text-primary shrink-0" />
             <span className="text-[11px] font-semibold text-primary">추천 활동 액션 박스</span>
           </div>
-          <p className="text-[13px] text-ds-grey-700 leading-relaxed">
-            {joinOrDash(analysis?.recommendedActions)}
-          </p>
+          {analysis?.action_items && analysis.action_items.length > 0 ? (
+            <ul className="flex flex-col gap-1 pl-1">
+              {analysis.action_items.map((item, i) => (
+                <li key={i} className="flex items-start gap-1.5 text-[13px] text-ds-grey-700 leading-relaxed">
+                  <span className="mt-[7px] w-1 h-1 rounded-full bg-ds-grey-400 shrink-0" />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-[13px] text-ds-grey-700">-</p>
+          )}
         </div>
       </div>
     </div>

@@ -11,12 +11,12 @@ interface RecruitmentConfirmSectionProps {
 
 export default function RecruitmentConfirmSection({ postId }: RecruitmentConfirmSectionProps) {
   const { data: detail } = useRecruitmentDetail(postId);
-
+  console.log('RecruitmentConfirmSection - detail:', detail);
   return (
     <div className="flex gap-5 items-start">
       <RecruitmentBasicInfo item={detail} />
       <div className="flex-1 flex flex-col gap-3">
-        <RecruitmentAnalysisInfo analysis={detail?.analysis} />
+        <RecruitmentAnalysisInfo analysis={detail?.analyzedContent} />
         <RecruitmentConfirmControls postId={postId} />
       </div>
     </div>
