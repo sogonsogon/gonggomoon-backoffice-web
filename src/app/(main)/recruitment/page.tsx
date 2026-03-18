@@ -93,16 +93,16 @@ export default async function RecruitmentPage({
             공개 공고 목록
           </Link>
           <Link
-            href="/recruitment?tab=analysis"
-            className={`h-14 px-4 flex items-center text-sm no-underline hover:no-underline ${tab === 'analysis' ? 'font-semibold text-primary border-b-2 border-primary' : 'text-ds-grey-600'}`}
-          >
-            공고 분석 진행 확인
-          </Link>
-          <Link
             href="/recruitment?tab=requests"
             className={`h-14 px-4 flex items-center text-sm no-underline hover:no-underline ${tab === 'requests' ? 'font-semibold text-primary border-b-2 border-primary' : 'text-ds-grey-600'}`}
           >
-            등록 요청 공고
+            등록 요청 목록
+          </Link>
+          <Link
+            href="/recruitment?tab=analysis"
+            className={`h-14 px-4 flex items-center text-sm no-underline hover:no-underline ${tab === 'analysis' ? 'font-semibold text-primary border-b-2 border-primary' : 'text-ds-grey-600'}`}
+          >
+            공고 분석 목록
           </Link>
         </div>
 

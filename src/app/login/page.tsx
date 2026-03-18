@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { ShieldCheck, Eye, EyeOff } from 'lucide-react';
+import { Eye, EyeOff } from 'lucide-react';
 import { Button } from '@/shared/components/ui/button';
 import { Input } from '@/shared/components/ui/input';
 import { Label } from '@/shared/components/ui/label';
@@ -53,9 +53,8 @@ export default function LoginPage() {
       <div className="w-110 bg-white rounded-2xl shadow-[0_4px_24px_rgba(0,0,0,0.06)] p-10 flex flex-col gap-8">
         {/* Logo Area */}
         <div className="flex flex-col gap-4">
-          <div className="flex items-center justify-center w-14 h-14 rounded-xl bg-primary/10">
-            <ShieldCheck size={32} className="text-primary" />
-          </div>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/logo.png" alt="공고문 로고" style={{ height: 44, width: 'auto' }} />
           <h1 className="text-[32px] font-bold text-ds-grey-900">공고문</h1>
           <p className="text-base text-ds-grey-700">Back Office Management System</p>
         </div>

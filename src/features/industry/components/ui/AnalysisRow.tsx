@@ -35,17 +35,17 @@ export default function AnalysisRow({
 
   return (
     <>
-      <div className={`flex items-center h-14 ${!last ? 'border-b border-ds-grey-200' : ''}`}>
-        <div className="w-25 px-4 text-sm font-semibold text-ds-grey-900 shrink-0">
+      <div className={`flex items-center h-14 min-w-full ${!last ? 'border-b border-ds-grey-200' : ''}`}>
+        <div className="w-28 px-4 text-sm font-semibold text-ds-grey-900 shrink-0">
           {item.reportYear}
         </div>
-        <div className="w-40 px-4 text-[13px] text-ds-grey-700 shrink-0">
+        <div className="w-36 px-4 text-[13px] text-ds-grey-700 shrink-0">
           {formatDate(item.createdAt)}
         </div>
-        <div className="w-40 px-4 text-[13px] text-ds-grey-700 shrink-0">
+        <div className="w-36 px-4 text-[13px] text-ds-grey-700 shrink-0">
           {formatDate(item.updatedAt)}
         </div>
-        <div className="w-27.5 px-4 shrink-0">
+        <div className="w-24 px-4 shrink-0">
           <span
             className={`inline-flex px-2 py-0.5 rounded-md text-xs font-medium ${
               isPublished
