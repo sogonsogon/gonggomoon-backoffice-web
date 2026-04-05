@@ -15,6 +15,7 @@ import {
   parseResponseBody,
 } from '@/shared/api/httpClient.debug';
 import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
 const BASE_API_URL = process.env.API_URL ?? process.env.NEXT_PUBLIC_API_URL;
 // 로컬 테스트를 위한 14일 기간의 엑세스 토큰
 const ACCESS_TOKEN = process.env.DEV_ACCESS_TOKEN;
@@ -145,11 +146,52 @@ async function requestApi<T>(
   }
 }
 
+async function reissueAccessToken(): Promise<string | null> {
+  const cookieStore = await cookies();
+  const refreshToken = cookieStore.get('refreshToken')?.value;
+  if (!refreshToken) return null;
+
+  const BASE_URL = process.env.API_URL ?? process.env.NEXT_PUBLIC_API_URL;
+  try {
+    const res = await fetch(`${BASE_URL}/api/v1/admin/auth/reissue`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Cookie: `refreshToken=${refreshToken}`,
+      },
+    });
+    if (!res.ok) return null;
+    const body = await res.json();
+    const newAccessToken: string = body?.data?.accessToken;
+    const newRefreshToken: string = body?.data?.refreshToken;
+    if (!newAccessToken || !newRefreshToken) return null;
+
+    const isSecure = process.env.NODE_ENV === 'production';
+    cookieStore.set('accessToken', newAccessToken, {
+      maxAge: 60 * 60,
+      httpOnly: true,
+      secure: isSecure,
+      sameSite: 'strict',
+      path: '/',
+    });
+    cookieStore.set('refreshToken', newRefreshToken, {
+      maxAge: 60 * 60 * 24 * 14,
+      httpOnly: true,
+      secure: isSecure,
+      sameSite: 'strict',
+      path: '/',
+    });
+    return newAccessToken;
+  } catch {
+    return null;
+  }
+}
+
 /**
  * [Token O] 인증이 필요한 공통 Fetch
- * - 로그인 후 쿠키에 저장된 accessToken을 읽어 요청에 사용
- * - 401 발생 시 refreshToken으로 accessToken 재발급 후 원래 요청 재시도
- * - refreshToken도 만료된 경우 세션 만료 에러 반환
+ * - 쿠키의 accessToken으로 요청
+ * - TOKEN_EXPIRED 응답 시 refreshToken으로 재발급 후 1회 재시도
+ * - 재발급 실패 시 쿠키 삭제 후 /login 리다이렉트
  */
 export async function privateFetch<T>(
   endpoint: string,
@@ -158,11 +200,27 @@ export async function privateFetch<T>(
   const cookieStore = await cookies();
   const accessToken = cookieStore.get('accessToken')?.value;
 
-  return requestApi<T>(endpoint, options, {
+  const result = await requestApi<T>(endpoint, options, {
     requireAuth: true,
     accessToken,
     sessionExpiredMessage: '세션이 만료되었습니다. 다시 로그인해 주세요.',
   });
+
+  if (!result.success && result.code === 'TOKEN_EXPIRED') {
+    const newToken = await reissueAccessToken();
+    if (!newToken) {
+      cookieStore.delete('accessToken');
+      cookieStore.delete('refreshToken');
+      redirect('/login');
+    }
+    return requestApi<T>(endpoint, options, {
+      requireAuth: true,
+      accessToken: newToken,
+      sessionExpiredMessage: '세션이 만료되었습니다. 다시 로그인해 주세요.',
+    });
+  }
+
+  return result;
 }
 
 /**

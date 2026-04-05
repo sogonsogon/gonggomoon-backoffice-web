@@ -38,7 +38,9 @@ export default function LoginPage() {
       { email, password },
       {
         onSuccess: () => {
-          router.push('/industry');
+          const params = new URLSearchParams(window.location.search);
+          const redirect = params.get('redirect');
+          router.push(redirect ?? '/industry');
         },
         onError: (error: ApiErrorResponse) => {
           setErrorMessage(error.message || '아이디 또는 비밀번호가 올바르지 않습니다.');
