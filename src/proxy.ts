@@ -14,7 +14,8 @@ export async function proxy(request: NextRequest) {
   // 비로그인 상태에서 보호된 경로 접근 → /login 리다이렉트
   if (!isPublic && !refreshToken) {
     const loginUrl = new URL('/login', request.url);
-    loginUrl.searchParams.set('redirect', pathname);
+    const { search } = request.nextUrl;
+    loginUrl.searchParams.set('redirect', pathname + search);
     return NextResponse.redirect(loginUrl);
   }
 
@@ -81,7 +82,8 @@ export async function proxy(request: NextRequest) {
 
     // 재발급 실패 → refreshToken 만료로 간주, 로그인 페이지로 리다이렉트
     const loginUrl = new URL('/login', request.url);
-    loginUrl.searchParams.set('redirect', pathname);
+    const { search } = request.nextUrl;
+    loginUrl.searchParams.set('redirect', pathname + search);
     const redirectResponse = NextResponse.redirect(loginUrl);
     redirectResponse.cookies.delete('accessToken');
     redirectResponse.cookies.delete('refreshToken');

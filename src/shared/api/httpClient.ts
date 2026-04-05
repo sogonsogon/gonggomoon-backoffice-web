@@ -152,9 +152,9 @@ async function reissueAccessToken(): Promise<string | null> {
   const refreshToken = cookieStore.get('refreshToken')?.value;
   if (!refreshToken) return null;
 
-  const BASE_URL = process.env.API_URL ?? process.env.NEXT_PUBLIC_API_URL;
+  if (!BASE_API_URL) return null;
   try {
-    const res = await fetch(`${BASE_URL}/api/v1/admin/auth/reissue`, {
+    const res = await fetch(`${BASE_API_URL}/api/v1/admin/auth/reissue`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
