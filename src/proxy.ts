@@ -28,6 +28,8 @@ export async function proxy(request: NextRequest) {
   const isTokenExpired = !accessToken;
 
   if (isTokenExpired && refreshToken) {
+    if (!BASE_API_URL) return NextResponse.next();
+
     try {
       // 2. 토큰 재발급 API 직접 호출 (Edge Runtime — next/headers 사용 불가)
       const reissueRes = await fetch(`${BASE_API_URL}/api/v1/admin/auth/reissue`, {
