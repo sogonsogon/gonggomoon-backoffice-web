@@ -16,6 +16,7 @@ import {
 } from '@/shared/api/httpClient.debug';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
+import type { ReissueResponse } from '@/features/auth/types';
 const BASE_API_URL = process.env.API_URL ?? process.env.NEXT_PUBLIC_API_URL;
 // 로컬 테스트를 위한 14일 기간의 엑세스 토큰
 const ACCESS_TOKEN = process.env.DEV_ACCESS_TOKEN;
@@ -161,9 +162,9 @@ async function reissueAccessToken(): Promise<string | null> {
       },
     });
     if (!res.ok) return null;
-    const body = await res.json();
-    const newAccessToken: string = body?.data?.accessToken;
-    const newRefreshToken: string = body?.data?.refreshToken;
+    const body = await res.json() as { data: ReissueResponse };
+    const newAccessToken = body?.data?.accessToken;
+    const newRefreshToken = body?.data?.refreshToken;
     if (!newAccessToken || !newRefreshToken) return null;
 
     const isSecure = process.env.NODE_ENV === 'production';
@@ -182,7 +183,8 @@ async function reissueAccessToken(): Promise<string | null> {
       path: '/',
     });
     return newAccessToken;
-  } catch {
+  } catch (error) {
+    console.error('[reissueAccessToken] 재발급 실패:', error);
     return null;
   }
 }
