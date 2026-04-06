@@ -83,5 +83,5 @@ export async function proxy(request: NextRequest) {
 
 // 정적 자원(이미지, 폰트 등) 요청에는 실행되지 않도록 최적화
 export const config = {
-  matcher: ['/((?!_next/static|_next/image|favicon.ico).*)'],
+  matcher: ['/((?!_next/static|_next/image|favicon.ico|.*\\.(?:png|jpg|jpeg|gif|svg|ico|webp|woff|woff2|ttf|otf)).*)'],
 };
