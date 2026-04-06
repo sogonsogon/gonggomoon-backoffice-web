@@ -147,12 +147,16 @@ async function requestApi<T>(
   }
 }
 
-async function reissueAccessToken(): Promise<string | null> {
+type ReissueResult =
+  | { ok: true; accessToken: string }
+  | { ok: false; shouldLogout: boolean };
+
+async function reissueAccessToken(): Promise<ReissueResult> {
   const cookieStore = await cookies();
   const refreshToken = cookieStore.get('refreshToken')?.value;
-  if (!refreshToken) return null;
+  if (!refreshToken) return { ok: false, shouldLogout: true };
 
-  if (!BASE_API_URL) return null;
+  if (!BASE_API_URL) return { ok: false, shouldLogout: false };
   try {
     const res = await fetch(`${BASE_API_URL}/api/v1/admin/auth/reissue`, {
       method: 'POST',
@@ -161,15 +165,21 @@ async function reissueAccessToken(): Promise<string | null> {
         Cookie: `refreshToken=${refreshToken}`,
       },
     });
-    if (!res.ok) return null;
-    const body = await res.json() as { data: ReissueResponse };
-    const newAccessToken = body?.data?.accessToken;
-    const newRefreshToken = body?.data?.refreshToken;
-    if (!newAccessToken || !newRefreshToken) return null;
+    const body = (await res.json()) as ApiResponse<ReissueResponse>;
+
+    if (!res.ok || !body.success) {
+      // 4xx(인증 오류) → 로그아웃, 5xx(서버 오류) → 원래 에러 반환
+      const shouldLogout = res.status < 500;
+      return { ok: false, shouldLogout };
+    }
+
+    const newAccessToken = body.data?.accessToken;
+    const newRefreshToken = body.data?.refreshToken;
+    if (!newAccessToken || !newRefreshToken) return { ok: false, shouldLogout: true };
 
     const isSecure = process.env.NODE_ENV === 'production';
     cookieStore.set('accessToken', newAccessToken, {
-      maxAge: 60 * 60,
+      maxAge: 60 * 60 * 24,
       httpOnly: true,
       secure: isSecure,
       sameSite: 'strict',
@@ -182,10 +192,10 @@ async function reissueAccessToken(): Promise<string | null> {
       sameSite: 'strict',
       path: '/',
     });
-    return newAccessToken;
+    return { ok: true, accessToken: newAccessToken };
   } catch (error) {
     console.error('[reissueAccessToken] 재발급 실패:', error);
-    return null;
+    return { ok: false, shouldLogout: false };
   }
 }
 
@@ -209,15 +219,18 @@ export async function privateFetch<T>(
   });
 
   if (!result.success && result.code === 'TOKEN_EXPIRED') {
-    const newToken = await reissueAccessToken();
-    if (!newToken) {
-      cookieStore.delete('accessToken');
-      cookieStore.delete('refreshToken');
-      redirect('/login');
+    const reissueResult = await reissueAccessToken();
+    if (!reissueResult.ok) {
+      if (reissueResult.shouldLogout) {
+        cookieStore.delete('accessToken');
+        cookieStore.delete('refreshToken');
+        redirect('/login');
+      }
+      return result;
     }
     return requestApi<T>(endpoint, options, {
       requireAuth: true,
-      accessToken: newToken,
+      accessToken: reissueResult.accessToken,
       sessionExpiredMessage: '세션이 만료되었습니다. 다시 로그인해 주세요.',
     });
   }
