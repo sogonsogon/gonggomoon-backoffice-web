@@ -65,7 +65,7 @@ export default function RecruitmentBasicInfo({ item }: RecruitmentBasicInfoProps
         {/* Row 4: 원본 공고 URL */}
         <div className="flex flex-col gap-1.5">
           <span className="text-xs font-medium text-ds-grey-500">원본 공고 URL</span>
-          <span className="text-sm text-primary">{item?.postUrl ?? '-'}</span>
+          <span className="text-sm text-primary break-all">{item?.postUrl ?? '-'}</span>
         </div>
 
         <div className="h-px bg-ds-grey-100" />
