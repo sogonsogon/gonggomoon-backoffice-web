@@ -21,10 +21,11 @@ export default function IndustryAnalysisTable({
   const { mutate: publish, isPending: isPublishing } = usePublishIndustryAnalysis(industryId);
   const { mutate: deleteAnalysis, isPending: isDeleting } = useDeleteIndustryAnalysis(industryId);
 
-  const handlePublish = (reportId: number) => {
+  const handlePublish = (reportId: number, onSuccess?: () => void) => {
     publish(reportId, {
       onSuccess: () => {
         toast.success('산업 분석이 발행되었습니다.');
+        onSuccess?.();
       },
       onError: (error: ApiErrorResponse) => {
         toast.error(error.message || '산업 분석 발행에 실패했습니다.');
@@ -32,10 +33,11 @@ export default function IndustryAnalysisTable({
     });
   };
 
-  const handleDelete = (id: number) => {
+  const handleDelete = (id: number, onSuccess?: () => void) => {
     deleteAnalysis(id, {
       onSuccess: () => {
         toast.success('산업 분석이 삭제되었습니다.');
+        onSuccess?.();
       },
       onError: (error: ApiErrorResponse) => {
         toast.error(error.message || '산업 분석 삭제에 실패했습니다.');
@@ -79,8 +81,8 @@ export default function IndustryAnalysisTable({
             last={i === analysis.length - 1}
             isPublishing={isPublishing}
             isDeleting={isDeleting}
-            onPublish={() => handlePublish(item.reportId)}
-            onDelete={() => handleDelete(item.reportId)}
+            onPublish={(_, onSuccess) => handlePublish(item.reportId, onSuccess)}
+            onDelete={(_, onSuccess) => handleDelete(item.reportId, onSuccess)}
           />
         ))}
       </div>

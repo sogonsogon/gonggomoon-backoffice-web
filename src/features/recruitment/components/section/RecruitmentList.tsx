@@ -26,10 +26,11 @@ export default function RecruitmentList() {
     router.push(`${pathname}?${next.toString()}`);
   };
 
-  const handleDelete = (id: number) => {
+  const handleDelete = (id: number, onSuccess?: () => void) => {
     deleteRecruitment(id, {
       onSuccess: () => {
         toast.success('공고가 삭제되었습니다.');
+        onSuccess?.();
       },
       onError: (error: ApiErrorResponse) => {
         toast.error(error.message || '공고 삭제에 실패했습니다.');
@@ -56,7 +57,7 @@ export default function RecruitmentList() {
           item={item}
           last={i === rows.length - 1}
           isDeleting={isDeleting}
-          onDelete={() => handleDelete(item.postId)}
+          onDelete={(_, onSuccess) => handleDelete(item.postId, onSuccess)}
         />
       ))}
 
