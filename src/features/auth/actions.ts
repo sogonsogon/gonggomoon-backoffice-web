@@ -38,7 +38,7 @@ export async function login(data: LoginRequest) {
       httpOnly: true,
       secure: isSecureCookie,
       sameSite: 'strict',
-      maxAge: 60 * 60 * 24,
+      maxAge: 60 * 60,
     });
     cookieStore.set('refreshToken', res.data.refreshToken, {
       httpOnly: true,
