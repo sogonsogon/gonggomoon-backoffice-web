@@ -45,7 +45,7 @@ export default function ConfirmDialog({
           </Button>
           <Button
             className="bg-ds-badge-red-text text-white hover:opacity-90"
-            onClick={() => onConfirm(id)}
+            onClick={() => { onOpenChange(false); onConfirm(id); }}
             disabled={isPending}
           >
             {isPending ? '처리 중...' : confirmLabel}

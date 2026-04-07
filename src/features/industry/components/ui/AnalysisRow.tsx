@@ -92,7 +92,7 @@ export default function AnalysisRow({
         onOpenChange={setIsDeleteConfirmOpen}
         title="산업 분석 삭제"
         description="정말 삭제하시겠습니까? 삭제된 분석은 복구할 수 없습니다."
-        onConfirm={(id) => { setIsDeleteConfirmOpen(false); onDelete(id); }}
+        onConfirm={onDelete}
         isPending={isDeleting}
       />
       <ConfirmDialog
@@ -101,7 +101,7 @@ export default function AnalysisRow({
         onOpenChange={setIsPublishConfirmOpen}
         title="산업 분석 발행"
         description="정말 발행하시겠습니까? 발행된 분석은 수정할 수 없습니다."
-        onConfirm={(id) => { setIsPublishConfirmOpen(false); onPublish(id); }}
+        onConfirm={onPublish}
         isPending={isPublishing}
       />
     </>
