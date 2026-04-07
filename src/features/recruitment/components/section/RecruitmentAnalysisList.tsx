@@ -78,7 +78,7 @@ export default function RecruitmentAnalysisList() {
             item={item}
             last={i === rows.length - 1}
             isDeleting={isDeleting}
-            onDelete={(_, onSuccess) => handleDelete(item.postId, onSuccess)}
+            onDelete={(id, onSuccess) => handleDelete(id, onSuccess)}
           />
         ))
       )}

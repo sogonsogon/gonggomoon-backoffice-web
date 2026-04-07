@@ -21,11 +21,10 @@ export default function IndustryAnalysisTable({
   const { mutate: publish, isPending: isPublishing } = usePublishIndustryAnalysis(industryId);
   const { mutate: deleteAnalysis, isPending: isDeleting } = useDeleteIndustryAnalysis(industryId);
 
-  const handlePublish = (reportId: number, onSuccess?: () => void) => {
+  const handlePublish = (reportId: number) => {
     publish(reportId, {
       onSuccess: () => {
         toast.success('산업 분석이 발행되었습니다.');
-        onSuccess?.();
       },
       onError: (error: ApiErrorResponse) => {
         toast.error(error.message || '산업 분석 발행에 실패했습니다.');
@@ -33,11 +32,10 @@ export default function IndustryAnalysisTable({
     });
   };
 
-  const handleDelete = (id: number, onSuccess?: () => void) => {
+  const handleDelete = (id: number) => {
     deleteAnalysis(id, {
       onSuccess: () => {
         toast.success('산업 분석이 삭제되었습니다.');
-        onSuccess?.();
       },
       onError: (error: ApiErrorResponse) => {
         toast.error(error.message || '산업 분석 삭제에 실패했습니다.');
@@ -63,12 +61,8 @@ export default function IndustryAnalysisTable({
           <div className="w-28 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">
             분석 연도
           </div>
-          <div className="w-36 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">
-            등록일
-          </div>
-          <div className="w-36 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">
-            수정일
-          </div>
+          <div className="w-36 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">등록일</div>
+          <div className="w-36 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">수정일</div>
           <div className="w-24 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">상태</div>
           <div className="w-72 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">액션</div>
         </div>
@@ -81,8 +75,8 @@ export default function IndustryAnalysisTable({
             last={i === analysis.length - 1}
             isPublishing={isPublishing}
             isDeleting={isDeleting}
-            onPublish={(_, onSuccess) => handlePublish(item.reportId, onSuccess)}
-            onDelete={(_, onSuccess) => handleDelete(item.reportId, onSuccess)}
+            onPublish={handlePublish}
+            onDelete={handleDelete}
           />
         ))}
       </div>
