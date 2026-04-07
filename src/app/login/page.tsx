@@ -55,7 +55,7 @@ export default function LoginPage() {
         {/* Logo Area */}
         <div className="flex flex-col gap-4 items-center">
           <Image src="/logo.png" alt="공고문 로고" width={159} height={44} priority />
-          <p className="text-base text-ds-grey-700">Back Office Management System</p>
+          <h1 className="text-base text-ds-grey-700">Back Office Management System</h1>
         </div>
 
         <form id="login-form" className="flex flex-col gap-4" onSubmit={handleSubmit}>
