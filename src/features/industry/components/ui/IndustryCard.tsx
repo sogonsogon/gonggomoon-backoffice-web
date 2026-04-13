@@ -25,7 +25,7 @@ export default function IndustryCard({ industryId, label, analysisCount }: Indus
       </div>
       <div className="flex flex-col gap-1.5">
         <div className="flex items-center justify-between w-full">
-          <span className="text-sm font-semibold text-ds-grey-900">{label}</span>
+          <span className="text-sm font-semibold text-ds-grey-900 truncate min-w-0">{label}</span>
           <ChevronRight size={16} className="text-ds-grey-500 shrink-0" />
         </div>
         <span className="text-xs text-ds-grey-500">분석 버전 {analysisCount}건</span>

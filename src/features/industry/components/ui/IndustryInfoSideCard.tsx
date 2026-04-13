@@ -8,7 +8,7 @@ export default function IndustryInfoSideCard({
   publishedAnalysisYear,
 }: IndustryInfoSideCardProps) {
   return (
-    <div className="w-70 flex flex-col gap-3">
+    <div className="w-full lg:w-70 shrink-0 flex flex-col gap-3">
       <div className="bg-white rounded-lg border border-ds-grey-200 px-6 py-5 flex flex-col gap-3">
         <span className="text-sm font-semibold text-ds-grey-900">산업 정보</span>
         <div className="h-px bg-ds-grey-200" />

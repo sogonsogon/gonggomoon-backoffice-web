@@ -35,17 +35,17 @@ export default function AnalysisRow({
 
   return (
     <>
-      <div className={`flex items-center h-14 min-w-full ${!last ? 'border-b border-ds-grey-200' : ''}`}>
-        <div className="w-28 px-4 text-sm font-semibold text-ds-grey-900 shrink-0">
+      <div className={`flex items-center h-14 min-w-157.5 ${!last ? 'border-b border-ds-grey-200' : ''}`}>
+        <div className="w-24 px-4 text-sm font-semibold text-ds-grey-900 shrink-0">
           {item.reportYear}
         </div>
-        <div className="w-36 px-4 text-[13px] text-ds-grey-700 shrink-0">
+        <div className="w-28 px-4 text-[13px] text-ds-grey-700 shrink-0">
           {formatDate(item.createdAt)}
         </div>
-        <div className="w-36 px-4 text-[13px] text-ds-grey-700 shrink-0">
+        <div className="w-28 px-4 text-[13px] text-ds-grey-700 shrink-0">
           {formatDate(item.updatedAt)}
         </div>
-        <div className="w-24 px-4 shrink-0">
+        <div className="w-20 px-4 shrink-0">
           <span
             className={`inline-flex px-2 py-0.5 rounded-md text-xs font-medium ${
               isPublished
@@ -56,10 +56,10 @@ export default function AnalysisRow({
             {statusLabel}
           </span>
         </div>
-        <div className="w-72 px-4 flex items-center gap-2 shrink-0">
+        <div className="min-w-57.5 px-4 flex items-center gap-2 shrink-0">
           <Link
             href={`/industry/${industryId}/analysis/${item.reportId}`}
-            className="inline-flex h-8 items-center justify-center gap-1.5 rounded-md border border-ds-grey-200 bg-white px-3 text-sm font-medium text-ds-grey-600 no-underline visited:text-ds-grey-600 hover:bg-ds-grey-50"
+            className="inline-flex h-8 items-center justify-center gap-1.5 rounded-md border border-ds-grey-200 bg-white px-3 text-sm font-medium text-ds-grey-600 no-underline visited:text-ds-grey-600 hover:bg-ds-grey-50 whitespace-nowrap shrink-0"
           >
             <FileText size={13} />
             상세보기
@@ -67,7 +67,7 @@ export default function AnalysisRow({
           <Button
             size="sm"
             disabled={isPublished || isPublishing}
-            className={`gap-1.5 ${isPublished ? 'bg-ds-grey-300 hover:bg-ds-grey-300 cursor-not-allowed' : 'bg-ds-grey-900 hover:bg-ds-grey-800'}`}
+            className={`gap-1.5 shrink-0 whitespace-nowrap ${isPublished ? 'bg-ds-grey-300 hover:bg-ds-grey-300 cursor-not-allowed' : 'bg-ds-grey-900 hover:bg-ds-grey-800'}`}
             onClick={() => setIsPublishConfirmOpen(true)}
           >
             <Send size={12} />
@@ -76,7 +76,7 @@ export default function AnalysisRow({
           <Button
             size="sm"
             variant="outline"
-            className="gap-1.5 text-ds-badge-red-text hover:bg-ds-badge-red-bg hover:border-ds-badge-red-text"
+            className="gap-1.5 shrink-0 whitespace-nowrap text-ds-badge-red-text hover:bg-ds-badge-red-bg hover:border-ds-badge-red-text"
             disabled={isDeleting}
             onClick={() => setIsDeleteConfirmOpen(true)}
           >

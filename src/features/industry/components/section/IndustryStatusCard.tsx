@@ -12,7 +12,7 @@ export default function IndustryStatusCard({ status, analyzedYear }: IndustrySta
   const statusLabel = status ? ANALYSIS_STATUS_LABELS[status] : '대기중';
 
   return (
-    <Card className="w-70 shrink-0 border-ds-grey-200 bg-white py-4">
+    <Card className="w-full lg:w-70 shrink-0 border-ds-grey-200 bg-white py-4">
       <CardHeader className="px-4">
         <CardTitle className="text-[16px] font-semibold text-ds-grey-900">버전 상태</CardTitle>
       </CardHeader>
