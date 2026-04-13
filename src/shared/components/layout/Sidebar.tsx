@@ -10,9 +10,9 @@ import { useLogout } from '@/features/auth/queries';
 
 const navItems = [
   //{ label: '대시보드', icon: LayoutDashboard, href: '/' }, TODO: 대시보드 페이지 개발 후 활성화
+  { label: '공고 관리', icon: FileText, href: '/recruitment' },
   { label: '산업군 관리', icon: Building2, href: '/industry' },
   { label: '기업 관리', icon: Briefcase, href: '/company' },
-  { label: '공고 관리', icon: FileText, href: '/recruitment' },
 ];
 
 export default function Sidebar() {
