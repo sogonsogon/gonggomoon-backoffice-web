@@ -27,7 +27,7 @@ export default function IndustryDetailSection({ industryId }: IndustryDetailSect
         <ContentHeader title={label} backHref="/industry" />
 
         <div className="flex flex-col lg:flex-row gap-6 items-start">
-          <div className="flex-1 min-w-0 overflow-hidden flex flex-col gap-4">
+          <div className="w-full flex-1 min-w-0 overflow-hidden flex flex-col gap-4">
             <IndustryBasicInfoCard industryId={industryId} label={label} />
             <IndustryAnalysisTable industryId={industryId} analysis={analysisList || []} />
           </div>
