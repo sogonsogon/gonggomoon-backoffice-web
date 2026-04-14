@@ -54,37 +54,41 @@ export default function RecruitmentAnalysisList() {
   };
 
   return (
-    <div className="bg-white rounded-[10px] border border-ds-grey-200 overflow-hidden shrink-0">
-      {/* Header Row */}
-      <div className="flex items-center h-11 bg-ds-grey-50 border-b border-ds-grey-200">
-        <div className="w-14 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">No.</div>
-        <div className="w-44 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">기업명</div>
-        <div className="flex-1 px-4 text-[13px] font-medium text-ds-grey-600">공고 제목</div>
-        <div className="w-56 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">요청 상태</div>
-        <div className="w-28 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">시작일</div>
-        <div className="w-56 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">액션</div>
-      </div>
+    <div className="bg-white rounded-[10px] border border-ds-grey-200 shrink-0">
+      <div className="overflow-x-auto">
+        <div className="min-w-240">
+          {/* Header Row */}
+          <div className="flex items-center h-11 bg-ds-grey-50 border-b border-ds-grey-200">
+            <div className="w-14 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0 whitespace-nowrap">No.</div>
+            <div className="w-44 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0 whitespace-nowrap">기업명</div>
+            <div className="flex-1 min-w-50 px-4 text-[13px] font-medium text-ds-grey-600 whitespace-nowrap">공고 제목</div>
+            <div className="w-56 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0 whitespace-nowrap">요청 상태</div>
+            <div className="w-28 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0 whitespace-nowrap">시작일</div>
+            <div className="w-56 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0 whitespace-nowrap">액션</div>
+          </div>
 
-      {rows.length === 0 ? (
-        <div className="flex items-center justify-center h-32 text-sm text-ds-grey-400">
-          진행 중인 분석 공고가 없습니다.
+          {rows.length === 0 ? (
+            <div className="flex items-center justify-center h-32 text-sm text-ds-grey-400">
+              진행 중인 분석 공고가 없습니다.
+            </div>
+          ) : (
+            rows.map((item, i) => (
+              <RecruitmentAnalysisRow
+                key={item.postId}
+                no={page * 10 + i + 1}
+                item={item}
+                last={i === rows.length - 1}
+                isDeleting={isDeleting}
+                onDelete={() => handleDelete(item.postId)}
+              />
+            ))
+          )}
         </div>
-      ) : (
-        rows.map((item, i) => (
-          <RecruitmentAnalysisRow
-            key={item.postId}
-            no={page * 10 + i + 1}
-            item={item}
-            last={i === rows.length - 1}
-            isDeleting={isDeleting}
-            onDelete={() => handleDelete(item.postId)}
-          />
-        ))
-      )}
+      </div>
 
       {/* Pagination Footer */}
       {rows.length > 0 && (
-        <div className="h-[52px] border-t border-ds-grey-200 flex items-center justify-center gap-1 px-4">
+        <div className="h-13 border-t border-ds-grey-200 flex items-center justify-center gap-1 px-4">
           {Array.from({ length: pageInfo?.totalPages ?? 1 }).map((_, i) => (
             <button
               key={i}
