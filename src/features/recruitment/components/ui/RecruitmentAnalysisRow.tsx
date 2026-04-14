@@ -93,7 +93,7 @@ export default function RecruitmentAnalysisRow({
         onOpenChange={setIsConfirmOpen}
         title="공고 삭제"
         description="정말 삭제하시겠습니까? 삭제된 공고는 복구할 수 없습니다."
-        onConfirm={(id) => onDelete(id)}
+        onConfirm={(id) => onDelete(id, () => setIsConfirmOpen(false))}
         isPending={isDeleting}
       />
     </>

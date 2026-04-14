@@ -12,7 +12,7 @@ interface RecruitmentRowProps {
   item: RecruitmentSummary;
   last?: boolean;
   isDeleting: boolean;
-  onDelete: (postId: number, onSuccess: () => void) => void;
+  onDelete: (postId: number) => void;
 }
 
 export default function RecruitmentRow({
@@ -82,7 +82,7 @@ export default function RecruitmentRow({
         onOpenChange={setIsConfirmOpen}
         title="공고 삭제"
         description="정말 삭제하시겠습니까? 삭제된 공고는 복구할 수 없습니다."
-        onConfirm={(id) => onDelete(id, () => setIsConfirmOpen(false))}
+        onConfirm={(id) => { onDelete(id); setIsConfirmOpen(false); }}
         isPending={isDeleting}
       />
     </>
