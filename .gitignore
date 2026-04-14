@@ -46,4 +46,4 @@ next-env.d.ts
 *.pen
 
 # 개인 kpi 정리 노트
-kpi-note/
+kpi-note/package-lock.json
