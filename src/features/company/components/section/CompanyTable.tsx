@@ -48,34 +48,36 @@ export default function CompanyTable({ params }: CompanyTableProps) {
   const { content: companies, pageInfo } = data;
 
   return (
-    <div className="bg-white rounded-[10px] border border-ds-grey-200 overflow-x-auto shrink-0">
-      <div className="min-w-[1096px]">
-        {headerRow}
+    <div className="bg-white rounded-[10px] border border-ds-grey-200 shrink-0">
+      <div className="overflow-x-auto">
+        <div className="min-w-[1096px]">
+          {headerRow}
 
-        {companies.map((company, i) => (
-          <CompanyRow
-            key={company.companyId}
-            no={page * 10 + i + 1}
-            company={company}
-            industryName={company.industryName}
-            last={i === companies.length - 1}
-          />
-        ))}
-
-        {/* Pagination Footer */}
-        <div className="h-[52px] border-t border-ds-grey-200 flex items-center justify-center gap-1 px-4">
-          {Array.from({ length: pageInfo.totalPages ?? 1 }).map((_, i) => (
-            <button
-              key={i}
-              onClick={() => handlePageChange(i)}
-              className={`w-8 h-8 flex items-center justify-center rounded-md text-sm font-medium cursor-pointer ${
-                i === page ? 'bg-ds-grey-900 text-white' : 'text-ds-grey-600 hover:bg-ds-grey-100'
-              }`}
-            >
-              {i + 1}
-            </button>
+          {companies.map((company, i) => (
+            <CompanyRow
+              key={company.companyId}
+              no={page * 10 + i + 1}
+              company={company}
+              industryName={company.industryName}
+              last={i === companies.length - 1}
+            />
           ))}
         </div>
+      </div>
+
+      {/* Pagination Footer */}
+      <div className="h-[52px] border-t border-ds-grey-200 flex items-center justify-center gap-1 px-4">
+        {Array.from({ length: pageInfo.totalPages ?? 1 }).map((_, i) => (
+          <button
+            key={i}
+            onClick={() => handlePageChange(i)}
+            className={`w-8 h-8 flex items-center justify-center rounded-md text-sm font-medium cursor-pointer ${
+              i === page ? 'bg-ds-grey-900 text-white' : 'text-ds-grey-600 hover:bg-ds-grey-100'
+            }`}
+          >
+            {i + 1}
+          </button>
+        ))}
       </div>
     </div>
   );

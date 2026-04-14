@@ -100,15 +100,19 @@ export default function Sidebar() {
   return (
     <>
       {/* 모바일 햄버거 버튼 */}
-      <Button
-        variant="ghost"
-        size="icon-sm"
-        className="lg:hidden fixed top-3 left-3 z-50 bg-white border border-ds-grey-200 shadow-sm text-ds-grey-700"
-        onClick={() => setIsOpen(true)}
-        aria-label="메뉴 열기"
-      >
-        <Menu size={18} />
-      </Button>
+      {!isOpen && (
+        <Button
+          variant="ghost"
+          size="icon-sm"
+          className="lg:hidden fixed top-3 left-3 z-50 bg-white border border-ds-grey-200 shadow-sm text-ds-grey-700"
+          onClick={() => setIsOpen(true)}
+          aria-label="메뉴 열기"
+          aria-expanded={isOpen}
+          aria-controls="mobile-sidebar"
+        >
+          <Menu size={18} />
+        </Button>
+      )}
 
       {/* lg 이상: static sidebar */}
       <div className="hidden lg:flex h-full border-r border-ds-grey-200">
@@ -119,12 +123,17 @@ export default function Sidebar() {
       {isOpen && (
         <>
           {/* backdrop */}
-          <div
-            className="lg:hidden fixed inset-0 z-40 bg-black/40"
+          <button
+            className="lg:hidden fixed inset-0 z-40 bg-black/40 cursor-default"
             onClick={() => setIsOpen(false)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ' || e.key === 'Escape') setIsOpen(false);
+            }}
+            aria-label="메뉴 닫기"
+            tabIndex={0}
           />
           {/* drawer */}
-          <div className="lg:hidden fixed inset-y-0 left-0 z-50 border-r border-ds-grey-200 shadow-xl">
+          <div id="mobile-sidebar" className="lg:hidden fixed inset-y-0 left-0 z-50 border-r border-ds-grey-200 shadow-xl">
             {sidebarContent}
           </div>
         </>
