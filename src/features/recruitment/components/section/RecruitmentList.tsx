@@ -56,7 +56,7 @@ export default function RecruitmentList() {
           item={item}
           last={i === rows.length - 1}
           isDeleting={isDeleting}
-          onDelete={() => handleDelete(item.postId)}
+          onDelete={handleDelete}
         />
       ))}
 

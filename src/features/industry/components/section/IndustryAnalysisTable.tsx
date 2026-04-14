@@ -61,12 +61,8 @@ export default function IndustryAnalysisTable({
           <div className="w-28 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">
             분석 연도
           </div>
-          <div className="w-36 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">
-            등록일
-          </div>
-          <div className="w-36 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">
-            수정일
-          </div>
+          <div className="w-36 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">등록일</div>
+          <div className="w-36 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">수정일</div>
           <div className="w-24 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">상태</div>
           <div className="w-72 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">액션</div>
         </div>
@@ -79,8 +75,8 @@ export default function IndustryAnalysisTable({
             last={i === analysis.length - 1}
             isPublishing={isPublishing}
             isDeleting={isDeleting}
-            onPublish={() => handlePublish(item.reportId)}
-            onDelete={() => handleDelete(item.reportId)}
+            onPublish={handlePublish}
+            onDelete={handleDelete}
           />
         ))}
       </div>
