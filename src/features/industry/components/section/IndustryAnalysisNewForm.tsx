@@ -102,7 +102,7 @@ export default function IndustryAnalysisNewForm({ industryId }: IndustryAnalysis
         backHref={`/industry/${industryId}`}
       />
 
-      <div className="flex flex-col lg:flex-row gap-6 items-start">
+      <div className="flex flex-col xl:flex-row gap-6 items-start">
         <div className="w-full flex-1 min-w-0">
           <Card className="gap-4 border-ds-grey-200 bg-white py-4">
             <CardContent className="space-y-4 px-6">
@@ -185,7 +185,7 @@ export default function IndustryAnalysisNewForm({ industryId }: IndustryAnalysis
         </div>
 
         {/* 사이드 영역 */}
-        <div className="w-full lg:w-80 flex flex-col gap-4 shrink-0">
+        <div className="w-full xl:w-80 flex flex-col gap-4 shrink-0">
           <CardActionForm
             primaryLabel={isPending ? '저장 중...' : '저장'}
             primaryButtonClassName="bg-ds-grey-900 text-white hover:bg-ds-grey-800"

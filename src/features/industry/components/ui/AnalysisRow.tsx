@@ -35,7 +35,7 @@ export default function AnalysisRow({
 
   return (
     <>
-      <div className={`flex items-center h-14 min-w-157.5 ${!last ? 'border-b border-ds-grey-200' : ''}`}>
+      <div className={`flex items-center h-14 min-w-[630px] ${!last ? 'border-b border-ds-grey-200' : ''}`}>
         <div className="w-24 px-4 text-sm font-semibold text-ds-grey-900 shrink-0">
           {item.reportYear}
         </div>
@@ -56,7 +56,7 @@ export default function AnalysisRow({
             {statusLabel}
           </span>
         </div>
-        <div className="min-w-57.5 px-4 flex items-center gap-2 shrink-0">
+        <div className="min-w-[230px] px-4 flex items-center gap-2 shrink-0">
           <Link
             href={`/industry/${industryId}/analysis/${item.reportId}`}
             className="inline-flex h-8 items-center justify-center gap-1.5 rounded-md border border-ds-grey-200 bg-white px-3 text-sm font-medium text-ds-grey-600 no-underline visited:text-ds-grey-600 hover:bg-ds-grey-50 whitespace-nowrap shrink-0"
