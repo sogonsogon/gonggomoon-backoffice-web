@@ -38,7 +38,7 @@ export default function RecruitmentList() {
   };
 
   return (
-    <div className="bg-white rounded-[10px] border border-ds-grey-200 shrink-0">
+    <div className="bg-white rounded-[10px] border border-ds-grey-200 overflow-hidden shrink-0">
       <div className="overflow-x-auto">
         <div className="min-w-240">
           {/* Header Row */}
