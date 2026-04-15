@@ -35,7 +35,7 @@ export default function AnalysisRow({
 
   return (
     <>
-      <div className={`flex items-center h-14 min-w-3xl ${!last ? 'border-b border-ds-grey-200' : ''}`}>
+      <div className={`flex items-center h-14 min-w-[48rem] ${!last ? 'border-b border-ds-grey-200' : ''}`}>
         <div className="w-24 px-4 text-sm font-semibold text-ds-grey-900 shrink-0">
           {item.reportYear}
         </div>
