@@ -19,7 +19,7 @@ import type {
   RecruitmentStatus,
 } from '@/features/recruitment/types';
 
-const VALID_TABS = ['public', 'analysis', 'requests'] as const;
+const VALID_TABS = ['public', 'pending', 'analysis', 'requests'] as const;
 type Tab = (typeof VALID_TABS)[number];
 
 const VALID_SUBMISSION_STATUS: RecruitmentRequestStatus[] = ['PENDING', 'APPROVED', 'REJECTED'];
@@ -73,6 +73,10 @@ export default async function RecruitmentPage({
     await queryClient.prefetchQuery(
       recruitmentAnalysisListQueryOptions({ status: analysisStatus, page, size: 10 }),
     );
+  } else if (tab === 'pending') {
+    await queryClient.prefetchQuery(
+      recruitmentListQueryOptions({ status: 'PENDING', page, size: 10, title }),
+    );
   } else {
     await queryClient.prefetchQuery(
       recruitmentListQueryOptions({ status: 'PUBLISHED', page, size: 10, title }),
@@ -98,12 +102,6 @@ export default async function RecruitmentPage({
           >
             등록 요청 목록
           </Link>
-          <Link
-            href="/recruitment?tab=analysis"
-            className={`h-14 px-4 flex items-center text-sm no-underline hover:no-underline ${tab === 'analysis' ? 'font-semibold text-primary border-b-2 border-primary' : 'text-ds-grey-600'}`}
-          >
-            공고 분석 목록
-          </Link>
         </div>
 
         {/* Filter Row */}
@@ -123,8 +121,10 @@ export default async function RecruitmentPage({
               <RecruitmentRequestList />
             ) : tab === 'analysis' ? (
               <RecruitmentAnalysisList />
+            ) : tab === 'pending' ? (
+              <RecruitmentList status="PENDING" />
             ) : (
-              <RecruitmentList />
+              <RecruitmentList status="PUBLISHED" />
             )}
           </Suspense>
         </HydrationBoundary>

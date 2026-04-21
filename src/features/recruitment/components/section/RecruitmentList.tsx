@@ -4,9 +4,14 @@ import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { useRecruitmentList, useDeleteRecruitment } from '@/features/recruitment/queries';
 import { toast } from 'sonner';
 import type { ApiErrorResponse } from '@/shared/types/api';
+import type { RecruitmentStatus } from '@/features/recruitment/types';
 import RecruitmentRow from '@/features/recruitment/components/ui/RecruitmentRow';
 
-export default function RecruitmentList() {
+interface RecruitmentListProps {
+  status: Extract<RecruitmentStatus, 'PUBLISHED' | 'PENDING'>;
+}
+
+export default function RecruitmentList({ status }: RecruitmentListProps) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
@@ -15,9 +20,9 @@ export default function RecruitmentList() {
   const page = Number.isFinite(Number(rawPage)) && Number(rawPage) >= 0 ? Number(rawPage) : 0;
   const title = searchParams.get('title') ?? undefined;
 
-  const { data: response } = useRecruitmentList({ status: 'PUBLISHED', page, size: 10, title });
+  const { data: response } = useRecruitmentList({ status, page, size: 10, title });
   const { mutate: deleteRecruitment, isPending: isDeleting } = useDeleteRecruitment();
-  const rows = (response?.content ?? []).filter((item) => item.postStatus === 'PUBLISHED');
+  const rows = (response?.content ?? []).filter((item) => item.postStatus === status);
   const pageInfo = response?.pageInfo;
 
   const handlePageChange = (nextPage: number) => {

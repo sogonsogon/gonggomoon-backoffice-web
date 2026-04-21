@@ -1,7 +1,7 @@
 import SearchForm, { FilterConfig } from '@/shared/components/ui/SearchForm';
 import { ANALYSIS_STATUS_LABELS, REQUEST_STATUS_LABELS } from '@/features/recruitment/constants';
 
-type Tab = 'public' | 'analysis' | 'requests';
+type Tab = 'public' | 'pending' | 'analysis' | 'requests';
 
 interface RecruitmentFilterToolbarProps {
   tab: Tab;

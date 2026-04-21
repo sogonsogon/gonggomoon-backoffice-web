@@ -43,19 +43,19 @@ export default function CompanyRow({ no, company, industryName, last = false }: 
     <>
       <div className={`flex items-center h-14 ${!last ? 'border-b border-ds-grey-200' : ''} `}>
         <div className="w-14 px-4 text-[13px] text-ds-grey-600 shrink-0">{no}</div>
-        <div className="w-44 px-4 text-sm font-medium text-ds-grey-900">{company.companyName}</div>
-        <div className="w-36 px-4 text-sm text-ds-grey-900 truncate">{industryName ?? '-'}</div>
-        <div className="w-44 px-4">
+        <div className="flex-1 px-4 text-sm font-medium text-ds-grey-900">{company.companyName}</div>
+        <div className="flex-1 px-4 text-sm text-ds-grey-900 truncate">{industryName ?? '-'}</div>
+        <div className="flex-1 px-4">
           <span
             className={`inline-flex px-2 py-1 rounded-md text-xs font-medium ${COMPANY_TYPE_OPTIONS.find((option) => option.value === company.companyType)?.style}`}
           >
             {companyTypeLabel}
           </span>
         </div>
-        <div className="w-32 px-4 text-sm text-ds-grey-700">
+        <div className="flex-1 px-4 text-sm text-ds-grey-700">
           {company.employeeCount != null ? `${company.employeeCount.toLocaleString()}명` : '-'}
         </div>
-        <div className="w-32 px-4 text-sm text-ds-grey-700">{company.foundedYear ?? '-'}</div>
+        <div className="flex-1 px-4 text-sm text-ds-grey-700">{company.foundedYear ?? '-'}</div>
         <div className="w-72 px-4 flex items-center gap-2 shrink-0">
           <Link
             href={`https://gonggomoon.com/company/${company.companyId}`}
