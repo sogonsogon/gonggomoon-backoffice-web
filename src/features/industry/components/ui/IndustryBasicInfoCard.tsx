@@ -59,9 +59,9 @@ export default function IndustryBasicInfoCard({ industryId, label }: IndustryBas
   return (
     <>
       <div className="bg-white rounded-lg border border-ds-grey-200 px-6 py-5 flex flex-col gap-4">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-wrap items-center justify-between gap-2">
           <span className="text-[15px] font-semibold text-ds-grey-900">기본 정보</span>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 shrink-0">
             <Button
               variant="outline"
               className="text-ds-badge-red-text border-ds-grey-200"

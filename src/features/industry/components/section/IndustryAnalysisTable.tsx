@@ -21,7 +21,7 @@ export default function IndustryAnalysisTable({
   const { mutate: publish, isPending: isPublishing } = usePublishIndustryAnalysis(industryId);
   const { mutate: deleteAnalysis, isPending: isDeleting } = useDeleteIndustryAnalysis(industryId);
 
-  const handlePublish = (reportId: number) => {
+  const handlePublish = (reportId: number, onSettled?: () => void) => {
     publish(reportId, {
       onSuccess: () => {
         toast.success('산업 분석이 발행되었습니다.');
@@ -29,6 +29,7 @@ export default function IndustryAnalysisTable({
       onError: (error: ApiErrorResponse) => {
         toast.error(error.message || '산업 분석 발행에 실패했습니다.');
       },
+      onSettled,
     });
   };
 
@@ -44,7 +45,7 @@ export default function IndustryAnalysisTable({
   };
 
   return (
-    <div className="bg-white rounded-lg border border-ds-grey-200 px-6 py-5 flex flex-col gap-4">
+    <div className="bg-white rounded-lg border border-ds-grey-200 px-6 py-5 flex flex-col gap-4 overflow-hidden">
       <div className="flex items-center justify-between">
         <span className="text-[15px] font-semibold text-ds-grey-900">분석 버전 관리</span>
         <Button asChild className="h-10 gap-1.5">
@@ -57,8 +58,8 @@ export default function IndustryAnalysisTable({
       <div className="h-px bg-ds-grey-200" />
 
       <div className="rounded-md border border-ds-grey-200 overflow-x-auto">
-        <div className="flex items-center h-11 bg-ds-grey-50 border-b border-ds-grey-200 min-w-full">
-          <div className="w-28 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">
+        <div className="flex items-center h-11 bg-ds-grey-50 border-b border-ds-grey-200 min-w-[48rem]">
+          <div className="w-24 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">
             분석 연도
           </div>
           <div className="w-36 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">등록일</div>

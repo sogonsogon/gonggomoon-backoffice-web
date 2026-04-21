@@ -39,11 +39,11 @@ export default function RecruitmentRow({
 
   return (
     <>
-      <div className={`flex items-center h-14 ${!last ? 'border-b border-ds-grey-200' : ''}`}>
+      <div className={`flex items-center h-14 min-w-240 ${!last ? 'border-b border-ds-grey-200' : ''}`}>
         <div className="w-14 px-4 text-[13px] text-ds-grey-500 shrink-0">{no}</div>
-        <div className="w-44 px-4 text-sm text-ds-grey-900 shrink-0">{item.companyName}</div>
-        <div className="flex-1 px-4 text-sm text-ds-grey-900 truncate">{item.postTitle}</div>
-        <div className="w-56 px-4 text-[13px] text-ds-grey-700 shrink-0">
+        <div className="w-44 px-4 text-sm text-ds-grey-900 shrink-0 truncate">{item.companyName}</div>
+        <div className="flex-1 min-w-50 px-4 text-sm text-ds-grey-900 truncate">{item.postTitle}</div>
+        <div className="w-56 px-4 text-[13px] text-ds-grey-700 shrink-0 whitespace-nowrap">
           {item.startDate?.slice(0, 10) ?? '-'} ~ {item.dueDate?.slice(0, 10) ?? '상시'}
         </div>
         <div className="w-28 px-4 shrink-0">

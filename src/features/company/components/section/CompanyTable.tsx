@@ -26,11 +26,16 @@ export default function CompanyTable({ params }: CompanyTableProps) {
 
   if (isLoading) {
     return (
-      <div className="bg-white rounded-[10px] border border-ds-grey-200 overflow-hidden shrink-0">
-        {headerRow}
-        {Array.from({ length: 5 }).map((_, i) => (
-          <div key={i} className="h-14 border-b border-ds-grey-200 animate-pulse bg-ds-grey-100" />
-        ))}
+      <div className="bg-white rounded-[10px] border border-ds-grey-200 overflow-x-auto shrink-0">
+        <div className="min-w-274">
+          {headerRow}
+          {Array.from({ length: 5 }).map((_, i) => (
+            <div
+              key={i}
+              className="h-14 border-b border-ds-grey-200 animate-pulse bg-ds-grey-100"
+            />
+          ))}
+        </div>
       </div>
     );
   }
@@ -46,21 +51,25 @@ export default function CompanyTable({ params }: CompanyTableProps) {
   const { content: companies, pageInfo } = data;
 
   return (
-    <div className="bg-white rounded-[10px] border border-ds-grey-200 overflow-hidden shrink-0">
-      {headerRow}
+    <div className="bg-white rounded-[10px] border border-ds-grey-200 shrink-0">
+      <div className="overflow-x-auto">
+        <div className="min-w-274">
+          {headerRow}
 
-      {companies.map((company, i) => (
-        <CompanyRow
-          key={company.companyId}
-          no={page * 10 + i + 1}
-          company={company}
-          industryName={company.industryName}
-          last={i === companies.length - 1}
-        />
-      ))}
+          {companies.map((company, i) => (
+            <CompanyRow
+              key={company.companyId}
+              no={page * 10 + i + 1}
+              company={company}
+              industryName={company.industryName}
+              last={i === companies.length - 1}
+            />
+          ))}
+        </div>
+      </div>
 
       {/* Pagination Footer */}
-      <div className="h-[52px] border-t border-ds-grey-200 flex items-center justify-center gap-1 px-4">
+      <div className="h-13 border-t border-ds-grey-200 flex items-center justify-center gap-1 px-4">
         {Array.from({ length: pageInfo.totalPages ?? 1 }).map((_, i) => (
           <button
             key={i}
@@ -79,12 +88,26 @@ export default function CompanyTable({ params }: CompanyTableProps) {
 
 const headerRow = (
   <div className="flex items-center h-11 bg-ds-grey-50 border-b border-ds-grey-200">
-    <div className="w-14 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">No.</div>
-    <div className="w-44 px-4 text-[13px] font-medium text-ds-grey-600">기업명</div>
-    <div className="w-36 px-4 text-[13px] font-medium text-ds-grey-600">사업 분야</div>
-    <div className="w-44 px-4 text-[13px] font-medium text-ds-grey-600">기업 유형</div>
-    <div className="w-32 px-4 text-[13px] font-medium text-ds-grey-600">임직원 수</div>
-    <div className="w-32 px-4 text-[13px] font-medium text-ds-grey-600">설립연도</div>
-    <div className="w-72 px-4 text-[13px] font-medium text-ds-grey-600">액션</div>
+    <div className="w-14 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0 whitespace-nowrap">
+      No.
+    </div>
+    <div className="w-44 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0 whitespace-nowrap">
+      기업명
+    </div>
+    <div className="w-36 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0 whitespace-nowrap">
+      사업 분야
+    </div>
+    <div className="w-44 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0 whitespace-nowrap">
+      기업 유형
+    </div>
+    <div className="w-32 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0 whitespace-nowrap">
+      임직원 수
+    </div>
+    <div className="w-32 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0 whitespace-nowrap">
+      설립연도
+    </div>
+    <div className="w-72 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0 whitespace-nowrap">
+      액션
+    </div>
   </div>
 );
