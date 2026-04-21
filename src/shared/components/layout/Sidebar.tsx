@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation';
 import { Building2, Briefcase, FileText, ChevronRight, LogOut, Menu } from 'lucide-react';
 import { Button } from '@/shared/components/ui/button';
 import { Separator } from '@/shared/components/ui/separator';
-import { Sheet, SheetContent } from '@/shared/components/ui/sheet';
+import { Sheet, SheetContent, SheetTitle } from '@/shared/components/ui/sheet';
 import { cn } from '@/shared/lib/cn';
 import { useLogout } from '@/features/auth/queries';
 
@@ -117,6 +117,7 @@ export default function Sidebar() {
           showCloseButton={false}
           className="w-64 p-0 border-r border-ds-grey-200 lg:hidden"
         >
+          <SheetTitle className="sr-only">내비게이션 메뉴</SheetTitle>
           {sidebarContent}
         </SheetContent>
       </Sheet>

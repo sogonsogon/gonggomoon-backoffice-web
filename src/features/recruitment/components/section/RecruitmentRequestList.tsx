@@ -47,22 +47,22 @@ export default function RecruitmentRequestList() {
             <div className="w-56 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0 whitespace-nowrap">액션</div>
           </div>
 
-          {items.length === 0 ? (
-            <div className="flex items-center justify-center h-32 text-sm text-ds-grey-400">
-              요청된 공고가 없습니다.
-            </div>
-          ) : (
-            items.map((item, i) => (
-              <RecruitmentRequestRow
-                key={item.submissionId}
-                no={page * 10 + i + 1}
-                item={item}
-                last={i === items.length - 1}
-              />
-            ))
-          )}
+          {items.length > 0 && items.map((item, i) => (
+            <RecruitmentRequestRow
+              key={item.submissionId}
+              no={page * 10 + i + 1}
+              item={item}
+              last={i === items.length - 1}
+            />
+          ))}
         </div>
       </div>
+
+      {items.length === 0 && (
+        <div className="flex items-center justify-center h-32 text-sm text-ds-grey-400">
+          요청된 공고가 없습니다.
+        </div>
+      )}
 
       {/* Pagination Footer */}
       {items.length > 0 && (

@@ -68,24 +68,24 @@ export default function RecruitmentAnalysisList() {
             <div className="w-56 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0 whitespace-nowrap">액션</div>
           </div>
 
-          {rows.length === 0 ? (
-            <div className="flex items-center justify-center h-32 text-sm text-ds-grey-400">
-              진행 중인 분석 공고가 없습니다.
-            </div>
-          ) : (
-            rows.map((item, i) => (
-              <RecruitmentAnalysisRow
-                key={item.postId}
-                no={page * 10 + i + 1}
-                item={item}
-                last={i === rows.length - 1}
-                isDeleting={isDeleting}
-                onDelete={handleDelete}
-              />
-            ))
-          )}
+          {rows.length > 0 && rows.map((item, i) => (
+            <RecruitmentAnalysisRow
+              key={item.postId}
+              no={page * 10 + i + 1}
+              item={item}
+              last={i === rows.length - 1}
+              isDeleting={isDeleting}
+              onDelete={handleDelete}
+            />
+          ))}
         </div>
       </div>
+
+      {rows.length === 0 && (
+        <div className="flex items-center justify-center h-32 text-sm text-ds-grey-400">
+          진행 중인 분석 공고가 없습니다.
+        </div>
+      )}
 
       {/* Pagination Footer */}
       {rows.length > 0 && (
