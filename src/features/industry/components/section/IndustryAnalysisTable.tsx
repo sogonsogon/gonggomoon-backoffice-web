@@ -21,7 +21,7 @@ export default function IndustryAnalysisTable({
   const { mutate: publish, isPending: isPublishing } = usePublishIndustryAnalysis(industryId);
   const { mutate: deleteAnalysis, isPending: isDeleting } = useDeleteIndustryAnalysis(industryId);
 
-  const handlePublish = (reportId: number) => {
+  const handlePublish = (reportId: number, onSettled?: () => void) => {
     publish(reportId, {
       onSuccess: () => {
         toast.success('산업 분석이 발행되었습니다.');
@@ -29,6 +29,7 @@ export default function IndustryAnalysisTable({
       onError: (error: ApiErrorResponse) => {
         toast.error(error.message || '산업 분석 발행에 실패했습니다.');
       },
+      onSettled,
     });
   };
 

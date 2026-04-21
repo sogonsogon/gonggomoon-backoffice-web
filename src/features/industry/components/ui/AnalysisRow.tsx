@@ -15,7 +15,7 @@ interface AnalysisRowProps {
   last?: boolean;
   isPublishing: boolean;
   isDeleting: boolean;
-  onPublish: (reportId: number) => void;
+  onPublish: (reportId: number, onSettled?: () => void) => void;
   onDelete: (reportId: number) => void;
 }
 
@@ -101,7 +101,7 @@ export default function AnalysisRow({
         onOpenChange={setIsPublishConfirmOpen}
         title="산업 분석 발행"
         description="정말 발행하시겠습니까? 발행된 분석은 수정할 수 없습니다."
-        onConfirm={(id) => { onPublish(id); setIsPublishConfirmOpen(false); }}
+        onConfirm={(id) => onPublish(id, () => setIsPublishConfirmOpen(false))}
         isPending={isPublishing}
       />
     </>
