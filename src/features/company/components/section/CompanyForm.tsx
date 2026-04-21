@@ -77,9 +77,9 @@ export default function CompanyForm() {
           name: companyDetail.companyName,
           companyType: companyDetail.companyType,
           industryId: companyDetail.industryId,
-          websiteUrl: companyDetail.websiteUrl,
+          websiteUrl: companyDetail.websiteUrl ?? '',
           foundedYear: companyDetail.foundedYear,
-          address: companyDetail.address,
+          address: companyDetail.address ?? '',
           employeeCount: companyDetail.employeeCount,
           description: companyDetail.description,
         }

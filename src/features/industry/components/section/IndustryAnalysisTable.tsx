@@ -44,7 +44,7 @@ export default function IndustryAnalysisTable({
   };
 
   return (
-    <div className="bg-white rounded-lg border border-ds-grey-200 px-3 py-4 sm:px-6 sm:py-5 flex flex-col gap-4 overflow-hidden">
+    <div className="bg-white rounded-lg border border-ds-grey-200 px-6 py-5 flex flex-col gap-4 overflow-hidden">
       <div className="flex items-center justify-between">
         <span className="text-[15px] font-semibold text-ds-grey-900">분석 버전 관리</span>
         <Button asChild className="h-10 gap-1.5">
