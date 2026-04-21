@@ -9,7 +9,8 @@ export type JobType =
   | 'INFORMATION_SECURITY'
   | 'DESIGN'
   | 'PM_PO'
-  | 'QA';
+  | 'QA'
+  | 'EMBEDDED';
 
 export type RecruitmentStatus =
   | 'PENDING'

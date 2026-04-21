@@ -75,8 +75,8 @@ export default function IndustryAnalysisTable({
             last={i === analysis.length - 1}
             isPublishing={isPublishing}
             isDeleting={isDeleting}
-            onPublish={() => handlePublish(item.reportId)}
-            onDelete={() => handleDelete(item.reportId)}
+            onPublish={handlePublish}
+            onDelete={handleDelete}
           />
         ))}
       </div>

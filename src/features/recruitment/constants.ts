@@ -14,6 +14,7 @@ export const JOB_TYPE_LABELS: Record<JobType, string> = {
   DESIGN: '디자인',
   PM_PO: 'PM/PO',
   QA: 'QA',
+  EMBEDDED: '임베디드',
 };
 
 export const ANALYSIS_STATUS_LABELS: Record<RecruitmentAnalysisStatus, string> = {
