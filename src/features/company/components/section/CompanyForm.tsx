@@ -77,9 +77,9 @@ export default function CompanyForm() {
           name: companyDetail.companyName,
           companyType: companyDetail.companyType,
           industryId: companyDetail.industryId,
-          websiteUrl: companyDetail.websiteUrl,
+          websiteUrl: companyDetail.websiteUrl ?? '',
           foundedYear: companyDetail.foundedYear,
-          address: companyDetail.address,
+          address: companyDetail.address ?? '',
           employeeCount: companyDetail.employeeCount,
           description: companyDetail.description,
         }
@@ -177,9 +177,9 @@ export default function CompanyForm() {
       />
 
       {/* 바디 */}
-      <div className="flex gap-6">
+      <div className="flex flex-col lg:flex-row gap-6">
         {/* 폼 영역 */}
-        <div className="flex-1 flex flex-col gap-5">
+        <div className="flex-1 min-w-0 flex flex-col gap-5">
           {/* 기본 정보 */}
           <div className="rounded-[10px] bg-white border border-ds-grey-200 p-6 flex flex-col gap-5">
             <p className="text-[15px] font-semibold text-ds-grey-900">기본 정보</p>
@@ -278,7 +278,7 @@ export default function CompanyForm() {
         </div>
 
         {/* 사이드 영역 */}
-        <div className="w-80 flex flex-col gap-4 shrink-0">
+        <div className="w-full lg:w-80 flex flex-col gap-4 shrink-0">
           {/* Action Card */}
           <CardActionForm
             primaryLabel={isEditMode ? '수정' : '저장'}

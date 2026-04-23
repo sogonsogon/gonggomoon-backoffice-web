@@ -32,7 +32,7 @@ export default function ContentHeader({
     actionsAlign === 'start' ? 'self-start' : actionsAlign === 'end' ? 'self-end' : 'self-center';
 
   return (
-    <div className={cn('flex items-center justify-between py-1 gap-4', className)}>
+    <div className={cn('flex flex-wrap items-start justify-between py-1 gap-3', className)}>
       <div className="flex flex-col gap-1 min-w-0">
         <div className="flex items-center gap-2.5">
           {backHref ? (
@@ -40,7 +40,7 @@ export default function ContentHeader({
               <ChevronLeft size={20} className="text-ds-grey-900" />
             </Link>
           ) : null}
-          <h1 className={cn('text-xl font-bold text-ds-grey-900', titleClassName)}>{title}</h1>
+          <h1 className={cn('text-xl font-bold text-ds-grey-900 break-keep', titleClassName)}>{title}</h1>
         </div>
 
         {description ? (

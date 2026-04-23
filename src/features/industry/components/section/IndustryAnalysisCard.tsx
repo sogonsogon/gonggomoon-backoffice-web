@@ -10,7 +10,7 @@ interface IndustryAnalysisCardProps {
 
 export default function IndustryAnalysisCard({ analysis }: IndustryAnalysisCardProps) {
   return (
-    <Card className="flex-1 gap-4 border-ds-grey-200 bg-white py-4">
+    <Card className="flex-1 w-full gap-4 border-ds-grey-200 bg-white py-4">
       <CardHeader className="px-6 pb-3">
         <CardTitle className="text-[18px] font-semibold text-ds-grey-900">분석 항목</CardTitle>
       </CardHeader>

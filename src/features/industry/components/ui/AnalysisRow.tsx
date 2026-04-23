@@ -15,8 +15,8 @@ interface AnalysisRowProps {
   last?: boolean;
   isPublishing: boolean;
   isDeleting: boolean;
-  onPublish: (reportId: number) => void;
-  onDelete: (reportId: number, onSuccess?: () => void) => void;
+  onPublish: (reportId: number, onSettled?: () => void) => void;
+  onDelete: (reportId: number) => void;
 }
 
 export default function AnalysisRow({
@@ -35,8 +35,8 @@ export default function AnalysisRow({
 
   return (
     <>
-      <div className={`flex items-center h-14 min-w-full ${!last ? 'border-b border-ds-grey-200' : ''}`}>
-        <div className="w-28 px-4 text-sm font-semibold text-ds-grey-900 shrink-0">
+      <div className={`flex items-center h-14 min-w-[48rem] ${!last ? 'border-b border-ds-grey-200' : ''}`}>
+        <div className="w-24 px-4 text-sm font-semibold text-ds-grey-900 shrink-0">
           {item.reportYear}
         </div>
         <div className="w-36 px-4 text-[13px] text-ds-grey-700 shrink-0">
@@ -59,7 +59,7 @@ export default function AnalysisRow({
         <div className="w-72 px-4 flex items-center gap-2 shrink-0">
           <Link
             href={`/industry/${industryId}/analysis/${item.reportId}`}
-            className="inline-flex h-8 items-center justify-center gap-1.5 rounded-md border border-ds-grey-200 bg-white px-3 text-sm font-medium text-ds-grey-600 no-underline visited:text-ds-grey-600 hover:bg-ds-grey-50"
+            className="inline-flex h-8 items-center justify-center gap-1.5 rounded-md border border-ds-grey-200 bg-white px-3 text-sm font-medium text-ds-grey-600 no-underline visited:text-ds-grey-600 hover:bg-ds-grey-50 whitespace-nowrap shrink-0"
           >
             <FileText size={13} />
             상세보기
@@ -67,7 +67,7 @@ export default function AnalysisRow({
           <Button
             size="sm"
             disabled={isPublished || isPublishing}
-            className={`gap-1.5 ${isPublished ? 'bg-ds-grey-300 hover:bg-ds-grey-300 cursor-not-allowed' : 'bg-ds-grey-900 hover:bg-ds-grey-800'}`}
+            className={`gap-1.5 shrink-0 whitespace-nowrap ${isPublished ? 'bg-ds-grey-300 hover:bg-ds-grey-300 cursor-not-allowed' : 'bg-ds-grey-900 hover:bg-ds-grey-800'}`}
             onClick={() => setIsPublishConfirmOpen(true)}
           >
             <Send size={12} />
@@ -76,7 +76,7 @@ export default function AnalysisRow({
           <Button
             size="sm"
             variant="outline"
-            className="gap-1.5 text-ds-badge-red-text hover:bg-ds-badge-red-bg hover:border-ds-badge-red-text"
+            className="gap-1.5 shrink-0 whitespace-nowrap text-ds-badge-red-text hover:bg-ds-badge-red-bg hover:border-ds-badge-red-text"
             disabled={isDeleting}
             onClick={() => setIsDeleteConfirmOpen(true)}
           >
@@ -92,7 +92,7 @@ export default function AnalysisRow({
         onOpenChange={setIsDeleteConfirmOpen}
         title="산업 분석 삭제"
         description="정말 삭제하시겠습니까? 삭제된 분석은 복구할 수 없습니다."
-        onConfirm={(id) => onDelete(id, () => setIsDeleteConfirmOpen(false))}
+        onConfirm={(id) => { onDelete(id); setIsDeleteConfirmOpen(false); }}
         isPending={isDeleting}
       />
       <ConfirmDialog
@@ -101,7 +101,7 @@ export default function AnalysisRow({
         onOpenChange={setIsPublishConfirmOpen}
         title="산업 분석 발행"
         description="정말 발행하시겠습니까? 발행된 분석은 수정할 수 없습니다."
-        onConfirm={onPublish}
+        onConfirm={(id) => onPublish(id, () => setIsPublishConfirmOpen(false))}
         isPending={isPublishing}
       />
     </>

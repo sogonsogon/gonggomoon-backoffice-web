@@ -1,28 +1,31 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Building2, Briefcase, FileText, ChevronRight, LogOut } from 'lucide-react';
+import { Building2, Briefcase, FileText, ChevronRight, LogOut, Menu } from 'lucide-react';
 import { Button } from '@/shared/components/ui/button';
 import { Separator } from '@/shared/components/ui/separator';
+import { Sheet, SheetContent, SheetTitle } from '@/shared/components/ui/sheet';
 import { cn } from '@/shared/lib/cn';
 import { useLogout } from '@/features/auth/queries';
 
 const navItems = [
   //{ label: '대시보드', icon: LayoutDashboard, href: '/' }, TODO: 대시보드 페이지 개발 후 활성화
+  { label: '공고 관리', icon: FileText, href: '/recruitment' },
   { label: '산업군 관리', icon: Building2, href: '/industry' },
   { label: '기업 관리', icon: Briefcase, href: '/company' },
-  { label: '공고 관리', icon: FileText, href: '/recruitment' },
 ];
 
 export default function Sidebar() {
   const pathname = usePathname();
   const { mutate: handleLogout, isPending } = useLogout();
+  const [isOpen, setIsOpen] = useState(false);
 
-  return (
-    <aside className="w-64 shrink-0 bg-white border-r border-ds-grey-200 flex flex-col p-2 gap-4 h-full">
+  const sidebarContent = (
+    <aside className="w-64 shrink-0 bg-white flex flex-col p-2 gap-4 h-full">
       {/* Header */}
-      <div className="flex items-center gap-2 p-2 rounded-md">
+      <div className="flex items-center p-2 rounded-md">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/logo.png" alt="공고문 로고" style={{ height: 28, width: 'auto' }} />
       </div>
@@ -46,6 +49,7 @@ export default function Sidebar() {
                 'h-auto w-full justify-start gap-2 px-3 py-2 text-sm text-ds-grey-900 hover:bg-ds-grey-100',
                 isActive && 'bg-ds-grey-100 hover:bg-ds-grey-100',
               )}
+              onClick={() => setIsOpen(false)}
             >
               <Link href={item.href}>
                 <Icon size={16} className="shrink-0" />
@@ -83,5 +87,40 @@ export default function Sidebar() {
         </div>
       </div>
     </aside>
+  );
+
+  return (
+    <>
+      {/* 모바일 햄버거 버튼 */}
+      <Button
+        variant="ghost"
+        size="icon-sm"
+        className="lg:hidden fixed top-3 left-3 z-50 bg-white border border-ds-grey-200 shadow-sm text-ds-grey-700"
+        onClick={() => setIsOpen(true)}
+        aria-label="메뉴 열기"
+        aria-expanded={isOpen}
+        aria-controls="mobile-sidebar"
+      >
+        <Menu size={18} />
+      </Button>
+
+      {/* lg 이상: static sidebar */}
+      <div className="hidden lg:flex h-full border-r border-ds-grey-200">
+        {sidebarContent}
+      </div>
+
+      {/* lg 미만: Sheet 기반 모바일 drawer */}
+      <Sheet open={isOpen} onOpenChange={setIsOpen}>
+        <SheetContent
+          id="mobile-sidebar"
+          side="left"
+          showCloseButton={false}
+          className="w-64 p-0 border-r border-ds-grey-200 lg:hidden"
+        >
+          <SheetTitle className="sr-only">내비게이션 메뉴</SheetTitle>
+          {sidebarContent}
+        </SheetContent>
+      </Sheet>
+    </>
   );
 }

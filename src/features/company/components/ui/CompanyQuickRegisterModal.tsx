@@ -88,7 +88,7 @@ export default function CompanyQuickRegisterModal({
         if (!isOpen) onClose();
       }}
     >
-      <DialogContent className="w-[480px] max-h-[90vh] overflow-y-auto">
+      <DialogContent className="w-120 max-w-[calc(100%-2rem)] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>기업 등록</DialogTitle>
           <DialogDescription>필수 정보를 입력하여 기업을 빠르게 등록하세요.</DialogDescription>
