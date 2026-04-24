@@ -6,23 +6,16 @@ import TopBar from '@/shared/components/layout/TopBar';
 import { Button } from '@/shared/components/ui/button';
 import RecruitmentAnalysisList from '@/features/recruitment/components/section/RecruitmentAnalysisList';
 import RecruitmentList from '@/features/recruitment/components/section/RecruitmentList';
-import RecruitmentRequestList from '@/features/recruitment/components/section/RecruitmentRequestList';
 import RecruitmentFilterToolbar from '@/features/recruitment/components/section/RecruitmentFilterToolbar';
 import {
   recruitmentAnalysisListQueryOptions,
   recruitmentListQueryOptions,
-  recruitmentSubmissionListQueryOptions,
 } from '@/features/recruitment/queries';
-import type {
-  RecruitmentAnalysisStatus,
-  RecruitmentRequestStatus,
-  RecruitmentStatus,
-} from '@/features/recruitment/types';
+import type { RecruitmentAnalysisStatus, RecruitmentStatus } from '@/features/recruitment/types';
 
-const VALID_TABS = ['public', 'analysis', 'requests'] as const;
+const VALID_TABS = ['public', 'pending', 'analysis'] as const;
 type Tab = (typeof VALID_TABS)[number];
 
-const VALID_SUBMISSION_STATUS: RecruitmentRequestStatus[] = ['PENDING', 'APPROVED', 'REJECTED'];
 const VALID_RECRUITMENT_STATUS: RecruitmentAnalysisStatus[] = [
   'ANALYZING',
   'ANALYZED',
@@ -34,7 +27,6 @@ export default async function RecruitmentPage({
 }: {
   searchParams: Promise<{
     tab?: string;
-    requestStatus?: string;
     analysisStatus?: string;
     page?: string;
     title?: string;
@@ -42,7 +34,6 @@ export default async function RecruitmentPage({
 }) {
   const {
     tab: tabParam,
-    requestStatus: requestStatusParam,
     analysisStatus: analysisStatusParam,
     page: rawPage,
     title,
@@ -50,12 +41,6 @@ export default async function RecruitmentPage({
   const page = Number.isFinite(Number(rawPage)) && Number(rawPage) >= 0 ? Number(rawPage) : 0;
 
   const tab: Tab = VALID_TABS.includes(tabParam as Tab) ? (tabParam as Tab) : 'public';
-  const status =
-    requestStatusParam === 'all'
-      ? undefined
-      : VALID_SUBMISSION_STATUS.includes(requestStatusParam as RecruitmentRequestStatus)
-        ? (requestStatusParam as RecruitmentRequestStatus)
-        : 'PENDING';
   const analysisStatus =
     analysisStatusParam === 'all'
       ? undefined
@@ -65,13 +50,13 @@ export default async function RecruitmentPage({
 
   const queryClient = new QueryClient();
 
-  if (tab === 'requests') {
-    await queryClient.prefetchQuery(
-      recruitmentSubmissionListQueryOptions({ status, page, size: 10 }),
-    );
-  } else if (tab === 'analysis') {
+  if (tab === 'analysis') {
     await queryClient.prefetchQuery(
       recruitmentAnalysisListQueryOptions({ status: analysisStatus, page, size: 10 }),
+    );
+  } else if (tab === 'pending') {
+    await queryClient.prefetchQuery(
+      recruitmentListQueryOptions({ status: 'PENDING', page, size: 10, title }),
     );
   } else {
     await queryClient.prefetchQuery(
@@ -93,10 +78,10 @@ export default async function RecruitmentPage({
             공개 공고 목록
           </Link>
           <Link
-            href="/recruitment?tab=requests"
-            className={`h-14 px-4 flex items-center text-sm no-underline hover:no-underline ${tab === 'requests' ? 'font-semibold text-primary border-b-2 border-primary' : 'text-ds-grey-600'}`}
+            href="/recruitment?tab=pending"
+            className={`h-14 px-4 flex items-center text-sm no-underline hover:no-underline ${tab === 'pending' ? 'font-semibold text-primary border-b-2 border-primary' : 'text-ds-grey-600'}`}
           >
-            등록 요청 목록
+            비공개 공고 목록
           </Link>
           <Link
             href="/recruitment?tab=analysis"
@@ -119,12 +104,12 @@ export default async function RecruitmentPage({
 
         <HydrationBoundary state={dehydrate(queryClient)}>
           <Suspense>
-            {tab === 'requests' ? (
-              <RecruitmentRequestList />
-            ) : tab === 'analysis' ? (
+            {tab === 'analysis' ? (
               <RecruitmentAnalysisList />
+            ) : tab === 'pending' ? (
+              <RecruitmentList status="PENDING" />
             ) : (
-              <RecruitmentList />
+              <RecruitmentList status="PUBLISHED" />
             )}
           </Suspense>
         </HydrationBoundary>

@@ -41,8 +41,8 @@ export default function CompanyRow({ no, company, industryName, last = false }: 
 
   return (
     <>
-      <div className={`flex items-center h-14 ${!last ? 'border-b border-ds-grey-200' : ''} `}>
-        <div className="w-14 px-4 text-[13px] text-ds-grey-600 shrink-0 whitespace-nowrap">{no}</div>
+      <div className={`flex items-center h-14 ${!last ? 'border-b border-ds-grey-200' : ''}`}>
+        <div className="w-14 px-4 text-[13px] text-ds-grey-600 shrink-0">{no}</div>
         <div className="w-44 px-4 text-sm font-medium text-ds-grey-900 shrink-0 whitespace-nowrap truncate">{company.companyName}</div>
         <div className="w-36 px-4 text-sm text-ds-grey-900 shrink-0 whitespace-nowrap truncate">{industryName ?? '-'}</div>
         <div className="w-44 px-4 shrink-0">
