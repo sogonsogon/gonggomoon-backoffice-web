@@ -11,10 +11,7 @@ import {
   recruitmentAnalysisListQueryOptions,
   recruitmentListQueryOptions,
 } from '@/features/recruitment/queries';
-import type {
-  RecruitmentAnalysisStatus,
-  RecruitmentStatus,
-} from '@/features/recruitment/types';
+import type { RecruitmentAnalysisStatus, RecruitmentStatus } from '@/features/recruitment/types';
 
 const VALID_TABS = ['public', 'pending', 'analysis'] as const;
 type Tab = (typeof VALID_TABS)[number];
@@ -84,7 +81,7 @@ export default async function RecruitmentPage({
             href="/recruitment?tab=pending"
             className={`h-14 px-4 flex items-center text-sm no-underline hover:no-underline ${tab === 'pending' ? 'font-semibold text-primary border-b-2 border-primary' : 'text-ds-grey-600'}`}
           >
-            대기 공고 목록
+            비공개 공고 목록
           </Link>
           <Link
             href="/recruitment?tab=analysis"
