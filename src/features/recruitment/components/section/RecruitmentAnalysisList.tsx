@@ -65,7 +65,7 @@ export default function RecruitmentAnalysisList() {
             <div className="flex-1 min-w-50 px-4 text-[13px] font-medium text-ds-grey-600 whitespace-nowrap">공고 제목</div>
             <div className="w-56 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0 whitespace-nowrap">요청 상태</div>
             <div className="w-28 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0 whitespace-nowrap">시작일</div>
-            <div className="w-56 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0 whitespace-nowrap">액션</div>
+            <div className="flex-1 min-w-56 px-4 text-[13px] font-medium text-ds-grey-600 whitespace-nowrap">액션</div>
           </div>
 
           {rows.length > 0 && rows.map((item, i) => (

@@ -35,17 +35,17 @@ export default function AnalysisRow({
 
   return (
     <>
-      <div className={`flex items-center h-14 min-w-[48rem] ${!last ? 'border-b border-ds-grey-200' : ''}`}>
-        <div className="w-24 px-4 text-sm font-semibold text-ds-grey-900 shrink-0">
+      <div className={`flex items-center h-14 min-w-max w-full ${!last ? 'border-b border-ds-grey-200' : ''}`}>
+        <div className="w-36 px-4 text-sm font-semibold text-ds-grey-900 shrink-0">
           {item.reportYear}
         </div>
-        <div className="w-36 px-4 text-[13px] text-ds-grey-700 shrink-0">
+        <div className="w-44 px-4 text-[13px] text-ds-grey-700 shrink-0">
           {formatDate(item.createdAt)}
         </div>
-        <div className="w-36 px-4 text-[13px] text-ds-grey-700 shrink-0">
+        <div className="flex-1 min-w-44 px-4 text-[13px] text-ds-grey-700">
           {formatDate(item.updatedAt)}
         </div>
-        <div className="w-24 px-4 shrink-0">
+        <div className="w-36 px-4 shrink-0">
           <span
             className={`inline-flex px-2 py-0.5 rounded-md text-xs font-medium ${
               isPublished
@@ -56,7 +56,7 @@ export default function AnalysisRow({
             {statusLabel}
           </span>
         </div>
-        <div className="w-72 px-4 flex items-center gap-2 shrink-0">
+        <div className="flex-1 min-w-72 px-4 flex items-center gap-2">
           <Link
             href={`/industry/${industryId}/analysis/${item.reportId}`}
             className="inline-flex h-8 items-center justify-center gap-1.5 rounded-md border border-ds-grey-200 bg-white px-3 text-sm font-medium text-ds-grey-600 no-underline visited:text-ds-grey-600 hover:bg-ds-grey-50 whitespace-nowrap shrink-0"

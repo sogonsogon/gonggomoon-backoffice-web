@@ -46,20 +46,20 @@ export default function RecruitmentRow({
         <div className="w-44 px-4 text-sm text-ds-grey-900 shrink-0 truncate">
           {item.companyName}
         </div>
-        <div className="flex-1 min-w-0 px-4 text-sm text-ds-grey-900 truncate">
+        <div className="flex-1 min-w-56 px-4 text-sm text-ds-grey-900 truncate">
           {item.postTitle}
         </div>
-        <div className="w-56 px-4 text-[13px] text-ds-grey-700 shrink-0 whitespace-nowrap">
+        <div className="flex-1 min-w-56 px-4 text-[13px] text-ds-grey-700 whitespace-nowrap">
           {item.startDate?.slice(0, 10) ?? '-'} ~ {item.dueDate?.slice(0, 10) ?? '상시'}
         </div>
-        <div className="w-28 px-4 shrink-0">
+        <div className="w-32 px-4 shrink-0">
           <span
             className={`inline-flex px-2 py-0.5 rounded-md text-xs font-medium ${publicStatusBadge}`}
           >
             {publicStatusLabel}
           </span>
         </div>
-        <div className="w-56 px-4 flex items-center gap-2 shrink-0">
+        <div className="flex-1 min-w-56 px-4 flex items-center gap-2">
           <Link
             href={`https://gonggomoon.com/recruitment/${item.postId}`}
             target="_blank"

@@ -57,7 +57,7 @@ export default function RecruitmentAnalysisRow({
         <div className="w-28 px-4 text-[13px] text-ds-grey-700 shrink-0">
           {formatDate(item.startDate)}
         </div>
-        <div className="w-56 px-4 flex items-center gap-2 shrink-0">
+        <div className="flex-1 min-w-56 px-4 flex items-center gap-2">
           {isAnalyzing ? (
             <Button disabled size="sm" variant="outline" className="gap-1.5 text-ds-grey-500">
               <FileSearch size={13} />
