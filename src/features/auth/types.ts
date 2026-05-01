@@ -14,6 +14,7 @@ export type LoginResponse = {
   grantType: string;
   accessToken: string;
   refreshToken: string;
+  user?: User;
 };
 
 // 로그인 요청

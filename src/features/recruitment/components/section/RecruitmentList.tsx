@@ -2,6 +2,7 @@
 
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { useRecruitmentList, useDeleteRecruitment } from '@/features/recruitment/queries';
+import EmptyState from '@/shared/components/ui/EmptyState';
 import { toast } from 'sonner';
 import type { ApiErrorResponse } from '@/shared/types/api';
 import type { RecruitmentStatus } from '@/features/recruitment/types';
@@ -56,33 +57,38 @@ export default function RecruitmentList({ status }: RecruitmentListProps) {
             <div className="w-44 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0 whitespace-nowrap">액션</div>
           </div>
 
-          {rows.map((item, i) => (
-            <RecruitmentRow
-              key={item.postId}
-              no={page * 10 + i + 1}
-              item={item}
-              last={i === rows.length - 1}
-              isDeleting={isDeleting}
-              onDelete={handleDelete}
-            />
-          ))}
+          {rows.length > 0 ? (
+            rows.map((item, i) => (
+              <RecruitmentRow
+                key={item.postId}
+                no={page * 10 + i + 1}
+                item={item}
+                last={i === rows.length - 1}
+                isDeleting={isDeleting}
+                onDelete={handleDelete}
+              />
+            ))
+          ) : (
+            <EmptyState message="등록된 공고가 없습니다." />
+          )}
         </div>
       </div>
 
-      {/* Pagination Footer */}
-      <div className="h-13 border-t border-ds-grey-200 flex items-center justify-center gap-1 px-4">
-        {Array.from({ length: pageInfo?.totalPages ?? 1 }).map((_, i) => (
-          <button
-            key={i}
-            onClick={() => handlePageChange(i)}
-            className={`w-8 h-8 flex items-center justify-center rounded-md text-sm font-medium cursor-pointer ${
-              i === page ? 'bg-ds-grey-900 text-white' : 'text-ds-grey-600 hover:bg-ds-grey-100'
-            }`}
-          >
-            {i + 1}
-          </button>
-        ))}
-      </div>
+      {rows.length > 0 && (
+        <div className="h-13 border-t border-ds-grey-200 flex items-center justify-center gap-1 px-4">
+          {Array.from({ length: pageInfo?.totalPages ?? 1 }).map((_, i) => (
+            <button
+              key={i}
+              onClick={() => handlePageChange(i)}
+              className={`w-8 h-8 flex items-center justify-center rounded-md text-sm font-medium cursor-pointer ${
+                i === page ? 'bg-ds-grey-900 text-white' : 'text-ds-grey-600 hover:bg-ds-grey-100'
+              }`}
+            >
+              {i + 1}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

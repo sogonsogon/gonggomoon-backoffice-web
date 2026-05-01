@@ -120,7 +120,7 @@ export default function LoginPage() {
 
         {/* Login Button */}
         <Button className="h-10 w-full" type="submit" form="login-form" disabled={isPending}>
-          {isPending ? '로그인 중...' : '로그인'}
+          {'로그인'}
         </Button>
 
         {/* Footer */}
