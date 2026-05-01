@@ -44,7 +44,7 @@ export default function RecruitmentRequestList() {
             <div className="flex-1 min-w-50 px-4 text-[13px] font-medium text-ds-grey-600 whitespace-nowrap">공고 URL</div>
             <div className="w-56 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0 whitespace-nowrap">요청 상태</div>
             <div className="w-28 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0 whitespace-nowrap">요청일</div>
-            <div className="flex-1 min-w-56 px-4 text-[13px] font-medium text-ds-grey-600 whitespace-nowrap">액션</div>
+            <div className="w-44 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0 whitespace-nowrap">액션</div>
           </div>
 
           {items.length > 0 && items.map((item, i) => (
