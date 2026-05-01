@@ -9,6 +9,7 @@ import { Separator } from '@/shared/components/ui/separator';
 import { Sheet, SheetContent, SheetTitle } from '@/shared/components/ui/sheet';
 import { cn } from '@/shared/lib/cn';
 import { useLogout } from '@/features/auth/queries';
+import { useAuthStore } from '@/shared/store/authStore';
 
 const navItems = [
   //{ label: '대시보드', icon: LayoutDashboard, href: '/' }, TODO: 대시보드 페이지 개발 후 활성화
@@ -21,6 +22,7 @@ export default function Sidebar() {
   const pathname = usePathname();
   const { mutate: handleLogout, isPending } = useLogout();
   const [isOpen, setIsOpen] = useState(false);
+  const user = useAuthStore((state) => state.user);
 
   const sidebarContent = (
     <aside className="w-64 shrink-0 bg-white flex flex-col p-2 gap-4 h-full">
@@ -33,7 +35,7 @@ export default function Sidebar() {
       {/* Nav */}
       <div className="flex-1 flex flex-col gap-0.5">
         <div className="px-2 py-1">
-          <span className="text-xs text-ds-grey-500">관리자</span>
+          <span className="text-xs text-ds-grey-500">{user?.name}</span>
         </div>
 
         {navItems.map((item) => {
@@ -70,8 +72,8 @@ export default function Sidebar() {
               <span className="text-white text-xs font-semibold">관</span>
             </div>
             <div className="flex flex-col min-w-0">
-              <span className="text-xs font-medium text-ds-grey-900 truncate">관리자</span>
-              <span className="text-[11px] text-ds-grey-500 truncate">admin@gonggomoon.com</span>
+              <span className="text-xs font-medium text-ds-grey-900 truncate">{user?.name}</span>
+              <span className="text-[11px] text-ds-grey-500 truncate">{user?.email}</span>
             </div>
           </div>
           <Button
@@ -105,9 +107,7 @@ export default function Sidebar() {
       </Button>
 
       {/* lg 이상: static sidebar */}
-      <div className="hidden lg:flex h-full border-r border-ds-grey-200">
-        {sidebarContent}
-      </div>
+      <div className="hidden lg:flex h-full border-r border-ds-grey-200">{sidebarContent}</div>
 
       {/* lg 미만: Sheet 기반 모바일 drawer */}
       <Sheet open={isOpen} onOpenChange={setIsOpen}>
