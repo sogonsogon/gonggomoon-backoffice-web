@@ -2,6 +2,7 @@
 
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { useCompanyList } from '@/features/company/queries';
+import EmptyState from '@/shared/components/ui/EmptyState';
 import CompanyRow from '@/features/company/components/ui/CompanyRow';
 import type { GetCompanyListParams } from '@/features/company/types';
 
@@ -56,32 +57,37 @@ export default function CompanyTable({ params }: CompanyTableProps) {
         <div className="min-w-274">
           {headerRow}
 
-          {companies.map((company, i) => (
-            <CompanyRow
-              key={company.companyId}
-              no={page * 10 + i + 1}
-              company={company}
-              industryName={company.industryName}
-              last={i === companies.length - 1}
-            />
-          ))}
+          {companies.length > 0 ? (
+            companies.map((company, i) => (
+              <CompanyRow
+                key={company.companyId}
+                no={page * 10 + i + 1}
+                company={company}
+                industryName={company.industryName}
+                last={i === companies.length - 1}
+              />
+            ))
+          ) : (
+            <EmptyState message="등록된 기업이 없습니다." />
+          )}
         </div>
       </div>
 
-      {/* Pagination Footer */}
-      <div className="h-13 border-t border-ds-grey-200 flex items-center justify-center gap-1 px-4">
-        {Array.from({ length: pageInfo.totalPages ?? 1 }).map((_, i) => (
-          <button
-            key={i}
-            onClick={() => handlePageChange(i)}
-            className={`w-8 h-8 flex items-center justify-center rounded-md text-sm font-medium cursor-pointer ${
-              i === page ? 'bg-ds-grey-900 text-white' : 'text-ds-grey-600 hover:bg-ds-grey-100'
-            }`}
-          >
-            {i + 1}
-          </button>
-        ))}
-      </div>
+      {companies.length > 0 && (
+        <div className="h-13 border-t border-ds-grey-200 flex items-center justify-center gap-1 px-4">
+          {Array.from({ length: pageInfo.totalPages ?? 1 }).map((_, i) => (
+            <button
+              key={i}
+              onClick={() => handlePageChange(i)}
+              className={`w-8 h-8 flex items-center justify-center rounded-md text-sm font-medium cursor-pointer ${
+                i === page ? 'bg-ds-grey-900 text-white' : 'text-ds-grey-600 hover:bg-ds-grey-100'
+              }`}
+            >
+              {i + 1}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

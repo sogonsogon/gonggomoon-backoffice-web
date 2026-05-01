@@ -109,12 +109,12 @@ export default async function RecruitmentPage({
         {/* Filter Row */}
         <div className="flex items-center justify-between gap-3">
           <RecruitmentFilterToolbar tab={tab} />
-          <Button asChild>
+          {/* <Button asChild>
             <Link href="/recruitment/create" className="no-underline hover:no-underline gap-1">
               <Plus size={16} />
               공고 등록
             </Link>
-          </Button>
+          </Button> */}
         </div>
 
         <HydrationBoundary state={dehydrate(queryClient)}>

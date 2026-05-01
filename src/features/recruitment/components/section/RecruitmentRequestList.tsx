@@ -2,6 +2,7 @@
 
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { useRecruitmentSubmissionList } from '@/features/recruitment/queries';
+import EmptyState from '@/shared/components/ui/EmptyState';
 import type { RecruitmentRequestStatus } from '@/features/recruitment/types';
 import RecruitmentRequestRow from '@/features/recruitment/components/ui/RecruitmentRequestRow';
 
@@ -39,30 +40,40 @@ export default function RecruitmentRequestList() {
         <div className="min-w-240">
           {/* Header Row */}
           <div className="flex items-center h-11 bg-ds-grey-50 border-b border-ds-grey-200">
-            <div className="w-14 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0 whitespace-nowrap">No.</div>
-            <div className="w-44 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0 whitespace-nowrap">플랫폼</div>
-            <div className="flex-1 min-w-50 px-4 text-[13px] font-medium text-ds-grey-600 whitespace-nowrap">공고 URL</div>
-            <div className="w-56 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0 whitespace-nowrap">요청 상태</div>
-            <div className="w-28 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0 whitespace-nowrap">요청일</div>
-            <div className="w-56 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0 whitespace-nowrap">액션</div>
+            <div className="w-14 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0 whitespace-nowrap">
+              No.
+            </div>
+            <div className="w-44 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0 whitespace-nowrap">
+              플랫폼
+            </div>
+            <div className="flex-1 min-w-50 px-4 text-[13px] font-medium text-ds-grey-600 whitespace-nowrap">
+              공고 URL
+            </div>
+            <div className="w-56 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0 whitespace-nowrap">
+              요청 상태
+            </div>
+            <div className="w-28 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0 whitespace-nowrap">
+              요청일
+            </div>
+            <div className="w-56 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0 whitespace-nowrap">
+              액션
+            </div>
           </div>
 
-          {items.length > 0 && items.map((item, i) => (
-            <RecruitmentRequestRow
-              key={item.submissionId}
-              no={page * 10 + i + 1}
-              item={item}
-              last={i === items.length - 1}
-            />
-          ))}
+          {items.length > 0 ? (
+            items.map((item, i) => (
+              <RecruitmentRequestRow
+                key={item.submissionId}
+                no={page * 10 + i + 1}
+                item={item}
+                last={i === items.length - 1}
+              />
+            ))
+          ) : (
+            <EmptyState message="요청된 공고가 없습니다." />
+          )}
         </div>
       </div>
-
-      {items.length === 0 && (
-        <div className="flex items-center justify-center h-32 text-sm text-ds-grey-400">
-          요청된 공고가 없습니다.
-        </div>
-      )}
 
       {/* Pagination Footer */}
       {items.length > 0 && (

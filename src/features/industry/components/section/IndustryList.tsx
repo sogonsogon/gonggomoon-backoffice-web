@@ -2,6 +2,7 @@
 
 import { useIndustryCategoryList } from '@/features/industry/queries';
 import IndustryCard from '@/features/industry/components/ui/IndustryCard';
+import EmptyState from '@/shared/components/ui/EmptyState';
 
 export default function IndustryList() {
   const { data: categories, isLoading, isError, error } = useIndustryCategoryList();
@@ -22,6 +23,10 @@ export default function IndustryList() {
         산업 카테고리를 불러오지 못했습니다. {error?.message}
       </p>
     );
+  }
+
+  if (categories.length === 0) {
+    return <EmptyState message="등록된 산업군이 없습니다." className="py-16" />;
   }
 
   return (
