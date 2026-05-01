@@ -62,10 +62,10 @@ export default function IndustryAnalysisTable({
           <div className="w-36 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">
             분석 연도
           </div>
-          <div className="w-44 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">등록일</div>
+          <div className="flex-1 min-w-44 px-4 text-[13px] font-medium text-ds-grey-600">등록일</div>
           <div className="flex-1 min-w-44 px-4 text-[13px] font-medium text-ds-grey-600">수정일</div>
           <div className="w-36 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">상태</div>
-          <div className="flex-1 min-w-72 px-4 text-[13px] font-medium text-ds-grey-600">액션</div>
+          <div className="w-56 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">액션</div>
         </div>
 
         {analysis.map((item, i) => (

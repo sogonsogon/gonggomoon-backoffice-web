@@ -49,7 +49,7 @@ export default function RecruitmentRow({
         <div className="flex-1 min-w-56 px-4 text-sm text-ds-grey-900 truncate">
           {item.postTitle}
         </div>
-        <div className="flex-1 min-w-56 px-4 text-[13px] text-ds-grey-700 whitespace-nowrap">
+        <div className="w-56 px-4 text-[13px] text-ds-grey-700 shrink-0 whitespace-nowrap">
           {item.startDate?.slice(0, 10) ?? '-'} ~ {item.dueDate?.slice(0, 10) ?? '상시'}
         </div>
         <div className="w-32 px-4 shrink-0">
@@ -59,7 +59,7 @@ export default function RecruitmentRow({
             {publicStatusLabel}
           </span>
         </div>
-        <div className="flex-1 min-w-56 px-4 flex items-center gap-2">
+        <div className="w-44 px-4 flex items-center gap-2 shrink-0">
           <Link
             href={`https://gonggomoon.com/recruitment/${item.postId}`}
             target="_blank"

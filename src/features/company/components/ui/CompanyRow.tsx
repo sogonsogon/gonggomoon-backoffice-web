@@ -62,7 +62,7 @@ export default function CompanyRow({ no, company, industryName, last = false }: 
         <div className="w-32 px-4 text-sm text-ds-grey-700 shrink-0 whitespace-nowrap">
           {company.foundedYear ? `${company.foundedYear}년` : '-'}
         </div>
-        <div className="flex-1 min-w-72 px-4 flex items-center gap-2">
+        <div className="w-72 px-4 flex items-center gap-2 shrink-0">
           <Link
             href={`https://gonggomoon.com/company/${company.companyId}`}
             target="_blank"
