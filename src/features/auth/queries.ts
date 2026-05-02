@@ -14,7 +14,6 @@ export function useLogin() {
       }),
     onSuccess: () => {
       queryClient.clear();
-      window.location.href = '/industry';
     },
     onError: (error: ApiErrorResponse) => {
       console.error('로그인 실패:', error);
