@@ -49,12 +49,24 @@ export default function RecruitmentList({ status }: RecruitmentListProps) {
         <div className="min-w-240">
           {/* Header Row */}
           <div className="flex items-center h-11 bg-ds-grey-50 border-b border-ds-grey-200">
-            <div className="w-14 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0 whitespace-nowrap">No.</div>
-            <div className="w-44 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0 whitespace-nowrap">기업명</div>
-            <div className="flex-1 min-w-56 px-4 text-[13px] font-medium text-ds-grey-600 whitespace-nowrap">공고 제목</div>
-            <div className="w-56 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0 whitespace-nowrap">채용 기간</div>
-            <div className="w-32 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0 whitespace-nowrap">상태</div>
-            <div className="w-44 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0 whitespace-nowrap">액션</div>
+            <div className="w-14 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0 whitespace-nowrap">
+              No.
+            </div>
+            <div className="w-44 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0 whitespace-nowrap">
+              기업명
+            </div>
+            <div className="flex-1 min-w-56 px-4 text-[13px] font-medium text-ds-grey-600 whitespace-nowrap">
+              공고 제목
+            </div>
+            <div className="w-56 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0 whitespace-nowrap">
+              채용 기간
+            </div>
+            <div className="w-32 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0 whitespace-nowrap">
+              상태
+            </div>
+            <div className="w-44 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0 whitespace-nowrap">
+              액션
+            </div>
           </div>
 
           {rows.length > 0 ? (
