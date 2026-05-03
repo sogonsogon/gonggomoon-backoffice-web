@@ -19,7 +19,6 @@ export function useLogin() {
         setUser(result.data.user);
       }
       queryClient.clear();
-      window.location.href = '/industry';
     },
 
     onError: (error: ApiErrorResponse) => {

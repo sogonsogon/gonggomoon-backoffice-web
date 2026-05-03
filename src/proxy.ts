@@ -13,69 +13,68 @@ export async function proxy(request: NextRequest) {
   const refreshToken = request.cookies.get('refreshToken')?.value;
   const isPublic = PUBLIC_PATHS.some((path) => pathname.startsWith(path));
 
-  // 비로그인 상태에서 보호된 경로 접근 → /login 리다이렉트
-  if (!isPublic && !refreshToken) {
-    const loginUrl = new URL('/login', request.url);
-    loginUrl.searchParams.set('redirect', pathname);
-    return NextResponse.redirect(loginUrl);
-  }
-
-  // 로그인 상태에서 /login 접근 → /industry 리다이렉트
-  if (isPublic && refreshToken) {
-    return NextResponse.redirect(new URL('/industry', request.url));
-  }
-
-  // 1. 토큰 갱신 필요 여부 판별 (만료되었고, 리프레시 토큰은 존재하는 경우)
-  const isTokenExpired = !accessToken;
-
-  if (isTokenExpired && refreshToken) {
+  if (!accessToken && refreshToken) {
     try {
       // 2. 토큰 재발급 API 호출
       const refreshApiUrl = `${BASE_API_URL}/api/v1/admin/auth/reissue`;
       const result = await publicFetch<ReissueResponse>(refreshApiUrl, {
         method: 'POST',
-        headers: {
-          Cookie: `refreshToken=${refreshToken}`,
+        body: JSON.stringify({ refreshToken: refreshToken }),
+      });
+
+      if (!result.success || !result.data) {
+        throw new Error('토큰 재발급 실패');
+      }
+
+      const { accessToken: newAccessToken, refreshToken: newRefreshToken } = result.data;
+
+      const requestHeaders = new Headers(request.headers);
+      requestHeaders.set(
+        'Cookie',
+        `accessToken=${newAccessToken}; refreshToken=${newRefreshToken}`,
+      );
+
+      const response = NextResponse.next({
+        request: {
+          headers: requestHeaders,
         },
       });
 
-      if (result.success && result.data) {
-        const newAccessToken = result.data.accessToken;
-        const newRefreshToken = result.data.refreshToken;
+      const cookieOptions = {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: process.env.NODE_ENV === 'production' ? ('none' as const) : ('lax' as const),
+        path: '/',
+      };
 
-        // 3. 서버 컴포넌트(Server Action)가 참조할 내부 Request 헤더 조작
-        request.cookies.set('accessToken', newAccessToken);
-        request.cookies.set('refreshToken', newRefreshToken);
+      response.cookies.set('accessToken', newAccessToken, { ...cookieOptions, maxAge: 60 * 60 });
+      response.cookies.set('refreshToken', newRefreshToken, {
+        ...cookieOptions,
+        maxAge: 60 * 60 * 24 * 14,
+      });
 
-        const requestHeaders = new Headers(request.headers);
-        requestHeaders.set('Cookie', request.cookies.toString());
-
-        // 4. 조작된 헤더를 포함하여 요청 통과
-        const response = NextResponse.next({
-          request: { headers: requestHeaders },
-        });
-
-        // 5. 브라우저에 저장될 Response 쿠키 세팅
-        response.cookies.set('accessToken', newAccessToken, {
-          maxAge: 60 * 60,
-          httpOnly: true,
-          secure: process.env.NODE_ENV === 'production',
-          sameSite: 'none',
-          path: '/',
-        });
-        response.cookies.set('refreshToken', newRefreshToken, {
-          maxAge: 60 * 60 * 24 * 14,
-          httpOnly: true,
-          secure: process.env.NODE_ENV === 'production',
-          sameSite: 'none',
-          path: '/',
-        });
-
-        return response;
-      }
+      return response;
     } catch (error) {
-      // 갱신 실패 시 조작 없이 통과 (이후 httpClient가 401/SESSION_EXPIRED 반환)
+      const loginUrl = new URL('/login', request.url);
+      const response = NextResponse.redirect(loginUrl);
+
+      // 쿠키 삭제
+      const deleteOptions = { path: '/', maxAge: 0 };
+      response.cookies.set('accessToken', '', deleteOptions);
+      response.cookies.set('refreshToken', '', deleteOptions);
+      return response;
     }
+  }
+
+  // 비로그인 상태에서 보호된 경로 접근 → /login 리다이렉트
+  if (!isPublic && !accessToken) {
+    const loginUrl = new URL('/login', request.url);
+    return NextResponse.redirect(loginUrl);
+  }
+
+  // 로그인 상태에서 /login 접근 → /recruitment 리다이렉트
+  if (isPublic && accessToken) {
+    return NextResponse.redirect(new URL('/recruitment', request.url));
   }
 
   return NextResponse.next();
