@@ -12,6 +12,7 @@ import {
   recruitmentListQueryOptions,
 } from '@/features/recruitment/queries';
 import type { RecruitmentAnalysisStatus, RecruitmentStatus } from '@/features/recruitment/types';
+import ContentHeader from '@/shared/components/layout/ContentHeader';
 
 const VALID_TABS = ['public', 'pending', 'analysis'] as const;
 type Tab = (typeof VALID_TABS)[number];
@@ -69,7 +70,8 @@ export default async function RecruitmentPage({
       <TopBar title="공고 관리" breadcrumb="공고 관리 > 공고 목록" />
 
       <main className="flex-1 overflow-auto bg-ds-grey-100 p-6 flex flex-col gap-6 [scrollbar-gutter:stable]">
-        {/* Tab Bar */}
+        <ContentHeader title="공고 목록" />
+        {/* Tab Bar 
         <div className="flex items-end h-14 border-b border-ds-grey-200">
           <Link
             href="/recruitment?tab=public"
@@ -90,6 +92,7 @@ export default async function RecruitmentPage({
             공고 분석 목록
           </Link>
         </div>
+        */}
 
         {/* Filter Row */}
         <div className="flex items-center justify-between gap-3">
@@ -104,13 +107,7 @@ export default async function RecruitmentPage({
 
         <HydrationBoundary state={dehydrate(queryClient)}>
           <Suspense>
-            {tab === 'analysis' ? (
-              <RecruitmentAnalysisList />
-            ) : tab === 'pending' ? (
-              <RecruitmentList status="PENDING" />
-            ) : (
-              <RecruitmentList status="PUBLISHED" />
-            )}
+            <RecruitmentAnalysisList />
           </Suspense>
         </HydrationBoundary>
       </main>
