@@ -97,10 +97,11 @@ const headerRow = (
     <div className="w-14 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0 whitespace-nowrap">
       No.
     </div>
-    <div className="w-44 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0 whitespace-nowrap">
+    <div className="flex-1 min-w-52 px-4 text-[13px] font-medium text-ds-grey-600 whitespace-nowrap">
       기업명
     </div>
-    <div className="w-36 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0 whitespace-nowrap">
+
+    <div className="w-44 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0 whitespace-nowrap">
       사업 분야
     </div>
     <div className="w-44 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0 whitespace-nowrap">

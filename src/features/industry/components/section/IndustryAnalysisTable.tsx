@@ -8,6 +8,7 @@ import type { IndustryAnalysisListItem } from '@/features/industry/types';
 import { ApiErrorResponse } from '@/shared/types/api';
 import { toast } from 'sonner';
 import AnalysisRow from '@/features/industry/components/ui/AnalysisRow';
+import EmptyState from '@/shared/components/ui/EmptyState';
 
 interface IndustryAnalysisTableProps {
   industryId: number;
@@ -45,7 +46,7 @@ export default function IndustryAnalysisTable({
   };
 
   return (
-    <div className="bg-white rounded-lg border border-ds-grey-200 px-6 py-5 flex flex-col gap-4 overflow-hidden">
+    <div className="bg-white rounded-lg border border-ds-grey-200 px-6 py-5 flex flex-col gap-4">
       <div className="flex items-center justify-between">
         <span className="text-[15px] font-semibold text-ds-grey-900">분석 버전 관리</span>
         <Button asChild className="h-10 gap-1.5">
@@ -58,28 +59,36 @@ export default function IndustryAnalysisTable({
       <div className="h-px bg-ds-grey-200" />
 
       <div className="rounded-md border border-ds-grey-200 overflow-x-auto">
-        <div className="flex items-center h-11 bg-ds-grey-50 border-b border-ds-grey-200 min-w-[48rem]">
-          <div className="w-24 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">
+        <div className="flex items-center h-11 bg-ds-grey-50 border-b border-ds-grey-200 min-w-max w-full">
+          <div className="w-36 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">
             분석 연도
           </div>
-          <div className="w-36 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">등록일</div>
-          <div className="w-36 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">수정일</div>
-          <div className="w-24 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">상태</div>
-          <div className="w-72 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">액션</div>
+          <div className="flex-1 min-w-44 px-4 text-[13px] font-medium text-ds-grey-600">
+            등록일
+          </div>
+          <div className="flex-1 min-w-44 px-4 text-[13px] font-medium text-ds-grey-600">
+            수정일
+          </div>
+          <div className="w-36 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">상태</div>
+          <div className="w-56 px-4 text-[13px] font-medium text-ds-grey-600 shrink-0">액션</div>
         </div>
 
-        {analysis.map((item, i) => (
-          <AnalysisRow
-            key={item.reportId}
-            item={item}
-            industryId={industryId}
-            last={i === analysis.length - 1}
-            isPublishing={isPublishing}
-            isDeleting={isDeleting}
-            onPublish={handlePublish}
-            onDelete={handleDelete}
-          />
-        ))}
+        {analysis.length > 0 ? (
+          analysis.map((item, i) => (
+            <AnalysisRow
+              key={item.reportId}
+              item={item}
+              industryId={industryId}
+              last={i === analysis.length - 1}
+              isPublishing={isPublishing}
+              isDeleting={isDeleting}
+              onPublish={handlePublish}
+              onDelete={handleDelete}
+            />
+          ))
+        ) : (
+          <EmptyState message="등록된 분석이 없습니다." />
+        )}
       </div>
     </div>
   );

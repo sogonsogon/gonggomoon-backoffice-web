@@ -62,7 +62,7 @@ export default function RecruitmentRequestRow({
         <div className="w-28 px-4 text-[13px] text-ds-grey-700 shrink-0">
           {formatDate(item.createdAt)}
         </div>
-        <div className="w-56 px-4 flex items-center gap-2 shrink-0">
+        <div className="w-44 px-4 flex items-center gap-2 shrink-0">
           {isPending ? (
             <Button
               size="sm"
